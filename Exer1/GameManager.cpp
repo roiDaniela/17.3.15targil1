@@ -58,7 +58,7 @@ void GameManager::run()
 		// Roi's adding 17.3.15
 		case GameManager::MainMenuOptions::PRESENT_INSTRUCTIONS:
 		
-		// Roi's adding 17.3.15
+		// Roi's adding 17.3.15 version 2
 		case GameManager::MainMenuOptions::PLAY_FROM_SELECTED_SCREEN:
 		case GameManager::MainMenuOptions::EXIT_APPLICATION:
 			userWantsToPlay = false;
