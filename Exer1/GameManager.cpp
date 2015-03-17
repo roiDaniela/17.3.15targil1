@@ -31,6 +31,25 @@ using namespace std;
 char GameManager::mainMenu()const
 {
 	// TODO: you may want to improve the menu appearance
+	// Roi's adding
+	int lenghOfLine = 80; //default amount of characters in line is 80
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+	// Case someone change the default - get it
+	if (GetConsoleScreenBufferInfo(GetStdHandle(STD_INPUT_HANDLE), &csbi))
+	{
+		lenghOfLine = csbi.srWindow.Right - csbi.srWindow.Left;
+	}
+	// First and second rows will be for instructions
+	cout << endl << endl;
+
+	// Full the 3rd line with "*"
+	for (int i = 0; i < lenghOfLine; i++)
+	{
+		cout << "*";
+	}
+	cout << endl;
+
 	cout << "1. instructions" << endl;
 	cout << "2. play game" << endl;
 	cout << "3. start from a specific level" << endl;
@@ -58,8 +77,9 @@ void GameManager::run()
 		// Roi's adding 17.3.15
 		case GameManager::MainMenuOptions::PRESENT_INSTRUCTIONS:
 		
-		// Roi's adding 17.3.15 version 2
+		// Roi's adding 17.3.15 
 		case GameManager::MainMenuOptions::PLAY_FROM_SELECTED_SCREEN:
+
 		case GameManager::MainMenuOptions::EXIT_APPLICATION:
 			userWantsToPlay = false;
 			break;
