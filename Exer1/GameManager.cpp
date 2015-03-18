@@ -32,6 +32,7 @@ using namespace std;
 // take the cursor to the top and printing the string got
 void GameManager::writeOnTopOfScreen(string sentence)
 {
+	// Go to the top of the screen
 	gotoxy(0, 0);
 
 	// Clean the 2 first lines
@@ -86,18 +87,20 @@ void GameManager::run()
 				userWantsToPlay = playGame();
 				break;
 			}
-			// Roi's adding 17.3.15
+			// NEW CODE EX1, author=<Roi>, date=<2015-03-17>
 			case GameManager::MainMenuOptions::PRESENT_INSTRUCTIONS:
 			{
 				string sentence = "This should be the instructions";
 				writeOnTopOfScreen(sentence);
 				break;
 			}
-			// Roi's adding 17.3.15 
+			// END of NEW CODE EX1
+			// NEW CODE EX1, author=<Roi>, date=<2015-03-17>
 			case GameManager::MainMenuOptions::PLAY_FROM_SELECTED_SCREEN:
 			{
 				break;
 			}
+			// END of NEW CODE EX1
 			case GameManager::MainMenuOptions::EXIT_APPLICATION:
 			{
 				userWantsToPlay = false;
