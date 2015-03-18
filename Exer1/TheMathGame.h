@@ -34,13 +34,13 @@ using namespace std;
 
 class TheMathGame : public ISpecificGame
 {
-
+	
 public:
 	bool isLevelDone()const{return false;}
 	bool hasNextLevel()const{return true;}
-	void startLevel(){}
-	void doIteration(const list<char>& keyHits){}
-	void doSubIteration(){}
+	void startLevel();
+	void doIteration(const list<char>& keyHits);
+	void doSubIteration();
 };
 #endif _THEMATHGAME_H_
 

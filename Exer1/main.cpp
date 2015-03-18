@@ -30,6 +30,7 @@
 #include <iostream>
 #include "GameManager.h"
 #include "io_utils.h"
+#include "TheMathGame.h"
 
 using namespace std;
 
