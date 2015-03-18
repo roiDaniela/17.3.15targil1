@@ -36,10 +36,16 @@ class TheMathGame : public ISpecificGame
 {
 private:
 	static const int TOTAL_NUMBER_OF_LEVELS = 20;
+	static const int PLAYER_1_X_POSITION = 10;
+	static const int PLAYER_1_Y_POSITION = 9;
+	static const int PLAYER_2_X_POSITION = 70;
+	static const int PLAYER_2_Y_POSITION = 9;
+	static const char PLAYER_1_SIGN = '@';
+	static const char PLAYER_2_SIGN = '#';
 public:
 	bool isLevelDone()const{return false;}
 	bool hasNextLevel(unsigned int currentLevel)const{ return (currentLevel<=TOTAL_NUMBER_OF_LEVELS); }
-	void startLevel();
+	void startLevel( unsigned int currentLevel );
 	void doIteration(const list<char>& keyHits);
 	void doSubIteration();
 };

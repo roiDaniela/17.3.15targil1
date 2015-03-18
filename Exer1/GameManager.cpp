@@ -137,7 +137,7 @@ bool GameManager::playGame()
 char GameManager::playNextLevel()
 {
 	++currentLevel;
-	actualGame.startLevel();
+	actualGame.startLevel(currentLevel);
 	
 	//------------------------------------------------------------------------------
 	// here we control the ESC menu
@@ -160,7 +160,7 @@ char GameManager::playNextLevel()
 		case GameManager::LevelOptions::REPLAY_LEVEL:
 			// keepRunning is true, so we only need to set thing right and then - keepRunning!
 			//--------------------------------------------------------------------------------
-			actualGame.startLevel();
+			actualGame.startLevel(currentLevel);
 			break;
 		case GameManager::LevelOptions::BACK_TO_MAIN_MENU:
 		case GameManager::LevelOptions::EXIT_APPLICATION:
