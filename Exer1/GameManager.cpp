@@ -48,7 +48,7 @@ void GameManager::writeOnTopOfScreen(string sentence)
 
 char GameManager::mainMenu()const
 {
-	// TODO: you may want to improve the menu appearance
+	// TODO: you may want to improve the menu appearance.
 	// Roi's adding
 	// First and second rows will be for instructions
 	cout << endl << endl;
