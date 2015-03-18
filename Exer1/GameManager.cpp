@@ -122,7 +122,7 @@ bool GameManager::playGame()
 	// this is the game LEVELS loop
 	//-------------------------------------------------------------
 	char action = GameManager::LevelOptions::NEXT_LEVEL;
-	while(actualGame.hasNextLevel() && action == GameManager::LevelOptions::NEXT_LEVEL) {
+	while(actualGame.hasNextLevel(currentLevel) && action == GameManager::LevelOptions::NEXT_LEVEL) {
 		action = playNextLevel();
 	}
 	//-------------------------------------------------------------

@@ -34,10 +34,11 @@ using namespace std;
 
 class TheMathGame : public ISpecificGame
 {
-	
+private:
+	static const int TOTAL_NUMBER_OF_LEVELS = 20;
 public:
 	bool isLevelDone()const{return false;}
-	bool hasNextLevel()const{return true;}
+	bool hasNextLevel(unsigned int currentLevel)const{ return (currentLevel<=TOTAL_NUMBER_OF_LEVELS); }
 	void startLevel();
 	void doIteration(const list<char>& keyHits);
 	void doSubIteration();
