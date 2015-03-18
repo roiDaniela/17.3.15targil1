@@ -28,23 +28,33 @@
 
 using namespace std;
 
+// My adding 18.3.15: This function get a string,
+// take the cursor to the top and printing the string got
+void GameManager::writeOnTopOfScreen(string sentence)
+{
+	gotoxy(0, 0);
+
+	// Clean the 2 first lines
+	for (int j = 0; j < AMOUNT_OF_INSTRUCTIONS_LINE; j++)
+	{
+		for (int i = 0; i < LENGH_OF_LINE; i++)
+		{
+			cout << "";
+		}
+	}
+	
+	cout << sentence;
+}
+
 char GameManager::mainMenu()const
 {
 	// TODO: you may want to improve the menu appearance
 	// Roi's adding
-	int lenghOfLine = 80; //default amount of characters in line is 80
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-
-	// Case someone change the default - get it
-	if (GetConsoleScreenBufferInfo(GetStdHandle(STD_INPUT_HANDLE), &csbi))
-	{
-		lenghOfLine = csbi.srWindow.Right - csbi.srWindow.Left;
-	}
 	// First and second rows will be for instructions
 	cout << endl << endl;
 
 	// Full the 3rd line with "*"
-	for (int i = 0; i < lenghOfLine; i++)
+	for (int i = 0; i < LENGH_OF_LINE; i++)
 	{
 		cout << "*";
 	}
@@ -70,21 +80,33 @@ void GameManager::run()
 		// TODO: handle here all the different menu options
 		switch(menuSelection)
 		{
-		case GameManager::MainMenuOptions::PLAY_GAME:
-			init();
-			userWantsToPlay = playGame();
-			break;
-		// Roi's adding 17.3.15
-		case GameManager::MainMenuOptions::PRESENT_INSTRUCTIONS:
-		
-		// Roi's adding 17.3.15 
-		case GameManager::MainMenuOptions::PLAY_FROM_SELECTED_SCREEN:
-
-		case GameManager::MainMenuOptions::EXIT_APPLICATION:
-			userWantsToPlay = false;
-			break;
-		default: // normally we shouldn't get to here...
-			userWantsToPlay = false;
+			case GameManager::MainMenuOptions::PLAY_GAME:
+			{
+				init();
+				userWantsToPlay = playGame();
+				break;
+			}
+			// Roi's adding 17.3.15
+			case GameManager::MainMenuOptions::PRESENT_INSTRUCTIONS:
+			{
+				string sentence = "This should be the instructions";
+				writeOnTopOfScreen(sentence);
+				break;
+			}
+			// Roi's adding 17.3.15 
+			case GameManager::MainMenuOptions::PLAY_FROM_SELECTED_SCREEN:
+			{
+				break;
+			}
+			case GameManager::MainMenuOptions::EXIT_APPLICATION:
+			{
+				userWantsToPlay = false;
+				break;
+			}
+			default: // normally we shouldn't get to here...
+			{
+				userWantsToPlay = false;
+			}
 		};
 	}
 }

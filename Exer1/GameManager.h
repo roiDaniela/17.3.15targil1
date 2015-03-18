@@ -39,6 +39,8 @@ class GameManager
 	unsigned int iterationsPerClockCycle;
 	const static unsigned int KEYBOARD_HIT_LOOP = 10;  // const static can be initialized like this! :-)
 	const static char ESC = 27; // the ESC key
+	const static int LENGH_OF_LINE = 80; // My adding
+	const static int AMOUNT_OF_INSTRUCTIONS_LINE = 2; // My adding
 public:
 	GameManager(ISpecificGame& theSpecificGame, unsigned int clockCycleLengthInMillisec, unsigned int numIterationsPerClockCycle)
 		:actualGame(theSpecificGame), currentLevel(0), clockCycleInMillisec(clockCycleLengthInMillisec), iterationsPerClockCycle(numIterationsPerClockCycle) {}
@@ -49,6 +51,7 @@ private:
 	{
 		currentLevel = 0;
 	}
+	void writeOnTopOfScreen(string sentence);
 	char mainMenu()const;
 	bool playGame();
 	char playNextLevel();
