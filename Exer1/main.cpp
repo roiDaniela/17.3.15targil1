@@ -35,15 +35,15 @@ using namespace std;
 
 // this is for example only!
 // delete this class and implement your own properly!
-class TheMathGame: public ISpecificGame
-{
-public:
-	virtual bool isLevelDone()const{return false;}
-	virtual bool hasNextLevel()const{return true;}
-	virtual void startLevel(){}
-	virtual void doIteration(const list<char>& keyHits){}
-	virtual void doSubIteration(){}
-};
+//class TheMathGame: public ISpecificGame
+//{
+//public:
+//	virtual bool isLevelDone()const{return false;}
+//	virtual bool hasNextLevel()const{return true;}
+//	virtual void startLevel(){}
+//	virtual void doIteration(const list<char>& keyHits){}
+//	virtual void doSubIteration(){}
+//};
 
 
 //==========================
