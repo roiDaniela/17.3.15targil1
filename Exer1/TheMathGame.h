@@ -1,10 +1,9 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// Color.h
+// TheMathGame.h
 // ----------
-// enum for colors.
 //
-// Author: Amir Kirsh
-// First version: 2014-12-09
+// Author: Roi Fogler & Motty katz
+// First version: 2015-03-18
 // 
 // This code is part of a solution for "the space ships game" excercise 1 in C++ course, Semester A 2015
 // at the Academic College of Tel-Aviv-Yaffo.
