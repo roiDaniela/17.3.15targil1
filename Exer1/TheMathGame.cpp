@@ -10,9 +10,6 @@ void TheMathGame::startLevel(unsigned int currentLevel){
 	gotoxy(PLAYER_2_X_POSITION, PLAYER_2_Y_POSITION);
 	cout << PLAYER_2_SIGN;
 
-	gotoxy(rand(),rand());
-
-	cout << stdin;
 }
 void TheMathGame::doIteration(const list<char>& keyHits){}
 void TheMathGame::doSubIteration(){}
