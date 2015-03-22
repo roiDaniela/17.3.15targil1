@@ -1,5 +1,6 @@
 #include "io_utils.h"
 #include "Color.h"
+#include "Point.h"
 
 using namespace std;
 
@@ -12,6 +13,12 @@ using namespace std;
 	void hideCursor(){}
 	void clear_screen(){}
 #else
+
+// My aading 22.3.15
+void gotoxy(Point p){
+	gotoxy(p.getX(), p.getY());
+}
+
 void gotoxy(int x, int y)
 {
 	HANDLE hConsoleOutput;
