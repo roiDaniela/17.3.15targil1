@@ -10,8 +10,8 @@ private:
 	std::list< Point > Data;
 	
 public:
-	bool is_point_exist(Point& ptPoint);
-	bool insert_point(Point & ptPoint);
+	bool is_point_exist(const Point& ptPoint);
+	void insert_point(const Point& ptPoint);
 	void clear_data();
 
 };
