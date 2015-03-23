@@ -22,19 +22,19 @@
 
 #ifndef _SCREENDATA_H_
 #define _SCREENDATA_H_
-#include <list>
+
 #include <map>
 #include "Point.h"
-
+using namespace std;
 class ScreenData
 {
 
 private:
-	map<Point, unsigned int  > PointsData;
+	map<Point*, unsigned int  > PointsData;
 	
 public:
-	bool is_point_exist(const Point& ptPoint);
-	bool ScreenData::insert_point(const Point& ptPoint, const unsigned int value);
+	bool is_point_exist(Point* ptPoint)const ;
+	bool insert_point(Point* ptPoint, const unsigned int value);
 	void clear_data();
 	~ScreenData();
 };
