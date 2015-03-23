@@ -22,15 +22,15 @@
 
 #include "ScreenData.h"
 
-bool ScreenData::is_point_exist(Point* ptPoint) const 
+bool ScreenData::is_point_exist(const Point& ptPoint) const 
 {
-	return (!(PointsData.find(ptPoint) == PointsData.end() ));
+	return (!(PointsData.find(&ptPoint) == PointsData.end() ));
 }
 
-bool ScreenData::insert_point(Point* ptPoint, const unsigned int value ) 
+bool ScreenData::insert_point(const Point& ptPoint, const unsigned int value ) 
 {
 	if (!is_point_exist(ptPoint)){
-		PointsData[ptPoint] = value;
+		PointsData[&ptPoint] = value;
 		return true;
 	}
 
