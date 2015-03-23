@@ -23,10 +23,10 @@
 
 #include "Point.h"
 
-Point Point::randomPoint(unsigned target, unsigned int start){ 
+Point Point::randomPoint(unsigned int target, unsigned int start){ 
 	// Randomize x,y values
-	unsigned int x = rand() % target + start; 
-	unsigned int y = rand() % target + start;
+	unsigned int x = (rand() % target) + start; 
+	unsigned int y = (rand() % target) + start;
 
 	// Return random point
 	return Point(x, y);

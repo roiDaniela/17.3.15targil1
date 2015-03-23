@@ -31,7 +31,8 @@
 #include "GameManager.h"
 #include "io_utils.h"
 #include "TheMathGame.h"
-#include "Point.h"
+//#include "CreateExercise.h"
+
 using namespace std;
 
 // this is for example only!
@@ -51,7 +52,16 @@ using namespace std;
 //  M  A  I  N
 //==========================
 int main(){
-	Point p();
+
+	//for (size_t i = 0; i < 10; i++)
+	//{
+	//	CreateExercise  c = CreateExercise(5);
+
+	//	unsigned int t1 = c.getHiddenValue();
+	//	string t2 = c.getHiddenExercise();
+	//	cout << t2 << "::::::::" << t1 << endl;
+	//}
+
 	clear_screen();
 	hideCursor();
 	GameManager(TheMathGame(), 200, 2).run();

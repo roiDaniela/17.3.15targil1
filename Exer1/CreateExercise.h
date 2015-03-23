@@ -1,10 +1,10 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// Point.h
+// CreateExercise.h
 // -----------
-// This file declares a class of point
+// This file declares a
 //
 // Author: Roi Fogler && Motty Katz 
-// First version: 2015-03-22
+// First version: 2015-03-23
 // 
 // This code is part of a solution for "the math game" excercise in C++ course, Semester B 2015
 // at the Academic College of Tel-Aviv-Yaffo.
@@ -20,32 +20,54 @@
 //
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-#ifndef _POINT_H
-#define _POINT_H
+#ifndef _CREATE_EXERCISE_H
+#define _CREATE_EXERCISE_H
 
-#include<iostream>
+#include <iostream>
+#include <string>
+
 using namespace std;
 
-class Point
+class CreateExercise
 {
-private:	
-	unsigned int x,y; 
-public:
-	//Ctor
-	Point(unsigned int x, unsigned int y) { this->x = x; this->y = y; }
-	
-	// Getter & setter
-	unsigned getX(){ return x; };
-	void setX(unsigned int x){ this->x = x; };
-	unsigned int getY(){ return y; };
-	void setY(unsigned int y){ this->y = y; };
+private:
+
+	// Varibles
+	unsigned int a, b, result;
+	unsigned int screenNumber;
+	unsigned int hiddenValue;
+	string hiddenExercise;
+	static const int START_RANDOM_NUMBER = 1;
+	static const int RANDOMIZE_INITNAL_DIFF = 10;
+
+	enum Sighn
+	{
+		MINUS,
+		PLUS,
+		MULTI,
+		DIVIDE
+	};
+
+	enum LocationOfVar
+	{
+		First,
+		Second
+	};
+
+	Sighn sighn;
 
 	// Methods
-	Point randomPoint(unsigned target, unsigned int start = 1);
+	Sighn randomSighn(){ return Sighn(rand() % 4); }
+	LocationOfVar randomLocationOfVar(){ return LocationOfVar(rand() % 2); }
+	unsigned int randomVar(){ return ((rand() % (screenNumber + RANDOMIZE_INITNAL_DIFF)) + START_RANDOM_NUMBER); }
 
-	//Operator Overloding
-	inline bool operator==(const Point& p){return ((p.x == this->x) && (p.y == this->y)); };
-	inline bool operator!=(const Point& p){ return !operator==(p); }
+public:
+	//Ctor
+	CreateExercise(unsigned int);
+
+	// Methods
+	unsigned int getHiddenValue(){ return hiddenValue; }
+	string getHiddenExercise(){ return hiddenExercise; }
 };
 
 #endif

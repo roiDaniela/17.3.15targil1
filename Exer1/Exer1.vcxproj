@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClInclude Include="Color.h" />
     <ClInclude Include="config.h" />
+    <ClInclude Include="CreateExercise.h" />
     <ClInclude Include="Direction.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="io_utils.h" />
@@ -89,6 +90,7 @@
     <ClInclude Include="TheMathGame.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CreateExercise.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="io_utils.cpp" />
     <ClCompile Include="main.cpp" />
