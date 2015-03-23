@@ -27,7 +27,7 @@ bool ScreenData::is_point_exist(const Point& ptPoint)
 	unsigned int x, y;
 
 	for (std::list<Point>::iterator curr_point = Data.begin(); curr_point != Data.end(); ++curr_point)
-		if (true)
+		if (*curr_point == ptPoint)
 			return true;
 	return false;
 }
@@ -40,3 +40,5 @@ void ScreenData::insert_point(const Point& ptPoint)
 void ScreenData::clear_data(){
 	Data.clear();
 }
+
+ScreenData::~ScreenData(){ delete[] & Data; }

@@ -35,7 +35,7 @@ public:
 	bool is_point_exist(const Point& ptPoint);
 	void insert_point(const Point& ptPoint);
 	void clear_data();
-
+	~ScreenData();
 };
 
 #endif
