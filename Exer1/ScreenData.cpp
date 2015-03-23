@@ -24,21 +24,21 @@
 
 bool ScreenData::is_point_exist(const Point& ptPoint)
 {
-	unsigned int x, y;
+	return (!(PointsData.find(ptPoint) == PointsData.end() ));
+}
 
-	for (std::list<Point>::iterator curr_point = Data.begin(); curr_point != Data.end(); ++curr_point)
-		if (*curr_point == ptPoint)
-			return true;
+bool ScreenData::insert_point(const Point& ptPoint, const unsigned int value )
+{
+	if (!is_point_exist(ptPoint)){
+		PointsData[ptPoint] = value;
+		return true;
+	}
+
 	return false;
 }
 
-void ScreenData::insert_point(const Point& ptPoint)
-{
-	Data.push_back(ptPoint);
-}
-
 void ScreenData::clear_data(){
-	Data.clear();
+	PointsData.clear();
 }
 
-ScreenData::~ScreenData(){ delete[] & Data; }
+ScreenData::~ScreenData(){ delete[] & PointsData; }
