@@ -92,6 +92,7 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="io_utils.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Point.cpp" />
     <ClCompile Include="ScreenData.cpp" />
     <ClCompile Include="TheMathGame.cpp" />
   </ItemGroup>

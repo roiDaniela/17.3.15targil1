@@ -1,9 +1,10 @@
+
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// Point.h
+// Point.cpp
 // -----------
-// This file declares a class of point
+// This file 
 //
-// Author: Roi Fogler && Motty Katz 
+// Author: Motty Katz  && Roi Fogler
 // First version: 2015-03-22
 // 
 // This code is part of a solution for "the math game" excercise in C++ course, Semester B 2015
@@ -20,33 +21,13 @@
 //
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-#ifndef _POINT_H
-#define _POINT_H
+#include "Point.h"
 
-#include<iostream>
-using namespace std;
+Point Point::randomPoint(unsigned target, unsigned int start){ 
+	// Randomize x,y values
+	unsigned int x = rand() % target + start; 
+	unsigned int y = rand() % target + start;
 
-class Point
-{
-private:	
-	unsigned int x,y; 
-	Point();
-public:
-	//Ctor
-	Point(unsigned int x, unsigned int y){ this->x = x; this->y = y; }
-	
-	// Getter & setter
-	unsigned getX(){ return x; };
-	void setX(unsigned int x){ this->x = x; };
-	unsigned int getY(){ return y; };
-	void setY(unsigned int y){ this->y = y; };
-
-	// Methods
-	Point randomPoint(unsigned target, unsigned int start = 1);
-
-	//Operator Overloding
-	inline bool operator==(const Point& p){return ((p.x == this->x) && (p.y == this->y)); };
-	inline bool operator!=(const Point& p){ return !operator==(p); }
-};
-
-#endif
+	// Return random point
+	return Point(x, y);
+}

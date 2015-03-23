@@ -31,7 +31,7 @@
 #include "GameManager.h"
 #include "io_utils.h"
 #include "TheMathGame.h"
-
+#include "Point.h"
 using namespace std;
 
 // this is for example only!
@@ -51,6 +51,7 @@ using namespace std;
 //  M  A  I  N
 //==========================
 int main(){
+	Point p();
 	clear_screen();
 	hideCursor();
 	GameManager(TheMathGame(), 200, 2).run();
