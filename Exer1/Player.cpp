@@ -23,7 +23,7 @@
 
 #include "Player.h"
 
-Player::Player(unsigned int number) :playerNumber(numberOfPlayer(number)){
+Player::Player(Player::numberOfPlayer number) :playerNumber(number){
 	//direction = Direction::STAY;
 	if (playerNumber == Player::One){
 		locationPoint = new Point(PLAYER_1_X_POSITION, PLAYER_1_Y_POSITION);

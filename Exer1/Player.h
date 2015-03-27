@@ -32,13 +32,6 @@ using namespace std;
 class Player
 {
 private:
-	enum numberOfPlayer
-	{
-		One = 1,
-		Two
-	};
-
-	numberOfPlayer playerNumber;
 	Direction direction;
 	Point* locationPoint;
 
@@ -49,13 +42,19 @@ private:
 	static const char PLAYER_1_SIGN = '@';
 	static const char PLAYER_2_SIGN = '#';
 public:
-	Player(unsigned int number);// { locationPoint = new Point(0, 0), playerNumber = numberOfPlayer(number); }
+	enum numberOfPlayer
+	{
+		One = 1,
+		Two
+	};
+	Player(numberOfPlayer);
 	void printSighn(){
-		//int u = (locationPoint->getX());
 		gotoxy(*locationPoint);
-		//gotoxy(locationPoint->getX(), locationPoint->getY());
 		(playerNumber == numberOfPlayer::One) ? cout << PLAYER_1_SIGN : cout << PLAYER_2_SIGN;
 	}
+
+private:
+	numberOfPlayer playerNumber;
 	//setDirection
 };
 

@@ -10,8 +10,8 @@ void TheMathGame::startLevel(unsigned int currentLevel){
 	correctNumber = exercise.getHiddenValue();
 	writeOnTopOfScreen(exercise.getHiddenExercise());
 
-	Player* p1 = new Player(1);
-	Player* p2 = new Player(2);
+	Player* p1 = new Player(Player::numberOfPlayer::One);
+	Player* p2 = new Player(Player::numberOfPlayer::Two);
 
 	p1->printSighn();
 	p2->printSighn();
