@@ -1,10 +1,10 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// CreateExercise.h
+// Point.h
 // -----------
-// This file declares a
+// This file declares a class of point
 //
 // Author: Roi Fogler && Motty Katz 
-// First version: 2015-03-23
+// First version: 2015-03-22
 // 
 // This code is part of a solution for "the math game" excercise in C++ course, Semester B 2015
 // at the Academic College of Tel-Aviv-Yaffo.
@@ -20,54 +20,43 @@
 //
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-#ifndef _CREATE_EXERCISE_H
-#define _CREATE_EXERCISE_H
+#ifndef _PLAYER_H
+#define _PLAYER_H
 
-#include <iostream>
-#include <string>
+#include "Point.h"
+#include "Direction.h"
+#include "io_utils.h"
 
 using namespace std;
 
-class CreateExercise
+class Player
 {
 private:
-
-	// Varibles
-	unsigned int a, b, result;
-	unsigned int screenNumber;
-	unsigned int hiddenValue;
-	string hiddenExercise;
-	static const int START_RANDOM_NUMBER = 1;
-	static const int RANDOMIZE_INITNAL_DIFF = 10;
-
-	enum Sighn
+	enum numberOfPlayer
 	{
-		MINUS,
-		PLUS,
-		MULTI,
-		DIVIDE
+		One = 1,
+		Two
 	};
 
-	enum LocationOfVarInExercise
-	{
-		First,
-		Second
-	};
+	numberOfPlayer playerNumber;
+	Direction direction;
+	Point* locationPoint;
 
-	Sighn sighn;
-
-	// Methods
-	Sighn randomSighn(){ return Sighn(rand() % 4); }
-	LocationOfVarInExercise randomLocationOfVar(){ return LocationOfVarInExercise(rand() % 2); }
-	unsigned int randomVar(){ return ((rand() % (screenNumber + RANDOMIZE_INITNAL_DIFF)) + START_RANDOM_NUMBER); }
-
+	static const int PLAYER_1_X_POSITION = 10;
+	static const int PLAYER_1_Y_POSITION = 9;
+	static const int PLAYER_2_X_POSITION = 70;
+	static const int PLAYER_2_Y_POSITION = 9;
+	static const char PLAYER_1_SIGN = '@';
+	static const char PLAYER_2_SIGN = '#';
 public:
-	//Ctor
-	CreateExercise(unsigned int);
-
-	// Methods
-	unsigned int getHiddenValue(){ return hiddenValue; }
-	string getHiddenExercise(){ return hiddenExercise; }
+	Player(unsigned int number);// { locationPoint = new Point(0, 0), playerNumber = numberOfPlayer(number); }
+	void printSighn(){
+		//int u = (locationPoint->getX());
+		gotoxy(*locationPoint);
+		//gotoxy(locationPoint->getX(), locationPoint->getY());
+		(playerNumber == numberOfPlayer::One) ? cout << PLAYER_1_SIGN : cout << PLAYER_2_SIGN;
+	}
+	//setDirection
 };
 
 #endif

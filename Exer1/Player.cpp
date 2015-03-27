@@ -1,9 +1,10 @@
+
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// Point.h
+// Point.cpp
 // -----------
-// This file declares a class of point
+// This file 
 //
-// Author: Roi Fogler && Motty Katz 
+// Author: Motty Katz  && Roi Fogler
 // First version: 2015-03-22
 // 
 // This code is part of a solution for "the math game" excercise in C++ course, Semester B 2015
@@ -20,32 +21,15 @@
 //
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-#ifndef _POINT_H
-#define _POINT_H
+#include "Player.h"
 
-#include<iostream>
-using namespace std;
-
-class Point
-{
-private:	
-	unsigned int x,y; 
-public:
-	//Ctor
-	Point(unsigned int x, unsigned int y) { this->x = x; this->y = y; }
-	
-	// Getter & setter
-	unsigned int getX() const { return x; };
-	void setX(unsigned int x){ this->x = x; };
-	unsigned int getY() const { return y; };
-	void setY(unsigned int y){ this->y = y; };
-
-	// Methods
-	static Point randomPoint(unsigned target, unsigned int start = 1);
-
-	//Operator Overloding
-	inline bool operator==(const Point& p){return ((p.x == this->x) && (p.y == this->y)); };
-	inline bool operator!=(const Point& p){ return !operator==(p); }
-};
-
-#endif
+Player::Player(unsigned int number) :playerNumber(numberOfPlayer(number)){
+	//direction = Direction::STAY;
+	if (playerNumber == Player::One){
+		locationPoint = new Point(PLAYER_1_X_POSITION, PLAYER_1_Y_POSITION);
+	}
+	else if (playerNumber == Player::Two){
+		locationPoint = new Point(PLAYER_2_X_POSITION, PLAYER_2_Y_POSITION);
+	}
+}
+	//move()

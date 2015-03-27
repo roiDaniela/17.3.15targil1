@@ -85,6 +85,7 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="io_utils.h" />
     <ClInclude Include="ISpecificGame.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="ScreenData.h" />
     <ClInclude Include="TheMathGame.h" />
@@ -94,6 +95,7 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="io_utils.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="ScreenData.cpp" />
     <ClCompile Include="TheMathGame.cpp" />

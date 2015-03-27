@@ -1,6 +1,5 @@
 #include "io_utils.h"
 #include "Color.h"
-#include "Point.h"
 
 using namespace std;
 
@@ -14,8 +13,24 @@ using namespace std;
 	void clear_screen(){}
 #else
 
+void writeOnTopOfScreen(string sentence){
+	// Go to the top of the screen
+	gotoxy(0, 0);
+
+	// Clean the 2 first lines
+	for (int j = 0; j < AMOUNT_OF_INSTRUCTIONS_LINE; j++)
+	{
+		for (int i = 0; i < LENGH_OF_LINE; i++)
+		{
+			cout << "";
+		}
+	}
+
+	cout << sentence;
+}
+
 // My aading 22.3.15
-void gotoxy(Point p){
+void gotoxy(const Point& p){
 	gotoxy(p.getX(), p.getY());
 }
 

@@ -30,36 +30,29 @@ using namespace std;
 
 // My adding 18.3.15: This function get a string,
 // take the cursor to the top and printing the string got
-void GameManager::writeOnTopOfScreen(string sentence)
-{
-	// Go to the top of the screen
-	gotoxy(0, 0);
-
-	// Clean the 2 first lines
-	for (int j = 0; j < AMOUNT_OF_INSTRUCTIONS_LINE; j++)
-	{
-		for (int i = 0; i < LENGH_OF_LINE; i++)
-		{
-			cout << "";
-		}
-	}
-	
-	cout << sentence;
-}
+//void GameManager::writeOnTopOfScreen(string sentence)
+//{
+//	// Go to the top of the screen
+//	gotoxy(0, 0);
+//
+//	// Clean the 2 first lines
+//	for (int j = 0; j < AMOUNT_OF_INSTRUCTIONS_LINE; j++)
+//	{
+//		for (int i = 0; i < LENGH_OF_LINE; i++)
+//		{
+//			cout << "";
+//		}
+//	}
+//	
+//	cout << sentence;
+//}
 
 char GameManager::mainMenu()const
 {
 	// TODO: you may want to improve the menu appearance.
 	// Roi's adding
 	// First and second rows will be for instructions
-	cout << endl << endl;
-
-	// Full the 3rd line with "*"
-	for (int i = 0; i < LENGH_OF_LINE; i++)
-	{
-		cout << "*";
-	}
-	cout << endl;
+	cout << endl << endl << endl;
 
 	cout << "1. instructions" << endl;
 	cout << "2. play game" << endl;

@@ -31,7 +31,7 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 
 	switch (sighn)
 	{
-		case MINUS:
+	case Sighn::MINUS:
 		{
 			b = randomVar();
 			result = randomVar();
@@ -39,12 +39,12 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 			a = result + b;
 
 			// randomise who to hide
-			LocationOfVar lv = randomLocationOfVar();
-			if (lv == First){
+			LocationOfVarInExercise lv = randomLocationOfVar();
+			if (lv == LocationOfVarInExercise::First){
 				hiddenExercise = to_string(a) + string(" - ") + string("_") + string(" = ") + to_string(result);
 				hiddenValue = b;
 			}
-			else if (lv == Second){
+			else if (lv == LocationOfVarInExercise::Second){
 				hiddenExercise = to_string(a)+string(" - ") + to_string(b) + string(" = ") + string("_");
 				hiddenValue = result;
 			}
@@ -54,7 +54,7 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 
 			break;
 		}
-		case PLUS:
+	case Sighn::PLUS:
 		{
 			a = randomVar();
 			b = randomVar();
@@ -62,12 +62,12 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 			result = a + b;
 
 			// randomise who to hide
-			LocationOfVar lv = randomLocationOfVar();
-			if (lv == First){
+			LocationOfVarInExercise lv = randomLocationOfVar();
+			if (lv == LocationOfVarInExercise::First){
 				hiddenExercise = string("_") + string(" + ") + to_string(b) + string(" = ") + to_string(result);
 				hiddenValue = a;
 			}
-			else if (lv == Second){
+			else if (lv == LocationOfVarInExercise::Second){
 				hiddenExercise = to_string(a) + string(" + ") + string("_") + string(" = ") + to_string(result);
 				hiddenValue = b;
 			}
@@ -77,7 +77,7 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 
 			break;
 		}
-		case MULTI:
+	case Sighn::MULTI:
 		{
 			a = randomVar();
 			b = randomVar();
@@ -85,12 +85,12 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 			result = a * b;
 
 			// randomise who to hide
-			LocationOfVar lv = randomLocationOfVar();
-			if (lv == First){
+			LocationOfVarInExercise lv = randomLocationOfVar();
+			if (lv == LocationOfVarInExercise::First){
 				hiddenExercise = string("_") + string(" * ") + to_string(b) + string(" = ") + to_string(result);
 				hiddenValue = a;
 			}
-			else if (lv == Second){
+			else if (lv == LocationOfVarInExercise::Second){
 				hiddenExercise = to_string(a) + string(" * ") + string("_") + string(" = ") + to_string(result);
 				hiddenValue = b;
 			}
@@ -100,7 +100,7 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 
 			break;
 		}
-		case DIVIDE:
+	case Sighn::DIVIDE:
 		{
 			b = randomVar();
 			result = randomVar();
@@ -108,12 +108,12 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 			a = result * b;
 
 			// randomise who to hide
-			LocationOfVar lv = randomLocationOfVar();
-			if (lv == First){
+			LocationOfVarInExercise lv = randomLocationOfVar();
+			if (lv == LocationOfVarInExercise::First){
 				hiddenExercise = to_string(a) + string(" / ") + string("_") + string(" = ") + to_string(result);
 				hiddenValue = b;
 			}
-			else if (lv == Second){
+			else if (lv == LocationOfVarInExercise::Second){
 				hiddenExercise = to_string(a) + string(" / ") + to_string(b) + string(" = ") + string("_");
 				hiddenValue = result;
 			}
@@ -121,9 +121,9 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 				// if u reached here u have a problem
 			}
 
-			break;
+			break; // Not realy needed
 		}
-		default:{
+		default:{ // if u reached here - uston we have a problem
 			break;
 		}
 	}
