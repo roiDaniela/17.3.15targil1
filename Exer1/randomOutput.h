@@ -1,10 +1,10 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// ScreenData.cpp
+// RandomOutput.h
 // -----------
-// This file 
+// This file declares a
 //
-// Author: Motty Katz  && Roi Fogler
-// First version: 2015-03-22
+// Author: Roi Fogler && Motty Katz 
+// First version: 2015-03-23
 // 
 // This code is part of a solution for "the math game" excercise in C++ course, Semester B 2015
 // at the Academic College of Tel-Aviv-Yaffo.
@@ -20,34 +20,25 @@
 //
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+#ifndef _RANDOMOUTPUT_H
+#define _RANDOMOUTPUT_H
+
+#include <iostream>
 #include "ScreenData.h"
+#include "Sign.h"
 
-bool ScreenData::is_point_exist(const Point& ptPoint) const 
+using namespace std;
+
+class RandomOutput
 {
-	return (!(PointsData.find(&ptPoint) == PointsData.end() ));
-}
+	
+public:
+	
 
-bool ScreenData::insert_point(const Point& ptPoint, const int value ) 
-{
-	if (!is_point_exist(ptPoint)){
-		PointsData[&ptPoint] = value;
-		return true;
-	}
+	// Methods
+	static int CreateRandomValue(ScreenData* sData, unsigned int range_from, unsigned int range_to);
+	static int CreateRandomValue(unsigned int range_from, unsigned int range_to);
+	static Sign::Operator CreateRandomSign();
+};
 
-	return false;
-}
-
-bool ScreenData::is_number_exist(const int value){
-	map<const Point*, int >::iterator iter = PointsData.begin();
-
-	while (iter != PointsData.end())
-		if (iter->second == value)
-			return true;
-	return false;
-}
-
-void ScreenData::clear_data(){
-	PointsData.clear();
-}
-
-ScreenData::~ScreenData(){ delete[] & PointsData; }
+#endif

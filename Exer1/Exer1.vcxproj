@@ -87,7 +87,9 @@
     <ClInclude Include="ISpecificGame.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Point.h" />
+    <ClInclude Include="randomOutput.h" />
     <ClInclude Include="ScreenData.h" />
+    <ClInclude Include="Sign.h" />
     <ClInclude Include="TheMathGame.h" />
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +99,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Point.cpp" />
+    <ClCompile Include="randomOutput.cpp" />
     <ClCompile Include="ScreenData.cpp" />
     <ClCompile Include="TheMathGame.cpp" />
   </ItemGroup>

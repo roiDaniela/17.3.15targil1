@@ -30,11 +30,12 @@ class ScreenData
 {
 
 private:
-	map<const Point*, unsigned int  > PointsData;
+	map<const Point*, int  > PointsData;
 	
 public:
 	bool is_point_exist(const Point& ptPoint)const ;
-	bool insert_point(const Point& ptPoint, const unsigned int value);
+	bool insert_point(const Point& ptPoint, const int value);
+	bool is_number_exist(const int value);
 	void clear_data();
 	~ScreenData();
 };
