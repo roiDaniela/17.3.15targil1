@@ -28,6 +28,7 @@
 #include <iostream>
 #include "GameManager.h"
 #include "io_utils.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -35,10 +36,12 @@ class TheMathGame : public ISpecificGame
 {
 private:
 	static const int TOTAL_NUMBER_OF_LEVELS = 20;
-
+	
+	Player* player1; //
+	Player* player2; //
 	unsigned int correctNumber; //
 public:
-	TheMathGame() :correctNumber(NULL){} //
+	TheMathGame() :correctNumber(NULL), player1(NULL), player2(NULL){} //
 	bool isLevelDone()const{return false;}
 	bool hasNextLevel(unsigned int currentLevel)const{ return (currentLevel<=TOTAL_NUMBER_OF_LEVELS); }
 	void startLevel( unsigned int currentLevel );

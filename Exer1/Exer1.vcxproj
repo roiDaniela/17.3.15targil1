@@ -98,7 +98,6 @@
     <ClCompile Include="io_utils.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Point.cpp" />
     <ClCompile Include="randomOutput.cpp" />
     <ClCompile Include="ScreenData.cpp" />
     <ClCompile Include="TheMathGame.cpp" />

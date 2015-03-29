@@ -32,8 +32,9 @@ using namespace std;
 class Player
 {
 private:
-	Direction direction;
+	// DM
 	Point* locationPoint;
+	Direction::value direction;
 
 	static const int PLAYER_1_X_POSITION = 10;
 	static const int PLAYER_1_Y_POSITION = 9;
@@ -41,21 +42,43 @@ private:
 	static const int PLAYER_2_Y_POSITION = 9;
 	static const char PLAYER_1_SIGN = '@';
 	static const char PLAYER_2_SIGN = '#';
+
+	// This Ctor shoudn't be in use
+	Player::Player(){ }
 public:
+	// Which player is that
 	enum numberOfPlayer
 	{
 		One = 1,
 		Two
 	};
-	Player(numberOfPlayer);
+
+	// Ctor
+	Player(numberOfPlayer number, Direction::value d = Direction::STAY);
+
+	// Getter && Setter
+	void setDirection(Direction::value d){ direction = d; }
+	Direction::value getDirection(){ return direction; }
+
+	void setLocationPoint(const Point&);
+	void setLocationPoint(unsigned int x, unsigned int y);
+	Point getLocationPoint(){ return *locationPoint; }
+
+	// Methods
 	void printSighn(){
 		gotoxy(*locationPoint);
 		(playerNumber == numberOfPlayer::One) ? cout << PLAYER_1_SIGN : cout << PLAYER_2_SIGN;
 	}
 
+	void Player::move(Direction::value direction);
+
 private:
 	numberOfPlayer playerNumber;
-	//setDirection
+
+public:
+	// Getter && Setter
+	void SetPlayerNumber(numberOfPlayer playerNumber1) { playerNumber = playerNumber1; }
+	numberOfPlayer getPlayerNumber(){ return playerNumber; }
 };
 
 #endif

@@ -40,9 +40,6 @@ public:
 	unsigned int getY() const { return y; };
 	void setY(unsigned int y){ this->y = y; };
 
-	// Methods
-	static Point randomPoint(unsigned target, unsigned int start = 1);
-
 	//Operator Overloding
 	inline bool operator==(const Point& p){return ((p.x == this->x) && (p.y == this->y)); };
 	inline bool operator!=(const Point& p){ return !operator==(p); }

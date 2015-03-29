@@ -25,6 +25,7 @@
 
 #include <iostream>
 #include <string>
+#include "randomOutput.h"
 
 using namespace std;
 
@@ -37,16 +38,15 @@ private:
 	unsigned int screenNumber;
 	unsigned int hiddenValue;
 	string hiddenExercise;
-	static const int START_RANDOM_NUMBER = 1;
 	static const int RANDOMIZE_INITNAL_DIFF = 10;
 
-	enum Sighn
+	/*enum Sighn
 	{
 		MINUS,
 		PLUS,
 		MULTI,
 		DIVIDE
-	};
+	};*/
 
 	enum LocationOfVarInExercise
 	{
@@ -54,12 +54,12 @@ private:
 		Second
 	};
 
-	Sighn sighn;
+	Sign::Operator sign;
 
 	// Methods
-	Sighn randomSighn(){ return Sighn(rand() % 4); }
-	LocationOfVarInExercise randomLocationOfVar(){ return LocationOfVarInExercise(rand() % 2); }
-	unsigned int randomVar(){ return ((rand() % (screenNumber + RANDOMIZE_INITNAL_DIFF)) + START_RANDOM_NUMBER); }
+	//Sighn randomSighn(){ return Sighn(rand() % 4); }
+	LocationOfVarInExercise randomLocationOfVar(){ return LocationOfVarInExercise(RandomOutput::CreateRandomValue(2)); }
+	unsigned int randomVar(){ return (RandomOutput::CreateRandomValue(screenNumber + RANDOMIZE_INITNAL_DIFF)); /*rand() % (screenNumber + RANDOMIZE_INITNAL_DIFF)) + START_RANDOM_NUMBER);*/ }
 
 public:
 	//Ctor

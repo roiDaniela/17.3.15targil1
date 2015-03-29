@@ -11,12 +11,13 @@
 #include "Point.h"
 
 void gotoxy(int x, int y);
-void gotoxy(const Point&);
+void gotoxy(const Point&); // My adding
 void setTextColor(Color);
 void hideCursor();
 void clear_screen();
 void writeOnTopOfScreen(std::string sentence="");
 
+const static int LENGH_OF_PAGE = 24; // My adding
 const static int LENGH_OF_LINE = 80; // My adding
 const static int AMOUNT_OF_INSTRUCTIONS_LINE = 3; // My adding
 

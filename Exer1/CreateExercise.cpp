@@ -27,11 +27,11 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 	hiddenExercise = "";
 
 	// randomise sighn
-	sighn = randomSighn();
+	sign = RandomOutput::CreateRandomSign();//randomSighn();
 
-	switch (sighn)
+	switch (sign)
 	{
-	case Sighn::MINUS:
+	case Sign::MINUS:
 		{
 			b = randomVar();
 			result = randomVar();
@@ -54,7 +54,7 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 
 			break;
 		}
-	case Sighn::PLUS:
+	case Sign::PLUS:
 		{
 			a = randomVar();
 			b = randomVar();
@@ -77,7 +77,7 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 
 			break;
 		}
-	case Sighn::MULTI:
+	case Sign::MULT:
 		{
 			a = randomVar();
 			b = randomVar();
@@ -100,7 +100,7 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 
 			break;
 		}
-	case Sighn::DIVIDE:
+	case Sign::DIV:
 		{
 			b = randomVar();
 			result = randomVar();

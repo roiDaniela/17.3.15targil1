@@ -8,19 +8,13 @@ void TheMathGame::startLevel(unsigned int currentLevel){
 	// Create exercise
 	CreateExercise exercise(currentLevel);
 	correctNumber = exercise.getHiddenValue();
-	writeOnTopOfScreen(exercise.getHiddenExercise());
-
-	Player* p1 = new Player(Player::numberOfPlayer::One);
-	Player* p2 = new Player(Player::numberOfPlayer::Two);
-
-	p1->printSighn();
-	p2->printSighn();
-	// Print the players
-	/*gotoxy(PLAYER_1_X_POSITION,PLAYER_1_Y_POSITION);
-	cout << PLAYER_1_SIGN;
+	writeOnTopOfScreen("******** The exercise is: " + exercise.getHiddenExercise());
 	
-	gotoxy(PLAYER_2_X_POSITION, PLAYER_2_Y_POSITION);
-	cout << PLAYER_2_SIGN;*/
+	// Init two players as stay
+	player1 = new Player(Player::numberOfPlayer::One);
+	player2 = new Player(Player::numberOfPlayer::Two);
+
+	// 
 }
 void TheMathGame::doIteration(const list<char>& keyHits){}
-void TheMathGame::doSubIteration(){}
+void TheMathGame::doSubIteration(){ this->player1->move(Direction::DOWN); }

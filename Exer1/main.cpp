@@ -28,10 +28,11 @@
 
 
 #include <iostream>
+#include <time.h>
 #include "GameManager.h"
 #include "io_utils.h"
 #include "TheMathGame.h"
-//#include "CreateExercise.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -61,9 +62,10 @@ int main(){
 	//	string t2 = c.getHiddenExercise();
 	//	cout << t2 << "::::::::" << t1 << endl;
 	//}
-
+	
 	clear_screen();
 	hideCursor();
+	srand((unsigned int)time(NULL));
 	GameManager(TheMathGame(), 200, 2).run();
 	return 0;
 }

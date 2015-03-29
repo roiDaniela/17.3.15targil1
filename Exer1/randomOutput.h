@@ -26,19 +26,24 @@
 #include <iostream>
 #include "ScreenData.h"
 #include "Sign.h"
+#include "Point.h"
+#include "io_utils.h"
 
 using namespace std;
 
 class RandomOutput
 {
-	
+	static const int START_RANDOM_NUMBER = 1;
+	static Point randomPoint(unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER) { return Point(CreateRandomValue(range_to), CreateRandomValue(range_from)); }
+	static bool RandomOutput::isPointNearOrInsideOtherPoint(ScreenData* sData, Point* p);
 public:
 	
 
 	// Methods
-	static int CreateRandomValue(ScreenData* sData, unsigned int range_from, unsigned int range_to);
-	static int CreateRandomValue(unsigned int range_from, unsigned int range_to);
+	static int CreateRandomValue(ScreenData* sData, unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER);
+	static int CreateRandomValue(unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER);
 	static Sign::Operator CreateRandomSign();
+	static Point randomPointInScreen(ScreenData* sData);
 };
 
 #endif
