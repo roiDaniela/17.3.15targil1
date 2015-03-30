@@ -2,6 +2,8 @@
 #include "Player.h"
 
 void TheMathGame::startLevel(unsigned int currentLevel){
+	
+
 	// Clean the screen
 	clear_screen();
 	
@@ -26,11 +28,19 @@ void TheMathGame::doIteration(const list<char>& keyHits){
 		
 		setPlayerDirectionByKeyValue(curr_input);
 	}
+
+	player1->move(player1->getDirection());
+	player2->move(player2->getDirection());
+	
+	//
+	
+	GameDB.insert_point(player1->getLocationPoint(), Player::PLAYER_1_SIGN);
+	GameDB.insert_point(player2->getLocationPoint(), Player::PLAYER_2_SIGN);
+	GameDB.insert_point(RandomOutput::CreateRandomPoint(&GameDB), RandomOutput::CreateRandomValue(CurrentLevel));
 }
 
 void TheMathGame::doSubIteration(){ 
-	player1->move(player1->getDirection()); 
-	player2->move(player2->getDirection());
+	
 }
 
 void TheMathGame::setPlayerDirectionByKeyValue(Player::MOVE_KEYS_PLAYER curr_input){
