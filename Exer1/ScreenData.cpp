@@ -52,11 +52,15 @@ bool ScreenData::isPointNearOrInsideOtherPoint( Point* p ){
 	Point* pLeft = new Point(p->getX() - 1, p->getY());
 	Point* pRight = new Point(p->getX() + 1, p->getY());
 
-	return (is_point_exist(*p)		||
-		    is_point_exist(*pUp)	||
-		    is_point_exist(*pDown)	||
-			is_point_exist(*pRight) ||
-			is_point_exist(*pLeft));
+	bool isPointNearOrInsideOtherPoint = (is_point_exist(*p) ||
+										  is_point_exist(*pUp) ||
+										  is_point_exist(*pDown) ||
+										  is_point_exist(*pRight) ||
+										  is_point_exist(*pLeft));
+	// Delete the pointers
+	delete pUp, pDown, pLeft, pRight;
+	
+	return isPointNearOrInsideOtherPoint;
 }
 
 

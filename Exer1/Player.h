@@ -68,6 +68,9 @@ public:
 	// Ctor
 	Player(numberOfPlayer number, Direction::value d = Direction::STAY);
 
+	// dtor
+	~Player(){ delete locationPoint; }
+
 	// Getter && Setter
 	void setDirection(Direction::value d){ direction = d; }
 	Direction::value getDirection(){ return direction; }
