@@ -34,7 +34,7 @@ using namespace std;
 class RandomOutput
 {
 	static const int START_RANDOM_NUMBER = 1;
-	static Point randomPoint(unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER) { return Point(CreateRandomValue(range_to), CreateRandomValue(range_from)); }
+	static Point CreateRandomPoint(unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER) { return Point(CreateRandomValue(range_to), CreateRandomValue(range_from)); }
 	static bool RandomOutput::isPointNearOrInsideOtherPoint(ScreenData* sData, Point* p);
 public:
 	

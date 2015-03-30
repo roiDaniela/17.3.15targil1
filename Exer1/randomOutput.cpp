@@ -23,15 +23,15 @@ int RandomOutput::CreateRandomValue(ScreenData* sData, unsigned int range_to, un
 }
 
 Point RandomOutput::randomPointInScreen(ScreenData* sData){
-	Point* p = new Point(randomPoint(LENGH_OF_LINE * LENGH_OF_PAGE, LENGH_OF_LINE * AMOUNT_OF_INSTRUCTIONS_LINE));
+	Point* p = new Point(CreateRandomPoint(LENGH_OF_LINE * LENGH_OF_PAGE, LENGH_OF_LINE * AMOUNT_OF_INSTRUCTIONS_LINE));
 	bool succeded = !isPointNearOrInsideOtherPoint(sData, p);
 	for (int i = 0; i < 9 && !succeded; i++)
 	{
-		p = new Point(randomPoint(LENGH_OF_LINE * LENGH_OF_PAGE, LENGH_OF_LINE * AMOUNT_OF_INSTRUCTIONS_LINE));
+		p = new Point(CreateRandomPoint(LENGH_OF_LINE * LENGH_OF_PAGE, LENGH_OF_LINE * AMOUNT_OF_INSTRUCTIONS_LINE));
 		succeded = !isPointNearOrInsideOtherPoint(sData, p);
 	}
 
-	// if succeded rerturn p else return null
+	// if succeded return p else return null
 	p = (succeded ? p : NULL);
 	
 	return *p;
