@@ -40,7 +40,7 @@ public:
 	bool is_number_exist(const int value);
 	int GetElementByPoint(const Point& ptPoint) ;
 	void clear_data();
-	~ScreenData();
+	//~ScreenData();
 };
 
 #endif
