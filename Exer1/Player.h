@@ -40,12 +40,13 @@ private:
 	static const int PLAYER_1_Y_POSITION = 9;
 	static const int PLAYER_2_X_POSITION = 70;
 	static const int PLAYER_2_Y_POSITION = 9;
-	static const char PLAYER_1_SIGN = '@';
-	static const char PLAYER_2_SIGN = '#';
-
+	
 	// This Ctor shoudn't be in use
 	Player::Player(){ }
 public:
+	static const char PLAYER_1_SIGN = '@';
+	static const char PLAYER_2_SIGN = '#';
+
 	// Which player is that
 	enum numberOfPlayer
 	{

@@ -40,6 +40,8 @@ private:
 	Player* player1; //
 	Player* player2; //
 	unsigned int correctNumber; //
+	unsigned int CurrentLevel;
+	ScreenData GameDB;
 
 	// Methods
 	void TheMathGame::setPlayerDirectionByKeyValue(Player::MOVE_KEYS_PLAYER curr_input);
