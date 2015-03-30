@@ -34,13 +34,23 @@ void TheMathGame::doIteration(const list<char>& keyHits){
 	player1->move(player1->getDirection());
 	
 	//check if won
-	GameDB.insert_point(player1->getLocationPoint(),Player::PLAYER_1_SIGN);
+	if (GameDB.GetElementByPoint(player1->getLocationPoint()) == correctNumber );
+
+	else
+	{
+		GameDB.insert_point(player1->getLocationPoint(), Player::PLAYER_1_SIGN);
+	}
+		
 
 	GameDB.remove_point(player2->getLocationPoint());
 	player2->move(player2->getDirection());
+	if (GameDB.GetElementByPoint(player1->getLocationPoint()) == correctNumber);
+	else
+	{
+		GameDB.insert_point(player2->getLocationPoint(), Player::PLAYER_2_SIGN);
+	}
 
-
-	GameDB.insert_point(player2->getLocationPoint(), Player::PLAYER_2_SIGN);
+	
 	
 	// Add random number to screen
 	Point ptTmp(RandomOutput::CreateRandomPoint(RandomOutput::CreateRandomValue(80, 0), RandomOutput::CreateRandomValue(20, 0)));
@@ -50,11 +60,6 @@ void TheMathGame::doIteration(const list<char>& keyHits){
 	gotoxy(ptTmp.getX(),ptTmp.getY());
 	cout << GameDB.GetElementByPoint(ptTmp);
 
-
-	
-	GameDB.insert_point(player1->getLocationPoint(), Player::PLAYER_1_SIGN);
-	GameDB.insert_point(player2->getLocationPoint(), Player::PLAYER_2_SIGN);
-	GameDB.insert_point(RandomOutput::CreateRandomPoint(&GameDB), RandomOutput::CreateRandomValue(CurrentLevel));
 }
 
 void TheMathGame::doSubIteration(){ 
