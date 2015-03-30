@@ -29,16 +29,16 @@ using namespace std;
 class Point
 {
 private:	
-	unsigned int x,y; 
+	int x,y; 
 public:
 	//Ctor
-	Point(unsigned int x, unsigned int y) { this->x = x; this->y = y; }
+	Point(int x, int y) { this->x = x; this->y = y; }
 	
 	// Getter & setter
-	unsigned int getX() const { return x; };
-	void setX(unsigned int x){ this->x = x; };
-	unsigned int getY() const { return y; };
-	void setY(unsigned int y){ this->y = y; };
+	int getX() const { return x; };
+	void setX(int x){ this->x = x; };
+	int getY() const { return y; };
+	void setY(int y){ this->y = y; };
 
 	//Operator Overloding
 	inline bool operator==(const Point& p){return ((p.x == this->x) && (p.y == this->y)); };

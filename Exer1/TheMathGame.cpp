@@ -13,8 +13,8 @@ void TheMathGame::startLevel(unsigned int currentLevel){
 	writeOnTopOfScreen("******** The exercise is: " + exercise.getHiddenExercise());
 	
 	// Init two players as stay
-	player1 = new Player(Player::numberOfPlayer::One);
-	player2 = new Player(Player::numberOfPlayer::Two);
+	player1 = new Player(Player::numberOfPlayer::One, Direction::RIGHT);
+	player2 = new Player(Player::numberOfPlayer::Two, Direction::LEFT);
 
 	// 
 }
@@ -68,48 +68,48 @@ void TheMathGame::doSubIteration(){
 
 void TheMathGame::setPlayerDirectionByKeyValue(Player::MOVE_KEYS_PLAYER curr_input){
 	switch (curr_input){
-	case Player::MOVE_KEYS_PLAYER::PLAYER_1_DOWN:{
-		player1->setDirection(Direction::DOWN);
+		case Player::MOVE_KEYS_PLAYER::PLAYER_1_DOWN:{
+			player1->setDirection(Direction::DOWN);
 
-		break;
-	}
-	case Player::MOVE_KEYS_PLAYER::PLAYER_1_UP:{
-		player1->setDirection(Direction::UP);
+			break;
+		}
+		case Player::MOVE_KEYS_PLAYER::PLAYER_1_UP:{
+			player1->setDirection(Direction::UP);
 
-		break;
-	}
-	case Player::MOVE_KEYS_PLAYER::PLAYER_1_LEFT:{
-		player1->setDirection(Direction::LEFT);
+			break;
+		}
+		case Player::MOVE_KEYS_PLAYER::PLAYER_1_LEFT:{
+			player1->setDirection(Direction::LEFT);
 
-		break;
-	}
-	case Player::MOVE_KEYS_PLAYER::PLAYER_1_RIGHT:{
-		player1->setDirection(Direction::RIGHT);
+			break;
+		}
+		case Player::MOVE_KEYS_PLAYER::PLAYER_1_RIGHT:{
+			player1->setDirection(Direction::RIGHT);
 
-		break;
-	}
-	case Player::MOVE_KEYS_PLAYER::PLAYER_2_DOWN:{
-		player2->setDirection(Direction::DOWN);
+			break;
+		}
+		case Player::MOVE_KEYS_PLAYER::PLAYER_2_DOWN:{
+			player2->setDirection(Direction::DOWN);
 
-		break;
-	}
-	case Player::MOVE_KEYS_PLAYER::PLAYER_2_LEFT:{
-		player2->setDirection(Direction::LEFT);
+			break;
+		}
+		case Player::MOVE_KEYS_PLAYER::PLAYER_2_LEFT:{
+			player2->setDirection(Direction::LEFT);
 
-		break;
-	}
-	case Player::MOVE_KEYS_PLAYER::PLAYER_2_RIGHT:{
-		player2->setDirection(Direction::RIGHT);
+			break;
+		}
+		case Player::MOVE_KEYS_PLAYER::PLAYER_2_RIGHT:{
+			player2->setDirection(Direction::RIGHT);
 
-		break;
-	}
-	case Player::MOVE_KEYS_PLAYER::PLAYER_2_UP:{
-		player2->setDirection(Direction::UP);
+			break;
+		}
+		case Player::MOVE_KEYS_PLAYER::PLAYER_2_UP:{
+			player2->setDirection(Direction::UP);
 
-		break;
-	}
-	default:{
-		break;
-	}
+			break;
+		}
+		default:{
+			break;
+		}
 	}
 }

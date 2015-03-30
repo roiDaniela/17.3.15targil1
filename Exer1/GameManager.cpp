@@ -202,6 +202,15 @@ char GameManager::doLevelIterations()
 	else if(escapePressed) {
 		action = 0;
 		// TODO: print here the sub menu options to the proper place in screen
+		gotoxy(0, 0);
+		cout << endl << endl << endl;
+
+		cout << "1. exit application" << endl;
+		cout << "2. back to main menu" << endl;
+		cout << "3. continue" << endl;
+		cout << "4. replay level" << endl;
+		cout << "5. next level" << endl;
+
 		do {
 			action = _getch();
 		} while(!GameManager::LevelOptions::isValidOption(action));
