@@ -23,7 +23,10 @@
 
 #include "Player.h"
 
-Player::Player(Player::numberOfPlayer number, Direction::value d) :playerNumber(number), direction(d){
+Player::Player(Player::numberOfPlayer number, Direction::value d) :playerNumber(number), 
+                                                                   direction(d), 
+																   errorCounter(0), 
+																   isWin(false){
 	// Check which player is that and init
 	if (playerNumber == Player::One){
 		setLocationPoint(PLAYER_1_X_POSITION, PLAYER_1_Y_POSITION); //new Point(PLAYER_1_X_POSITION, PLAYER_1_Y_POSITION);
@@ -85,10 +88,25 @@ void Player::move(Direction::value direction){
 
 	// Case it was not STAY
 	if (targetPoint != NULL){
-		// set new location: take care that screen size is (24 X 80)
-		setLocationPoint(targetPoint->getX() % LENGH_OF_LINE,
-			(targetPoint->getY() % LENGH_OF_PAGE) +
-			AMOUNT_OF_INSTRUCTIONS_LINE);
+		
+		// Needs to be cyclic: take care that screen size is (24 X 80)
+		if (getDirection() == Direction::RIGHT){
+			targetPoint->setX(targetPoint->getX() % LENGH_OF_LINE);
+		}
+		else if (getDirection() == Direction::LEFT && targetPoint->getX() == -1){
+			targetPoint->setX(LENGH_OF_LINE - 1);
+		}
+		
+
+		if ((getDirection() == Direction::DOWN) && (targetPoint->getY() > LENGH_OF_PAGE)){
+			targetPoint->setY((targetPoint->getY() % LENGH_OF_PAGE) + AMOUNT_OF_INSTRUCTIONS_LINE);
+		}
+		else if ((getDirection() == Direction::UP) && (targetPoint->getY() <= AMOUNT_OF_INSTRUCTIONS_LINE)){
+			targetPoint->setY(LENGH_OF_PAGE - (targetPoint->getY() % AMOUNT_OF_INSTRUCTIONS_LINE));
+		}
+
+		// set new location 
+		setLocationPoint(*targetPoint);
 	}	
 
 	// Print new location

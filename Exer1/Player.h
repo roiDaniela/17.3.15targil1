@@ -35,6 +35,8 @@ private:
 	// DM
 	Point* locationPoint;
 	Direction::value direction;
+	unsigned int errorCounter;
+	bool isWin;
 
 	static const int PLAYER_1_X_POSITION = 10;
 	static const int PLAYER_1_Y_POSITION = 9;
@@ -48,7 +50,7 @@ public:
 	static const char PLAYER_2_SIGN = '#';
 
 	// Which player is that
-	enum numberOfPlayer
+	static enum numberOfPlayer
 	{
 		One = 1,
 		Two
@@ -80,9 +82,15 @@ public:
 	void setLocationPoint(unsigned int x, unsigned int y);
 	Point getLocationPoint(){ return *locationPoint; }
 
+	void setErrorCounter(unsigned int errorCounter1){ errorCounter = errorCounter1; }
+	unsigned int getErrorCounter(){ return errorCounter; }
+
+	void setIsWin(bool isWin1){ isWin = isWin1; }
+	bool getIsWin(){ return isWin; }
+
 	// Methods
 	void printSighn(){
-		gotoxy(*locationPoint);
+		gotoxy(getLocationPoint());
 		(playerNumber == numberOfPlayer::One) ? cout << PLAYER_1_SIGN : cout << PLAYER_2_SIGN;
 	}
 
