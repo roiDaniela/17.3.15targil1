@@ -14,10 +14,10 @@ Sign::Operator RandomOutput::CreateRandomSign(){
 
 int RandomOutput::CreateRandomValue(ScreenData* sData, unsigned int range_to, unsigned int range_from){
 	
-	int temp = CreateRandomValue(range_from, range_to);
+	int temp = CreateRandomValue(range_to, range_from);
 	
 	while (sData->is_number_exist(temp))
-		temp = CreateRandomValue(range_from, range_to);
+		temp = CreateRandomValue(range_to, range_from);
 	
 	return temp;
 }
