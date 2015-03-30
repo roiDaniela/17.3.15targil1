@@ -46,6 +46,20 @@ bool ScreenData::is_number_exist(const int value){
 	return false;
 }
 
+bool ScreenData::isPointNearOrInsideOtherPoint( Point* p ){
+	Point* pUp = new Point(p->getX(), p->getY() - 1);
+	Point* pDown = new Point(p->getX(), p->getY() + 1);
+	Point* pLeft = new Point(p->getX() - 1, p->getY());
+	Point* pRight = new Point(p->getX() + 1, p->getY());
+
+	return (is_point_exist(*p)		||
+		    is_point_exist(*pUp)	||
+		    is_point_exist(*pDown)	||
+			is_point_exist(*pRight) ||
+			is_point_exist(*pLeft));
+}
+
+
 void ScreenData::clear_data(){
 	PointsData.clear();
 }

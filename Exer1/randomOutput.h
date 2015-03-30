@@ -35,7 +35,7 @@ class RandomOutput
 {
 	static const int START_RANDOM_NUMBER = 1;
 	static Point CreateRandomPoint(unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER) { return Point(CreateRandomValue(range_to), CreateRandomValue(range_from)); }
-	static bool RandomOutput::isPointNearOrInsideOtherPoint(ScreenData* sData, Point* p);
+	
 public:
 	
 
@@ -43,7 +43,7 @@ public:
 	static int CreateRandomValue(ScreenData* sData, unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER);
 	static int CreateRandomValue(unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER);
 	static Sign::Operator CreateRandomSign();
-	static Point randomPointInScreen(ScreenData* sData);
+	static Point CreateRandomPoint(ScreenData* sData);
 };
 
 #endif
