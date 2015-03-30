@@ -22,6 +22,13 @@
 
 #include "ScreenData.h"
 
+int ScreenData::GetElementByPoint(const Point& ptPoint){
+	if (is_point_exist(ptPoint))
+		return PointsData[&ptPoint];
+	return false;
+}
+
+
 bool ScreenData::is_point_exist(const Point& ptPoint) const 
 {
 	return (!(PointsData.find(&ptPoint) == PointsData.end() ));
@@ -64,4 +71,7 @@ void ScreenData::clear_data(){
 	PointsData.clear();
 }
 
+bool ScreenData::remove_point(Point& ptPoint){
+	return(PointsData.erase(PointsData.find(&ptPoint)) != PointsData.end() );
+}
 ScreenData::~ScreenData(){ delete[] & PointsData; }

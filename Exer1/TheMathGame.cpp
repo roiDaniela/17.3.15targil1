@@ -29,10 +29,28 @@ void TheMathGame::doIteration(const list<char>& keyHits){
 		setPlayerDirectionByKeyValue(curr_input);
 	}
 
+	// Delete player location from DB before movement and insert the new point to DB
+	GameDB.remove_point(player1->getLocationPoint());
 	player1->move(player1->getDirection());
-	player2->move(player2->getDirection());
 	
-	//
+	//check if won
+	GameDB.insert_point(player1->getLocationPoint(),Player::PLAYER_1_SIGN);
+
+	GameDB.remove_point(player2->getLocationPoint());
+	player2->move(player2->getDirection());
+
+
+	GameDB.insert_point(player2->getLocationPoint(), Player::PLAYER_2_SIGN);
+	
+	// Add random number to screen
+	Point ptTmp(RandomOutput::CreateRandomPoint(RandomOutput::CreateRandomValue(80, 0), RandomOutput::CreateRandomValue(20, 0)));
+	while (!GameDB.insert_point(ptTmp, RandomOutput::CreateRandomValue(CurrentLevel)))
+		Point ptTmp(RandomOutput::CreateRandomPoint(RandomOutput::CreateRandomValue(80, 0), RandomOutput::CreateRandomValue(20, 0)));
+	
+	gotoxy(ptTmp.getX(),ptTmp.getY());
+	cout << GameDB.GetElementByPoint(ptTmp);
+
+
 	
 	GameDB.insert_point(player1->getLocationPoint(), Player::PLAYER_1_SIGN);
 	GameDB.insert_point(player2->getLocationPoint(), Player::PLAYER_2_SIGN);
