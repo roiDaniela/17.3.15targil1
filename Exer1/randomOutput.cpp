@@ -22,30 +22,17 @@ int RandomOutput::CreateRandomValue(ScreenData* sData, unsigned int range_to, un
 	return temp;
 }
 
-Point RandomOutput::randomPointInScreen(ScreenData* sData){
+Point RandomOutput::CreateRandomPoint(ScreenData* sData){
 	Point* p = new Point(CreateRandomPoint(LENGH_OF_LINE * LENGH_OF_PAGE, LENGH_OF_LINE * AMOUNT_OF_INSTRUCTIONS_LINE));
-	bool succeded = !isPointNearOrInsideOtherPoint(sData, p);
+	bool succeded = !sData->isPointNearOrInsideOtherPoint( p );
 	for (int i = 0; i < 9 && !succeded; i++)
 	{
 		p = new Point(CreateRandomPoint(LENGH_OF_LINE * LENGH_OF_PAGE, LENGH_OF_LINE * AMOUNT_OF_INSTRUCTIONS_LINE));
-		succeded = !isPointNearOrInsideOtherPoint(sData, p);
+		succeded = !sData->isPointNearOrInsideOtherPoint( p );
 	}
 
 	// if succeded return p else return null
 	p = (succeded ? p : NULL);
 	
 	return *p;
-}
-
-bool RandomOutput::isPointNearOrInsideOtherPoint(ScreenData* sData, Point* p){
-	Point* pUp = new Point(p->getX(), p->getY() - 1);
-	Point* pDown = new Point(p->getX(), p->getY() + 1);
-	Point* pLeft = new Point(p->getX() - 1, p->getY());
-	Point* pRight = new Point(p->getX() + 1, p->getY());
-
-	return (sData->is_point_exist(*p) ||
-			sData->is_point_exist(*pUp) ||
-			sData->is_point_exist(*pDown) ||
-			sData->is_point_exist(*pRight) ||
-			sData->is_point_exist(*pLeft));
 }
