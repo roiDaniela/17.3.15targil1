@@ -1,5 +1,4 @@
 #include "randomOutput.h"
-// Methods
 
 
 int RandomOutput::CreateRandomValue(unsigned int range_to, unsigned int range_from){
@@ -7,6 +6,7 @@ int RandomOutput::CreateRandomValue(unsigned int range_to, unsigned int range_fr
 	srand((unsigned int)0);
 	return (range_from + (rand() % (range_to - range_from)));
 }
+
 Sign::Operator RandomOutput::CreateRandomSign(){
 
 	return (Sign::Operator) CreateRandomValue(Sign::Operator::DIV, Sign::MINUS);
@@ -14,10 +14,10 @@ Sign::Operator RandomOutput::CreateRandomSign(){
 
 int RandomOutput::CreateRandomValue(ScreenData* sData, unsigned int range_to, unsigned int range_from){
 	
-	int temp = CreateRandomValue(range_from, range_to);
+	int temp = CreateRandomValue(range_to, range_from);
 	
 	while (sData->is_number_exist(temp))
-		temp = CreateRandomValue(range_from, range_to);
+		temp = CreateRandomValue(range_to, range_from);
 	
 	return temp;
 }
@@ -38,11 +38,13 @@ Point RandomOutput::randomPointInScreen(ScreenData* sData){
 }
 
 bool RandomOutput::isPointNearOrInsideOtherPoint(ScreenData* sData, Point* p){
+	// Init pointer for all problematic locations
 	Point* pUp = new Point(p->getX(), p->getY() - 1);
 	Point* pDown = new Point(p->getX(), p->getY() + 1);
 	Point* pLeft = new Point(p->getX() - 1, p->getY());
 	Point* pRight = new Point(p->getX() + 1, p->getY());
 
+	// return if this locations arealrdy full
 	return (sData->is_point_exist(*p) ||
 			sData->is_point_exist(*pUp) ||
 			sData->is_point_exist(*pDown) ||

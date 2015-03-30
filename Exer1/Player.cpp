@@ -78,16 +78,18 @@ void Player::move(Direction::value direction){
 			break;
 		}
 		default:{ // STAY
-			targetPoint = new Point(getLocationPoint());
 
 			break;
 		}
 	}
 
-	// set new location: take care that screen size is (24 X 80)
-	setLocationPoint(targetPoint->getX() % LENGH_OF_LINE, 
-		             (targetPoint->getY() % LENGH_OF_PAGE) + 
-					 AMOUNT_OF_INSTRUCTIONS_LINE);
+	// Case it was not STAY
+	if (targetPoint != NULL){
+		// set new location: take care that screen size is (24 X 80)
+		setLocationPoint(targetPoint->getX() % LENGH_OF_LINE,
+			(targetPoint->getY() % LENGH_OF_PAGE) +
+			AMOUNT_OF_INSTRUCTIONS_LINE);
+	}	
 
 	// Print new location
 	printSighn();

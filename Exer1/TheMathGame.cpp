@@ -16,5 +16,67 @@ void TheMathGame::startLevel(unsigned int currentLevel){
 
 	// 
 }
-void TheMathGame::doIteration(const list<char>& keyHits){}
-void TheMathGame::doSubIteration(){ this->player1->move(Direction::DOWN); }
+void TheMathGame::doIteration(const list<char>& keyHits){
+	// pass over the keyHits in order to collect the players input
+	for (list<char>::const_iterator itr = keyHits.cbegin(); 
+		itr != keyHits.cend(); 
+		++itr)
+	{
+		Player::MOVE_KEYS_PLAYER curr_input = static_cast<Player::MOVE_KEYS_PLAYER>(*itr);
+		
+		setPlayerDirectionByKeyValue(curr_input);
+	}
+}
+
+void TheMathGame::doSubIteration(){ 
+	player1->move(player1->getDirection()); 
+	player2->move(player2->getDirection());
+}
+
+void TheMathGame::setPlayerDirectionByKeyValue(Player::MOVE_KEYS_PLAYER curr_input){
+	switch (curr_input){
+	case Player::MOVE_KEYS_PLAYER::PLAYER_1_DOWN:{
+		player1->setDirection(Direction::DOWN);
+
+		break;
+	}
+	case Player::MOVE_KEYS_PLAYER::PLAYER_1_UP:{
+		player1->setDirection(Direction::UP);
+
+		break;
+	}
+	case Player::MOVE_KEYS_PLAYER::PLAYER_1_LEFT:{
+		player1->setDirection(Direction::LEFT);
+
+		break;
+	}
+	case Player::MOVE_KEYS_PLAYER::PLAYER_1_RIGHT:{
+		player1->setDirection(Direction::RIGHT);
+
+		break;
+	}
+	case Player::MOVE_KEYS_PLAYER::PLAYER_2_DOWN:{
+		player2->setDirection(Direction::DOWN);
+
+		break;
+	}
+	case Player::MOVE_KEYS_PLAYER::PLAYER_2_LEFT:{
+		player2->setDirection(Direction::LEFT);
+
+		break;
+	}
+	case Player::MOVE_KEYS_PLAYER::PLAYER_2_RIGHT:{
+		player2->setDirection(Direction::RIGHT);
+
+		break;
+	}
+	case Player::MOVE_KEYS_PLAYER::PLAYER_2_UP:{
+		player2->setDirection(Direction::UP);
+
+		break;
+	}
+	default:{
+		break;
+	}
+	}
+}

@@ -53,6 +53,18 @@ public:
 		Two
 	};
 
+	static enum MOVE_KEYS_PLAYER
+	{
+		PLAYER_1_DOWN = 'x',
+		PLAYER_1_LEFT = 'a',
+		PLAYER_1_RIGHT = 'd',
+		PLAYER_1_UP = 'w', 
+		PLAYER_2_DOWN = 'm',
+		PLAYER_2_LEFT = 'j',
+		PLAYER_2_RIGHT = 'l',
+		PLAYER_2_UP = 'i'
+	};
+
 	// Ctor
 	Player(numberOfPlayer number, Direction::value d = Direction::STAY);
 
