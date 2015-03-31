@@ -13,7 +13,8 @@ using namespace std;
 	void clear_screen(){}
 #else
 
-void writeOnTopOfScreen(string sentence){
+
+void CleanTopOfScreen(){
 	// Go to the top of the screen
 	gotoxy(0, 0);
 
@@ -22,10 +23,83 @@ void writeOnTopOfScreen(string sentence){
 	{
 		for (int i = 0; i < LENGH_OF_LINE; i++)
 		{
-			cout << "";
+			cout << " ";
 		}
 	}
 
+	gotoxy(0, 3); // back to start location
+}
+
+void writeOnScreenLocation(Lines line_location, std::string sentence){
+	Point* location = NULL;
+
+	switch (line_location)
+	{
+	case Lines::LINE_ONE_LEFT:{
+		location = new Point(40,0);
+
+		break;
+	}
+	case Lines::LINE_ONE_RIGHT:{
+		location = new Point(0, 0);
+
+		break;
+	}
+	case Lines::LINE_TWO_RIGHT:{
+		location = new Point(0, 1);
+
+		break;
+	}
+	case Lines::LINE_TWO_LEFT:{
+		location = new Point(40, 1);
+
+		break;
+	}
+	case Lines::LINE_THREE_RIGHT:{
+		location = new Point(0, 2);
+
+		break;
+	}
+	case Lines::LINE_THREE_LEFT:{
+		location = new Point(40, 2);
+
+		break;
+	}
+	case Lines::LINE_ONE_MIDDLE:{
+		location = new Point(20, 0);
+
+		break;
+	}
+	default:
+		break;
+	}
+
+	gotoxy(*location);
+
+	// Clean the 2 first lines
+	//for (int j = 0; j < AMOUNT_OF_INSTRUCTIONS_LINE - 1; j++)
+	//{
+	for (int i = location->getX(); i < (location->getX() + LENGH_OF_LINE / 2); i++)
+		{
+			cout << " ";
+		}
+	//}
+
+	gotoxy(*location);
+	cout << sentence;
+	gotoxy(0, 3);
+}
+void writeOnThirdRowOfScreen(string sentence){
+	// Go to the top of the screen
+	gotoxy(0, 3);
+
+	// Clean the 2 first lines
+	for (int i = 0; i < LENGH_OF_LINE; i++)
+	{
+		cout << " ";
+	}
+
+	gotoxy(0, 3);
 	cout << sentence;
 }
 

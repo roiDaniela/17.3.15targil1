@@ -52,7 +52,7 @@ char GameManager::mainMenu()const
 	// TODO: you may want to improve the menu appearance.
 	// Roi's adding
 	// First and second rows will be for instructions
-	cout << endl << endl << endl;
+	gotoxy(0, 3);
 
 	cout << "1. instructions" << endl;
 	cout << "2. play game" << endl;
@@ -84,7 +84,7 @@ void GameManager::run()
 			case GameManager::MainMenuOptions::PRESENT_INSTRUCTIONS:
 			{
 				string sentence = "This should be the instructions";
-				writeOnTopOfScreen(sentence);
+				writeOnScreenLocation(Lines::LINE_ONE_LEFT, sentence);
 				break;
 			}
 			// END of NEW CODE EX1
@@ -146,7 +146,7 @@ char GameManager::playNextLevel()
 		
 		// check action based on game ended (action==BACK_TO_MAIN_MENU) or input from user on ESC menu
 		switch(action) {
-		case GameManager::LevelOptions::CONTINUE:
+		case GameManager::LevelOptions::CONTINUE: // clean the screen and add all from data base
 			// keepRunning is true, so we only need to set thing right and then - keepRunning!
 			//--------------------------------------------------------------------------------
 			break;
@@ -156,6 +156,9 @@ char GameManager::playNextLevel()
 			actualGame.startLevel(currentLevel);
 			break;
 		case GameManager::LevelOptions::BACK_TO_MAIN_MENU:
+			clear_screen();
+			run();
+			break;
 		case GameManager::LevelOptions::EXIT_APPLICATION:
 			// get out from the loop
 			clear_screen();
@@ -196,14 +199,27 @@ char GameManager::doLevelIterations()
 	// check why we are here
 	if(actualGame.isLevelDone()) {
 		clear_screen();
-		cout << endl << "WELL DONE" << endl;
+		CleanTopOfScreen();
+		string sentence = "";
+		if (Player::getWinner() == Player::Result_winner::PLAYER_1_WON){
+			sentence = "Player 1 Won!!!";
+		}
+		else if (Player::getWinner() == Player::Result_winner::PLAYER_2_WON){
+			sentence = "Player 2 Won!!!";
+		}
+		else{
+			sentence = "It was a tie";
+		}
+
+		writeOnScreenLocation(Lines::LINE_ONE_LEFT, sentence + " WELL DONE!");
 		action = GameManager::LevelOptions::NEXT_LEVEL;
 	}
 	else if(escapePressed) {
 		action = 0;
 		// TODO: print here the sub menu options to the proper place in screen
-		gotoxy(0, 0);
-		cout << endl << endl << endl;
+		CleanTopOfScreen();
+		gotoxy(0, 3);
+		/*cout << endl << endl << endl;*/
 
 		cout << "1. exit application" << endl;
 		cout << "2. back to main menu" << endl;

@@ -29,6 +29,7 @@
 #define _ISPECIFIC_GAME_H_
 
 #include <list>
+#include "Player.h"
 
 using namespace std;
 

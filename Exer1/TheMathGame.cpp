@@ -2,6 +2,7 @@
 
 int Player::winCounter_1; //declaring statics
 int Player::winCounter_2; //declaring statics
+Player::Result_winner Player::winner; //declaring statics
 
 void TheMathGame::startLevel(unsigned int currentLevel){
 	initIterationCounter();
@@ -14,8 +15,9 @@ void TheMathGame::startLevel(unsigned int currentLevel){
 	CreateExercise exercise_2(currentLevel);
 	correctNumber_1 = exercise_1.getHiddenValue();
 	correctNumber_2 = exercise_2.getHiddenValue();
-	writeOnTopOfScreen("******** The exercise of player 1 is: " + exercise_1.getHiddenExercise() + '\n' +
-					   "******** The exercise of player 2 is: " + exercise_2.getHiddenExercise());
+	writeOnScreenLocation(Lines::LINE_ONE_RIGHT, "Level Number: " + to_string(currentLevel));
+	writeOnScreenLocation(Lines::LINE_TWO_RIGHT, "Exercise Player 1: " + exercise_1.getHiddenExercise());
+	writeOnScreenLocation(Lines::LINE_TWO_LEFT, "Exercise Player 2: " + exercise_2.getHiddenExercise());
 	
 	// Init two players as stay
 	player1 = new Player(Player::numberOfPlayer::One, Direction::RIGHT);
@@ -25,7 +27,34 @@ void TheMathGame::startLevel(unsigned int currentLevel){
 	GameDB.insert_point(player1->getLocationPoint(), player1->PLAYER_1_SIGN);
 	GameDB.insert_point(player2->getLocationPoint(), player2->PLAYER_2_SIGN);
 }
+
+void TheMathGame::prepareStatusSentenceOnScreen(){
+	int playerErrors;
+	string sentence = "Player 1 Life Errors: ";
+	playerErrors = (TOTAL_NUMBER_OF_ERRORS - player1->getErrorCounter());
+	for (int i = 0; i < playerErrors; i++)
+	{
+		sentence += "*";
+	}
+	sentence += " Points:" + to_string(player1->getWinCounter());
+
+	writeOnScreenLocation(Lines::LINE_THREE_RIGHT, sentence);
+	
+	sentence = "Player 2 Life Errors: ";
+	playerErrors = (TOTAL_NUMBER_OF_ERRORS - player2->getErrorCounter());
+	for (int i = 0; i < playerErrors; i++)
+	{
+		sentence += "*";
+	}
+	sentence += " Points:" + to_string(player2->getWinCounter());
+
+	writeOnScreenLocation(Lines::LINE_THREE_LEFT, sentence);
+
+	setWinner();
+}
+
 void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLevel){
+	prepareStatusSentenceOnScreen();
 	// Check its not over than 1500 turns
 	UpdateIterationCounter();
 

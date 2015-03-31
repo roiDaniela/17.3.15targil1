@@ -72,6 +72,12 @@ public:
 		PLAYER_2_UP = 'i'
 	};
 
+	static enum Result_winner
+	{
+		PLAYER_1_WON = 1,
+		PLAYER_2_WON,
+		TIE
+	};
 
 	// Ctor
 	Player(numberOfPlayer number, Direction::value d = Direction::STAY);
@@ -87,6 +93,15 @@ public:
 		else if (getPlayerNumber() == numberOfPlayer::Two){
 			winCounter_2 = (winCounter_2 != NULL) ? winCounter_2 : 0;
 			winCounter_2++;
+		}
+	}
+
+	int getWinCounter(){
+		if (getPlayerNumber() == numberOfPlayer::One){
+			return winCounter_1;
+		}
+		else if (getPlayerNumber() == numberOfPlayer::Two){
+			return winCounter_2;
 		}
 	}
 
@@ -114,10 +129,13 @@ public:
 
 private:
 	numberOfPlayer playerNumber;
+	static Result_winner winner;
 public:
 	// Getter && Setter
 	void SetPlayerNumber(numberOfPlayer playerNumber1) { playerNumber = playerNumber1; }
 	numberOfPlayer getPlayerNumber(){ return playerNumber; }
+	static Result_winner getWinner(){ return winner; }
+	static void setWinner(Result_winner winner1){ winner = winner1; }
 };
 
 #endif

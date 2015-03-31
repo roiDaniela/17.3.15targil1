@@ -10,12 +10,24 @@
 #include <string>
 #include "Point.h"
 
+enum Lines
+{
+	LINE_ONE_RIGHT = 1,
+	LINE_ONE_LEFT,
+	LINE_ONE_MIDDLE,
+	LINE_TWO_RIGHT,
+	LINE_TWO_LEFT,
+	LINE_THREE_RIGHT,
+	LINE_THREE_LEFT
+};
+
 void gotoxy(int x, int y);
 void gotoxy(const Point&); // My adding
 void setTextColor(Color);
 void hideCursor();
 void clear_screen();
-void writeOnTopOfScreen(std::string sentence="");
+void CleanTopOfScreen();
+void writeOnScreenLocation(Lines, std::string sentence = "");
 
 const static int LENGH_OF_PAGE = 24; // My adding
 const static int LENGH_OF_LINE = 80; // My adding

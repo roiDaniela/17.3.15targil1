@@ -35,8 +35,9 @@ using namespace std;
 class TheMathGame : public ISpecificGame
 {
 private:
-	static const int TOTAL_NUMBER_OF_LEVELS = 3 /*20*/;
-	static const int TOTAL_NUMBER_OF_CLOCK_TURNS = 10 /*1500*/;
+	static const int TOTAL_NUMBER_OF_LEVELS = 20 /*3*/;
+	static const int TOTAL_NUMBER_OF_CLOCK_TURNS = 1500 /*10*/;
+	static const int TOTAL_NUMBER_OF_ERRORS = 3;
 
 	unsigned int correctNumber_1, correctNumber_2; //
 	unsigned int iterationCounter;
@@ -48,11 +49,27 @@ private:
 	void TheMathGame::setPlayerDirectionByKeyValue(Player::MOVE_KEYS_PLAYER curr_input);
 	bool iterationCounterIsBiggerThanAlowd() const{
 		if (getIterationCounter() > TOTAL_NUMBER_OF_CLOCK_TURNS){
-			writeOnTopOfScreen("Its over than 1500 turns clock!!!!");
+			CleanTopOfScreen();
+			writeOnScreenLocation(Lines::LINE_ONE_MIDDLE, "Its over than 1500 turns clock!!!!!");
+			writeOnScreenLocation(Lines::LINE_THREE_RIGHT, "Points Player 1: " + to_string(player1->getWinCounter()));
+			writeOnScreenLocation(Lines::LINE_THREE_LEFT, "Points Player 2: " + to_string(player2->getWinCounter()));
+			Sleep(1500);
 			return true;
 		}
 
 		return false;
+	}
+
+	void setWinner(){
+		if (player1->getWinCounter() > player2->getWinCounter()){
+			Player::setWinner(Player::Result_winner::PLAYER_1_WON);
+		}
+		else if (player1->getWinCounter() > player2->getWinCounter()){
+			Player::setWinner(Player::Result_winner::PLAYER_2_WON);
+		}
+		else{
+			Player::setWinner(Player::Result_winner::TIE);
+		}
 	}
 public:
 	// Getter && Setter
@@ -69,6 +86,7 @@ public:
 	void startLevel( unsigned int currentLevel );
 	void doIteration(const list<char>& keyHits, unsigned int currentLevel);
 	void doSubIteration(unsigned int currentLevel);
+	void prepareStatusSentenceOnScreen();
 };
 #endif _THEMATHGAME_H_
 
