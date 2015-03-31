@@ -24,20 +24,20 @@
 
 int ScreenData::GetElementByPoint(const Point& ptPoint){
 	if (is_point_exist(ptPoint))
-		return PointsData[&ptPoint];
+		return PointsData[ptPoint];
 	return false;
 }
 
 
 bool ScreenData::is_point_exist(const Point& ptPoint) const 
 {
-	return (!(PointsData.find(&ptPoint) == PointsData.end() ));
+	return (!(PointsData.find(ptPoint) == PointsData.end() ));
 }
 
 bool ScreenData::insert_point(const Point& ptPoint, const int value ) 
 {
 	if (!is_point_exist(ptPoint)){
-		PointsData[&ptPoint] = value;
+		PointsData[ptPoint] = value;
 		return true;
 	}
 
@@ -45,7 +45,7 @@ bool ScreenData::insert_point(const Point& ptPoint, const int value )
 }
 
 bool ScreenData::is_number_exist(const int value){
-	map<const Point*, int >::iterator iter = PointsData.begin();
+	map<const Point, int >::iterator iter = PointsData.begin();
 
 	while (iter != PointsData.end())
 		if (iter->second == value)
@@ -76,6 +76,6 @@ void ScreenData::clear_data(){
 }
 
 bool ScreenData::remove_point(Point& ptPoint){
-	return(PointsData.erase(PointsData.find(&ptPoint)) != PointsData.end() );
+	return(PointsData.erase(PointsData.find(ptPoint)) != PointsData.end() );
 }
 //ScreenData::~ScreenData(){ delete[] & PointsData; }

@@ -16,9 +16,11 @@ void TheMathGame::startLevel(unsigned int currentLevel){
 	player1 = new Player(Player::numberOfPlayer::One, Direction::RIGHT);
 	player2 = new Player(Player::numberOfPlayer::Two, Direction::LEFT);
 
-	// 
+	// Init the DB with the initial points of the players
+	GameDB.insert_point(player1->getLocationPoint(),player1->PLAYER_1_SIGN);
+	GameDB.insert_point(player2->getLocationPoint(), player1->PLAYER_2_SIGN);
 }
-void TheMathGame::doIteration(const list<char>& keyHits){
+void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLevel){
 	// pass over the keyHits in order to collect the players input
 	for (list<char>::const_iterator itr = keyHits.cbegin(); 
 		itr != keyHits.cend(); 
@@ -29,41 +31,41 @@ void TheMathGame::doIteration(const list<char>& keyHits){
 		setPlayerDirectionByKeyValue(curr_input);
 	}
 
+
 	// Delete player location from DB before movement and insert the new point to DB
 	GameDB.remove_point(player1->getLocationPoint());
 	player1->move(player1->getDirection());
-	
-	//check if won
-	if (GameDB.GetElementByPoint(player1->getLocationPoint()) == correctNumber );
 
-	else
-	{
-		GameDB.insert_point(player1->getLocationPoint(), Player::PLAYER_1_SIGN);
-	}
-		
 
 	GameDB.remove_point(player2->getLocationPoint());
 	player2->move(player2->getDirection());
-	if (GameDB.GetElementByPoint(player1->getLocationPoint()) == correctNumber);
+	
+	//check if won
+	if (GameDB.GetElementByPoint(player1->getLocationPoint()) == correctNumber){
+		player1->setIsWin(true);
+	}
+	else if (GameDB.GetElementByPoint(player1->getLocationPoint()) == correctNumber){
+		player2->setIsWin(true);
+	}
 	else
 	{
+		GameDB.insert_point(player1->getLocationPoint(), Player::PLAYER_1_SIGN);
 		GameDB.insert_point(player2->getLocationPoint(), Player::PLAYER_2_SIGN);
-	}
 
-	
-	
-	// Add random number to screen
-	Point ptTmp(RandomOutput::CreateRandomPoint(RandomOutput::CreateRandomValue(80, 0), RandomOutput::CreateRandomValue(20, 0)));
-	while (!GameDB.insert_point(ptTmp, RandomOutput::CreateRandomValue(CurrentLevel)))
-		Point ptTmp(RandomOutput::CreateRandomPoint(RandomOutput::CreateRandomValue(80, 0), RandomOutput::CreateRandomValue(20, 0)));
-	
-	gotoxy(ptTmp.getX(),ptTmp.getY());
-	cout << GameDB.GetElementByPoint(ptTmp);
+		// Add random number to screen
+		Point ptTmp(RandomOutput::CreateRandomPoint());
+		if (10 + currentLevel == 1);
+		unsigned int value = RandomOutput::CreateRandomValue(10 + currentLevel);
+		while (!GameDB.insert_point(ptTmp, value))
+			ptTmp = RandomOutput::CreateRandomPoint();
+
+		gotoxy(ptTmp.getX(), ptTmp.getY());
+		cout << GameDB.GetElementByPoint(ptTmp);
+	}
 
 }
 
-void TheMathGame::doSubIteration(){ 
-	
+void TheMathGame::doSubIteration(unsigned int currentLevel){
 }
 
 void TheMathGame::setPlayerDirectionByKeyValue(Player::MOVE_KEYS_PLAYER curr_input){

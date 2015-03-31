@@ -41,6 +41,11 @@ public:
 	void setY(int y){ this->y = y; };
 
 	//Operator Overloding
+	inline bool operator<(const Point& p)const{ 
+		if (y < p.getY()) return true; 
+		else if ((y == p.getY()) && x < p.getX()) return true;
+		return false;
+	}
 	inline bool operator==(const Point& p){return ((p.x == this->x) && (p.y == this->y)); };
 	inline bool operator!=(const Point& p){ return !operator==(p); }
 };

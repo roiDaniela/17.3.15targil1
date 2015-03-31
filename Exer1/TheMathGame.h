@@ -37,21 +37,21 @@ class TheMathGame : public ISpecificGame
 private:
 	static const int TOTAL_NUMBER_OF_LEVELS = 20;
 	
+	unsigned int correctNumber; //
+	//unsigned int CurrentLevel;
 	Player* player1; //
 	Player* player2; //
-	unsigned int correctNumber; //
-	unsigned int CurrentLevel;
 	ScreenData GameDB;
 
 	// Methods
 	void TheMathGame::setPlayerDirectionByKeyValue(Player::MOVE_KEYS_PLAYER curr_input);
 public:
-	TheMathGame() :correctNumber(NULL), player1(NULL), player2(NULL){} //
+	TheMathGame() : correctNumber(NULL), player1(NULL), player2(NULL){} ///*CurrentLevel(NULL),*/
 	bool isLevelDone()const{return false;}
 	bool hasNextLevel(unsigned int currentLevel)const{ return (currentLevel<=TOTAL_NUMBER_OF_LEVELS); }
 	void startLevel( unsigned int currentLevel );
-	void doIteration(const list<char>& keyHits);
-	void doSubIteration();
+	void doIteration(const list<char>& keyHits, unsigned int currentLevel);
+	void doSubIteration(unsigned int currentLevel);
 };
 #endif _THEMATHGAME_H_
 

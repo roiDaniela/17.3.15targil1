@@ -2,9 +2,9 @@
 // Methods
 
 
-int RandomOutput::CreateRandomValue(unsigned int range_to, unsigned int range_from){
+unsigned int RandomOutput::CreateRandomValue(unsigned int range_to, unsigned int range_from){
 	
-	srand((unsigned int)0);
+	srand((unsigned int)time(NULL));
 	return (range_from + (rand() % (range_to - range_from)));
 }
 Sign::Operator RandomOutput::CreateRandomSign(){
@@ -12,7 +12,7 @@ Sign::Operator RandomOutput::CreateRandomSign(){
 	return (Sign::Operator) CreateRandomValue(Sign::Operator::DIV, Sign::MINUS);
 }
 
-int RandomOutput::CreateRandomValue(ScreenData* sData, unsigned int range_to, unsigned int range_from){
+unsigned int RandomOutput::CreateRandomValue(ScreenData* sData, unsigned int range_to, unsigned int range_from){
 	
 	int temp = CreateRandomValue(range_to, range_from);
 	
@@ -23,11 +23,11 @@ int RandomOutput::CreateRandomValue(ScreenData* sData, unsigned int range_to, un
 }
 
 Point RandomOutput::CreateRandomPoint(ScreenData* sData){
-	Point* p = new Point(CreateRandomPoint(LENGH_OF_LINE * LENGH_OF_PAGE, LENGH_OF_LINE * AMOUNT_OF_INSTRUCTIONS_LINE));
+	Point* p = new Point(CreateRandomPoint());
 	bool succeded = !sData->isPointNearOrInsideOtherPoint( p );
 	for (int i = 0; i < 9 && !succeded; i++)
 	{
-		p = new Point(CreateRandomPoint(LENGH_OF_LINE * LENGH_OF_PAGE, LENGH_OF_LINE * AMOUNT_OF_INSTRUCTIONS_LINE));
+		p = new Point(CreateRandomPoint(/*LENGH_OF_LINE * LENGH_OF_PAGE, LENGH_OF_LINE * AMOUNT_OF_INSTRUCTIONS_LINE*/));
 		succeded = !sData->isPointNearOrInsideOtherPoint( p );
 	}
 

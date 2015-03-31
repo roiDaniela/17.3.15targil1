@@ -225,7 +225,7 @@ bool GameManager::doIteration()
 	unsigned int sleepLength = clockCycleInMillisec/iterationsPerClockCycle;
 	for(unsigned int i=0; i<iterationsPerClockCycle-1; ++i) {
 		Sleep(sleepLength);
-		actualGame.doSubIteration();
+		actualGame.doSubIteration(currentLevel);
 	}
 	return doInputIteration();
 }
@@ -252,7 +252,7 @@ bool GameManager::doInputIteration()
 	}
 	// send the keystrokes to the game
 	// (even if ESC was hit, we may still have something in the keystrokes vector and should use it)
-	actualGame.doIteration(keyHits);
+	actualGame.doIteration(keyHits, currentLevel);
 
 	return shouldContinue;
 }

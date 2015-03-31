@@ -44,8 +44,8 @@ public:
 	virtual void startLevel(unsigned int currentLevel) = 0;
 
 	// get a list with keyHits and returns a list with the keys that were used
-	virtual void doIteration(const list<char>& keyHits)=0;
-	virtual void doSubIteration()=0;
+	virtual void doIteration(const list<char>& keyHits, unsigned int currentLevel) = 0;
+	virtual void doSubIteration(unsigned int currentLevel) = 0;
 };
 
 #endif

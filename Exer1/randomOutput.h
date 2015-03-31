@@ -28,23 +28,30 @@
 #include "Sign.h"
 #include "Point.h"
 #include "io_utils.h"
+#include <time.h>
 
 using namespace std;
 
 class RandomOutput
 {
 	static const int START_RANDOM_NUMBER = 1;
-	
+	static const int FROM_X_POINT_NUMBER = 0;
+	static const int FROM_Y_POINT_NUMBER = 0;
+	static const int TO_X_POINT_NUMBER = 80;
+	static const int TO_Y_POINT_NUMBER = 24;
 	
 public:
 	
 
 	// Methods
-	static int CreateRandomValue(ScreenData* sData, unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER);
-	static int CreateRandomValue(unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER);
+	static unsigned int CreateRandomValue(ScreenData* sData, unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER);
+	static unsigned int CreateRandomValue(unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER);
 	static Sign::Operator CreateRandomSign();
 	static Point CreateRandomPoint(ScreenData* sData);
-	static Point CreateRandomPoint(unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER) { return Point(CreateRandomValue(range_to), CreateRandomValue(range_from)); }
+	static Point CreateRandomPoint() {
+		return Point(CreateRandomValue(TO_X_POINT_NUMBER, FROM_X_POINT_NUMBER ),
+			CreateRandomValue(TO_Y_POINT_NUMBER, FROM_Y_POINT_NUMBER ));
+	}
 };
 
 #endif
