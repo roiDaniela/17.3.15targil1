@@ -17,8 +17,8 @@ void TheMathGame::startLevel(unsigned int currentLevel){
 	player2 = new Player(Player::numberOfPlayer::Two, Direction::LEFT);
 
 	// Init the DB with the initial points of the players
-	GameDB.insert_point(player1->getLocationPoint(),player1->PLAYER_1_SIGN);
-	GameDB.insert_point(player2->getLocationPoint(), player1->PLAYER_2_SIGN);
+	GameDB.insert_point(player1->getLocationPoint(), player1->PLAYER_1_SIGN);
+	GameDB.insert_point(player2->getLocationPoint(), player2->PLAYER_2_SIGN);
 }
 void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLevel){
 	// pass over the keyHits in order to collect the players input
@@ -54,7 +54,7 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 
 		// Add random number to screen
 		Point ptTmp(RandomOutput::CreateRandomPoint());
-		if (10 + currentLevel == 1);
+		
 		unsigned int value = RandomOutput::CreateRandomValue(10 + currentLevel);
 		while (!GameDB.insert_point(ptTmp, value))
 			ptTmp = RandomOutput::CreateRandomPoint();
