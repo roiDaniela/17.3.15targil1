@@ -26,7 +26,8 @@
 Player::Player(Player::numberOfPlayer number, Direction::value d) :playerNumber(number), 
                                                                    direction(d), 
 																   errorCounter(0), 
-																   isWin(false){
+																   isWin_1(false),
+																   isWin_2(false){
 	// Check which player is that and init
 	if (playerNumber == Player::One){
 		setLocationPoint(PLAYER_1_X_POSITION, PLAYER_1_Y_POSITION); //new Point(PLAYER_1_X_POSITION, PLAYER_1_Y_POSITION);

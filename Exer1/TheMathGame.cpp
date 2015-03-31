@@ -1,16 +1,21 @@
 #include "TheMathGame.h"
-#include "Player.h"
+
+int Player::winCounter_1; //declaring statics
+int Player::winCounter_2; //declaring statics
 
 void TheMathGame::startLevel(unsigned int currentLevel){
-	
+	initIterationCounter();
 
 	// Clean the screen
 	clear_screen();
 	
 	// Create exercise
-	CreateExercise exercise(currentLevel);
-	correctNumber = exercise.getHiddenValue();
-	writeOnTopOfScreen("******** The exercise is: " + exercise.getHiddenExercise());
+	CreateExercise exercise_1(currentLevel);
+	CreateExercise exercise_2(currentLevel);
+	correctNumber_1 = exercise_1.getHiddenValue();
+	correctNumber_2 = exercise_2.getHiddenValue();
+	writeOnTopOfScreen("******** The exercise of player 1 is: " + exercise_1.getHiddenExercise() + '\n' +
+					   "******** The exercise of player 2 is: " + exercise_2.getHiddenExercise());
 	
 	// Init two players as stay
 	player1 = new Player(Player::numberOfPlayer::One, Direction::RIGHT);
@@ -21,6 +26,9 @@ void TheMathGame::startLevel(unsigned int currentLevel){
 	GameDB.insert_point(player2->getLocationPoint(), player2->PLAYER_2_SIGN);
 }
 void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLevel){
+	// Check its not over than 1500 turns
+	UpdateIterationCounter();
+
 	// pass over the keyHits in order to collect the players input
 	for (list<char>::const_iterator itr = keyHits.cbegin(); 
 		itr != keyHits.cend(); 
@@ -41,11 +49,13 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	player2->move(player2->getDirection());
 	
 	//check if won
-	if (GameDB.GetElementByPoint(player1->getLocationPoint()) == correctNumber){
+	if (GameDB.GetElementByPoint(player1->getLocationPoint()) == correctNumber_1){
 		player1->setIsWin(true);
+		player1->updateWinCounter();
 	}
-	else if (GameDB.GetElementByPoint(player1->getLocationPoint()) == correctNumber){
+	else if (GameDB.GetElementByPoint(player2->getLocationPoint()) == correctNumber_2){
 		player2->setIsWin(true);
+		player2->updateWinCounter();
 	}
 	else
 	{

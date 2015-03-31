@@ -36,7 +36,10 @@ private:
 	Point* locationPoint;
 	Direction::value direction;
 	unsigned int errorCounter;
-	bool isWin;
+	static int winCounter_1;
+	static int winCounter_2;
+
+	bool isWin_1, isWin_2;
 
 	static const int PLAYER_1_X_POSITION = 10;
 	static const int PLAYER_1_Y_POSITION = 9;
@@ -45,6 +48,7 @@ private:
 	
 	// This Ctor shoudn't be in use
 	Player::Player(){ }
+	
 public:
 	static const char PLAYER_1_SIGN = '@';
 	static const char PLAYER_2_SIGN = '#';
@@ -68,11 +72,23 @@ public:
 		PLAYER_2_UP = 'i'
 	};
 
+
 	// Ctor
 	Player(numberOfPlayer number, Direction::value d = Direction::STAY);
 
 	// dtor
 	~Player(){ delete locationPoint; }
+
+	void updateWinCounter(){
+		if (getPlayerNumber() == numberOfPlayer::One){
+			winCounter_1 = (winCounter_1 != NULL) ? winCounter_1 : 0;
+			winCounter_1++;
+		}
+		else if (getPlayerNumber() == numberOfPlayer::Two){
+			winCounter_2 = (winCounter_2 != NULL) ? winCounter_2 : 0;
+			winCounter_2++;
+		}
+	}
 
 	// Getter && Setter
 	void setDirection(Direction::value d){ direction = d; }
@@ -85,8 +101,8 @@ public:
 	void setErrorCounter(unsigned int errorCounter1){ errorCounter = errorCounter1; }
 	unsigned int getErrorCounter(){ return errorCounter; }
 
-	void setIsWin(bool isWin1){ isWin = isWin1; }
-	bool getIsWin(){ return isWin; }
+	void setIsWin(bool isWin){ ((getPlayerNumber() == numberOfPlayer::One) ? isWin_1 : isWin_2) = isWin; }
+	bool getIsWin(){ return ((getPlayerNumber() == numberOfPlayer::One) ? isWin_1 : isWin_2); }
 
 	// Methods
 	void printSighn(){
@@ -98,7 +114,6 @@ public:
 
 private:
 	numberOfPlayer playerNumber;
-
 public:
 	// Getter && Setter
 	void SetPlayerNumber(numberOfPlayer playerNumber1) { playerNumber = playerNumber1; }

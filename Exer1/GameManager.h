@@ -86,7 +86,8 @@ public:
 			BACK_TO_MAIN_MENU			=	'2',
 			CONTINUE					=	'3',
 			REPLAY_LEVEL				=	'4',
-			NEXT_LEVEL					=	'5'
+			NEXT_LEVEL					=	'5',
+			GAME_ENDED                  =   '6'
 		};
 	};
 };

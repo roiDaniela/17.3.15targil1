@@ -32,7 +32,6 @@
 #include "GameManager.h"
 #include "io_utils.h"
 #include "TheMathGame.h"
-#include "Player.h"
 
 using namespace std;
 
@@ -47,7 +46,6 @@ using namespace std;
 //	virtual void doIteration(const list<char>& keyHits){}
 //	virtual void doSubIteration(){}
 //};
-
 
 //==========================
 //  M  A  I  N
