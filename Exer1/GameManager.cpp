@@ -149,6 +149,8 @@ char GameManager::playNextLevel()
 		case GameManager::LevelOptions::CONTINUE: // clean the screen and add all from data base
 			// keepRunning is true, so we only need to set thing right and then - keepRunning!
 			//--------------------------------------------------------------------------------
+			clear_screen();
+			//refreshScreen();
 			break;
 		case GameManager::LevelOptions::REPLAY_LEVEL:
 			// keepRunning is true, so we only need to set thing right and then - keepRunning!

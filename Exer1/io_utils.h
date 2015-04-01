@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string>
 #include "Point.h"
-
+#include "ScreenData.h"
 enum Lines
 {
 	LINE_ONE_RIGHT = 1,
@@ -28,6 +28,7 @@ void hideCursor();
 void clear_screen();
 void CleanTopOfScreen();
 void writeOnScreenLocation(Lines, std::string sentence = "");
+void refreshScreen( const ScreenData& ScreenDB );
 
 const static int LENGH_OF_PAGE = 24; // My adding
 const static int LENGH_OF_LINE = 80; // My adding

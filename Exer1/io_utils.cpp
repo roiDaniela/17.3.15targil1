@@ -13,6 +13,9 @@ using namespace std;
 	void clear_screen(){}
 #else
 
+void RefreshScreen( const ScreenData& ScreenDB ){
+
+}
 
 void CleanTopOfScreen(){
 	// Go to the top of the screen

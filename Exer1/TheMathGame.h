@@ -76,7 +76,7 @@ public:
 	unsigned int getIterationCounter() const { return iterationCounter; }
 	void UpdateIterationCounter(){ iterationCounter++; }
 	void initIterationCounter(){ iterationCounter = 0; }
-
+	ScreenData* GetDB();
 	// Ctor
 	TheMathGame() : correctNumber_1(NULL), correctNumber_2(NULL), player1(NULL), player2(NULL), iterationCounter(0){} ///*CurrentLevel(NULL),*/
 

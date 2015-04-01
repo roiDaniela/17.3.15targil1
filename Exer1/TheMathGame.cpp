@@ -4,6 +4,11 @@ int Player::winCounter_1; //declaring statics
 int Player::winCounter_2; //declaring statics
 Player::Result_winner Player::winner; //declaring statics
 
+
+ScreenData* TheMathGame::GetDB(){
+	return &GameDB;
+}
+
 void TheMathGame::startLevel(unsigned int currentLevel){
 	initIterationCounter();
 
