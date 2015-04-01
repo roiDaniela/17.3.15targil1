@@ -33,7 +33,7 @@ private:
 	map<Point, int  > PointsData;
 	
 public:
-	bool isPointNearOrInsideOtherPoint(Point* p);
+	bool isPointNearOrInsideOtherPoint(const Point& p)const;
 	bool is_point_exist(const Point& ptPoint)const ;
 	bool insert_point(const Point& ptPoint, const int value);
 	bool remove_point(Point& ptPoint );

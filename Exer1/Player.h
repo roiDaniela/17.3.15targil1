@@ -41,13 +41,11 @@ private:
 
 	bool isWin_1, isWin_2;
 
+	static const int TOTAL_NUMBER_OF_ERRORS = 3;
 	static const int PLAYER_1_X_POSITION = 10;
 	static const int PLAYER_1_Y_POSITION = 9;
 	static const int PLAYER_2_X_POSITION = 70;
 	static const int PLAYER_2_Y_POSITION = 9;
-	
-	// This Ctor shoudn't be in use
-	//Player::Player(){ }
 	
 public:
 	static const char PLAYER_1_SIGN = '@';
@@ -82,20 +80,7 @@ public:
 	// Ctor
 	Player(numberOfPlayer number, Direction::value d = Direction::STAY);
 
-	// dtor
-	//~Player(){ delete locationPoint; }
-
-	void updateWinCounter(){
-		if (getPlayerNumber() == numberOfPlayer::One){
-			winCounter_1 = (winCounter_1 != NULL) ? winCounter_1 : 0;
-			winCounter_1++;
-		}
-		else if (getPlayerNumber() == numberOfPlayer::Two){
-			winCounter_2 = (winCounter_2 != NULL) ? winCounter_2 : 0;
-			winCounter_2++;
-		}
-	}
-
+	// Getter && Setter
 	int getWinCounter() const{
 		if (getPlayerNumber() == numberOfPlayer::One){
 			return winCounter_1;
@@ -105,18 +90,29 @@ public:
 		}
 	}
 
-	// Getter && Setter
 	void setDirection(Direction::value d){ direction = d; }
 	Direction::value getDirection(){ return direction; }
 
 	void setLocationPoint(const Point&);
 	void setLocationPoint(unsigned int x, unsigned int y);
 	Point getLocationPoint(){ return locationPoint; }
+
 	Point getNextLocation(Direction::value d);
-	void setErrorCounter(unsigned int errorCounter1){ errorCounter = errorCounter1; }
+
+	void addToErrorCounter(){ 
+		++errorCounter; 
+		if (errorCounter > TOTAL_NUMBER_OF_ERRORS){
+			setDirection(Direction::STAY); // Set player as stay
+			gotoxy(getLocationPoint()); 
+			cout << " "; // Delete the player from screen
+		}
+	}
 	unsigned int getErrorCounter(){ return errorCounter; }
 
-	void setIsWin(bool isWin){ ((getPlayerNumber() == numberOfPlayer::One) ? isWin_1 : isWin_2) = isWin; }
+	void setIsWin(bool isWin){ 
+		((getPlayerNumber() == numberOfPlayer::One) ? isWin_1 : isWin_2) = isWin; 
+		updateWinCounter();
+	}
 	bool getIsWin() const { return ((getPlayerNumber() == numberOfPlayer::One) ? isWin_1 : isWin_2); }
 
 	// Methods
@@ -130,6 +126,19 @@ public:
 private:
 	numberOfPlayer playerNumber;
 	static Result_winner winner;
+
+	//Methods
+	void updateWinCounter(){
+		if (getPlayerNumber() == numberOfPlayer::One){
+			winCounter_1 = (winCounter_1 != NULL) ? winCounter_1 : 0;
+			winCounter_1++;
+		}
+		else if (getPlayerNumber() == numberOfPlayer::Two){
+			winCounter_2 = (winCounter_2 != NULL) ? winCounter_2 : 0;
+			winCounter_2++;
+		}
+	}
+
 public:
 	// Getter && Setter
 	void SetPlayerNumber(numberOfPlayer playerNumber1) { playerNumber = playerNumber1; }
@@ -138,4 +147,4 @@ public:
 	static void setWinner(Result_winner winner1){ winner = winner1; }
 };
 
-#endif
+#endif _PLAYER_H

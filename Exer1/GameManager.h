@@ -50,7 +50,7 @@ private:
 	{
 		currentLevel = 0;
 	}
-	//void writeOnTopOfScreen(string sentence);
+	
 	char mainMenu()const;
 	bool playGame();
 	char playNextLevel();

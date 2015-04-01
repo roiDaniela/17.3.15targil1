@@ -25,8 +25,8 @@ void TheMathGame::startLevel(unsigned int currentLevel){
 	writeOnScreenLocation(Lines::LINE_TWO_LEFT, "Exercise Player 2: " + exercise_2.getHiddenExercise());
 	
 	// Init two players as stay
-	player1.setDirection(Direction::RIGHT); //= Player(Player::numberOfPlayer::One, Direction::RIGHT);
-	player2.setDirection(Direction::LEFT); //= Player(Player::numberOfPlayer::Two, Direction::LEFT);
+	player1.setDirection(Direction::RIGHT);
+	player2.setDirection(Direction::LEFT);
 
 	// Init the DB with the initial points of the players
 	GameDB.insert_point(player1.getLocationPoint(), player1.PLAYER_1_SIGN);
@@ -55,7 +55,7 @@ void TheMathGame::prepareStatusSentenceOnScreen(){
 
 	writeOnScreenLocation(Lines::LINE_THREE_LEFT, sentence);
 
-	setWinner();
+	setGameWinner();
 }
 
 void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLevel){
@@ -98,16 +98,29 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	//check if won
 	if (GameDB.GetElementByPoint(player1.getLocationPoint()) == correctNumber_1){
 		player1.setIsWin(true);
-		player1.updateWinCounter();
 	}
 	else if (GameDB.GetElementByPoint(player2.getLocationPoint()) == correctNumber_2){
 		player2.setIsWin(true);
-		player2.updateWinCounter();
 	}
 	else
 	{
 		GameDB.insert_point(player1.getLocationPoint(), Player::PLAYER_1_SIGN);
 		GameDB.insert_point(player2.getLocationPoint(), Player::PLAYER_2_SIGN);
+
+		//// Case its a wrong catch
+		//if (GameDB.GetElementByPoint(player2.getLocationPoint()) != false &&
+		//	GameDB.GetElementByPoint(player1.getLocationPoint()) != false){
+		//	player1.addToErrorCounter();
+		//	player2.addToErrorCounter();
+		//}
+		//else if (GameDB.GetElementByPoint(player2.getLocationPoint()) != false &&
+		//	GameDB.GetElementByPoint(player1.getLocationPoint()) == false){
+		//	player2.addToErrorCounter();
+		//}
+		//else if (GameDB.GetElementByPoint(player2.getLocationPoint()) == false &&
+		//	GameDB.GetElementByPoint(player1.getLocationPoint()) != false){
+		//	player1.addToErrorCounter();
+		//}
 
 		// Add random number to screen
 		Point ptTmp(RandomOutput::CreateRandomPoint());
@@ -116,7 +129,8 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		while (!GameDB.insert_point(ptTmp, value))
 			ptTmp = RandomOutput::CreateRandomPoint();
 
-		gotoxy(ptTmp.getX(), ptTmp.getY());
+		gotoxy(ptTmp);
+		
 		cout << GameDB.GetElementByPoint(ptTmp);
 	}
 
@@ -126,44 +140,61 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 }
 
 void TheMathGame::setPlayerDirectionByKeyValue(Player::MOVE_KEYS_PLAYER curr_input){
+
 	switch (curr_input){
 		case Player::MOVE_KEYS_PLAYER::PLAYER_1_DOWN:{
-			player1.setDirection(Direction::DOWN);
+			if (player1.getErrorCounter() < TOTAL_NUMBER_OF_LEVELS){
+				player1.setDirection(Direction::DOWN);
+			}
 
 			break;
 		}
 		case Player::MOVE_KEYS_PLAYER::PLAYER_1_UP:{
-			player1.setDirection(Direction::UP);
+			if (player1.getErrorCounter() < TOTAL_NUMBER_OF_LEVELS){
+				player1.setDirection(Direction::UP);
+			}
 
 			break;
 		}
 		case Player::MOVE_KEYS_PLAYER::PLAYER_1_LEFT:{
-			player1.setDirection(Direction::LEFT);
+			if (player1.getErrorCounter() < TOTAL_NUMBER_OF_LEVELS){
+				player1.setDirection(Direction::LEFT);
+			}
 
 			break;
 		}
 		case Player::MOVE_KEYS_PLAYER::PLAYER_1_RIGHT:{
-			player1.setDirection(Direction::RIGHT);
+			if (player1.getErrorCounter() < TOTAL_NUMBER_OF_LEVELS){
+				player1.setDirection(Direction::RIGHT);
+			}
 
 			break;
 		}
 		case Player::MOVE_KEYS_PLAYER::PLAYER_2_DOWN:{
-			player2.setDirection(Direction::DOWN);
+			if (player2.getErrorCounter() < TOTAL_NUMBER_OF_LEVELS){
+				player2.setDirection(Direction::DOWN);
+			}
 
 			break;
 		}
 		case Player::MOVE_KEYS_PLAYER::PLAYER_2_LEFT:{
-			player2.setDirection(Direction::LEFT);
+			if (player2.getErrorCounter() < TOTAL_NUMBER_OF_LEVELS){
+				player2.setDirection(Direction::LEFT);
+			}
 
 			break;
 		}
 		case Player::MOVE_KEYS_PLAYER::PLAYER_2_RIGHT:{
-			player2.setDirection(Direction::RIGHT);
+			if (player2.getErrorCounter() < TOTAL_NUMBER_OF_LEVELS){
+				player2.setDirection(Direction::RIGHT);
+			}
 
 			break;
 		}
 		case Player::MOVE_KEYS_PLAYER::PLAYER_2_UP:{
-			player2.setDirection(Direction::UP);
+			if (player2.getErrorCounter() < TOTAL_NUMBER_OF_LEVELS){
+				player2.setDirection(Direction::UP);
+			}
 
 			break;
 		}
