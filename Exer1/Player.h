@@ -33,7 +33,7 @@ class Player
 {
 private:
 	// DM
-	Point* locationPoint;
+	Point locationPoint;
 	Direction::value direction;
 	unsigned int errorCounter;
 	static int winCounter_1;
@@ -47,7 +47,7 @@ private:
 	static const int PLAYER_2_Y_POSITION = 9;
 	
 	// This Ctor shoudn't be in use
-	Player::Player(){ }
+	//Player::Player(){ }
 	
 public:
 	static const char PLAYER_1_SIGN = '@';
@@ -83,7 +83,7 @@ public:
 	Player(numberOfPlayer number, Direction::value d = Direction::STAY);
 
 	// dtor
-	~Player(){ delete locationPoint; }
+	//~Player(){ delete locationPoint; }
 
 	void updateWinCounter(){
 		if (getPlayerNumber() == numberOfPlayer::One){
@@ -96,7 +96,7 @@ public:
 		}
 	}
 
-	int getWinCounter(){
+	int getWinCounter() const{
 		if (getPlayerNumber() == numberOfPlayer::One){
 			return winCounter_1;
 		}
@@ -111,13 +111,13 @@ public:
 
 	void setLocationPoint(const Point&);
 	void setLocationPoint(unsigned int x, unsigned int y);
-	Point getLocationPoint(){ return *locationPoint; }
+	Point getLocationPoint(){ return locationPoint; }
 	Point getNextLocation(Direction::value d);
 	void setErrorCounter(unsigned int errorCounter1){ errorCounter = errorCounter1; }
 	unsigned int getErrorCounter(){ return errorCounter; }
 
 	void setIsWin(bool isWin){ ((getPlayerNumber() == numberOfPlayer::One) ? isWin_1 : isWin_2) = isWin; }
-	bool getIsWin(){ return ((getPlayerNumber() == numberOfPlayer::One) ? isWin_1 : isWin_2); }
+	bool getIsWin() const { return ((getPlayerNumber() == numberOfPlayer::One) ? isWin_1 : isWin_2); }
 
 	// Methods
 	void printSighn(){
@@ -133,7 +133,7 @@ private:
 public:
 	// Getter && Setter
 	void SetPlayerNumber(numberOfPlayer playerNumber1) { playerNumber = playerNumber1; }
-	numberOfPlayer getPlayerNumber(){ return playerNumber; }
+	numberOfPlayer getPlayerNumber() const{ return playerNumber; }
 	static Result_winner getWinner(){ return winner; }
 	static void setWinner(Result_winner winner1){ winner = winner1; }
 };

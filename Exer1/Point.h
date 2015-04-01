@@ -32,6 +32,7 @@ private:
 	int x,y; 
 public:
 	//Ctor
+	//Point(){}
 	Point(int x, int y) { this->x = x; this->y = y; }
 	
 	// Getter & setter
