@@ -36,7 +36,7 @@ class RandomOutput
 {
 	static const int START_RANDOM_NUMBER = 1;
 	static const int FROM_X_POINT_NUMBER = 0;
-	static const int FROM_Y_POINT_NUMBER = 0;
+	static const int FROM_Y_POINT_NUMBER = 4;
 	static const int TO_X_POINT_NUMBER = 80;
 	static const int TO_Y_POINT_NUMBER = 24;
 	
@@ -50,7 +50,7 @@ public:
 	static Point CreateRandomPoint(ScreenData* sData);
 	static Point CreateRandomPoint() {
 		return Point(CreateRandomValue(TO_X_POINT_NUMBER, FROM_X_POINT_NUMBER ),
-			CreateRandomValue(TO_Y_POINT_NUMBER, FROM_Y_POINT_NUMBER ));
+					 CreateRandomValue(TO_Y_POINT_NUMBER, FROM_Y_POINT_NUMBER ));
 	}
 };
 

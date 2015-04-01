@@ -112,7 +112,7 @@ public:
 	void setLocationPoint(const Point&);
 	void setLocationPoint(unsigned int x, unsigned int y);
 	Point getLocationPoint(){ return *locationPoint; }
-
+	Point getNextLocation(Direction::value d);
 	void setErrorCounter(unsigned int errorCounter1){ errorCounter = errorCounter1; }
 	unsigned int getErrorCounter(){ return errorCounter; }
 

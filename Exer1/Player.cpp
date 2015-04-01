@@ -113,3 +113,35 @@ void Player::move(Direction::value direction){
 	// Print new location
 	printSighn();
 }
+
+Point Player::getNextLocation(Direction::value d){
+	// Take care all opptional directions
+	switch (direction)
+	{
+	case Direction::DOWN:{
+		return Point(getLocationPoint().getX(), getLocationPoint().getY() + 1);
+
+		break;
+	}
+	case Direction::UP:{
+		return Point(getLocationPoint().getX(), getLocationPoint().getY() - 1);
+
+		break;
+	}
+	case Direction::RIGHT:{
+		return Point(getLocationPoint().getX() + 1, getLocationPoint().getY());
+
+		break;
+	}
+	case Direction::LEFT:{
+		return Point(getLocationPoint().getX() - 1, getLocationPoint().getY());
+
+		break;
+	}
+	default:{ // STAY
+		return getLocationPoint();
+		break;
+	}
+	}
+
+}

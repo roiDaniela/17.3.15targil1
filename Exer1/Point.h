@@ -39,7 +39,7 @@ public:
 	void setX(int x){ this->x = x; };
 	int getY() const { return y; };
 	void setY(int y){ this->y = y; };
-
+	bool IsPointsAdjacent(const Point & pointToCompare) ;
 	//Operator Overloding
 	inline bool operator<(const Point& p)const{ 
 		if (y < p.getY()) return true; 
@@ -48,6 +48,7 @@ public:
 	}
 	inline bool operator==(const Point& p){return ((p.x == this->x) && (p.y == this->y)); };
 	inline bool operator!=(const Point& p){ return !operator==(p); }
+	inline Point operator-(const Point& p){ return (Point((p.x - this->x), (p.y - this->y))); };
 };
 
 #endif

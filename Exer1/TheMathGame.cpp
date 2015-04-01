@@ -69,14 +69,27 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	}
 
 
-	// Delete player location from DB before movement and insert the new point to DB
-	GameDB.remove_point(player1->getLocationPoint());
-	player1->move(player1->getDirection());
-
-
-	GameDB.remove_point(player2->getLocationPoint());
-	player2->move(player2->getDirection());
+	// Delete player1 location from DB before movement and insert the new point to DB
+	// only in case points are not adjacent else player won't move
+	if ((!(player1->getLocationPoint().IsPointsAdjacent(player2->getLocationPoint()))) ||
+		player1->getNextLocation(player1->getDirection()) != player2->getLocationPoint() ){
+		GameDB.remove_point(player1->getLocationPoint());
+		player1->move(player1->getDirection());
+	}
+	else
+		player1->setDirection(Direction::STAY);
 	
+	// Delete player2 location from DB before movement and insert the new point to DB
+	// only in case points are not adjacent	else player won't move
+	if ((!(player2->getLocationPoint().IsPointsAdjacent(player1->getLocationPoint()))) ||
+		player2->getNextLocation(player2->getDirection()) != player1->getLocationPoint()){
+		GameDB.remove_point(player2->getLocationPoint());
+		player2->move(player2->getDirection());
+	}
+	else
+		player2->setDirection(Direction::STAY);
+
+
 	//check if won
 	if (GameDB.GetElementByPoint(player1->getLocationPoint()) == correctNumber_1){
 		player1->setIsWin(true);

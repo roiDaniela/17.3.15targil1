@@ -29,7 +29,7 @@
 #include "GameManager.h"
 #include "io_utils.h"
 #include "Player.h"
-
+#include <math.h>
 using namespace std;
 
 class TheMathGame : public ISpecificGame
