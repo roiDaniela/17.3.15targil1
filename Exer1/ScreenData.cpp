@@ -31,12 +31,13 @@ int ScreenData::GetElementByPoint(const Point& ptPoint){
 const map<Point, int>& ScreenData::getData() const {
 	return PointsData;
 }
-bool ScreenData::is_point_exist(const Point& ptPoint) const 
+
+bool ScreenData::is_point_exist(const Point& ptPoint) const
 {
-	return (!(PointsData.find(ptPoint) == PointsData.end() ));
+	return (!(PointsData.find(ptPoint) == PointsData.end()));
 }
 
-bool ScreenData::insert_point(const Point& ptPoint, const int value ) 
+bool ScreenData::insert_point(const Point& ptPoint, const int value)
 {
 	if (!is_point_exist(ptPoint)){
 		PointsData[ptPoint] = value;
@@ -55,18 +56,19 @@ bool ScreenData::is_number_exist(const int value){
 	return false;
 }
 
-bool ScreenData::isPointNearOrInsideOtherPoint(const Point& p ) const{
+//
+bool ScreenData::isPointNearOrInsideOtherPoint(const Point& p) const{
 	Point pUp = Point(p.getX(), p.getY() - 1);
 	Point pDown = Point(p.getX(), p.getY() + 1);
 	Point pLeft = Point(p.getX() - 1, p.getY());
 	Point pRight = Point(p.getX() + 1, p.getY());
 
 	bool isPointNearOrInsideOtherPoint = (is_point_exist(p) ||
-										  is_point_exist(pUp) ||
-										  is_point_exist(pDown) ||
-										  is_point_exist(pRight) ||
-										  is_point_exist(pLeft));
-	
+		is_point_exist(pUp) ||
+		is_point_exist(pDown) ||
+		is_point_exist(pRight) ||
+		is_point_exist(pLeft));
+
 	return isPointNearOrInsideOtherPoint;
 }
 
@@ -76,6 +78,6 @@ void ScreenData::clear_data(){
 }
 
 bool ScreenData::remove_point(Point& ptPoint){
-	return(PointsData.erase(PointsData.find(ptPoint)) != PointsData.end() );
+	return(PointsData.erase(PointsData.find(ptPoint)) != PointsData.end());
 }
 //ScreenData::~ScreenData(){ delete[] & PointsData; }
