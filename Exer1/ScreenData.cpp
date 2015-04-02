@@ -22,7 +22,7 @@
 
 #include "ScreenData.h"
 
-int ScreenData::GetElementByPoint(const Point& ptPoint){
+bool ScreenData::GetElementByPoint(const Point& ptPoint){
 	if (is_point_exist(ptPoint))
 		return PointsData[ptPoint];
 	return false;

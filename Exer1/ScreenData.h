@@ -39,7 +39,7 @@ public:
 	bool insert_point(const Point& ptPoint, const int value);
 	bool remove_point(Point& ptPoint);
 	bool is_number_exist(const int value);
-	int GetElementByPoint(const Point& ptPoint);
+	bool GetElementByPoint(const Point& ptPoint);
 	void clear_data();
 	//~ScreenData();
 };
