@@ -48,7 +48,7 @@ public:
 	static unsigned int CreateRandomValue(ScreenData* sData, unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER);
 	static unsigned int CreateRandomValue(unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER);
 	static Sign::Operator CreateRandomSign();
-	static Point CreateRandomPoint(const ScreenData& sData);
+	static Point* CreateRandomPoint(const ScreenData& sData);
 	static Point CreateRandomPoint() {
 		return Point(CreateRandomValue(TO_X_POINT_NUMBER, FROM_X_POINT_NUMBER),
 			CreateRandomValue(TO_Y_POINT_NUMBER, FROM_Y_POINT_NUMBER));

@@ -23,7 +23,7 @@ unsigned int RandomOutput::CreateRandomValue(ScreenData* sData, unsigned int ran
 	return temp;
 }
 
-Point RandomOutput::CreateRandomPoint(const ScreenData& sData){
+Point* RandomOutput::CreateRandomPoint(const ScreenData& sData){
 	Point* p = new Point(CreateRandomPoint());
 	bool succeded = !sData.isPointNearOrInsideOtherPoint(*p);
 	for (int i = 0; i < 9 && !succeded; i++)
@@ -35,5 +35,5 @@ Point RandomOutput::CreateRandomPoint(const ScreenData& sData){
 	// if succeded return p else return null
 	p = (succeded ? p : NULL);
 
-	return *p;
+	return p;
 }
