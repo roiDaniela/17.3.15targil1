@@ -4,9 +4,14 @@ int Player::winCounter_1; //declaring statics
 int Player::winCounter_2; //declaring statics
 Player::Result_winner Player::winner; //declaring statics
 
+void TheMathGame::resumeGame(){
+	prepareStatusSentenceOnScreen();
 
-ScreenData* TheMathGame::GetDB(){
-	return &GameDB;
+	RefreshScreen(GetDB().getData());
+}
+
+ScreenData& TheMathGame::GetDB(){
+	return GameDB;
 }
 
 void TheMathGame::startLevel(unsigned int currentLevel){
@@ -110,11 +115,11 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		GameDB.insert_point(player2->getLocationPoint(), Player::PLAYER_2_SIGN);
 
 		// Add random number to screen
-		Point ptTmp(RandomOutput::CreateRandomPoint());
+		Point ptTmp(RandomOutput::CreateRandomPoint(&GameDB));
 		
 		unsigned int value = RandomOutput::CreateRandomValue(10 + currentLevel);
-		while (!GameDB.insert_point(ptTmp, value))
-			ptTmp = RandomOutput::CreateRandomPoint();
+		while (&ptTmp==NULL)
+			ptTmp = RandomOutput::CreateRandomPoint(&GameDB);
 
 		gotoxy(ptTmp.getX(), ptTmp.getY());
 		cout << GameDB.GetElementByPoint(ptTmp);

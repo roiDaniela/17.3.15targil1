@@ -1,6 +1,6 @@
 #include "io_utils.h"
 #include "Color.h"
-
+#include <map>
 using namespace std;
 
 #ifndef WINDOWS
@@ -13,8 +13,11 @@ using namespace std;
 	void clear_screen(){}
 #else
 
-void RefreshScreen( const ScreenData& ScreenDB ){
-
+void RefreshScreen( const map<Point, int>& DataBase ){
+	for (map<Point, int>::const_iterator iter = DataBase.cbegin(); iter != DataBase.cend(); iter++){
+		gotoxy(iter->first);
+		cout << iter->second;
+	}
 }
 
 void CleanTopOfScreen(){

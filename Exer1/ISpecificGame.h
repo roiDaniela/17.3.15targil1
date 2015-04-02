@@ -47,6 +47,7 @@ public:
 	// get a list with keyHits and returns a list with the keys that were used
 	virtual void doIteration(const list<char>& keyHits, unsigned int currentLevel) = 0;
 	virtual void doSubIteration(unsigned int currentLevel) = 0;
+	virtual void resumeGame() = 0;
 };
 
 #endif

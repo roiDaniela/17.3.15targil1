@@ -33,6 +33,7 @@ private:
 	map<Point, int  > PointsData;
 	
 public:
+	const map<Point, int>& ScreenData::getData() const;
 	bool isPointNearOrInsideOtherPoint(Point* p);
 	bool is_point_exist(const Point& ptPoint)const ;
 	bool insert_point(const Point& ptPoint, const int value);

@@ -60,7 +60,7 @@ private:
 	// Methods
 	//Sighn randomSighn(){ return Sighn(rand() % 4); }
 	LocationOfVarInExercise randomLocationOfVar(){ return LocationOfVarInExercise(RandomOutput::CreateRandomValue(2)); }
-	unsigned int randomVar(){ Sleep(300); return (RandomOutput::CreateRandomValue(screenNumber + RANDOMIZE_INITNAL_DIFF)); /*rand() % (screenNumber + RANDOMIZE_INITNAL_DIFF)) + START_RANDOM_NUMBER);*/ }
+	unsigned int randomVar(){  return (RandomOutput::CreateRandomValue(screenNumber + RANDOMIZE_INITNAL_DIFF)); /*rand() % (screenNumber + RANDOMIZE_INITNAL_DIFF)) + START_RANDOM_NUMBER);*/ }
 
 public:
 	//Ctor

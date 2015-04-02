@@ -25,7 +25,7 @@
 
 CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNumber1){
 	hiddenExercise = "";
-
+	
 	// randomise sighn
 	sign = RandomOutput::CreateRandomSign();//randomSighn();
 

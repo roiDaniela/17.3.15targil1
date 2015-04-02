@@ -150,7 +150,7 @@ char GameManager::playNextLevel()
 			// keepRunning is true, so we only need to set thing right and then - keepRunning!
 			//--------------------------------------------------------------------------------
 			clear_screen();
-			//refreshScreen();
+			actualGame.resumeGame();
 			break;
 		case GameManager::LevelOptions::REPLAY_LEVEL:
 			// keepRunning is true, so we only need to set thing right and then - keepRunning!

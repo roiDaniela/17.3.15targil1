@@ -1,9 +1,10 @@
 #include "randomOutput.h"
+
 // Methods
 
 
 unsigned int RandomOutput::CreateRandomValue(unsigned int range_to, unsigned int range_from){
-	
+	Sleep(200);
 	srand((unsigned int)time(NULL));
 	return (range_from + (rand() % (range_to - range_from)));
 }
