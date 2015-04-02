@@ -30,6 +30,7 @@
 #include "io_utils.h"
 #include "Player.h"
 #include <math.h>
+
 using namespace std;
 
 class TheMathGame : public ISpecificGame
@@ -38,11 +39,10 @@ private:
 	static const int TOTAL_NUMBER_OF_LEVELS = 20 /*3*/;
 	static const int TOTAL_NUMBER_OF_CLOCK_TURNS = 1500 /*10*/;
 	static const int TOTAL_NUMBER_OF_ERRORS = 3;
-
 	unsigned int correctNumber_1, correctNumber_2; //
 	unsigned int iterationCounter;
-	Player* player1; //
-	Player* player2; //
+	Player player1; //
+	Player player2; //
 	ScreenData GameDB;
 
 	// Methods
@@ -51,8 +51,8 @@ private:
 		if (getIterationCounter() > TOTAL_NUMBER_OF_CLOCK_TURNS){
 			CleanTopOfScreen();
 			writeOnScreenLocation(Lines::LINE_ONE_MIDDLE, "Its over than 1500 turns clock!!!!!");
-			writeOnScreenLocation(Lines::LINE_THREE_RIGHT, "Points Player 1: " + to_string(player1->getWinCounter()));
-			writeOnScreenLocation(Lines::LINE_THREE_LEFT, "Points Player 2: " + to_string(player2->getWinCounter()));
+			writeOnScreenLocation(Lines::LINE_THREE_RIGHT, "Points Player 1: " + to_string(player1.getWinCounter()));
+			writeOnScreenLocation(Lines::LINE_THREE_LEFT, "Points Player 2: " + to_string(player2.getWinCounter()));
 			Sleep(1500);
 			return true;
 		}
@@ -60,11 +60,11 @@ private:
 		return false;
 	}
 
-	void setWinner(){
-		if (player1->getWinCounter() > player2->getWinCounter()){
+	void setGameWinner(){
+		if (player1.getWinCounter() > player2.getWinCounter()){
 			Player::setWinner(Player::Result_winner::PLAYER_1_WON);
 		}
-		else if (player1->getWinCounter() > player2->getWinCounter()){
+		else if (player1.getWinCounter() > player2.getWinCounter()){
 			Player::setWinner(Player::Result_winner::PLAYER_2_WON);
 		}
 		else{
@@ -76,12 +76,17 @@ public:
 	unsigned int getIterationCounter() const { return iterationCounter; }
 	void UpdateIterationCounter(){ iterationCounter++; }
 	void initIterationCounter(){ iterationCounter = 0; }
+<<<<<<< HEAD
 	ScreenData& GetDB();
+=======
+	ScreenData* GetDB();
+	
+>>>>>>> 57ad178596812e5de954028105f295c42d4b1f79
 	// Ctor
-	TheMathGame() : correctNumber_1(NULL), correctNumber_2(NULL), player1(NULL), player2(NULL), iterationCounter(0){} ///*CurrentLevel(NULL),*/
+	TheMathGame() : correctNumber_1(NULL), correctNumber_2(NULL), player1(Player::numberOfPlayer::One), player2(Player::numberOfPlayer::Two), iterationCounter(0){} ///*CurrentLevel(NULL),*/
 
 	// Methods
-	bool isLevelDone()const{ return (player1->getIsWin() || player2->getIsWin() || iterationCounterIsBiggerThanAlowd()); }
+	bool isLevelDone()const{ return (player1.getIsWin() || player2.getIsWin() || iterationCounterIsBiggerThanAlowd()); }
 	bool hasNextLevel(unsigned int currentLevel)const{ return (currentLevel<=TOTAL_NUMBER_OF_LEVELS); }
 	void startLevel( unsigned int currentLevel );
 	void doIteration(const list<char>& keyHits, unsigned int currentLevel);
