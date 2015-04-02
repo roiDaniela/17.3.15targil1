@@ -3,6 +3,8 @@
 int Player::winCounter_1; //declaring statics
 int Player::winCounter_2; //declaring statics
 Player::Result_winner Player::winner; //declaring statics
+CreateExercise TheMathGame::excersisePlayer_1 = NULL; // declaring statics
+CreateExercise TheMathGame::excersisePlayer_2 = NULL; // declaring statics
 
 void TheMathGame::resumeGame(){
 	prepareStatusSentenceOnScreen();
@@ -14,24 +16,40 @@ ScreenData& TheMathGame::GetDB(){
 	return GameDB;
 }
 
+bool TheMathGame::iterationCounterIsBiggerThanAlowd() const{
+	if (getIterationCounter() > TOTAL_NUMBER_OF_CLOCK_TURNS){
+		CleanTopOfScreen();
+		writeOnScreenLocation(Lines::LINE_ONE_MIDDLE, "Its over than 1500 turns clock!!!!!");
+		writeOnScreenLocation(Lines::LINE_THREE_RIGHT, "Points Player 1: " + to_string(player1.getWinCounter()));
+		writeOnScreenLocation(Lines::LINE_THREE_LEFT, "Points Player 2: " + to_string(player2.getWinCounter()));
+		Sleep(1500);
+		return true;
+	}
+
+	return false;
+}
+
 void TheMathGame::startLevel(unsigned int currentLevel){
 	initIterationCounter();
 
 	// Clean the screen
 	clear_screen();
 
-	// Create exercise
-	CreateExercise exercise_1(currentLevel);
-	CreateExercise exercise_2(currentLevel);
-	correctNumber_1 = exercise_1.getHiddenValue();
-	correctNumber_2 = exercise_2.getHiddenValue();
-	writeOnScreenLocation(Lines::LINE_ONE_RIGHT, "Level Number: " + to_string(currentLevel));
-	writeOnScreenLocation(Lines::LINE_TWO_RIGHT, "Exercise Player 1: " + exercise_1.getHiddenExercise());
-	writeOnScreenLocation(Lines::LINE_TWO_LEFT, "Exercise Player 2: " + exercise_2.getHiddenExercise());
-
 	// Init two players as stay
 	player1.setDirection(Direction::RIGHT);
 	player2.setDirection(Direction::LEFT);
+
+	setExercise(player1.getPlayerNumber(), currentLevel);
+	setExercise(player2.getPlayerNumber(), currentLevel);
+
+	// Create exercise
+	//CreateExercise exercise_1(currentLevel);
+	//CreateExercise exercise_2(currentLevel);
+	//correctNumber_1 = exercise_1.getHiddenValue();
+	//correctNumber_2 = exercise_2.getHiddenValue();
+	writeOnScreenLocation(Lines::LINE_ONE_RIGHT, "Level Number: " + to_string(currentLevel));
+	writeOnScreenLocation(Lines::LINE_TWO_RIGHT, "Exercise Player 1: " + getExcercise(Player::numberOfPlayer::One).getHiddenExercise());
+	writeOnScreenLocation(Lines::LINE_TWO_LEFT, "Exercise Player 2: " + getExcercise(Player::numberOfPlayer::Two).getHiddenExercise());
 
 	// Init the DB with the initial points of the players
 	GameDB.insert_point(player1.getLocationPoint(), player1.PLAYER_1_SIGN);
@@ -101,31 +119,31 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 
 
 	//check if won
-	if (GameDB.GetElementByPoint(player1.getLocationPoint()) == correctNumber_1){
+	if (GameDB.GetElementByPoint(player1.getLocationPoint()) == getExcercise(player1.getPlayerNumber()).getHiddenValue()){
 		player1.setIsWin(true);
 	}
-	else if (GameDB.GetElementByPoint(player2.getLocationPoint()) == correctNumber_2){
+	else if (GameDB.GetElementByPoint(player2.getLocationPoint()) == getExcercise(player2.getPlayerNumber()).getHiddenValue()){
 		player2.setIsWin(true);
 	}
 	else
 	{
+		// Case its a wrong catch
+		if (GameDB.GetElementByPoint(player2.getLocationPoint()) != ScreenData::DBErrMsg::VALUE_NOT_FOUND &&
+			GameDB.GetElementByPoint(player1.getLocationPoint()) != ScreenData::DBErrMsg::VALUE_NOT_FOUND){
+			player1.addToErrorCounter();
+			player2.addToErrorCounter();
+		}
+		else if (GameDB.GetElementByPoint(player2.getLocationPoint()) != ScreenData::DBErrMsg::VALUE_NOT_FOUND &&
+			GameDB.GetElementByPoint(player1.getLocationPoint()) == ScreenData::DBErrMsg::VALUE_NOT_FOUND){
+			player2.addToErrorCounter();
+		}
+		else if (GameDB.GetElementByPoint(player2.getLocationPoint()) == ScreenData::DBErrMsg::VALUE_NOT_FOUND &&
+			GameDB.GetElementByPoint(player1.getLocationPoint()) != ScreenData::DBErrMsg::VALUE_NOT_FOUND){
+			player1.addToErrorCounter();
+		}
+
 		GameDB.insert_point(player1.getLocationPoint(), Player::PLAYER_1_SIGN);
 		GameDB.insert_point(player2.getLocationPoint(), Player::PLAYER_2_SIGN);
-
-		//// Case its a wrong catch
-		//if (GameDB.GetElementByPoint(player2.getLocationPoint()) != false &&
-		//	GameDB.GetElementByPoint(player1.getLocationPoint()) != false){
-		//	player1.addToErrorCounter();
-		//	player2.addToErrorCounter();
-		//}
-		//else if (GameDB.GetElementByPoint(player2.getLocationPoint()) != false &&
-		//	GameDB.GetElementByPoint(player1.getLocationPoint()) == false){
-		//	player2.addToErrorCounter();
-		//}
-		//else if (GameDB.GetElementByPoint(player2.getLocationPoint()) == false &&
-		//	GameDB.GetElementByPoint(player1.getLocationPoint()) != false){
-		//	player1.addToErrorCounter();
-		//}
 
 		// Add random number to screen
 		if (RandomOutput::CreateRandomPoint(GameDB) != NULL){

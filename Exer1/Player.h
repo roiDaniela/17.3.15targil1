@@ -111,12 +111,25 @@ public:
 
 	void setLocationPoint(const Point&);
 	void setLocationPoint(unsigned int x, unsigned int y);
+
 	Point getLocationPoint(){ return locationPoint; }
 	Point getNextLocation(Direction::value d);
-	void setErrorCounter(unsigned int errorCounter1){ errorCounter = errorCounter1; }
+
+	void addToErrorCounter(){
+		++errorCounter;
+		if (errorCounter > 3){
+			setDirection(Direction::STAY); // Set player as stay
+			gotoxy(getLocationPoint());
+			cout << " "; // Delete the player from screen
+		}
+	}
 	unsigned int getErrorCounter(){ return errorCounter; }
 
-	void setIsWin(bool isWin){ ((getPlayerNumber() == numberOfPlayer::One) ? isWin_1 : isWin_2) = isWin; }
+	void setIsWin(bool isWin){
+		((getPlayerNumber() == numberOfPlayer::One) ? isWin_1 : isWin_2) = isWin;
+		updateWinCounter();
+		
+	}
 	bool getIsWin() const { return ((getPlayerNumber() == numberOfPlayer::One) ? isWin_1 : isWin_2); }
 
 	// Methods

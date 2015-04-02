@@ -33,21 +33,12 @@ using namespace std;
 class CreateExercise
 {
 private:
-
 	// Varibles
 	unsigned int a, b, result;
 	unsigned int screenNumber;
 	unsigned int hiddenValue;
 	string hiddenExercise;
 	static const int RANDOMIZE_INITNAL_DIFF = 10;
-
-	/*enum Sighn
-	{
-		MINUS,
-		PLUS,
-		MULTI,
-		DIVIDE
-	};*/
 
 	enum LocationOfVarInExercise
 	{
@@ -58,7 +49,6 @@ private:
 	Sign::Operator sign;
 
 	// Methods
-	//Sighn randomSighn(){ return Sighn(rand() % 4); }
 	LocationOfVarInExercise randomLocationOfVar(){ return LocationOfVarInExercise(RandomOutput::CreateRandomValue(2)); }
 	unsigned int randomVar(){  return (RandomOutput::CreateRandomValue(screenNumber + RANDOMIZE_INITNAL_DIFF)); /*rand() % (screenNumber + RANDOMIZE_INITNAL_DIFF)) + START_RANDOM_NUMBER);*/ }
 
