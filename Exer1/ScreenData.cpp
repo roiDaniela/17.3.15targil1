@@ -31,6 +31,7 @@ int ScreenData::GetElementByPoint(const Point& ptPoint){
 const map<Point, int>& ScreenData::getData() const {
 	return PointsData;
 }
+
 bool ScreenData::is_point_exist(const Point& ptPoint) const 
 {
 	return (!(PointsData.find(ptPoint) == PointsData.end() ));
