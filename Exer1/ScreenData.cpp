@@ -22,10 +22,10 @@
 
 #include "ScreenData.h"
 
-bool ScreenData::GetElementByPoint(const Point& ptPoint){
+int ScreenData::GetElementByPoint(const Point& ptPoint){
 	if (is_point_exist(ptPoint))
 		return PointsData[ptPoint];
-	return false;
+	return DBErrMsg::VALUE_NOT_FOUND;
 }
 
 const map<Point, int>& ScreenData::getData() const {
