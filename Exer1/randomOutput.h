@@ -40,18 +40,18 @@ class RandomOutput
 	static const int FROM_Y_POINT_NUMBER = 4;
 	static const int TO_X_POINT_NUMBER = 80;
 	static const int TO_Y_POINT_NUMBER = 24;
-	
+
 public:
-	
+
 
 	// Methods
 	static unsigned int CreateRandomValue(ScreenData* sData, unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER);
 	static unsigned int CreateRandomValue(unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER);
 	static Sign::Operator CreateRandomSign();
-	static Point CreateRandomPoint(ScreenData* sData);
+	static Point CreateRandomPoint(const ScreenData& sData);
 	static Point CreateRandomPoint() {
-		return Point(CreateRandomValue(TO_X_POINT_NUMBER, FROM_X_POINT_NUMBER ),
-					 CreateRandomValue(TO_Y_POINT_NUMBER, FROM_Y_POINT_NUMBER ));
+		return Point(CreateRandomValue(TO_X_POINT_NUMBER, FROM_X_POINT_NUMBER),
+			CreateRandomValue(TO_Y_POINT_NUMBER, FROM_Y_POINT_NUMBER));
 	}
 };
 

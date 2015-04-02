@@ -30,6 +30,7 @@
 #include "io_utils.h"
 #include "Player.h"
 #include <math.h>
+
 using namespace std;
 
 class TheMathGame : public ISpecificGame
@@ -38,7 +39,6 @@ private:
 	static const int TOTAL_NUMBER_OF_LEVELS = 20 /*3*/;
 	static const int TOTAL_NUMBER_OF_CLOCK_TURNS = 1500 /*10*/;
 	static const int TOTAL_NUMBER_OF_ERRORS = 3;
-
 	unsigned int correctNumber_1, correctNumber_2; //
 	unsigned int iterationCounter;
 	Player player1; //
@@ -60,7 +60,7 @@ private:
 		return false;
 	}
 
-	void setWinner(){
+	void setGameWinner(){
 		if (player1.getWinCounter() > player2.getWinCounter()){
 			Player::setWinner(Player::Result_winner::PLAYER_1_WON);
 		}
@@ -76,17 +76,19 @@ public:
 	unsigned int getIterationCounter() const { return iterationCounter; }
 	void UpdateIterationCounter(){ iterationCounter++; }
 	void initIterationCounter(){ iterationCounter = 0; }
-	ScreenData* GetDB();
+	ScreenData& GetDB();
+
 	// Ctor
 	TheMathGame() : correctNumber_1(NULL), correctNumber_2(NULL), player1(Player::numberOfPlayer::One), player2(Player::numberOfPlayer::Two), iterationCounter(0){} ///*CurrentLevel(NULL),*/
 
 	// Methods
 	bool isLevelDone()const{ return (player1.getIsWin() || player2.getIsWin() || iterationCounterIsBiggerThanAlowd()); }
-	bool hasNextLevel(unsigned int currentLevel)const{ return (currentLevel<=TOTAL_NUMBER_OF_LEVELS); }
-	void startLevel( unsigned int currentLevel );
+	bool hasNextLevel(unsigned int currentLevel)const{ return (currentLevel <= TOTAL_NUMBER_OF_LEVELS); }
+	void startLevel(unsigned int currentLevel);
 	void doIteration(const list<char>& keyHits, unsigned int currentLevel);
 	void doSubIteration(unsigned int currentLevel);
 	void prepareStatusSentenceOnScreen();
+	void resumeGame();
 };
 #endif _THEMATHGAME_H_
 
