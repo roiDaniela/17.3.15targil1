@@ -55,6 +55,7 @@ bool ScreenData::is_number_exist(const int value){
 	return false;
 }
 
+//
 bool ScreenData::isPointNearOrInsideOtherPoint(const Point& p ) const{
 	Point pUp = Point(p.getX(), p.getY() - 1);
 	Point pDown = Point(p.getX(), p.getY() + 1);
