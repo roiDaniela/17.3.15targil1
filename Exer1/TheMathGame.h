@@ -68,7 +68,7 @@ public:
 	void UpdateIterationCounter(){ iterationCounter++; }
 	void initIterationCounter(){ iterationCounter = 0; }
 	ScreenData& GetDB();
-	CreateExercise getExcercise(Player::numberOfPlayer playerNumber){ return ((playerNumber == Player::numberOfPlayer::One) ? TheMathGame::excersisePlayer_1: TheMathGame::excersisePlayer_2); }
+	static CreateExercise getExcercise(Player::numberOfPlayer playerNumber){ return ((playerNumber == Player::numberOfPlayer::One) ? TheMathGame::excersisePlayer_1: TheMathGame::excersisePlayer_2); }
 	void setExercise(Player::numberOfPlayer playerNumber, unsigned int currentLevel){
 		if (playerNumber == Player::numberOfPlayer::One){
 			TheMathGame::excersisePlayer_1 = CreateExercise(currentLevel);
