@@ -55,17 +55,19 @@ bool ScreenData::is_number_exist(const int value){
 	return false;
 }
 
-bool ScreenData::isPointNearOrInsideOtherPoint(const Point& p ) const{
-	Point pUp = Point(p.getX(), p.getY() - 1);
-	Point pDown = Point(p.getX(), p.getY() + 1);
-	Point pLeft = Point(p.getX() - 1, p.getY());
-	Point pRight = Point(p.getX() + 1, p.getY());
+bool ScreenData::isPointNearOrInsideOtherPoint( Point* p ){
+	Point* pUp = new Point(p->getX(), p->getY() - 1);
+	Point* pDown = new Point(p->getX(), p->getY() + 1);
+	Point* pLeft = new Point(p->getX() - 1, p->getY());
+	Point* pRight = new Point(p->getX() + 1, p->getY());
 
-	bool isPointNearOrInsideOtherPoint = (is_point_exist(p) ||
-										  is_point_exist(pUp) ||
-										  is_point_exist(pDown) ||
-										  is_point_exist(pRight) ||
-										  is_point_exist(pLeft));
+	bool isPointNearOrInsideOtherPoint = (is_point_exist(*p) ||
+										  is_point_exist(*pUp) ||
+										  is_point_exist(*pDown) ||
+										  is_point_exist(*pRight) ||
+										  is_point_exist(*pLeft));
+	// Delete the pointers
+	delete pUp, pDown, pLeft, pRight;
 	
 	return isPointNearOrInsideOtherPoint;
 }
