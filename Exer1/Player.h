@@ -59,6 +59,10 @@ public:
 		Two
 	};
 
+	static enum maxErr{
+		MAX_ERROR_FOR_MATH_GAME = 3
+	};
+
 	static enum MOVE_KEYS_PLAYER
 	{
 		PLAYER_1_DOWN = 'x',
@@ -107,7 +111,7 @@ public:
 
 	void addToErrorCounter(){
 		++errorCounter;
-		if (errorCounter > 3){
+		if (errorCounter > maxErr::MAX_ERROR_FOR_MATH_GAME){
 			setDirection(Direction::STAY); // Set player as stay
 			gotoxy(getLocationPoint());
 			cout << " "; // Delete the player from screen

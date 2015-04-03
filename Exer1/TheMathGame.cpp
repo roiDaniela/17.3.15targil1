@@ -212,6 +212,10 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		GameDB.insert_point(player1.getLocationPoint(), Player::PLAYER_1_SIGN); 
 		GameDB.insert_point(player2.getLocationPoint(), Player::PLAYER_2_SIGN);
 
+		// case error point exceeded its range delete player from DB
+		//if (player1.getErrorCounter() == Player::maxErr::MAX_ERROR_FOR_MATH_GAME) GameDB.remove_point(player1.getLocationPoint());
+		// if (player2.getErrorCounter() == Player::maxErr::MAX_ERROR_FOR_MATH_GAME) GameDB.remove_point(player2.getLocationPoint());
+
 		// Do it just 1 time at 5 iterations
 		if (getIterationCounter() % 5 == 0){
 			// Add random number to screen
