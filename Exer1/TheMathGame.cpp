@@ -100,6 +100,7 @@ void TheMathGame::prepareStatusSentenceOnScreen(){
 
 void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLevel){
 	prepareStatusSentenceOnScreen();
+	
 	// Check its not over than 1500 turns
 	UpdateIterationCounter();
 

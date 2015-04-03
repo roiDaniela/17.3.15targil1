@@ -222,6 +222,7 @@ char GameManager::doLevelIterations()
 		action = 0;
 		// TODO: print here the sub menu options to the proper place in screen
 		CleanTopOfScreen();
+		clear_screen();
 		gotoxy(0, 3);
 		/*cout << endl << endl << endl;*/
 
