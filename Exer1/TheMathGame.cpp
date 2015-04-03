@@ -188,11 +188,12 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 
 		// Add random number to screen
 		if (RandomOutput::CreateRandomPoint(GameDB) != NULL){
-			Point ptTmp = *RandomOutput::CreateRandomPoint(GameDB);
+			Point *ptTmp = RandomOutput::CreateRandomPoint(GameDB);
 			unsigned int value = RandomOutput::CreateRandomValue(10 + currentLevel);
-			GameDB.insert_point(ptTmp, value);
-			gotoxy(ptTmp);
-			cout << GameDB.GetElementByPoint(ptTmp);
+			GameDB.insert_point(*ptTmp, value);
+			gotoxy(*ptTmp);
+			cout << GameDB.GetElementByPoint(*ptTmp);
+			delete ptTmp;
 		}
 	}
 }
