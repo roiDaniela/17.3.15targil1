@@ -88,7 +88,7 @@ public:
 	void doIteration(const list<char>& keyHits, unsigned int currentLevel);
 	void doSubIteration(unsigned int currentLevel);
 	void prepareStatusSentenceOnScreen();
-	void resumeGame();
+	void resumeGame(unsigned int currentLevel);
 };
 #endif _THEMATHGAME_H_
 

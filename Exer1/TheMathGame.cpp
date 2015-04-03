@@ -6,9 +6,13 @@ Player::Result_winner Player::winner; //declaring statics
 //CreateExercise TheMathGame::excersisePlayer_1 = NULL; // declaring statics
 //CreateExercise TheMathGame::excersisePlayer_2 = NULL; // declaring statics
 
-void TheMathGame::resumeGame(){
+void TheMathGame::resumeGame(unsigned int currentLevel){
+	
+	writeOnScreenLocation(Lines::LINE_ONE_RIGHT, "Level Number: " + to_string(currentLevel));
+	writeOnScreenLocation(Lines::LINE_TWO_RIGHT, "Exercise Player 1: " + getExcercise(Player::numberOfPlayer::One).getHiddenExercise());
+	writeOnScreenLocation(Lines::LINE_TWO_LEFT, "Exercise Player 2: " + getExcercise(Player::numberOfPlayer::Two).getHiddenExercise());
+	
 	prepareStatusSentenceOnScreen();
-
 	RefreshScreen(GetDB().getData());
 }
 
@@ -112,8 +116,9 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 
 	// Delete player1 location from DB before movement and insert the new point to DB
 	// only in case points are not adjacent else player won't move
-	if ((!(player1.getLocationPoint().IsPointsAdjacent(player2.getLocationPoint()))) ||
-		player1.getNextLocation(player1.getDirection()) != player2.getLocationPoint()){
+	/*if ((!(player1.getLocationPoint().IsPointsAdjacent(player2.getLocationPoint()))) ||
+		( player1.getNextLocation(player1.getDirection()) != player2.getLocationPoint() &&
+		  player2.getNextLocation(player2.getDirection()) != player1.getLocationPoint())){
 		GameDB.remove_point(player1.getLocationPoint());
 		player1.move(player1.getDirection());
 	}
@@ -123,13 +128,34 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	// Delete player2 location from DB before movement and insert the new point to DB
 	// only in case points are not adjacent	else player won't move
 	if ((!(player2.getLocationPoint().IsPointsAdjacent(player1.getLocationPoint()))) ||
-		player2.getNextLocation(player2.getDirection()) != player1.getLocationPoint()){
+		(player2.getNextLocation(player2.getDirection()) != player1.getLocationPoint() &&
+		player1.getNextLocation(player1.getDirection()) != player2.getLocationPoint())){
 		GameDB.remove_point(player2.getLocationPoint());
 		player2.move(player2.getDirection());
 	}
 	else
-		player2.setDirection(Direction::STAY);
+		player2.setDirection(Direction::STAY);*/
 
+	if (player1.getNextLocation(player1.getDirection()) == player2.getNextLocation(player2.getDirection())){
+		
+		if (player1.getNextLocation(player1.getDirection()) != player2.getLocationPoint() ){
+			GameDB.remove_point(player1.getLocationPoint());
+			player1.move(player1.getDirection());
+		}
+		if (player2.getNextLocation(player2.getDirection()) != player1.getLocationPoint()){
+			GameDB.remove_point(player2.getLocationPoint());
+			player2.move(player1.getDirection());
+		}
+
+		player1.setDirection(Direction::STAY); 
+		player2.setDirection(Direction::STAY); 
+	}
+	else{
+		GameDB.remove_point(player1.getLocationPoint());
+		player1.move(player1.getDirection());
+		GameDB.remove_point(player2.getLocationPoint());
+		player2.move(player2.getDirection());
+	}
 
 	//check if won
 	if (GameDB.GetElementByPoint(player1.getLocationPoint()) == getExcercise(player1.getPlayerNumber()).getHiddenValue()){
