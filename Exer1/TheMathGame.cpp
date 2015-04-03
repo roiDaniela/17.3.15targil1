@@ -170,30 +170,59 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	{
 		// Case its a wrong catch
 		if (GameDB.GetElementByPoint(player2.getLocationPoint()) != ScreenData::DBErrMsg::VALUE_NOT_FOUND &&
-			GameDB.GetElementByPoint(player1.getLocationPoint()) != ScreenData::DBErrMsg::VALUE_NOT_FOUND){
+			GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN &&
+			GameDB.GetElementByPoint(player1.getLocationPoint()) != ScreenData::DBErrMsg::VALUE_NOT_FOUND &&
+			GameDB.GetElementByPoint(player1.getLocationPoint()) != Player::PLAYER_1_SIGN){
 			player1.addToErrorCounter();
 			player2.addToErrorCounter();
+
+			int whatisIt_1 = GameDB.GetElementByPoint(player1.getLocationPoint());
+			int whatisIt_2 = GameDB.GetElementByPoint(player2.getLocationPoint());
+			
+			// Delete from DB = the reason i decided that mathGame shoud delete is that i don't want
+			// Player class will get the db as a reference at all
+			GameDB.remove_point(player1.getLocationPoint());
+			GameDB.remove_point(player2.getLocationPoint());
 		}
 		else if (GameDB.GetElementByPoint(player2.getLocationPoint()) != ScreenData::DBErrMsg::VALUE_NOT_FOUND &&
+			GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN &&
 			GameDB.GetElementByPoint(player1.getLocationPoint()) == ScreenData::DBErrMsg::VALUE_NOT_FOUND){
+			
+			int whatisIt_1 = GameDB.GetElementByPoint(player1.getLocationPoint());
+			int whatisIt_2 = GameDB.GetElementByPoint(player2.getLocationPoint());
+
 			player2.addToErrorCounter();
+
+			// delete from db
+			GameDB.remove_point(player2.getLocationPoint());
 		}
 		else if (GameDB.GetElementByPoint(player2.getLocationPoint()) == ScreenData::DBErrMsg::VALUE_NOT_FOUND &&
-			GameDB.GetElementByPoint(player1.getLocationPoint()) != ScreenData::DBErrMsg::VALUE_NOT_FOUND){
+			GameDB.GetElementByPoint(player1.getLocationPoint()) != ScreenData::DBErrMsg::VALUE_NOT_FOUND && 
+			GameDB.GetElementByPoint(player1.getLocationPoint()) != Player::PLAYER_1_SIGN){
 			player1.addToErrorCounter();
+
+			int whatisIt_1 = GameDB.GetElementByPoint(player1.getLocationPoint());
+			int whatisIt_2 = GameDB.GetElementByPoint(player2.getLocationPoint());
+
+			// delete from db
+			GameDB.remove_point(player1.getLocationPoint());
 		}
 
 		GameDB.insert_point(player1.getLocationPoint(), Player::PLAYER_1_SIGN);
 		GameDB.insert_point(player2.getLocationPoint(), Player::PLAYER_2_SIGN);
 
-		// Add random number to screen
-		if (RandomOutput::CreateRandomPoint(GameDB) != NULL){
-			Point *ptTmp = RandomOutput::CreateRandomPoint(GameDB);
+		// Do it just 1 time at 5 iterations
+		if (getIterationCounter() % 5 == 0){
+			// Add random number to screen
 			unsigned int value = RandomOutput::CreateRandomValue(10 + currentLevel);
-			GameDB.insert_point(*ptTmp, value);
-			gotoxy(*ptTmp);
-			cout << GameDB.GetElementByPoint(*ptTmp);
-			delete ptTmp;
+			int numOfDigits = (value > 9) ? 2 : 1;
+			Point* ptTmp = RandomOutput::CreateRandomPoint(GameDB, numOfDigits);
+			if (ptTmp != NULL){
+				GameDB.insert_point(*ptTmp, value);
+				gotoxy(*ptTmp);
+				cout << GameDB.GetElementByPoint(*ptTmp);
+				delete ptTmp;
+			}
 		}
 	}
 }

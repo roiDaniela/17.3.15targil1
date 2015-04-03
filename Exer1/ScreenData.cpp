@@ -77,7 +77,7 @@ void ScreenData::clear_data(){
 	PointsData.clear();
 }
 
-bool ScreenData::remove_point(Point& ptPoint){
+bool ScreenData::remove_point(const Point& ptPoint){
 	return(PointsData.erase(PointsData.find(ptPoint)) != PointsData.end());
 }
 //ScreenData::~ScreenData(){ delete[] & PointsData; }

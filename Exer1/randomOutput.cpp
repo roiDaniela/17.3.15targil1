@@ -21,13 +21,19 @@ unsigned int RandomOutput::CreateRandomValue(ScreenData* sData, unsigned int ran
 	return temp;
 }
 
-Point* RandomOutput::CreateRandomPoint(const ScreenData& sData){
+Point* RandomOutput::CreateRandomPoint(const ScreenData& sData, int numOfDigits){
 	Point* p = new Point(CreateRandomPoint());
-	bool succeded = !sData.isPointNearOrInsideOtherPoint(*p);
+	bool succeded = false;
+	
+	// try 10 times
 	for (int i = 0; i < 9 && !succeded; i++)
 	{
-		p = new Point(CreateRandomPoint(/*LENGH_OF_LINE * LENGH_OF_PAGE, LENGH_OF_LINE * AMOUNT_OF_INSTRUCTIONS_LINE*/));
-		succeded = !sData.isPointNearOrInsideOtherPoint(*p);
+		succeded = true;
+		p = new Point(CreateRandomPoint());
+		for (int j = 0; j < numOfDigits; j++)
+		{
+			succeded = (succeded && !sData.isPointNearOrInsideOtherPoint(*(p + j)));
+		}
 	}
 
 	// if succeded return p else return null
