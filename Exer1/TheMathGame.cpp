@@ -1,10 +1,10 @@
 #include "TheMathGame.h"
 
-int Player::winCounter_1; //declaring statics
-int Player::winCounter_2; //declaring statics
+int Player::winCounter_1 = 0; //declaring statics
+int Player::winCounter_2 = 0; //declaring statics
 Player::Result_winner Player::winner; //declaring statics
-CreateExercise TheMathGame::excersisePlayer_1 = NULL; // declaring statics
-CreateExercise TheMathGame::excersisePlayer_2 = NULL; // declaring statics
+//CreateExercise TheMathGame::excersisePlayer_1 = NULL; // declaring statics
+//CreateExercise TheMathGame::excersisePlayer_2 = NULL; // declaring statics
 
 void TheMathGame::resumeGame(){
 	prepareStatusSentenceOnScreen();
@@ -29,8 +29,23 @@ bool TheMathGame::iterationCounterIsBiggerThanAlowd() const{
 	return false;
 }
 
+void TheMathGame::initParams(int currentLevel){
+	iterationCounter = 0;
+	player1.setIsWin(false);
+	player1.setLocationPoint(Player::PLAYER_1_X_POSITION, Player::PLAYER_1_Y_POSITION);
+	player1.initErrorCounter();
+	
+	player2.setIsWin(false);
+	player2.setLocationPoint(Player::PLAYER_2_X_POSITION, Player::PLAYER_2_Y_POSITION);
+	player2.initErrorCounter();
+	if (currentLevel == 1){
+		player1.updateWinCounter(true);
+		player2.updateWinCounter(true);
+	}
+}
+
 void TheMathGame::startLevel(unsigned int currentLevel){
-	initIterationCounter();
+	initParams(currentLevel);
 
 	// Clean the screen
 	clear_screen();
@@ -77,8 +92,6 @@ void TheMathGame::prepareStatusSentenceOnScreen(){
 	sentence += " Points:" + to_string(player2.getWinCounter());
 
 	writeOnScreenLocation(Lines::LINE_THREE_LEFT, sentence);
-
-	setGameWinner();
 }
 
 void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLevel){
@@ -121,9 +134,11 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	//check if won
 	if (GameDB.GetElementByPoint(player1.getLocationPoint()) == getExcercise(player1.getPlayerNumber()).getHiddenValue()){
 		player1.setIsWin(true);
+		setGameWinner();
 	}
 	else if (GameDB.GetElementByPoint(player2.getLocationPoint()) == getExcercise(player2.getPlayerNumber()).getHiddenValue()){
 		player2.setIsWin(true);
+		setGameWinner();
 	}
 	else
 	{
@@ -154,7 +169,6 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 			cout << GameDB.GetElementByPoint(ptTmp);
 		}
 	}
-
 }
 
 void TheMathGame::doSubIteration(unsigned int currentLevel){

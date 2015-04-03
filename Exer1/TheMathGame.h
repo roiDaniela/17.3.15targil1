@@ -43,8 +43,8 @@ private:
 	unsigned int iterationCounter;
 	Player player1; //
 	Player player2; //
-	static CreateExercise excersisePlayer_1;
-	static CreateExercise excersisePlayer_2;
+	CreateExercise excersisePlayer_1;
+	CreateExercise excersisePlayer_2;
 	ScreenData GameDB;
 
 	// Methods
@@ -66,20 +66,20 @@ public:
 	// Getter && Setter
 	unsigned int getIterationCounter() const { return iterationCounter; }
 	void UpdateIterationCounter(){ iterationCounter++; }
-	void initIterationCounter(){ iterationCounter = 0; }
+	void initParams(int currentLevel);
 	ScreenData& GetDB();
-	static CreateExercise getExcercise(Player::numberOfPlayer playerNumber){ return ((playerNumber == Player::numberOfPlayer::One) ? TheMathGame::excersisePlayer_1: TheMathGame::excersisePlayer_2); }
+	CreateExercise getExcercise(Player::numberOfPlayer playerNumber){ return ((playerNumber == Player::numberOfPlayer::One) ? excersisePlayer_1: excersisePlayer_2); }
 	void setExercise(Player::numberOfPlayer playerNumber, unsigned int currentLevel){
 		if (playerNumber == Player::numberOfPlayer::One){
-			TheMathGame::excersisePlayer_1 = CreateExercise(currentLevel);
+			excersisePlayer_1 = CreateExercise(currentLevel);
 		}
 		else{
-			TheMathGame::excersisePlayer_2 = CreateExercise(currentLevel);
+			excersisePlayer_2 = CreateExercise(currentLevel);
 		}
 	}
 
 	// Ctor
-	TheMathGame() : /*correctNumber_1(NULL), correctNumber_2(NULL), */player1(Player::numberOfPlayer::One), player2(Player::numberOfPlayer::Two), iterationCounter(0){} ///*CurrentLevel(NULL),*/
+	TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL),player1(Player::numberOfPlayer::One), player2(Player::numberOfPlayer::Two), iterationCounter(0){} ///*CurrentLevel(NULL),*/
 
 	// Methods
 	bool isLevelDone()const{ return (player1.getIsWin() || player2.getIsWin() || iterationCounterIsBiggerThanAlowd()); }

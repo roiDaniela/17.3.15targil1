@@ -25,6 +25,7 @@
 #include "GameManager.h"
 #include "ISpecificGame.h"
 #include "io_utils.h"
+#include "TheMathGame.h"
 
 using namespace std;
 
@@ -131,7 +132,6 @@ char GameManager::playNextLevel()
 {
 	++currentLevel;
 	actualGame.startLevel(currentLevel);
-	
 	//------------------------------------------------------------------------------
 	// here we control the ESC menu
 	//------------------------------------------------------------------------------
@@ -203,15 +203,15 @@ char GameManager::doLevelIterations()
 		clear_screen();
 		CleanTopOfScreen();
 		string sentence = "";
-		if (Player::getWinner() == Player::Result_winner::PLAYER_1_WON){
-			sentence = "Player 1 Won!!!";
-		}
-		else if (Player::getWinner() == Player::Result_winner::PLAYER_2_WON){
-			sentence = "Player 2 Won!!!";
-		}
-		else{
-			sentence = "It was a tie";
-		}
+		//if (Player::getWinner() == Player::Result_winner::PLAYER_1_WON){
+		//	sentence = "Player 1 Won!!!";
+		//}
+		//else if (Player::getWinner() == Player::Result_winner::PLAYER_2_WON){
+		//	sentence = "Player 2 Won!!!";
+		//}
+		//else{
+		//	sentence = "It was a tie";
+		//}
 
 		writeOnScreenLocation(Lines::LINE_ONE_LEFT, sentence + " WELL DONE!");
 		action = GameManager::LevelOptions::NEXT_LEVEL;

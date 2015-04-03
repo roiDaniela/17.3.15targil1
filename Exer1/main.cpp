@@ -60,7 +60,6 @@ int main(){
 	//	string t2 = c.getHiddenExercise();
 	//	cout << t2 << "::::::::" << t1 << endl;
 	//}
-	
 	clear_screen();
 	hideCursor();
 	srand((unsigned int)time(NULL));

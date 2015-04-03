@@ -109,6 +109,22 @@ void Player::move(Direction::value direction){
 	}	
 }
 
+void Player::updateWinCounter(bool isInitCounter){
+	if (getPlayerNumber() == numberOfPlayer::One && getIsWin() && !isInitCounter){
+		//winCounter_1 = (winCounter_1 != NULL) ? winCounter_1 : 0;
+		Player::winCounter_1++;
+	}
+	else if (getPlayerNumber() == numberOfPlayer::Two && getIsWin() && !isInitCounter){
+		//winCounter_2 = (winCounter_2 != NULL) ? winCounter_2 : 0;
+		Player::winCounter_2++;
+	}
+
+	if (isInitCounter){
+		Player::winCounter_1 = 0;
+		Player::winCounter_2 = 0;
+	}
+}
+
 Point Player::getNextLocation(Direction::value d){
 	// Take care all opptional directions
 	switch (direction)

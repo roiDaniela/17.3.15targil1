@@ -40,16 +40,15 @@ private:
 	static int winCounter_2;
 
 	bool isWin_1, isWin_2;
-
-	static const int PLAYER_1_X_POSITION = 10;
-	static const int PLAYER_1_Y_POSITION = 9;
-	static const int PLAYER_2_X_POSITION = 70;
-	static const int PLAYER_2_Y_POSITION = 9;
 	
 	// This Ctor shoudn't be in use
 	//Player::Player(){ }
 	
 public:
+	static const int PLAYER_1_X_POSITION = 10;
+	static const int PLAYER_1_Y_POSITION = 9;
+	static const int PLAYER_2_X_POSITION = 70;
+	static const int PLAYER_2_Y_POSITION = 9;
 	static const char PLAYER_1_SIGN = '@';
 	static const char PLAYER_2_SIGN = '#';
 
@@ -85,16 +84,7 @@ public:
 	// dtor
 	//~Player(){ delete locationPoint; }
 
-	void updateWinCounter(){
-		if (getPlayerNumber() == numberOfPlayer::One){
-			winCounter_1 = (winCounter_1 != NULL) ? winCounter_1 : 0;
-			winCounter_1++;
-		}
-		else if (getPlayerNumber() == numberOfPlayer::Two){
-			winCounter_2 = (winCounter_2 != NULL) ? winCounter_2 : 0;
-			winCounter_2++;
-		}
-	}
+	void updateWinCounter(bool isInitCounter = false);
 
 	int getWinCounter() const{
 		if (getPlayerNumber() == numberOfPlayer::One){
@@ -124,6 +114,7 @@ public:
 		}
 	}
 	unsigned int getErrorCounter(){ return errorCounter; }
+	void initErrorCounter(){ errorCounter = 0; }
 
 	void setIsWin(bool isWin){
 		((getPlayerNumber() == numberOfPlayer::One) ? isWin_1 : isWin_2) = isWin;
