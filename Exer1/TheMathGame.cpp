@@ -176,8 +176,8 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 			player1.addToErrorCounter();
 			player2.addToErrorCounter();
 
-			int whatisIt_1 = GameDB.GetElementByPoint(player1.getLocationPoint());
-			int whatisIt_2 = GameDB.GetElementByPoint(player2.getLocationPoint());
+			int whatisIt_1 = GameDB.GetElementByPoint(player1.getLocationPoint()); // for DEBUG only
+			int whatisIt_2 = GameDB.GetElementByPoint(player2.getLocationPoint()); // for DEBUG only
 			
 			// Delete from DB = the reason i decided that mathGame shoud delete is that i don't want
 			// Player class will get the db as a reference at all
@@ -188,8 +188,8 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 			GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN &&
 			GameDB.GetElementByPoint(player1.getLocationPoint()) == ScreenData::DBErrMsg::VALUE_NOT_FOUND){
 			
-			int whatisIt_1 = GameDB.GetElementByPoint(player1.getLocationPoint());
-			int whatisIt_2 = GameDB.GetElementByPoint(player2.getLocationPoint());
+			int whatisIt_1 = GameDB.GetElementByPoint(player1.getLocationPoint()); // for DEBUG only
+			int whatisIt_2 = GameDB.GetElementByPoint(player2.getLocationPoint()); // for DEBUG only
 
 			player2.addToErrorCounter();
 
@@ -201,14 +201,14 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 			GameDB.GetElementByPoint(player1.getLocationPoint()) != Player::PLAYER_1_SIGN){
 			player1.addToErrorCounter();
 
-			int whatisIt_1 = GameDB.GetElementByPoint(player1.getLocationPoint());
-			int whatisIt_2 = GameDB.GetElementByPoint(player2.getLocationPoint());
+			int whatisIt_1 = GameDB.GetElementByPoint(player1.getLocationPoint()); // for DEBUG only
+			int whatisIt_2 = GameDB.GetElementByPoint(player2.getLocationPoint()); // for DEBUG only
 
 			// delete from db
 			GameDB.remove_point(player1.getLocationPoint());
 		}
 
-		GameDB.insert_point(player1.getLocationPoint(), Player::PLAYER_1_SIGN);
+		GameDB.insert_point(player1.getLocationPoint(), Player::PLAYER_1_SIGN); 
 		GameDB.insert_point(player2.getLocationPoint(), Player::PLAYER_2_SIGN);
 
 		// Do it just 1 time at 5 iterations

@@ -32,7 +32,7 @@ Point* RandomOutput::CreateRandomPoint(const ScreenData& sData, int numOfDigits)
 		p = new Point(CreateRandomPoint());
 		for (int j = 0; j < numOfDigits; j++)
 		{
-			succeded = (succeded && !sData.isPointNearOrInsideOtherPoint(*(p + j)));
+			succeded = (succeded && ((p->getX() + j) < LENGH_OF_LINE) && !sData.isPointNearOrInsideOtherPoint(*(p + j)));
 		}
 	}
 
