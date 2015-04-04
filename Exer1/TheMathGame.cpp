@@ -46,6 +46,7 @@ void TheMathGame::initParams(int currentLevel){
 		player1.updateWinCounter(true);
 		player2.updateWinCounter(true);
 	}
+	GameDB.clear_data();
 }
 
 void TheMathGame::startLevel(unsigned int currentLevel){
