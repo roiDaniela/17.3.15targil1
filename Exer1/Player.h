@@ -109,14 +109,7 @@ public:
 	Point getLocationPoint(){ return locationPoint; }
 	Point getNextLocation(Direction::value d);
 
-	void addToErrorCounter(){
-		++errorCounter;
-		if (errorCounter > maxErr::MAX_ERROR_FOR_MATH_GAME){
-			setDirection(Direction::STAY); // Set player as stay
-			gotoxy(getLocationPoint());
-			cout << " "; // Delete the player from screen
-		}
-	}
+	void addToErrorCounter(){++errorCounter;}
 	unsigned int getErrorCounter(){ return errorCounter; }
 	void initErrorCounter(){ errorCounter = 0; }
 
