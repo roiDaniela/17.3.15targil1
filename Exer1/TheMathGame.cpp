@@ -240,56 +240,56 @@ void TheMathGame::setPlayerDirectionByKeyValue(Player::MOVE_KEYS_PLAYER curr_inp
 
 	switch (curr_input){
 	case Player::MOVE_KEYS_PLAYER::PLAYER_1_DOWN:{
-		if (player1.getErrorCounter() < TOTAL_NUMBER_OF_LEVELS){
+		if (player1.getErrorCounter() < Player::maxErr::MAX_ERROR_FOR_MATH_GAME){
 			player1.setDirection(Direction::DOWN);
 		}
 
 		break;
 	}
 	case Player::MOVE_KEYS_PLAYER::PLAYER_1_UP:{
-		if (player1.getErrorCounter() < TOTAL_NUMBER_OF_LEVELS){
+		if (player1.getErrorCounter() < Player::maxErr::MAX_ERROR_FOR_MATH_GAME){
 			player1.setDirection(Direction::UP);
 		}
 
 		break;
 	}
 	case Player::MOVE_KEYS_PLAYER::PLAYER_1_LEFT:{
-		if (player1.getErrorCounter() < TOTAL_NUMBER_OF_LEVELS){
+		if (player1.getErrorCounter() < Player::maxErr::MAX_ERROR_FOR_MATH_GAME){
 			player1.setDirection(Direction::LEFT);
 		}
 
 		break;
 	}
 	case Player::MOVE_KEYS_PLAYER::PLAYER_1_RIGHT:{
-		if (player1.getErrorCounter() < TOTAL_NUMBER_OF_LEVELS){
+		if (player1.getErrorCounter() < Player::maxErr::MAX_ERROR_FOR_MATH_GAME){
 			player1.setDirection(Direction::RIGHT);
 		}
 
 		break;
 	}
 	case Player::MOVE_KEYS_PLAYER::PLAYER_2_DOWN:{
-		if (player2.getErrorCounter() < TOTAL_NUMBER_OF_LEVELS){
+		if (player2.getErrorCounter() < Player::maxErr::MAX_ERROR_FOR_MATH_GAME){
 			player2.setDirection(Direction::DOWN);
 		}
 
 		break;
 	}
 	case Player::MOVE_KEYS_PLAYER::PLAYER_2_LEFT:{
-		if (player2.getErrorCounter() < TOTAL_NUMBER_OF_LEVELS){
+		if (player2.getErrorCounter() < Player::maxErr::MAX_ERROR_FOR_MATH_GAME){
 			player2.setDirection(Direction::LEFT);
 		}
 
 		break;
 	}
 	case Player::MOVE_KEYS_PLAYER::PLAYER_2_RIGHT:{
-		if (player2.getErrorCounter() < TOTAL_NUMBER_OF_LEVELS){
+		if (player2.getErrorCounter() < Player::maxErr::MAX_ERROR_FOR_MATH_GAME){
 			player2.setDirection(Direction::RIGHT);
 		}
 
 		break;
 	}
 	case Player::MOVE_KEYS_PLAYER::PLAYER_2_UP:{
-		if (player2.getErrorCounter() < TOTAL_NUMBER_OF_LEVELS){
+		if (player2.getErrorCounter() < Player::maxErr::MAX_ERROR_FOR_MATH_GAME){
 			player2.setDirection(Direction::UP);
 		}
 
