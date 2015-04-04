@@ -156,7 +156,7 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		player1.move(player1.getDirection());
 		GameDB.remove_point(player2.getLocationPoint());
 		player2.move(player2.getDirection());
-	}
+	}	
 
 	//check if won
 	if (GameDB.GetElementByPoint(player1.getLocationPoint()) == getExcercise(player1.getPlayerNumber()).getHiddenValue()){
@@ -169,13 +169,12 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	}
 	else
 	{
-		// Case its a wrong catch
-		if (GameDB.GetElementByPoint(player2.getLocationPoint()) != ScreenData::DBErrMsg::VALUE_NOT_FOUND &&
-			GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN &&
-			GameDB.GetElementByPoint(player1.getLocationPoint()) != ScreenData::DBErrMsg::VALUE_NOT_FOUND &&
+		// Case its player1 wrong catch
+		// TODO: chaeck if in the if condition GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN is needed
+		if (GameDB.GetElementByPoint(player1.getLocationPoint()) != ScreenData::DBErrMsg::VALUE_NOT_FOUND &&
 			GameDB.GetElementByPoint(player1.getLocationPoint()) != Player::PLAYER_1_SIGN){
 			player1.addToErrorCounter();
-			player2.addToErrorCounter();
+			
 
 			int whatisIt_1 = GameDB.GetElementByPoint(player1.getLocationPoint()); // for DEBUG only
 			int whatisIt_2 = GameDB.GetElementByPoint(player2.getLocationPoint()); // for DEBUG only
@@ -183,9 +182,22 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 			// Delete from DB = the reason i decided that mathGame shoud delete is that i don't want
 			// Player class will get the db as a reference at all
 			GameDB.remove_point(player1.getLocationPoint());
+		}
+		// Case its player2 wrong catch
+		// TODO: chaeck if in the if condition GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN is needed
+		else if ( GameDB.GetElementByPoint(player2.getLocationPoint()) != ScreenData::DBErrMsg::VALUE_NOT_FOUND &&
+				  GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN){
+					player2.addToErrorCounter();
+
+
+			int whatisIt_1 = GameDB.GetElementByPoint(player1.getLocationPoint()); // for DEBUG only
+			int whatisIt_2 = GameDB.GetElementByPoint(player2.getLocationPoint()); // for DEBUG only
+
+			// Delete from DB = the reason i decided that mathGame shoud delete is that i don't want
+			// Player class will get the db as a reference at all
 			GameDB.remove_point(player2.getLocationPoint());
 		}
-		else if (GameDB.GetElementByPoint(player2.getLocationPoint()) != ScreenData::DBErrMsg::VALUE_NOT_FOUND &&
+		/*else if (GameDB.GetElementByPoint(player2.getLocationPoint()) != ScreenData::DBErrMsg::VALUE_NOT_FOUND &&
 			GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN &&
 			GameDB.GetElementByPoint(player1.getLocationPoint()) == ScreenData::DBErrMsg::VALUE_NOT_FOUND){
 			
@@ -207,14 +219,16 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 
 			// delete from db
 			GameDB.remove_point(player1.getLocationPoint());
-		}
+		}*/
 
 		GameDB.insert_point(player1.getLocationPoint(), Player::PLAYER_1_SIGN); 
 		GameDB.insert_point(player2.getLocationPoint(), Player::PLAYER_2_SIGN);
 
 		// case error point exceeded its range delete player from DB
-		//if (player1.getErrorCounter() == Player::maxErr::MAX_ERROR_FOR_MATH_GAME) GameDB.remove_point(player1.getLocationPoint());
-		// if (player2.getErrorCounter() == Player::maxErr::MAX_ERROR_FOR_MATH_GAME) GameDB.remove_point(player2.getLocationPoint());
+		if (player1.getErrorCounter() == Player::maxErr::MAX_ERROR_FOR_MATH_GAME) 
+			GameDB.remove_point(player1.getLocationPoint());
+		if (player2.getErrorCounter() == Player::maxErr::MAX_ERROR_FOR_MATH_GAME) 
+			GameDB.remove_point(player2.getLocationPoint());
 
 		// Do it just 1 time at 5 iterations
 		if (getIterationCounter() % 5 == 0){
