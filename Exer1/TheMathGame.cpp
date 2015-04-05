@@ -209,12 +209,14 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 			player1.setDirection(Direction::STAY); // Set player as stay
 			gotoxy(player1.getLocationPoint());
 			cout << " "; // Delete the player from screen
+			player1.setLocationPoint(NULL, NULL); // won't be exist when checking if a crush happend
 		}
 		if (player2.getErrorCounter() == Player::maxErr::MAX_ERROR_FOR_MATH_GAME) {
 			GameDB.remove_point(player2.getLocationPoint());
 			player2.setDirection(Direction::STAY); // Set player as stay
 			gotoxy(player2.getLocationPoint());
 			cout << " "; // Delete the player from screen
+			player2.setLocationPoint(NULL, NULL); // won't be exist when checking if a crush happend
 		}
 
 		// Do it just 1 time at 5 iterations
