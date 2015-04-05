@@ -51,15 +51,6 @@ using namespace std;
 //  M  A  I  N
 //==========================
 int main(){
-
-	//for (size_t i = 0; i < 10; i++)
-	//{
-	//	CreateExercise  c = CreateExercise(5);
-
-	//	unsigned int t1 = c.getHiddenValue();
-	//	string t2 = c.getHiddenExercise();
-	//	cout << t2 << "::::::::" << t1 << endl;
-	//}
 	clear_screen();
 	hideCursor();
 	srand((unsigned int)time(NULL));

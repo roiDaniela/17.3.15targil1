@@ -85,13 +85,28 @@ void GameManager::run()
 			case GameManager::MainMenuOptions::PRESENT_INSTRUCTIONS:
 			{
 				string sentence = "This should be the instructions";
-				writeOnScreenLocation(Lines::LINE_ONE_LEFT, sentence);
+				writeOnScreenLocation(Lines::LINE_ONE_RIGHT, sentence);
 				break;
 			}
 			// END of NEW CODE EX1
 			// NEW CODE EX1, author=<Roi>, date=<2015-03-17>
 			case GameManager::MainMenuOptions::PLAY_FROM_SELECTED_SCREEN:
 			{
+				int numberLevelChosen;
+				string sentence = "Please enter a screen level between 1 - 20: ";
+				writeOnScreenLocation(Lines::LINE_ONE_LEFT, sentence);
+				gotoxy(sentence.length() + 1, 0); // GO TO end of the sentence in line 1
+				cin >> numberLevelChosen;
+
+				while (numberLevelChosen > 20 || numberLevelChosen < 1){
+					writeOnScreenLocation(Lines::LINE_TWO_LEFT, "ilegal number of level");
+					gotoxy(sentence.length() + 1, 0); // GO TO end of the sentence in line 1
+					cin >> numberLevelChosen;
+				}
+
+				currentLevel = numberLevelChosen - 1; // start from selected level
+				userWantsToPlay = playGame();
+
 				break;
 			}
 			// END of NEW CODE EX1
@@ -215,7 +230,7 @@ char GameManager::doLevelIterations()
 		//	sentence = "It was a tie";
 		//}
 
-		writeOnScreenLocation(Lines::LINE_ONE_LEFT, sentence + " WELL DONE!");
+		writeOnScreenLocation(Lines::LINE_ONE_RIGHT, sentence + " WELL DONE!");
 		action = GameManager::LevelOptions::NEXT_LEVEL;
 	}
 	else if(escapePressed) {

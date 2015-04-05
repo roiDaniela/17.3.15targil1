@@ -29,7 +29,7 @@ void hideCursor();
 void clear_screen();
 void CleanTopOfScreen();
 void writeOnScreenLocation(Lines, std::string sentence = "");
-void RefreshScreen(const map<Point, int>& DataBase);
+void RefreshScreen(const map<Point, int>& DataBase, const Point& player1Loc, const Point& player2Loc);
 
 const static int LENGH_OF_PAGE = 24; // My adding
 const static int LENGH_OF_LINE = 80; // My adding

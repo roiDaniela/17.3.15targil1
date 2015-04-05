@@ -69,6 +69,13 @@ bool ScreenData::isPointNearOrInsideOtherPoint(const Point& p) const{
 		is_point_exist(pRight) ||
 		is_point_exist(pLeft));
 
+	//if (!isPointNearOrInsideOtherPoint){
+	//	Point pLeftTwoDigits = Point(p.getX() - 2, p.getY());
+	//	if (is_point_exist(pLeftTwoDigits)){
+	//		isPointNearOrInsideOtherPoint &= (this->PointsData[pLeftTwoDigits] > 9);
+	//	}
+	//}
+	
 	return isPointNearOrInsideOtherPoint;
 }
 

@@ -13,10 +13,17 @@ using namespace std;
 	void clear_screen(){}
 #else
 
-void RefreshScreen( const map<Point, int>& DataBase ){
+void RefreshScreen(const map<Point, int>& DataBase, const Point& player1LocPoint, const Point& player2LocPoint){
 	for (map<Point, int>::const_iterator iter = DataBase.cbegin(); iter != DataBase.cend(); iter++){
 		gotoxy(iter->first);
-		cout << iter->second;
+		
+		// check if its the player location: then print his sign else print the random number
+		if (iter->first == player1LocPoint || iter->first == player2LocPoint){
+			cout << (char)iter->second;
+		}
+		else{
+			cout << iter->second;
+		}
 	}
 }
 
@@ -41,32 +48,32 @@ void writeOnScreenLocation(Lines line_location, std::string sentence){
 
 	switch (line_location)
 	{
-	case Lines::LINE_ONE_LEFT:{
+	case Lines::LINE_ONE_RIGHT:{
 		location = new Point(40,0);
 
 		break;
 	}
-	case Lines::LINE_ONE_RIGHT:{
+	case Lines::LINE_ONE_LEFT:{
 		location = new Point(0, 0);
 
 		break;
 	}
-	case Lines::LINE_TWO_RIGHT:{
+	case Lines::LINE_TWO_LEFT:{
 		location = new Point(0, 1);
 
 		break;
 	}
-	case Lines::LINE_TWO_LEFT:{
+	case Lines::LINE_TWO_RIGHT:{
 		location = new Point(40, 1);
 
 		break;
 	}
-	case Lines::LINE_THREE_RIGHT:{
+	case Lines::LINE_THREE_LEFT:{
 		location = new Point(0, 2);
 
 		break;
 	}
-	case Lines::LINE_THREE_LEFT:{
+	case Lines::LINE_THREE_RIGHT:{
 		location = new Point(40, 2);
 
 		break;
