@@ -13,7 +13,7 @@ void TheMathGame::resumeGame(unsigned int currentLevel){
 	writeOnScreenLocation(Lines::LINE_TWO_RIGHT, "Exercise Player 2: " + getExcercise(Player::numberOfPlayer::Two).getHiddenExercise());
 	
 	prepareStatusSentenceOnScreen();
-	RefreshScreen(GetDB().getData(), player1.getLocationPoint(), player2.getLocationPoint());
+	//RefreshScreen(GetDB().getData(), player1.getLocationPoint(), player2.getLocationPoint());
 }
 
 ScreenData& TheMathGame::GetDB(){

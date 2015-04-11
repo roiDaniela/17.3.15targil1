@@ -82,7 +82,8 @@ void ScreenData::clear_data(){
 }
 
 bool ScreenData::remove_point(const Point& ptPoint){
-	if (is_point_exist(ptPoint))
+	if (is_point_exist(ptPoint)){
 		return(PointsData.erase(PointsData.find(ptPoint)) != PointsData.end());
+	}
 	return false;
 }

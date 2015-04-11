@@ -24,6 +24,7 @@
 #define _SCREENDATA_H_
 
 #include <map>
+#include "io_utils.h"
 #include "Point.h"
 using namespace std;
 class ScreenData
