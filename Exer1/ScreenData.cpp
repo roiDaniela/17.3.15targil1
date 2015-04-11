@@ -32,14 +32,14 @@ const map<Point, int>& ScreenData::getData() const {
 	return PointsData;
 }
 
-bool ScreenData::is_point_exist(const Point& ptPoint) const
+bool ScreenData::is_point_exist(const Point& ptPoint)
 {
 	return (!(PointsData.find(ptPoint) == PointsData.end()));
 }
 
 bool ScreenData::insert_point(const Point& ptPoint, const int value)
 {
-	if (!is_point_exist(ptPoint)){
+	if (!(is_point_exist(ptPoint))){
 		PointsData[ptPoint] = value;
 		return true;
 	}
@@ -57,25 +57,22 @@ bool ScreenData::is_number_exist(const int value){
 }
 
 //
-bool ScreenData::isPointNearOrInsideOtherPoint(const Point& p) const{
+bool ScreenData::isPointNearOrInsideOtherPoint(const Point& p, const int numOfDigits){
 	Point pUp = Point(p.getX(), p.getY() - 1);
 	Point pDown = Point(p.getX(), p.getY() + 1);
-	Point pLeft = Point(p.getX() - 1, p.getY());
+	Point pLeft = (GetElementByPoint(Point(p.getX() - 1, p.getY())) == DBErrMsg::VALUE_NOT_FOUND &&
+				    GetElementByPoint(Point(p.getX() - 2, p.getY())) > 9 )? 
+				  (Point(p.getX() - 2, p.getY())) : (Point(p.getX() - 1, p.getY()));
 	Point pRight = Point(p.getX() + 1, p.getY());
+	Point pRightByDigits = Point(p.getX() + numOfDigits, p.getY());
 
 	bool isPointNearOrInsideOtherPoint = (is_point_exist(p) ||
 		is_point_exist(pUp) ||
 		is_point_exist(pDown) ||
 		is_point_exist(pRight) ||
+		is_point_exist(pRightByDigits)||
 		is_point_exist(pLeft));
 
-	//if (!isPointNearOrInsideOtherPoint){
-	//	Point pLeftTwoDigits = Point(p.getX() - 2, p.getY());
-	//	if (is_point_exist(pLeftTwoDigits)){
-	//		isPointNearOrInsideOtherPoint &= (this->PointsData[pLeftTwoDigits] > 9);
-	//	}
-	//}
-	
 	return isPointNearOrInsideOtherPoint;
 }
 

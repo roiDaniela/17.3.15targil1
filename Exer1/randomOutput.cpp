@@ -21,7 +21,7 @@ unsigned int RandomOutput::CreateRandomValue(ScreenData* sData, unsigned int ran
 	return temp;
 }
 
-Point* RandomOutput::CreateRandomPoint(const ScreenData& sData, int numOfDigits){
+Point* RandomOutput::CreateRandomPoint(ScreenData& sData, int numOfDigits){
 	Point* p = new Point(CreateRandomPoint());
 	bool succeded = false;
 	
@@ -32,8 +32,12 @@ Point* RandomOutput::CreateRandomPoint(const ScreenData& sData, int numOfDigits)
 		p = new Point(CreateRandomPoint());
 		for (int j = 0; j < numOfDigits; j++)
 		{
-			succeded = (succeded && ((p->getX() + j) < LENGH_OF_LINE) && !sData.isPointNearOrInsideOtherPoint(*(p + j)));
+			succeded = (succeded && ((p->getX() + j) < LENGH_OF_LINE) && !sData.isPointNearOrInsideOtherPoint(*(p + j), numOfDigits));
 		}
+		// this is how it's should be
+		/*
+		succeded = (succeded && ((p->getX() + j) < LENGH_OF_LINE) && !sData.isPointNearOrInsideOtherPoint(*(p + j)));
+		*/
 	}
 
 	// if succeded return p else return null

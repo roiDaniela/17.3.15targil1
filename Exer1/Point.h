@@ -48,10 +48,10 @@ public:
 		return false;
 	}
 
-	inline bool operator==(const Point& p) { return ((p.x == this->x) && (p.y == this->y)); };
-	inline bool operator==(const Point& p) const {return ((p.x == this->x) && (p.y == this->y)); };
-	inline bool operator!=(const Point& p){ return !operator==(p); }
-	inline Point operator-(const Point& p){ return (Point((p.x - this->x), (p.y - this->y))); };
+	inline bool operator==(const Point& p)const { return ((p.x == this->x) && (p.y == this->y)); };
+	//inline bool operator==(const Point& p) const {return ((p.x == this->x) && (p.y == this->y)); };
+	inline bool operator!=(const Point& p)const { return !operator==(p); }
+	inline Point operator-(const Point& p)const { return (Point((p.x - this->x), (p.y - this->y))); };
 };
 
 #endif
