@@ -135,7 +135,7 @@ public:
 	// Getter && Setter
 	void SetPlayerNumber(numberOfPlayer playerNumber1) { playerNumber = playerNumber1; }
 	numberOfPlayer getPlayerNumber() const{ return playerNumber; }
-	static Result_winner getWinner(){ return winner; }
+	static Result_winner getWinner() { return winner; }
 	static void setWinner(Result_winner winner1){ winner = winner1; }
 };
 

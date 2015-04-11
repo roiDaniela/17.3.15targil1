@@ -182,11 +182,6 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 			int whatisIt_1 = GameDB.GetElementByPoint(player1.getLocationPoint()); // for DEBUG only
 			//int whatisIt_2 = GameDB.GetElementByPoint(player2.getLocationPoint()); // for DEBUG only
 			
-			// Case it's 2 digits number delete from screen the second digit
-			if (GameDB.GetElementByPoint(player1.getLocationPoint()) > 9){
-				gotoxy(player1.getLocationPoint().getX() + 1, player1.getLocationPoint().getY());
-				cout << " ";
-			}
 			// Delete from DB = the reason i decided that mathGame shoud delete is that i don't want
 			// Player class will get the db as a reference at all
 			GameDB.remove_point(player1.getLocationPoint());
@@ -201,13 +196,6 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 
 			//int whatisIt_1 = GameDB.GetElementByPoint(player1.getLocationPoint()); // for DEBUG only
 			int whatisIt_2 = GameDB.GetElementByPoint(player2.getLocationPoint()); // for DEBUG only
-
-			// Case it's 2 digits number delete from screen the second digit
-			if (GameDB.GetElementByPoint(player2.getLocationPoint()) > 9){
-				gotoxy(player2.getLocationPoint().getX() + 1, player2.getLocationPoint().getY());
-				cout << " ";
-			}
-
 
 			// Delete from DB = the reason i decided that mathGame shoud delete is that i don't want
 			// Player class will get the db as a reference at all
@@ -246,9 +234,6 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 				delete ptTmp;
 			}
 		}
-
-		// Case player ate the rightside of 2 digit number and deleted it from screen
-		RefreshScreen(GameDB.getData(), player1.getLocationPoint(), player2.getLocationPoint());
 	}
 }
 

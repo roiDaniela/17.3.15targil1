@@ -102,19 +102,6 @@ void writeOnScreenLocation(Lines line_location, std::string sentence){
 	cout << sentence;
 	gotoxy(0, 3);
 }
-void writeOnThirdRowOfScreen(string sentence){
-	// Go to the top of the screen
-	gotoxy(0, 3);
-
-	// Clean the 2 first lines
-	for (int i = 0; i < LENGH_OF_LINE; i++)
-	{
-		cout << " ";
-	}
-
-	gotoxy(0, 3);
-	cout << sentence;
-}
 
 // My aading 22.3.15
 void gotoxy(const Point& p){

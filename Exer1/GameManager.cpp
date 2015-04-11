@@ -84,6 +84,7 @@ void GameManager::run()
 			// NEW CODE EX1, author=<Roi>, date=<2015-03-17>
 			case GameManager::MainMenuOptions::PRESENT_INSTRUCTIONS:
 			{
+				CleanTopOfScreen();
 				string sentence = "This should be the instructions";
 				writeOnScreenLocation(Lines::LINE_ONE_RIGHT, sentence);
 				break;
@@ -92,6 +93,7 @@ void GameManager::run()
 			// NEW CODE EX1, author=<Roi>, date=<2015-03-17>
 			case GameManager::MainMenuOptions::PLAY_FROM_SELECTED_SCREEN:
 			{
+				CleanTopOfScreen();
 				int numberLevelChosen;
 				string sentence = "Please enter a screen level between 1 - 20: ";
 				writeOnScreenLocation(Lines::LINE_ONE_LEFT, sentence);

@@ -39,6 +39,7 @@ private:
 	static const int TOTAL_NUMBER_OF_LEVELS = 20 /*3*/;
 	static const int TOTAL_NUMBER_OF_CLOCK_TURNS = 1500 /*10*/;
 	static const int TOTAL_NUMBER_OF_ERRORS = 3;
+
 	//unsigned int correctNumber_1, correctNumber_2; //
 	unsigned int iterationCounter;
 	Player player1; //
@@ -83,7 +84,27 @@ public:
 
 	// Methods
 	bool isLevelDone()const{ return (player1.getIsWin() || player2.getIsWin() || iterationCounterIsBiggerThanAlowd()); }
-	bool hasNextLevel(unsigned int currentLevel)const{ return (currentLevel <= TOTAL_NUMBER_OF_LEVELS); }
+	bool hasNextLevel(unsigned int currentLevel)const {
+		bool result = (currentLevel <= TOTAL_NUMBER_OF_LEVELS);
+		if (!result){
+			CleanTopOfScreen();
+			Player::Result_winner resultWinner = Player::getWinner();
+			string sentence = ";";
+			if (resultWinner == Player::Result_winner::PLAYER_1_WON){
+				sentence = "PLAYER 1 WON !!";
+			}
+			else if (resultWinner == Player::Result_winner::PLAYER_2_WON){
+				sentence = "PLAYER 2 WON !!";
+			}
+			else if (resultWinner == Player::Result_winner::TIE){
+				sentence = "IT WAS TIE";
+			}
+
+			writeOnScreenLocation(Lines::LINE_ONE_MIDDLE, sentence);
+		}
+
+		return result;
+	}
 	void startLevel(unsigned int currentLevel);
 	void doIteration(const list<char>& keyHits, unsigned int currentLevel);
 	void doSubIteration(unsigned int currentLevel);
