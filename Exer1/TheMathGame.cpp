@@ -228,12 +228,10 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 			int numOfDigits = (value > 9) ? 2 : 1;
 			Point* ptTmp = RandomOutput::CreateRandomPoint(GameDB, numOfDigits);
 			if (ptTmp != NULL){
-				Point i = *ptTmp;
+				GameDB.insert_point(*ptTmp, value);
+				gotoxy(*ptTmp);
+				cout << GameDB.GetElementByPoint(*ptTmp);
 				delete ptTmp;
-				GameDB.insert_point(i, value);
-				gotoxy(i);
-				cout << GameDB.GetElementByPoint(i);
-				//delete ptTmp;
 			}
 		}
 	}
