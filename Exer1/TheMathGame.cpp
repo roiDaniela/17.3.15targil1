@@ -13,7 +13,7 @@ void TheMathGame::resumeGame(unsigned int currentLevel){
 	writeOnScreenLocation(Lines::LINE_TWO_RIGHT, "Exercise Player 2: " + getExcercise(Player::numberOfPlayer::Two).getHiddenExercise());
 	
 	prepareStatusSentenceOnScreen();
-	//RefreshScreen(GetDB().getData(), player1.getLocationPoint(), player2.getLocationPoint());
+	RefreshScreen(GetDB().getData(), player1.getLocationPoint(), player2.getLocationPoint());
 }
 
 ScreenData& TheMathGame::GetDB(){
@@ -228,10 +228,12 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 			int numOfDigits = (value > 9) ? 2 : 1;
 			Point* ptTmp = RandomOutput::CreateRandomPoint(GameDB, numOfDigits);
 			if (ptTmp != NULL){
-				GameDB.insert_point(*ptTmp, value);
-				gotoxy(*ptTmp);
-				cout << GameDB.GetElementByPoint(*ptTmp);
+				Point i = *ptTmp;
 				delete ptTmp;
+				GameDB.insert_point(i, value);
+				gotoxy(i);
+				cout << GameDB.GetElementByPoint(i);
+				//delete ptTmp;
 			}
 		}
 	}
