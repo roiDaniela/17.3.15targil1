@@ -34,7 +34,7 @@ private:
 	map<Point, int  > PointsData;
 
 public:
-	enum DBErrMsg{VALUE_NOT_FOUND = -1};
+	enum DBErrMsg{VALUE_NOT_FOUND = -1, TOW_DIGIT_VALUE = 9};
 	const map<Point, int>& ScreenData::getData() const;
 	bool isPointNearOrInsideOtherPoint(const Point& p, const int NumOfDigits );
 	bool is_point_exist(const Point& ptPoint);

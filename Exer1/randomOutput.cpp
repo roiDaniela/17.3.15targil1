@@ -34,10 +34,6 @@ Point* RandomOutput::CreateRandomPoint(ScreenData& sData, int numOfDigits){
 		{
 			succeded = (succeded && ((p->getX() + j) < LENGH_OF_LINE) && !sData.isPointNearOrInsideOtherPoint(*(p + j), numOfDigits));
 		}
-		// this is how it's should be
-		/*
-		succeded = (succeded && ((p->getX() + j) < LENGH_OF_LINE) && !sData.isPointNearOrInsideOtherPoint(*(p + j)));
-		*/
 	}
 
 	// if succeded return p else return null

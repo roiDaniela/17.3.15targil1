@@ -182,6 +182,11 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 			int whatisIt_1 = GameDB.GetElementByPoint(player1.getLocationPoint()); // for DEBUG only
 			//int whatisIt_2 = GameDB.GetElementByPoint(player2.getLocationPoint()); // for DEBUG only
 			
+			// case 2 digits number delete from screen the second digit
+			if (GameDB.GetElementByPoint(player1.getLocationPoint()) > ScreenData::DBErrMsg::TOW_DIGIT_VALUE){
+				gotoxy(player1.getLocationPoint().getX() + 1, player1.getLocationPoint().getY());
+				cout << " ";
+			}
 			// Delete from DB = the reason i decided that mathGame shoud delete is that i don't want
 			// Player class will get the db as a reference at all
 			GameDB.remove_point(player1.getLocationPoint());
@@ -196,6 +201,12 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 
 			//int whatisIt_1 = GameDB.GetElementByPoint(player1.getLocationPoint()); // for DEBUG only
 			int whatisIt_2 = GameDB.GetElementByPoint(player2.getLocationPoint()); // for DEBUG only
+
+			// case 2 digits number delete from screen the second digit
+			if (GameDB.GetElementByPoint(player2.getLocationPoint()) > ScreenData::DBErrMsg::TOW_DIGIT_VALUE){
+				gotoxy(player2.getLocationPoint().getX() + 1, player2.getLocationPoint().getY());
+				cout << " ";
+			}
 
 			// Delete from DB = the reason i decided that mathGame shoud delete is that i don't want
 			// Player class will get the db as a reference at all
@@ -235,6 +246,8 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 			}
 		}
 	}
+
+	RefreshScreen(GameDB.getData(),player1.getLocationPoint(),player2.getLocationPoint());
 }
 
 void TheMathGame::doSubIteration(unsigned int currentLevel){
