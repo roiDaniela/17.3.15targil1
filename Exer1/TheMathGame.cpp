@@ -236,7 +236,7 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		if (getIterationCounter() % 5 == 0){
 			// Add random number to screen
 			unsigned int value = RandomOutput::CreateRandomValue(10 + currentLevel);
-			int numOfDigits = (value > 9) ? 2 : 1;
+			int numOfDigits = (value > ScreenData::DBErrMsg::TOW_DIGIT_VALUE) ? 2 : 1;
 			Point* ptTmp = RandomOutput::CreateRandomPoint(GameDB, numOfDigits);
 			if (ptTmp != NULL){
 				GameDB.insert_point(*ptTmp, value);
