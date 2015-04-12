@@ -247,6 +247,7 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		}
 	}
 
+	// case deleted LSB put it back on screen
 	RefreshScreen(GameDB.getData(),player1.getLocationPoint(),player2.getLocationPoint());
 }
 
