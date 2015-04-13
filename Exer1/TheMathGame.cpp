@@ -186,6 +186,8 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 			if (GameDB.GetElementByPoint(player1.getLocationPoint()) > ScreenData::DBErrMsg::TOW_DIGIT_VALUE){
 				gotoxy(player1.getLocationPoint().getX() + 1, player1.getLocationPoint().getY());
 				cout << " ";
+				gotoxy(player1.getLocationPoint().getX() - 1, player1.getLocationPoint().getY());
+				cout << " ";
 			}
 			// Delete from DB = the reason i decided that mathGame shoud delete is that i don't want
 			// Player class will get the db as a reference at all
@@ -205,6 +207,8 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 			// case 2 digits number delete from screen the second digit
 			if (GameDB.GetElementByPoint(player2.getLocationPoint()) > ScreenData::DBErrMsg::TOW_DIGIT_VALUE){
 				gotoxy(player2.getLocationPoint().getX() + 1, player2.getLocationPoint().getY());
+				cout << " ";
+				gotoxy(player2.getLocationPoint().getX() - 1, player2.getLocationPoint().getY());
 				cout << " ";
 			}
 
@@ -248,7 +252,7 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	}
 
 	// case deleted LSB put it back on screen
-	RefreshScreen(GameDB.getData(),player1.getLocationPoint(),player2.getLocationPoint());
+	//RefreshScreen(GameDB.getData(),player1.getLocationPoint(),player2.getLocationPoint());
 }
 
 void TheMathGame::doSubIteration(unsigned int currentLevel){

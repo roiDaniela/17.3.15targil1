@@ -23,6 +23,8 @@ void RefreshScreen(const map<Point, int>& DataBase, const Point& player1LocPoint
 		}
 		else{
 			cout << iter->second;
+			if (iter->second > ScreenData::DBErrMsg::TOW_DIGIT_VALUE)
+				iter++;
 		}
 	}
 }

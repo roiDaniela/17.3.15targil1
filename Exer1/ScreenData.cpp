@@ -41,6 +41,10 @@ bool ScreenData::insert_point(const Point& ptPoint, const int value)
 {
 	if (!(is_point_exist(ptPoint))){
 		PointsData[ptPoint] = value;
+		if (  value > DBErrMsg::TOW_DIGIT_VALUE && 
+			  value != DBErrMsg::PLAYER1_SIGN   &&
+			  value != DBErrMsg::PLAYER2_SIGN  )
+			PointsData[Point(ptPoint.getX() + 1, ptPoint.getY())] = value;
 		return true;
 	}
 
@@ -82,8 +86,20 @@ void ScreenData::clear_data(){
 }
 
 bool ScreenData::remove_point(const Point& ptPoint){
+	bool tmp;
 	if (is_point_exist(ptPoint)){
-		return(PointsData.erase(PointsData.find(ptPoint)) != PointsData.end());
+		if (GetElementByPoint(ptPoint) > DBErrMsg::TOW_DIGIT_VALUE &&
+			GetElementByPoint(ptPoint) != DBErrMsg::PLAYER1_SIGN   &&
+			GetElementByPoint(ptPoint) != DBErrMsg::PLAYER2_SIGN){
+			if (PointsData.find(Point(ptPoint.getX() + 1, ptPoint.getY()))!= PointsData.end())
+				tmp = PointsData.erase(Point(ptPoint.getX() + 1, ptPoint.getY()));// ||
+			else 
+				tmp = PointsData.erase(Point(ptPoint.getX() - 1, ptPoint.getY()));// ||
+			tmp = PointsData.erase(PointsData.find(ptPoint)) != PointsData.end();
+			return tmp;
+		}
+		else
+			return(PointsData.erase(PointsData.find(ptPoint)) != PointsData.end());
 	}
 	return false;
 }
