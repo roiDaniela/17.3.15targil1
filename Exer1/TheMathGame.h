@@ -2,7 +2,7 @@
 // TheMathGame.h
 // ----------
 // This file responsible for the logical part of the game. its realizes the exercise and moves the players.
-// The 2 major methods are: startLevel, doIteration. we added other helper methods to realize the logic/ 
+// The 2 major methods are: startLevel, doIteration. we added other helper methods to realize the logic.
 //
 // Author: Roi Fogler & Motty katz
 // First version: 2015-03-18
@@ -96,7 +96,7 @@ public:
 	//---------------------------------------------------------------------------------------
 	// Ctor
 	//---------------------------------------------------------------------------------------
-	TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL),player1(Player::numberOfPlayer::One), player2(Player::numberOfPlayer::Two), iterationCounter(0){} ///*CurrentLevel(NULL),*/
+	TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL),player1(Player::numberOfPlayer::One), player2(Player::numberOfPlayer::Two), iterationCounter(0){}
 
 	// Public Methods
 	//---------------------------------------------------------------------------------------

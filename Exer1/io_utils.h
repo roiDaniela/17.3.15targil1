@@ -1,3 +1,17 @@
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// io_utils.h
+// -----------
+// This file is not a oop class, its responsible to all the io global functions. 
+//
+// Author: Motty Katz  && Roi Fogler
+// First version: 2015-03-18
+// 
+// This code is part of a solution for "the math game" excercise in C++ course, Semester B 2015
+// at the Academic College of Tel-Aviv-Yaffo.
+//
+//
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 #ifndef _IO_UTILS_H_
 #define _IO_UTILS_H_
 // you must have a config file, both for windows and for compiling on Linux (MAMA)

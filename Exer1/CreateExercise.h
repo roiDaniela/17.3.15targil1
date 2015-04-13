@@ -1,7 +1,8 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // CreateExercise.h
 // -----------
-// This file declares a
+// This file responsible on the type: "exercise". this type shuold carries the exercise and its solution:
+// The exercise to show and the hidden value. it is specialy for the guide of this game
 //
 // Author: Roi Fogler && Motty Katz 
 // First version: 2015-03-23
