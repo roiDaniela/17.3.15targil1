@@ -1,28 +1,23 @@
-
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// Point.cpp
+// Player.cpp
 // -----------
-// This file 
+// This file is responsible to the new type = player: players in the game. here we set the players locations. signs and moves
+// All the data on the players should be on this member.
 //
 // Author: Motty Katz  && Roi Fogler
 // First version: 2015-03-22
 // 
 // This code is part of a solution for "the math game" excercise in C++ course, Semester B 2015
 // at the Academic College of Tel-Aviv-Yaffo.
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//
-// Changes and additions:
-// ------------------------
-// DATE           Authors                 Change / Addition
-// ----           --------                -----------------
-// In the file itself, add above each change/addition a remark saying: "NEW CODE EX1, author=<name>, date=<YYYY-MM-DD>"
-// and close it at the end with a remark saying "END of NEW CODE EX1" 
 //
 //
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 #include "Player.h"
 
+//---------------------------------------------------------------------------------------
+// Ctor
+//---------------------------------------------------------------------------------------
 Player::Player(Player::numberOfPlayer number, Direction::value d) : playerNumber(number),
 																	direction(d),
 																	errorCounter(0),
@@ -35,16 +30,25 @@ Player::Player(Player::numberOfPlayer number, Direction::value d) : playerNumber
 	move(getDirection());
 }
 
+//---------------------------------------------------------------------------------------
+// this method sets a new location to the curr player. gets point (function overloading)
+//---------------------------------------------------------------------------------------
 void Player::setLocationPoint(const Point& point){
 	locationPoint = point;
 }
 
+//---------------------------------------------------------------------------------------
+// this method sets a new location to the curr player. gets x,y (function overloading)
+//---------------------------------------------------------------------------------------
 void Player::setLocationPoint(unsigned int x, unsigned int y){
 	locationPoint = Point(x, y);
 }
 
+//---------------------------------------------------------------------------------------
+// this method gets direction and moves the player to the recived directions
+//---------------------------------------------------------------------------------------
 void Player::move(Direction::value direction){
-	Point targetPoint = getLocationPoint(); // using a pointer to avoid wasting of memory
+	Point targetPoint = getLocationPoint(); 
 
 	// Init new direction
 	setDirection(direction);
@@ -109,22 +113,29 @@ void Player::move(Direction::value direction){
 	}	
 }
 
+//---------------------------------------------------------------------------------------
+// this method gets boolean represents if the counter initlzed and updated the counter
+//---------------------------------------------------------------------------------------
 void Player::updateWinCounter(bool isInitCounter){
+	// Update counter
 	if (getPlayerNumber() == numberOfPlayer::One && getIsWin() && !isInitCounter){
-		//winCounter_1 = (winCounter_1 != NULL) ? winCounter_1 : 0;
 		Player::winCounter_1++;
 	}
 	else if (getPlayerNumber() == numberOfPlayer::Two && getIsWin() && !isInitCounter){
-		//winCounter_2 = (winCounter_2 != NULL) ? winCounter_2 : 0;
 		Player::winCounter_2++;
 	}
 
+	// initlized
 	if (isInitCounter){
 		Player::winCounter_1 = 0;
 		Player::winCounter_2 = 0;
 	}
 }
 
+//---------------------------------------------------------------------------------------
+// this method gets the new direction and returns what should be the next location of
+// curr player
+//---------------------------------------------------------------------------------------
 Point Player::getNextLocation(Direction::value d){
 	// Take care all opptional directions
 	switch (direction)

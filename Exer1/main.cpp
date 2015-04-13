@@ -35,25 +35,13 @@
 
 using namespace std;
 
-// this is for example only!
-// delete this class and implement your own properly!
-//class TheMathGame: public ISpecificGame
-//{
-//public:
-//	virtual bool isLevelDone()const{return false;}
-//	virtual bool hasNextLevel()const{return true;}
-//	virtual void startLevel(){}
-//	virtual void doIteration(const list<char>& keyHits){}
-//	virtual void doSubIteration(){}
-//};
-
 //==========================
 //  M  A  I  N
 //==========================
 int main(){
 	clear_screen();
 	hideCursor();
-	srand((unsigned int)time(NULL));
+	srand((unsigned int)time(NULL)); // this sentence should keep the randomize
 	GameManager(TheMathGame(), 200, 2).run();
 	return 0;
 }

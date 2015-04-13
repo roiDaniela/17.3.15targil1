@@ -33,7 +33,7 @@ using namespace std;
 class CreateExercise
 {
 private:
-	// Varibles
+	// private DM
 	unsigned int a, b, result;
 	unsigned int screenNumber;
 	unsigned int hiddenValue;
@@ -49,14 +49,21 @@ private:
 	Sign::Operator sign;
 
 	// Methods
+	//---------------------------------------------------------------------------------------
+	// random location of var specially fot the exercise
+	//---------------------------------------------------------------------------------------
 	LocationOfVarInExercise randomLocationOfVar(){ return LocationOfVarInExercise(RandomOutput::CreateRandomValue(2)); }
-	unsigned int randomVar(){  return (RandomOutput::CreateRandomValue(screenNumber + RANDOMIZE_INITNAL_DIFF)); /*rand() % (screenNumber + RANDOMIZE_INITNAL_DIFF)) + START_RANDOM_NUMBER);*/ }
+
+	//---------------------------------------------------------------------------------------
+	// random var for the exercise
+	//---------------------------------------------------------------------------------------
+	unsigned int randomVar(){  return (RandomOutput::CreateRandomValue(screenNumber + RANDOMIZE_INITNAL_DIFF)); }
 
 public:
 	//Ctor
 	CreateExercise(unsigned int);
 
-	// Methods
+	// Methods (Getters)
 	unsigned int getHiddenValue(){ return hiddenValue; }
 	string getHiddenExercise(){ return hiddenExercise; }
 };

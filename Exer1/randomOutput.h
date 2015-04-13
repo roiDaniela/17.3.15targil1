@@ -1,23 +1,13 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // RandomOutput.h
 // -----------
-// This file declares a
+// This file represents the random output (numbers, points, signs) in the game
 //
 // Author: Roi Fogler && Motty Katz 
 // First version: 2015-03-23
 // 
 // This code is part of a solution for "the math game" excercise in C++ course, Semester B 2015
 // at the Academic College of Tel-Aviv-Yaffo.
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//
-// Changes and additions:
-// ------------------------
-// DATE           Authors                 Change / Addition
-// ----           --------                -----------------
-// In the file itself, add above each change/addition a remark saying: "NEW CODE EX1, author=<name>, date=<YYYY-MM-DD>"
-// and close it at the end with a remark saying "END of NEW CODE EX1" 
-//
-//
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 #ifndef _RANDOMOUTPUT_H
@@ -43,12 +33,15 @@ class RandomOutput
 
 public:
 
-
 	// Methods
 	static unsigned int CreateRandomValue(ScreenData* sData, unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER);
 	static unsigned int CreateRandomValue(unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER);
 	static Sign::Operator CreateRandomSign();
 	static Point* CreateRandomPoint(ScreenData& sData, int numOfDigits);
+	
+	//---------------------------------------------------------------------------------------
+	// this function creates a random point
+	//---------------------------------------------------------------------------------------
 	static Point CreateRandomPoint() {
 		return Point(CreateRandomValue(TO_X_POINT_NUMBER, FROM_X_POINT_NUMBER),
 			CreateRandomValue(TO_Y_POINT_NUMBER, FROM_Y_POINT_NUMBER));

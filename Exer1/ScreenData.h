@@ -1,23 +1,14 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // ScreenData.h
 // -----------
-// This file 
+// This file is the DATA BASE of the game. its saves all locations and values on the screen.
+// it uses "map" instead of 2 large matrix (mat[80][24]) in order to save memory.
 //
 // Author: Motty Katz  && Roi Fogler
 // First version: 2015-03-22
 // 
 // This code is part of a solution for "the math game" excercise in C++ course, Semester B 2015
 // at the Academic College of Tel-Aviv-Yaffo.
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//
-// Changes and additions:
-// ------------------------
-// DATE           Authors                 Change / Addition
-// ----           --------                -----------------
-// In the file itself, add above each change/addition a remark saying: "NEW CODE EX1, author=<name>, date=<YYYY-MM-DD>"
-// and close it at the end with a remark saying "END of NEW CODE EX1" 
-//
-//
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 #ifndef _SCREENDATA_H_
@@ -43,8 +34,6 @@ public:
 	bool is_number_exist(const int value);
 	int GetElementByPoint(const Point& ptPoint);
 	void clear_data();
-	
-	//~ScreenData();
 };
 
 #endif

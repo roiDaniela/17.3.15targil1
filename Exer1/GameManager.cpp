@@ -15,6 +15,8 @@
 // ------------------------
 // DATE           Authors                 Change / Addition
 // ----           --------                -----------------
+// 17.3.15        Motty Katz && Roi Fogler Fill the Menu
+//
 // In the file itself, add above each change/addition a remark saying: "NEW CODE EX1, author=<name>, date=<YYYY-MM-DD>"
 // and close it at the end with a remark saying "END of NEW CODE EX1" 
 //
@@ -29,30 +31,9 @@
 
 using namespace std;
 
-// My adding 18.3.15: This function get a string,
-// take the cursor to the top and printing the string got
-//void GameManager::writeOnTopOfScreen(string sentence)
-//{
-//	// Go to the top of the screen
-//	gotoxy(0, 0);
-//
-//	// Clean the 2 first lines
-//	for (int j = 0; j < AMOUNT_OF_INSTRUCTIONS_LINE; j++)
-//	{
-//		for (int i = 0; i < LENGH_OF_LINE; i++)
-//		{
-//			cout << "";
-//		}
-//	}
-//	
-//	cout << sentence;
-//}
-
 char GameManager::mainMenu()const
 {
-	// TODO: you may want to improve the menu appearance.
-	// Roi's adding
-	// First and second rows will be for instructions
+	// Menu
 	gotoxy(0, 3);
 
 	cout << "1. instructions" << endl;
@@ -72,7 +53,7 @@ void GameManager::run()
 	// we run as long as the user wants
 	while(userWantsToPlay) {
 		char menuSelection = mainMenu();
-		// TODO: handle here all the different menu options
+		// handle here all the different menu options
 		switch(menuSelection)
 		{
 			case GameManager::MainMenuOptions::PLAY_GAME:
@@ -85,8 +66,8 @@ void GameManager::run()
 			case GameManager::MainMenuOptions::PRESENT_INSTRUCTIONS:
 			{
 				CleanTopOfScreen();
-				string sentence = "This should be the instructions";
-				writeOnScreenLocation(Lines::LINE_ONE_RIGHT, sentence);
+				string sentence = "This is the math game: Player 1 - @ (a,w,d,x) player 2 - # (j,i,l,m). each player has an exercise and he should catch the right hidden number";
+				writeOnScreenLocation(Lines::LINE_ONE_LEFT, sentence);
 				break;
 			}
 			// END of NEW CODE EX1
@@ -222,15 +203,6 @@ char GameManager::doLevelIterations()
 		clear_screen();
 		CleanTopOfScreen();
 		string sentence = "";
-		//if (Player::getWinner() == Player::Result_winner::PLAYER_1_WON){
-		//	sentence = "Player 1 Won!!!";
-		//}
-		//else if (Player::getWinner() == Player::Result_winner::PLAYER_2_WON){
-		//	sentence = "Player 2 Won!!!";
-		//}
-		//else{
-		//	sentence = "It was a tie";
-		//}
 
 		writeOnScreenLocation(Lines::LINE_ONE_RIGHT, sentence + " WELL DONE!");
 		action = GameManager::LevelOptions::NEXT_LEVEL;

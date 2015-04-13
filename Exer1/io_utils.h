@@ -11,6 +11,7 @@
 #include "Point.h"
 #include "ScreenData.h"
 
+// NEW CODE EX1, author = <Motty Katz && Roi Fogler>, date = <2015 - 03 - 20>
 enum Lines
 {
 	LINE_ONE_RIGHT = 1,
@@ -22,18 +23,19 @@ enum Lines
 	LINE_THREE_LEFT
 };
 
-void gotoxy(int x, int y);
-void gotoxy(const Point&); // My adding
-void setTextColor(Color);
-void hideCursor();
-void clear_screen();
+void gotoxy(int x, int y); // already givven
+void gotoxy(const Point&);
+void setTextColor(Color); // already givven
+void hideCursor(); // already givven
+void clear_screen(); // already givven
 void CleanTopOfScreen();
 void writeOnScreenLocation(Lines, std::string sentence = "");
 void RefreshScreen(const map<Point, int>& DataBase, const Point& player1Loc, const Point& player2Loc);
 
-const static int LENGH_OF_PAGE = 24; // My adding
-const static int LENGH_OF_LINE = 80; // My adding
-const static int AMOUNT_OF_INSTRUCTIONS_LINE = 3; // My adding
+const static int LENGH_OF_PAGE = 24;
+const static int LENGH_OF_LINE = 80; 
+const static int AMOUNT_OF_INSTRUCTIONS_LINE = 3; 
+// END OF NEW CODE EX 1
 
 	#ifndef WINDOWS	
 		int _getch(void);

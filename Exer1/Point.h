@@ -1,23 +1,14 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Point.h
 // -----------
-// This file declares a class of point
+// This file responsible for the new type: Point. this type is neccessery beacuse we want to respresnt location
+// of the values\players on the screen
 //
 // Author: Roi Fogler && Motty Katz 
 // First version: 2015-03-22
 // 
 // This code is part of a solution for "the math game" excercise in C++ course, Semester B 2015
 // at the Academic College of Tel-Aviv-Yaffo.
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//
-// Changes and additions:
-// ------------------------
-// DATE           Authors                 Change / Addition
-// ----           --------                -----------------
-// In the file itself, add above each change/addition a remark saying: "NEW CODE EX1, author=<name>, date=<YYYY-MM-DD>"
-// and close it at the end with a remark saying "END of NEW CODE EX1" 
-//
-//
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 #ifndef _POINT_H
@@ -32,7 +23,6 @@ private:
 	int x,y; 
 public:
 	//Ctor
-	//Point(){}
 	Point(int x, int y) { this->x = x; this->y = y; }
 	
 	// Getter & setter
@@ -40,7 +30,8 @@ public:
 	void setX(int x){ this->x = x; };
 	int getY() const { return y; };
 	void setY(int y){ this->y = y; };
-	bool IsPointsAdjacent(const Point & pointToCompare) ;
+	bool IsPointsAdjacent(const Point& pointToCompare) ;
+
 	//Operator Overloding
 	inline bool operator<(const Point& p)const{ 
 		if (y < p.getY()) return true; 
@@ -49,7 +40,6 @@ public:
 	}
 
 	inline bool operator==(const Point& p)const { return ((p.x == this->x) && (p.y == this->y)); };
-	//inline bool operator==(const Point& p) const {return ((p.x == this->x) && (p.y == this->y)); };
 	inline bool operator!=(const Point& p)const { return !operator==(p); }
 	inline Point operator-(const Point& p)const { return (Point((p.x - this->x), (p.y - this->y))); };
 };

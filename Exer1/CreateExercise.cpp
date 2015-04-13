@@ -2,7 +2,8 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // CreateExercise.cpp
 // -----------
-// This file 
+// This file responsible on the type: "exercise". this type shuold carries the exercise and its solution:
+// The exercise to show and the hidden value. it is specialy for the guide of this game
 //
 // Author: Motty Katz  && Roi Fogler
 // First version: 2015-03-22
@@ -10,19 +11,13 @@
 // This code is part of a solution for "the math game" excercise in C++ course, Semester B 2015
 // at the Academic College of Tel-Aviv-Yaffo.
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//
-// Changes and additions:
-// ------------------------
-// DATE           Authors                 Change / Addition
-// ----           --------                -----------------
-// In the file itself, add above each change/addition a remark saying: "NEW CODE EX1, author=<name>, date=<YYYY-MM-DD>"
-// and close it at the end with a remark saying "END of NEW CODE EX1" 
-//
-//
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 
 #include "CreateExercise.h"
 
+//---------------------------------------------------------------------------------------
+// Ctor
+//---------------------------------------------------------------------------------------
 CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNumber1){
 	hiddenExercise = "";
 	

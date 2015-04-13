@@ -1,23 +1,14 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// Point.h
+// Player.h
 // -----------
-// This file declares a class of point
+// This file is responsible to the new type = player: players in the game. here we set the players locations. signs and moves
+// All the data on the players should be on this member.
 //
 // Author: Roi Fogler && Motty Katz 
 // First version: 2015-03-22
 // 
 // This code is part of a solution for "the math game" excercise in C++ course, Semester B 2015
 // at the Academic College of Tel-Aviv-Yaffo.
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//
-// Changes and additions:
-// ------------------------
-// DATE           Authors                 Change / Addition
-// ----           --------                -----------------
-// In the file itself, add above each change/addition a remark saying: "NEW CODE EX1, author=<name>, date=<YYYY-MM-DD>"
-// and close it at the end with a remark saying "END of NEW CODE EX1" 
-//
-//
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 #ifndef _PLAYER_H
@@ -32,7 +23,7 @@ using namespace std;
 class Player
 {
 private:
-	// DM
+	// private DM
 	Point locationPoint;
 	Direction::value direction;
 	unsigned int errorCounter;
@@ -40,9 +31,6 @@ private:
 	static int winCounter_2;
 
 	bool isWin_1, isWin_2;
-	
-	// This Ctor shoudn't be in use
-	//Player::Player(){ }
 	
 public:
 	static const int PLAYER_1_X_POSITION = 10;
@@ -85,11 +73,14 @@ public:
 	// Ctor
 	Player(numberOfPlayer number, Direction::value d = Direction::STAY);
 
-	// dtor
-	//~Player(){ delete locationPoint; }
-
+	//---------------------------------------------------------------------------------------
+	// this method updates the win counter
+	//---------------------------------------------------------------------------------------
 	void updateWinCounter(bool isInitCounter = false);
 
+	//---------------------------------------------------------------------------------------
+	// win counter getter
+	//---------------------------------------------------------------------------------------
 	int getWinCounter() const{
 		if (getPlayerNumber() == numberOfPlayer::One){
 			return winCounter_1;
@@ -121,6 +112,9 @@ public:
 	bool getIsWin() const { return ((getPlayerNumber() == numberOfPlayer::One) ? isWin_1 : isWin_2); }
 
 	// Methods
+	//---------------------------------------------------------------------------------------
+	// this method prints the player sign
+	//---------------------------------------------------------------------------------------
 	void printSighn(){
 		gotoxy(getLocationPoint());
 		(playerNumber == numberOfPlayer::One) ? cout << PLAYER_1_SIGN : cout << PLAYER_2_SIGN;

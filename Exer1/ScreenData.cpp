@@ -1,42 +1,47 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // ScreenData.cpp
 // -----------
-// This file 
+// This file is the DATA BASE of the game. its saves all locations and values on the screen.
+// it uses "map" instead of 2 large matrix (mat[80][24]) in order to save memory.
 //
 // Author: Motty Katz  && Roi Fogler
 // First version: 2015-03-22
 // 
 // This code is part of a solution for "the math game" excercise in C++ course, Semester B 2015
 // at the Academic College of Tel-Aviv-Yaffo.
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//
-// Changes and additions:
-// ------------------------
-// DATE           Authors                 Change / Addition
-// ----           --------                -----------------
-// In the file itself, add above each change/addition a remark saying: "NEW CODE EX1, author=<name>, date=<YYYY-MM-DD>"
-// and close it at the end with a remark saying "END of NEW CODE EX1" 
 //
 //
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 #include "ScreenData.h"
 
+//---------------------------------------------------------------------------------------
+// this function gets a point and return the elemeny inside the point
+//---------------------------------------------------------------------------------------
 int ScreenData::GetElementByPoint(const Point& ptPoint){
 	if (is_point_exist(ptPoint))
 		return PointsData[ptPoint];
 	return DBErrMsg::VALUE_NOT_FOUND;
 }
 
+//---------------------------------------------------------------------------------------
+// this function gives the array of points
+//---------------------------------------------------------------------------------------
 const map<Point, int>& ScreenData::getData() const {
 	return PointsData;
 }
 
+//---------------------------------------------------------------------------------------
+// this function checks if that point is inside the data base
+//---------------------------------------------------------------------------------------
 bool ScreenData::is_point_exist(const Point& ptPoint)
 {
 	return (!(PointsData.find(ptPoint) == PointsData.end()));
 }
 
+//---------------------------------------------------------------------------------------
+// this function gets value & point and saves in the db (value, location) 
+//---------------------------------------------------------------------------------------
 bool ScreenData::insert_point(const Point& ptPoint, const int value)
 {
 	if (!(is_point_exist(ptPoint))){
@@ -51,6 +56,9 @@ bool ScreenData::insert_point(const Point& ptPoint, const int value)
 	return false;
 }
 
+//---------------------------------------------------------------------------------------
+// this function checks if number is inside the db
+//---------------------------------------------------------------------------------------
 bool ScreenData::is_number_exist(const int value){
 	map<const Point, int >::iterator iter = PointsData.begin();
 
@@ -60,8 +68,11 @@ bool ScreenData::is_number_exist(const int value){
 	return false;
 }
 
-//
+//---------------------------------------------------------------------------------------
+// this function checks if the pointn is in legal location for a new random point
+//---------------------------------------------------------------------------------------
 bool ScreenData::isPointNearOrInsideOtherPoint(const Point& p, const int numOfDigits){
+	// Get all "problematic locations"
 	Point pUp = Point(p.getX(), p.getY() - 1);
 	Point pDown = Point(p.getX(), p.getY() + 1);
 	Point pLeft = (GetElementByPoint(Point(p.getX() - 1, p.getY())) == DBErrMsg::VALUE_NOT_FOUND &&
@@ -70,6 +81,7 @@ bool ScreenData::isPointNearOrInsideOtherPoint(const Point& p, const int numOfDi
 	Point pRight = Point(p.getX() + 1, p.getY());
 	Point pRightByDigits = Point(p.getX() + numOfDigits, p.getY());
 
+	// check if the problematic locations exists
 	bool isPointNearOrInsideOtherPoint = (is_point_exist(p) ||
 		is_point_exist(pUp) ||
 		is_point_exist(pDown) ||
@@ -80,11 +92,16 @@ bool ScreenData::isPointNearOrInsideOtherPoint(const Point& p, const int numOfDi
 	return isPointNearOrInsideOtherPoint;
 }
 
-
+//---------------------------------------------------------------------------------------
+// this function cleans the db
+//---------------------------------------------------------------------------------------
 void ScreenData::clear_data(){
 	PointsData.clear();
 }
 
+//---------------------------------------------------------------------------------------
+// this function gets a point and clean the location from the db
+//---------------------------------------------------------------------------------------
 bool ScreenData::remove_point(const Point& ptPoint){
 	bool tmp;
 	if (is_point_exist(ptPoint)){

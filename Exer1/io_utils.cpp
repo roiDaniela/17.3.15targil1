@@ -1,6 +1,21 @@
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// io_utils.cpp
+// -----------
+// This file is not a oop class, its responsible to all the io global functions. 
+//
+// Author: Motty Katz  && Roi Fogler
+// First version: 2015-03-18
+// 
+// This code is part of a solution for "the math game" excercise in C++ course, Semester B 2015
+// at the Academic College of Tel-Aviv-Yaffo.
+//
+//
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 #include "io_utils.h"
 #include "Color.h"
 #include <map>
+
 using namespace std;
 
 #ifndef WINDOWS
@@ -13,6 +28,10 @@ using namespace std;
 	void clear_screen(){}
 #else
 
+// NEW CODE EX1, author = <Motty Katz && Roi Fogler>, date = <2015 - 03 - 20>
+//---------------------------------------------------------------------------------------
+// This function refreshs the screen after selecting "continue" in the sub menu
+//---------------------------------------------------------------------------------------
 void RefreshScreen(const map<Point, int>& DataBase, const Point& player1LocPoint, const Point& player2LocPoint){
 	for (map<Point, int>::const_iterator iter = DataBase.cbegin(); iter != DataBase.cend(); iter++){
 		gotoxy(iter->first);
@@ -29,6 +48,9 @@ void RefreshScreen(const map<Point, int>& DataBase, const Point& player1LocPoint
 	}
 }
 
+//---------------------------------------------------------------------------------------
+// this function cleans the first 3 rows for the title/instructions/information 
+//---------------------------------------------------------------------------------------
 void CleanTopOfScreen(){
 	// Go to the top of the screen
 	gotoxy(0, 0);
@@ -45,6 +67,10 @@ void CleanTopOfScreen(){
 	gotoxy(0, 3); // back to start location
 }
 
+//---------------------------------------------------------------------------------------
+// this function gets 1/6 locations (line 1 left, line 2 right ... line 2 right) 
+// to print the second param: sentence (title/instructions/information) 
+//---------------------------------------------------------------------------------------
 void writeOnScreenLocation(Lines line_location, std::string sentence){
 	Point* location = NULL;
 
@@ -91,25 +117,31 @@ void writeOnScreenLocation(Lines line_location, std::string sentence){
 
 	gotoxy(*location);
 
-	// Clean the 2 first lines
-	//for (int j = 0; j < AMOUNT_OF_INSTRUCTIONS_LINE - 1; j++)
-	//{
+	// Clean the title
 	for (int i = location->getX(); i < (location->getX() + LENGH_OF_LINE / 2); i++)
-		{
-			cout << " ";
-		}
-	//}
+	{
+		cout << " ";
+	}
 
+	// print sentence
 	gotoxy(*location);
 	cout << sentence;
+
+	// back to the screen game
 	gotoxy(0, 3);
 }
 
-// My aading 22.3.15
+
+//---------------------------------------------------------------------------------------
+// function overloading for gotoxy 
+//---------------------------------------------------------------------------------------
 void gotoxy(const Point& p){
 	gotoxy(p.getX(), p.getY());
 }
 
+//---------------------------------------------------------------------------------------
+// gets location where to print next cout (done already)
+//---------------------------------------------------------------------------------------
 void gotoxy(int x, int y)
 {
 	HANDLE hConsoleOutput;
@@ -120,11 +152,18 @@ void gotoxy(int x, int y)
 	hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleCursorPosition(hConsoleOutput,dwCursorPosition);
 }
+// END OF NEW CODE EX1
 
+//---------------------------------------------------------------------------------------
+// set Text color (done already)
+//---------------------------------------------------------------------------------------
 void setTextColor(Color colorToSet){
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)colorToSet);
 }
 
+//---------------------------------------------------------------------------------------
+// hide Cursor (done already)
+//---------------------------------------------------------------------------------------
 void hideCursor()
 {
 	 HANDLE myconsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -134,6 +173,9 @@ void hideCursor()
 	 SetConsoleCursorInfo(myconsole, &CURSOR);//second argument need pointer
 }
 
+//---------------------------------------------------------------------------------------
+// clear Screen (done already)
+//---------------------------------------------------------------------------------------
 void clear_screen()
 {
 	system("cls");

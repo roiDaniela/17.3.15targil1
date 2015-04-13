@@ -50,7 +50,6 @@ private:
 	{
 		currentLevel = 0;
 	}
-	//void writeOnTopOfScreen(string sentence);
 	char mainMenu()const;
 	bool playGame();
 	char playNextLevel();
@@ -87,7 +86,7 @@ public:
 			CONTINUE					=	'3',
 			REPLAY_LEVEL				=	'4',
 			NEXT_LEVEL					=	'5',
-			GAME_ENDED                  =   '6'
+			GAME_ENDED                  =   '6' // seems like not neccesry needed
 		};
 	};
 };
