@@ -27,7 +27,7 @@ unsigned int RandomOutput::CreateRandomValue(unsigned int range_to, unsigned int
 //---------------------------------------------------------------------------------------
 Sign::Operator RandomOutput::CreateRandomSign(){
 
-	return (Sign::Operator) CreateRandomValue(Sign::Operator::DIV, Sign::MINUS);
+	return (Sign::Operator) CreateRandomValue(Sign::DIV, Sign::MINUS);
 }
 
 //---------------------------------------------------------------------------------------

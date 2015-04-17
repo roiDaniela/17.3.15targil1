@@ -41,17 +41,17 @@ public:
 	static const char PLAYER_2_SIGN = '#';
 
 	// Which player is that
-	static enum numberOfPlayer
+	enum numberOfPlayer
 	{
 		One = 1,
 		Two
 	};
 
-	static enum maxErr{
+	enum maxErr{
 		MAX_ERROR_FOR_MATH_GAME = 3
 	};
 
-	static enum MOVE_KEYS_PLAYER
+	enum MOVE_KEYS_PLAYER
 	{
 		PLAYER_1_DOWN = 'x',
 		PLAYER_1_LEFT = 'a',
@@ -63,7 +63,7 @@ public:
 		PLAYER_2_UP = 'i'
 	};
 
-	static enum Result_winner
+	enum Result_winner
 	{
 		PLAYER_1_WON = 1,
 		PLAYER_2_WON,
@@ -82,10 +82,10 @@ public:
 	// win counter getter
 	//---------------------------------------------------------------------------------------
 	int getWinCounter() const{
-		if (getPlayerNumber() == numberOfPlayer::One){
+		if (getPlayerNumber() == One){
 			return winCounter_1;
 		}
-		else if (getPlayerNumber() == numberOfPlayer::Two){
+		else if (getPlayerNumber() == Two){
 			return winCounter_2;
 		}
 	}
@@ -105,11 +105,11 @@ public:
 	void initErrorCounter(){ errorCounter = 0; }
 
 	void setIsWin(bool isWin){
-		((getPlayerNumber() == numberOfPlayer::One) ? isWin_1 : isWin_2) = isWin;
+		((getPlayerNumber() == One) ? isWin_1 : isWin_2) = isWin;
 		updateWinCounter();
 		
 	}
-	bool getIsWin() const { return ((getPlayerNumber() == numberOfPlayer::One) ? isWin_1 : isWin_2); }
+	bool getIsWin() const { return ((getPlayerNumber() == One) ? isWin_1 : isWin_2); }
 
 	// Methods
 	//---------------------------------------------------------------------------------------
@@ -117,7 +117,7 @@ public:
 	//---------------------------------------------------------------------------------------
 	void printSighn(){
 		gotoxy(getLocationPoint());
-		(playerNumber == numberOfPlayer::One) ? cout << PLAYER_1_SIGN : cout << PLAYER_2_SIGN;
+		(playerNumber == One) ? cout << PLAYER_1_SIGN : cout << PLAYER_2_SIGN;
 	}
 
 	void Player::move(Direction::value direction);

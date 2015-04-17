@@ -23,7 +23,7 @@ Player::Player(Player::numberOfPlayer number, Direction::value d) : playerNumber
 																	errorCounter(0),
 																	isWin_1(false),
 																	isWin_2(false),
-																    locationPoint((number == Player::numberOfPlayer::One) ? 
+																    locationPoint((number == Player::One) ? 
 																	               Point(PLAYER_1_X_POSITION, PLAYER_1_Y_POSITION) : 
 																				   Point(PLAYER_2_X_POSITION, PLAYER_2_Y_POSITION)) {
 	// Move by inited directions
@@ -118,10 +118,10 @@ void Player::move(Direction::value direction){
 //---------------------------------------------------------------------------------------
 void Player::updateWinCounter(bool isInitCounter){
 	// Update counter
-	if (getPlayerNumber() == numberOfPlayer::One && getIsWin() && !isInitCounter){
+	if (getPlayerNumber() == One && getIsWin() && !isInitCounter){
 		Player::winCounter_1++;
 	}
-	else if (getPlayerNumber() == numberOfPlayer::Two && getIsWin() && !isInitCounter){
+	else if (getPlayerNumber() == Two && getIsWin() && !isInitCounter){
 		Player::winCounter_2++;
 	}
 

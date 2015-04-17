@@ -42,7 +42,7 @@ void RefreshScreen(const map<Point, int>& DataBase, const Point& player1LocPoint
 		}
 		else{
 			cout << iter->second;
-			if (iter->second > ScreenData::DBErrMsg::TOW_DIGIT_VALUE)
+			if (iter->second > ScreenData::TOW_DIGIT_VALUE)
 				iter++;
 		}
 	}
@@ -76,37 +76,37 @@ void writeOnScreenLocation(Lines line_location, std::string sentence){
 
 	switch (line_location)
 	{
-	case Lines::LINE_ONE_RIGHT:{
+	case LINE_ONE_RIGHT:{
 		location = new Point(40,0);
 
 		break;
 	}
-	case Lines::LINE_ONE_LEFT:{
+	case LINE_ONE_LEFT:{
 		location = new Point(0, 0);
 
 		break;
 	}
-	case Lines::LINE_TWO_LEFT:{
+	case LINE_TWO_LEFT:{
 		location = new Point(0, 1);
 
 		break;
 	}
-	case Lines::LINE_TWO_RIGHT:{
+	case LINE_TWO_RIGHT:{
 		location = new Point(40, 1);
 
 		break;
 	}
-	case Lines::LINE_THREE_LEFT:{
+	case LINE_THREE_LEFT:{
 		location = new Point(0, 2);
 
 		break;
 	}
-	case Lines::LINE_THREE_RIGHT:{
+	case LINE_THREE_RIGHT:{
 		location = new Point(40, 2);
 
 		break;
 	}
-	case Lines::LINE_ONE_MIDDLE:{
+	case LINE_ONE_MIDDLE:{
 		location = new Point(20, 0);
 
 		break;

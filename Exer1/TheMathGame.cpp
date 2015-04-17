@@ -241,7 +241,7 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		if (getIterationCounter() % 5 == 0){
 			// Add random number to screen
 			unsigned int value = RandomOutput::CreateRandomValue(10 + currentLevel);
-			int numOfDigits = (value > ScreenData::DBErrMsg::TOW_DIGIT_VALUE) ? 2 : 1;
+			int numOfDigits = (value > ScreenData::TOW_DIGIT_VALUE) ? 2 : 1;
 			Point* ptTmp = RandomOutput::CreateRandomPoint(GameDB, numOfDigits);
 			if (ptTmp != NULL){
 				gotoxy(*ptTmp);
@@ -262,57 +262,57 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 void TheMathGame::setPlayerDirectionByKeyValue(Player::MOVE_KEYS_PLAYER curr_input){
 
 	switch (curr_input){
-	case Player::MOVE_KEYS_PLAYER::PLAYER_1_DOWN:{
-		if (player1.getErrorCounter() < Player::maxErr::MAX_ERROR_FOR_MATH_GAME){
+	case Player::PLAYER_1_DOWN:{
+		if (player1.getErrorCounter() < Player::MAX_ERROR_FOR_MATH_GAME){
 			player1.setDirection(Direction::DOWN);
 		}
 
 		break;
 	}
-	case Player::MOVE_KEYS_PLAYER::PLAYER_1_UP:{
-		if (player1.getErrorCounter() < Player::maxErr::MAX_ERROR_FOR_MATH_GAME){
+	case Player::PLAYER_1_UP:{
+		if (player1.getErrorCounter() < Player::MAX_ERROR_FOR_MATH_GAME){
 			player1.setDirection(Direction::UP);
 		}
 
 		break;
 	}
-	case Player::MOVE_KEYS_PLAYER::PLAYER_1_LEFT:{
-		if (player1.getErrorCounter() < Player::maxErr::MAX_ERROR_FOR_MATH_GAME){
+	case Player::PLAYER_1_LEFT:{
+		if (player1.getErrorCounter() < Player::MAX_ERROR_FOR_MATH_GAME){
 			player1.setDirection(Direction::LEFT);
 		}
 
 		break;
 	}
-	case Player::MOVE_KEYS_PLAYER::PLAYER_1_RIGHT:{
-		if (player1.getErrorCounter() < Player::maxErr::MAX_ERROR_FOR_MATH_GAME){
+	case Player::PLAYER_1_RIGHT:{
+		if (player1.getErrorCounter() < Player::MAX_ERROR_FOR_MATH_GAME){
 			player1.setDirection(Direction::RIGHT);
 		}
 
 		break;
 	}
-	case Player::MOVE_KEYS_PLAYER::PLAYER_2_DOWN:{
-		if (player2.getErrorCounter() < Player::maxErr::MAX_ERROR_FOR_MATH_GAME){
+	case Player::PLAYER_2_DOWN:{
+		if (player2.getErrorCounter() < Player::MAX_ERROR_FOR_MATH_GAME){
 			player2.setDirection(Direction::DOWN);
 		}
 
 		break;
 	}
-	case Player::MOVE_KEYS_PLAYER::PLAYER_2_LEFT:{
-		if (player2.getErrorCounter() < Player::maxErr::MAX_ERROR_FOR_MATH_GAME){
+	case Player::PLAYER_2_LEFT:{
+		if (player2.getErrorCounter() < Player::MAX_ERROR_FOR_MATH_GAME){
 			player2.setDirection(Direction::LEFT);
 		}
 
 		break;
 	}
-	case Player::MOVE_KEYS_PLAYER::PLAYER_2_RIGHT:{
-		if (player2.getErrorCounter() < Player::maxErr::MAX_ERROR_FOR_MATH_GAME){
+	case Player::PLAYER_2_RIGHT:{
+		if (player2.getErrorCounter() < Player::MAX_ERROR_FOR_MATH_GAME){
 			player2.setDirection(Direction::RIGHT);
 		}
 
 		break;
 	}
-	case Player::MOVE_KEYS_PLAYER::PLAYER_2_UP:{
-		if (player2.getErrorCounter() < Player::maxErr::MAX_ERROR_FOR_MATH_GAME){
+	case Player::PLAYER_2_UP:{
+		if (player2.getErrorCounter() < Player::MAX_ERROR_FOR_MATH_GAME){
 			player2.setDirection(Direction::UP);
 		}
 

@@ -35,11 +35,11 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 
 			// randomise who to hide
 			LocationOfVarInExercise lv = randomLocationOfVar();
-			if (lv == LocationOfVarInExercise::First){
+			if (lv == First){
 				hiddenExercise = to_string(a) + string(" - ") + string("_") + string(" = ") + to_string(result);
 				hiddenValue = b;
 			}
-			else if (lv == LocationOfVarInExercise::Second){
+			else if (lv == Second){
 				hiddenExercise = to_string(a)+string(" - ") + to_string(b) + string(" = ") + string("_");
 				hiddenValue = result;
 			}
@@ -58,11 +58,11 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 
 			// randomise who to hide
 			LocationOfVarInExercise lv = randomLocationOfVar();
-			if (lv == LocationOfVarInExercise::First){
+			if (lv == First){
 				hiddenExercise = string("_") + string(" + ") + to_string(b) + string(" = ") + to_string(result);
 				hiddenValue = a;
 			}
-			else if (lv == LocationOfVarInExercise::Second){
+			else if (lv == Second){
 				hiddenExercise = to_string(a) + string(" + ") + string("_") + string(" = ") + to_string(result);
 				hiddenValue = b;
 			}
@@ -81,11 +81,11 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 
 			// randomise who to hide
 			LocationOfVarInExercise lv = randomLocationOfVar();
-			if (lv == LocationOfVarInExercise::First){
+			if (lv == First){
 				hiddenExercise = string("_") + string(" * ") + to_string(b) + string(" = ") + to_string(result);
 				hiddenValue = a;
 			}
-			else if (lv == LocationOfVarInExercise::Second){
+			else if (lv == Second){
 				hiddenExercise = to_string(a) + string(" * ") + string("_") + string(" = ") + to_string(result);
 				hiddenValue = b;
 			}
@@ -104,11 +104,11 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 
 			// randomise who to hide
 			LocationOfVarInExercise lv = randomLocationOfVar();
-			if (lv == LocationOfVarInExercise::First){
+			if (lv == First){
 				hiddenExercise = to_string(a) + string(" / ") + string("_") + string(" = ") + to_string(result);
 				hiddenValue = b;
 			}
-			else if (lv == LocationOfVarInExercise::Second){
+			else if (lv == Second){
 				hiddenExercise = to_string(a) + string(" / ") + to_string(b) + string(" = ") + string("_");
 				hiddenValue = result;
 			}

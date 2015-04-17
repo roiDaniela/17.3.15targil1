@@ -75,7 +75,7 @@ bool ScreenData::isPointNearOrInsideOtherPoint(const Point& p, const int numOfDi
 	// Get all "problematic locations"
 	Point pUp = Point(p.getX(), p.getY() - 1);
 	Point pDown = Point(p.getX(), p.getY() + 1);
-	Point pLeft = (GetElementByPoint(Point(p.getX() - 1, p.getY())) == DBErrMsg::VALUE_NOT_FOUND &&
+	Point pLeft = (GetElementByPoint(Point(p.getX() - 1, p.getY())) == VALUE_NOT_FOUND &&
 				    GetElementByPoint(Point(p.getX() - 2, p.getY())) > 9 )? 
 				  (Point(p.getX() - 2, p.getY())) : (Point(p.getX() - 1, p.getY()));
 	Point pRight = Point(p.getX() + 1, p.getY());
@@ -105,9 +105,9 @@ void ScreenData::clear_data(){
 bool ScreenData::remove_point(const Point& ptPoint){
 	bool tmp;
 	if (is_point_exist(ptPoint)){
-		if (GetElementByPoint(ptPoint) > DBErrMsg::TOW_DIGIT_VALUE &&
-			GetElementByPoint(ptPoint) != DBErrMsg::PLAYER1_SIGN   &&
-			GetElementByPoint(ptPoint) != DBErrMsg::PLAYER2_SIGN){
+		if (GetElementByPoint(ptPoint) > TOW_DIGIT_VALUE &&
+			GetElementByPoint(ptPoint) != PLAYER1_SIGN   &&
+			GetElementByPoint(ptPoint) != PLAYER2_SIGN){
 			if (PointsData.find(Point(ptPoint.getX() + 1, ptPoint.getY()))!= PointsData.end())
 				tmp = PointsData.erase(Point(ptPoint.getX() + 1, ptPoint.getY()));// ||
 			else 

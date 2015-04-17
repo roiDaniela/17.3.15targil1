@@ -60,13 +60,13 @@ private:
 	//---------------------------------------------------------------------------------------
 	void setGameWinner(){
 		if (player1.getWinCounter() > player2.getWinCounter()){
-			Player::setWinner(Player::Result_winner::PLAYER_1_WON);
+			Player::setWinner(Player::PLAYER_1_WON);
 		}
 		else if (player1.getWinCounter() < player2.getWinCounter()){
-			Player::setWinner(Player::Result_winner::PLAYER_2_WON);
+			Player::setWinner(Player::PLAYER_2_WON);
 		}
 		else{
-			Player::setWinner(Player::Result_winner::TIE);
+			Player::setWinner(Player::TIE);
 		}
 	}
 public:
@@ -79,13 +79,13 @@ public:
 	//---------------------------------------------------------------------------------------
 	// this function gets the player and returns its exercise as the new type: exercise
 	//---------------------------------------------------------------------------------------
-	CreateExercise getExcercise(Player::numberOfPlayer playerNumber){ return ((playerNumber == Player::numberOfPlayer::One) ? excersisePlayer_1: excersisePlayer_2); }
+	CreateExercise getExcercise(Player::numberOfPlayer playerNumber){ return ((playerNumber == Player::One) ? excersisePlayer_1: excersisePlayer_2); }
 	
 	//---------------------------------------------------------------------------------------
 	// this function gets the player and curr level and sets the exercise
 	//---------------------------------------------------------------------------------------
 	void setExercise(Player::numberOfPlayer playerNumber, unsigned int currentLevel){
-		if (playerNumber == Player::numberOfPlayer::One){
+		if (playerNumber == Player::One){
 			excersisePlayer_1 = CreateExercise(currentLevel);
 		}
 		else{
@@ -96,7 +96,7 @@ public:
 	//---------------------------------------------------------------------------------------
 	// Ctor
 	//---------------------------------------------------------------------------------------
-	TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL),player1(Player::numberOfPlayer::One), player2(Player::numberOfPlayer::Two), iterationCounter(0){}
+	TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL),player1(Player::One), player2(Player::Two), iterationCounter(0){}
 
 	// Public Methods
 	//---------------------------------------------------------------------------------------
@@ -115,13 +115,13 @@ public:
 			CleanTopOfScreen();
 			Player::Result_winner resultWinner = Player::getWinner();
 			string sentence = ";";
-			if (resultWinner == Player::Result_winner::PLAYER_1_WON){
+			if (resultWinner == Player::PLAYER_1_WON){
 				sentence = "PLAYER 1 WON !!";
 			}
-			else if (resultWinner == Player::Result_winner::PLAYER_2_WON){
+			else if (resultWinner == Player::PLAYER_2_WON){
 				sentence = "PLAYER 2 WON !!";
 			}
-			else if (resultWinner == Player::Result_winner::TIE){
+			else if (resultWinner == Player::TIE){
 				sentence = "IT WAS TIE";
 			}
 
