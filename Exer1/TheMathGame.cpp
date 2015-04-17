@@ -183,12 +183,12 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	{
 		// Case its player1 wrong catch
 		// check if in the if condition GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN is needed
-		if (GameDB.GetElementByPoint(player1.getLocationPoint()) != ScreenData::DBErrMsg::VALUE_NOT_FOUND &&
+		if (GameDB.GetElementByPoint(player1.getLocationPoint()) != ScreenData::VALUE_NOT_FOUND &&
 			GameDB.GetElementByPoint(player1.getLocationPoint()) != Player::PLAYER_1_SIGN){
 			player1.addToErrorCounter();
 			
 			// case 2 digits number delete from screen the second digit
-			if (GameDB.GetElementByPoint(player1.getLocationPoint()) > ScreenData::DBErrMsg::TOW_DIGIT_VALUE){
+			if (GameDB.GetElementByPoint(player1.getLocationPoint()) > ScreenData::TOW_DIGIT_VALUE){
 				gotoxy(player1.getLocationPoint().getX() + 1, player1.getLocationPoint().getY());
 				cout << " ";
 				gotoxy(player1.getLocationPoint().getX() - 1, player1.getLocationPoint().getY());
@@ -201,12 +201,12 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		
 		// Case its player2 wrong catch
 		// check if in the if condition GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN is needed
-		if (GameDB.GetElementByPoint(player2.getLocationPoint()) != ScreenData::DBErrMsg::VALUE_NOT_FOUND &&
+		if (GameDB.GetElementByPoint(player2.getLocationPoint()) != ScreenData::VALUE_NOT_FOUND &&
 		    GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN){
 					player2.addToErrorCounter();
 
 			// case 2 digits number delete from screen the second digit
-			if (GameDB.GetElementByPoint(player2.getLocationPoint()) > ScreenData::DBErrMsg::TOW_DIGIT_VALUE){
+			if (GameDB.GetElementByPoint(player2.getLocationPoint()) > ScreenData::TOW_DIGIT_VALUE){
 				gotoxy(player2.getLocationPoint().getX() + 1, player2.getLocationPoint().getY());
 				cout << " ";
 				gotoxy(player2.getLocationPoint().getX() - 1, player2.getLocationPoint().getY());
@@ -222,14 +222,14 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		GameDB.insert_point(player2.getLocationPoint(), Player::PLAYER_2_SIGN);
 
 		// case error point exceeded its range delete player from DB
-		if (player1.getErrorCounter() == Player::maxErr::MAX_ERROR_FOR_MATH_GAME){
+		if (player1.getErrorCounter() == Player::MAX_ERROR_FOR_MATH_GAME){
 			GameDB.remove_point(player1.getLocationPoint());
 			player1.setDirection(Direction::STAY); // Set player as stay
 			gotoxy(player1.getLocationPoint());
 			cout << " "; // Delete the player from screen
 			player1.setLocationPoint(NULL, NULL); // won't be exist when checking if a crush happend
 		}
-		if (player2.getErrorCounter() == Player::maxErr::MAX_ERROR_FOR_MATH_GAME) {
+		if (player2.getErrorCounter() == Player::MAX_ERROR_FOR_MATH_GAME) {
 			GameDB.remove_point(player2.getLocationPoint());
 			player2.setDirection(Direction::STAY); // Set player as stay
 			gotoxy(player2.getLocationPoint());
