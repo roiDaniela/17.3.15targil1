@@ -35,9 +35,9 @@ class CreateExercise
 {
 private:
 	// private DM
-	unsigned int a, b, result;
+	unsigned int num1, num2, num3,result;
 	unsigned int screenNumber;
-	unsigned int hiddenValue;
+	unsigned int hiddenValue1, hiddenValue2;
 	string hiddenExercise;
 	static const int RANDOMIZE_INITNAL_DIFF = 10;
 
@@ -47,14 +47,15 @@ private:
 		Second
 	};
 
-	Sign::Operator sign;
+	Sign::Operator OpSign1, OpSign2;
 
 	// Methods
 	//---------------------------------------------------------------------------------------
 	// random location of var specially fot the exercise
 	//---------------------------------------------------------------------------------------
 	LocationOfVarInExercise randomLocationOfVar(){ return LocationOfVarInExercise(RandomOutput::CreateRandomValue(2)); }
-
+	void CreateExercizeOfTwoVar(unsigned int CurrentLevel, Sign::Operator OpSign );
+	void CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::Operator OpSign1, Sign::Operator OpSign2);
 	//---------------------------------------------------------------------------------------
 	// random var for the exercise
 	//---------------------------------------------------------------------------------------
@@ -65,7 +66,8 @@ public:
 	CreateExercise(unsigned int);
 
 	// Methods (Getters)
-	unsigned int getHiddenValue(){ return hiddenValue; }
+	unsigned int getHiddenValue1(){ return hiddenValue1; }
+	unsigned int getHiddenValue2(){ return hiddenValue2; }
 	string getHiddenExercise(){ return hiddenExercise; }
 };
 
