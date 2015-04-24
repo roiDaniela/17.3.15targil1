@@ -28,6 +28,7 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 	else{
 		OpSign2 = RandomOutput::CreateRandomSign();
 		CreateExercizeOfThreeVar(screenNumber, OpSign1, OpSign2);
+
 	}
 }
 
@@ -135,6 +136,7 @@ void CreateExercise::CreateExercizeOfTwoVar(unsigned int CurrentLevel, Sign::Ope
 	
 	num1 = a;
 	num2 = b;
+	hiddenValue1 = HiddenValue;
 	result = Result;
 }
 
@@ -145,7 +147,18 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 	{
 	case Sign::MINUS:
 	{
-
+		CreateExercizeOfTwoVar(CurrentLevel, OpSign1);
+		a = num1;
+		b = num2;
+		c = RandomOutput::CreateRandomValue(result - 1 );
+		if (OpSign1 == Sign::DIV)
+			res = a / b - c;
+		else if (OpSign1 == Sign::MULT)
+			res = a * b - c;
+		else if (OpSign1 == Sign::MINUS)
+			res = a - b - c;
+		else
+			res = a + b - c;
 		break;
 	}
 	case Sign::PLUS:
@@ -153,7 +166,7 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 		CreateExercizeOfTwoVar(CurrentLevel, OpSign1);
 		a = num1;
 		b = num2;
-		c = RandomOutput::CreateRandomValue(20);
+		c = RandomOutput::CreateRandomValue(21);
 		if (OpSign1 == Sign::DIV)
 			res = a / b + c;
 		else if (OpSign1 == Sign::MULT)
@@ -168,7 +181,7 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 	{
 		if (OpSign1 != Sign::MULT && OpSign1 != Sign::DIV){
 			if (OpSign1 == Sign::PLUS){
-				a = RandomOutput::CreateRandomValue(20);
+				a = RandomOutput::CreateRandomValue(21);
 				CreateExercizeOfTwoVar(CurrentLevel, OpSign2);
 				b = num1;
 				c = num2;
@@ -179,7 +192,7 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 				CreateExercizeOfTwoVar(CurrentLevel, OpSign2);
 				b = num1;
 				c = num2;
-				res = RandomOutput::CreateRandomValue(20);
+				res = RandomOutput::CreateRandomValue(21);
 				a = res - (b + c);
 			}
 		}
@@ -223,4 +236,9 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 	default:
 		break;
 	}
+
+	num1 = a;
+	num2 = b;
+	num3 = c;
+	result = res;
 }
