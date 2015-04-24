@@ -145,18 +145,27 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 	{
 	case Sign::MINUS:
 	{
+
 		break;
 	}
 	case Sign::PLUS:
 	{
-		CreateExercizeOfTwoVar( CurrentLevel, OpSign1 );
+		CreateExercizeOfTwoVar(CurrentLevel, OpSign1);
 		a = num1;
 		b = num2;
 		c = RandomOutput::CreateRandomValue(20);
-		//res = ?;
+		if (OpSign1 == Sign::DIV)
+			res = a / b + c;
+		else if (OpSign1 == Sign::MULT)
+			res = a * b + c;
+		else if (OpSign1 == Sign::MINUS)
+			res = a - b + c;
+		else
+			res = a + b + c;
 		break;
 	}
 	case Sign::MULT:
+	{
 		if (OpSign1 != Sign::MULT && OpSign1 != Sign::DIV){
 			if (OpSign1 == Sign::PLUS){
 				a = RandomOutput::CreateRandomValue(20);
@@ -179,11 +188,38 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 			a = num1;
 			b = num2;
 			c = RandomOutput::CreateRandomValue(21);
-
+			res = (OpSign1 == Sign::DIV ? a / b * c : a * b * c);
 		}
 		break;
+	}
 	case Sign::DIV:
+	{
+		if (OpSign1 != Sign::MULT && OpSign1 != Sign::DIV){
+			if (OpSign1 == Sign::PLUS){
+				CreateExercizeOfTwoVar(CurrentLevel, OpSign2);
+				b = num1;
+				c = num2;
+				a = RandomOutput::CreateRandomValue(21);
+				res = a + b / c;
+			}
+			else
+			{
+				CreateExercizeOfTwoVar(CurrentLevel, OpSign2);
+				b = num1;
+				c = num2;
+				res = RandomOutput::CreateRandomValue(20);
+				a = res - (b / c);
+			}
+		}
+		else{
+			CreateExercizeOfTwoVar(CurrentLevel, OpSign1);
+			a = num1;
+			b = num2;
+			c = RandomOutput::CreateRandomValue(21);
+			res = (OpSign1 == Sign::DIV ? a / b / c : a * b / c);
+		}
 		break;
+	}
 	default:
 		break;
 	}
