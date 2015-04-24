@@ -242,3 +242,18 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 	num3 = c;
 	result = res;
 }
+
+void CreateExercise::SetHiddenValues(){
+	if (((num1 < num2) || (num1 < num3)) && ((num1 < num3) || (num1 < result))) {
+		HiddenValuesLoc[0] = num1;
+	}
+	else if (((num2 < num1) || (num2 < num3)) && ((num2 < num3) || (num2 < result))){
+		HiddenValuesLoc[1] = num2;
+	}
+	else if (((num3 < num1) || (num3 < num2)) && ((num3 < num2 ) || (num3 < result))){
+		HiddenValuesLoc[2] = num3;
+	}
+	else if (((result < num2) || (result < num3)) && ((result < num3) || (result < num1))){
+		HiddenValuesLoc[3] = result;
+	}
+}
