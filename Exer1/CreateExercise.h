@@ -56,6 +56,7 @@ private:
 	LocationOfVarInExercise randomLocationOfVar(){ return LocationOfVarInExercise(RandomOutput::CreateRandomValue(2)); }
 	void CreateExercizeOfTwoVar(unsigned int CurrentLevel, Sign::Operator OpSign );
 	void CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::Operator OpSign1, Sign::Operator OpSign2);
+	
 	//---------------------------------------------------------------------------------------
 	// random var for the exercise
 	//---------------------------------------------------------------------------------------
