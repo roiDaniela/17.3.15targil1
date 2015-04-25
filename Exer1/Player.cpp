@@ -25,7 +25,14 @@ Player::Player(Player::numberOfPlayer number, Direction::value d) : playerNumber
 																	isWin_2(false),
 																    locationPoint((number == Player::One) ? 
 																	               Point(PLAYER_1_X_POSITION, PLAYER_1_Y_POSITION) : 
-																				   Point(PLAYER_2_X_POSITION, PLAYER_2_Y_POSITION)) {
+																				   Point(PLAYER_2_X_POSITION, PLAYER_2_Y_POSITION)){
+	// init first shoots
+	for (int i = 0; i < 5; i++)
+	{
+		arrayOfShoot[i].setLocationPoint(locationPoint);
+		arrayOfShoot[i].setShootStatus(Shoot::ShootStatus::STOPPED);
+	}
+
 	// Move by inited directions
 	move(getDirection());
 }
@@ -137,33 +144,75 @@ void Player::updateWinCounter(bool isInitCounter){
 // curr player
 //---------------------------------------------------------------------------------------
 Point Player::getNextLocation(Direction::value d){
+	Point targetPoint = getLocationPoint();
+
 	// Take care all opptional directions
 	switch (direction)
 	{
 	case Direction::DOWN:{
-		return Point(getLocationPoint().getX(), getLocationPoint().getY() + 1);
+		targetPoint = Point(getLocationPoint().getX(), getLocationPoint().getY() + 1);
 
 		break;
 	}
 	case Direction::UP:{
-		return Point(getLocationPoint().getX(), getLocationPoint().getY() - 1);
+		targetPoint = Point(getLocationPoint().getX(), getLocationPoint().getY() - 1);
 
 		break;
 	}
 	case Direction::RIGHT:{
-		return Point(getLocationPoint().getX() + 1, getLocationPoint().getY());
+		targetPoint = Point(getLocationPoint().getX() + 1, getLocationPoint().getY());
 
 		break;
 	}
 	case Direction::LEFT:{
-		return Point(getLocationPoint().getX() - 1, getLocationPoint().getY());
+		targetPoint = Point(getLocationPoint().getX() - 1, getLocationPoint().getY());
 
 		break;
 	}
 	default:{ // STAY
-		return getLocationPoint();
+		
 		break;
 	}
 	}
 
+	// Case it was not STAY
+	if (direction != Direction::STAY){
+
+		// Needs to be cyclic: take care that screen size is (24 X 80)
+		if (getDirection() == Direction::RIGHT){
+			targetPoint.setX(targetPoint.getX() % LENGH_OF_LINE);
+		}
+		else if (getDirection() == Direction::LEFT && targetPoint.getX() == -1){
+			targetPoint.setX(LENGH_OF_LINE - 1);
+		}
+
+
+		if ((getDirection() == Direction::DOWN) && (targetPoint.getY() > LENGH_OF_PAGE)){
+			targetPoint.setY((targetPoint.getY() % LENGH_OF_PAGE) + AMOUNT_OF_INSTRUCTIONS_LINE);
+		}
+		else if ((getDirection() == Direction::UP) && (targetPoint.getY() <= AMOUNT_OF_INSTRUCTIONS_LINE)){
+			targetPoint.setY(LENGH_OF_PAGE - (targetPoint.getY() % AMOUNT_OF_INSTRUCTIONS_LINE));
+		}
+	}
+		
+	return targetPoint;
+}
+
+void Player::shoot(int iterationCounter){
+	// set the array lengh
+	for (int i = 0; i < (iterationCounter/200); i++)
+	{
+		if (arrayOfShoot[5 + i].getShootStatus() == Shoot::ShootStatus::NOT_ALIVE){
+			arrayOfShoot[5 + i].setShootStatus(Shoot::ShootStatus::STOPPED);
+		}
+	}
+
+	for (int i = 0; i < 12; i++)
+	{
+		if (arrayOfShoot[i].getShootStatus() != Shoot::ShootStatus::WORKING){
+			arrayOfShoot[i].setDirection(direction);
+			arrayOfShoot[i].setLocationPoint(getNextLocation(direction));
+			arrayOfShoot[i].move();
+		}
+	}
 }

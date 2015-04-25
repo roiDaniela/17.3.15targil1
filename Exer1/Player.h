@@ -15,6 +15,7 @@
 #define _PLAYER_H
 
 #include "Point.h"
+#include "Shoot.h"
 #include "Direction.h"
 #include "io_utils.h"
 
@@ -29,9 +30,9 @@ private:
 	unsigned int errorCounter;
 	static int winCounter_1;
 	static int winCounter_2;
-
 	bool isWin_1, isWin_2;
-	
+	Shoot arrayOfShoot[12];
+
 public:
 	static const int PLAYER_1_X_POSITION = 10;
 	static const int PLAYER_1_Y_POSITION = 9;
@@ -122,6 +123,7 @@ public:
 
 	void Player::move(Direction::value direction);
 
+	void Player::shoot(int iterationCouner);
 private:
 	numberOfPlayer playerNumber;
 	static Result_winner winner;
