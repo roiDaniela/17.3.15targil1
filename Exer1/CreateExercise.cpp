@@ -246,18 +246,19 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 }
 
 void CreateExercise::SetHiddenValues(){
-	memset(HiddenValuesLoc, 0 , 4 * sizeof( unsigned int ));
+	
+	HiddenValuesLoc[0] = num1; HiddenValuesLoc[1] = num2; HiddenValuesLoc[2] = num3; HiddenValuesLoc[3] = result;
 	if (((num1 < num2) || (num1 < num3)) && ((num1 < num3) || (num1 < result))) {
-		HiddenValuesLoc[0] = num1;
+		HiddenValuesLoc[0] = 0;
 	}
 	if (((num2 < num1) || (num2 < num3)) && ((num2 < num3) || (num2 < result))){
-		HiddenValuesLoc[1] = num2;
+		HiddenValuesLoc[1] = 0;
 	}
 	if (((num3 < num1) || (num3 < num2)) && ((num3 < num2 ) || (num3 < result))){
-		HiddenValuesLoc[2] = num3;
+		HiddenValuesLoc[2] = 0;
 	}
 	if (((result < num2) || (result < num3)) && ((result < num3) || (result < num1))){
-		HiddenValuesLoc[3] = result;
+		HiddenValuesLoc[3] = 0;
 	}
 }
 
