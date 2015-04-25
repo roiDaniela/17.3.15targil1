@@ -28,6 +28,8 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 	else{
 		OpSign2 = RandomOutput::CreateRandomSign();
 		CreateExercizeOfThreeVar(screenNumber, OpSign1, OpSign2);
+		SetHiddenValues();
+		SetExerciseToString();
 
 	}
 }
@@ -244,16 +246,36 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 }
 
 void CreateExercise::SetHiddenValues(){
+	memset(HiddenValuesLoc, 0 , 4 * sizeof( unsigned int ));
 	if (((num1 < num2) || (num1 < num3)) && ((num1 < num3) || (num1 < result))) {
 		HiddenValuesLoc[0] = num1;
 	}
-	else if (((num2 < num1) || (num2 < num3)) && ((num2 < num3) || (num2 < result))){
+	if (((num2 < num1) || (num2 < num3)) && ((num2 < num3) || (num2 < result))){
 		HiddenValuesLoc[1] = num2;
 	}
-	else if (((num3 < num1) || (num3 < num2)) && ((num3 < num2 ) || (num3 < result))){
+	if (((num3 < num1) || (num3 < num2)) && ((num3 < num2 ) || (num3 < result))){
 		HiddenValuesLoc[2] = num3;
 	}
-	else if (((result < num2) || (result < num3)) && ((result < num3) || (result < num1))){
+	if (((result < num2) || (result < num3)) && ((result < num3) || (result < num1))){
 		HiddenValuesLoc[3] = result;
 	}
+}
+
+void CreateExercise::SetExerciseToString(){
+	
+	
+	hiddenExercise = to_string(HiddenValuesLoc[0]) + ConvertSignToString( OpSign1)  + to_string(HiddenValuesLoc[1]) +
+					 ConvertSignToString(OpSign2) + to_string(HiddenValuesLoc[2]) + " = " + to_string(HiddenValuesLoc[3]);
+}
+
+string CreateExercise::ConvertSignToString(Sign::Operator OpSign){
+	if (OpSign == Sign::DIV)
+		return " / ";
+	if (OpSign == Sign::MULT)
+		return " * ";
+
+	if (OpSign == Sign::PLUS)
+		return " + ";
+	if (OpSign == Sign::MINUS)
+		return " - ";
 }

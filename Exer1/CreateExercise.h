@@ -57,6 +57,8 @@ private:
 	void CreateExercizeOfTwoVar(unsigned int CurrentLevel, Sign::Operator OpSign );
 	void CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::Operator OpSign1, Sign::Operator OpSign2);
 	void SetHiddenValues();
+	void SetExerciseToString();
+	string ConvertSignToString(Sign::Operator OpSign);
 	//---------------------------------------------------------------------------------------
 	// random var for the exercise
 	//---------------------------------------------------------------------------------------
