@@ -266,6 +266,9 @@ void CreateExercise::SetExerciseToString(){
 	
 	hiddenExercise = to_string(HiddenValuesLoc[0]) + ConvertSignToString( OpSign1)  + to_string(HiddenValuesLoc[1]) +
 					 ConvertSignToString(OpSign2) + to_string(HiddenValuesLoc[2]) + " = " + to_string(HiddenValuesLoc[3]);
+
+	hiddenExercise.replace(hiddenExercise.find('0'),1,"_"); 
+	hiddenExercise.replace(hiddenExercise.find('0'), 1, "_");
 }
 
 string CreateExercise::ConvertSignToString(Sign::Operator OpSign){
