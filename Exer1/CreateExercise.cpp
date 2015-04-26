@@ -308,7 +308,113 @@ bool CreateExercise::IsProblemSolved( unsigned int num ){
 		}
 	}
 	int res;
-	if (HiddenValuesLoc[0] == 0){
+	if (tmp[3] == 0){
+		switch (OpSign1)
+		{
+		case Sign::MINUS:{
+			switch (OpSign2)
+			{
+			case Sign::MINUS:
+				res = tmp[0] - tmp[1] - tmp[2];
+				break;
+			case Sign::PLUS:
+				res = tmp[0] - tmp[1] + tmp[2];
+				break;
+			case Sign::MULT:
+				res = tmp[0] - tmp[1] * tmp[2];
+				break;
+			case Sign::DIV:{
+				res = tmp[0] - tmp[1] / tmp[2];
+				if (tmp[1] % tmp[2] != 0) res = 22;
+				break;
+			}
+			default:
+				break;
+			}
+			break;
+		}
+		case Sign::PLUS:{
+			switch (OpSign2)
+			{
+			case Sign::MINUS:
+				res = tmp[0] + tmp[1] - tmp[2];
+				break;
+			case Sign::PLUS:
+				res = tmp[0] + tmp[1] + tmp[2];
+				break;
+			case Sign::MULT:
+				res = tmp[0] + tmp[1] * tmp[2];
+				break;
+			case Sign::DIV:{
+				res = tmp[0] + tmp[1] / tmp[2];
+				if (tmp[1] % tmp[2] != 0) res = 22;
+				break;
+			}
+			default:
+				break;
+			}
+			break;
+		}
+			break;
+		case Sign::MULT:{
+			switch (OpSign2)
+			{
+			case Sign::MINUS:
+				res = tmp[0] * tmp[1] - tmp[2];
+				break;
+			case Sign::PLUS:
+				res = tmp[0] * tmp[1] + tmp[2];
+				break;
+			case Sign::MULT:
+				res = tmp[0] * tmp[1] * tmp[2];
+				break;
+			case Sign::DIV:{
+				res = tmp[0] * tmp[1] / tmp[2];
+				if (tmp[1] % tmp[2] != 0) res = 22;
+				break;
+			}
+			default:
+				break;
+			}
+			break;
+		}
+		case Sign::DIV:{
+			if (tmp[0] % tmp[1] != 0) res = 22;
+			else{
+
+				switch (OpSign2)
+				{
+				case Sign::MINUS:
+					res = tmp[0] / tmp[1] - tmp[2];
+					break;
+				case Sign::PLUS:
+					res = tmp[0] / tmp[1] + tmp[2];
+					break;
+				case Sign::MULT:
+					res = tmp[0] / tmp[1] * tmp[2];
+					break;
+				case Sign::DIV:{
+					if (tmp[1] % tmp[2] != 0) res = 22;
+					res = tmp[0] / tmp[1] / tmp[2];
+					break;
+				}
+				default:
+					break;
+				}
+			}
+			break;
+		}
+			
+		default:
+			break;
+		}
+		bool is_solved = (res < 22 && res > 0);
+		if (is_solved) hiddenValue1 = res;
+		return is_solved;
+	}
+
+	
+	/*if (HiddenValuesLoc[0] == 0){
 		if (OpSign1 == Sign::PLUS || OpSign1 == Sign::MINUS) {
 			if (HiddenValuesLoc[3] != 0)
 				res = result - HiddenValuesLoc[3];
@@ -326,6 +432,6 @@ bool CreateExercise::IsProblemSolved( unsigned int num ){
 			}
 		}
 	}
-
+	*/
 	return true;
 }
