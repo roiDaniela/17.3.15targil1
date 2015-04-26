@@ -58,7 +58,9 @@ private:
 	void CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::Operator OpSign1, Sign::Operator OpSign2);
 	void SetHiddenValues();
 	void SetExerciseToString();
+	bool IsProblemSolved(unsigned int num);
 	string ConvertSignToString(Sign::Operator OpSign);
+	
 	//---------------------------------------------------------------------------------------
 	// random var for the exercise
 	//---------------------------------------------------------------------------------------
@@ -72,6 +74,7 @@ public:
 	unsigned int getHiddenValue1(){ return hiddenValue1; }
 	unsigned int getHiddenValue2(){ return hiddenValue2; }
 	string getHiddenExercise(){ return hiddenExercise; }
+	
 };
 
 #endif
