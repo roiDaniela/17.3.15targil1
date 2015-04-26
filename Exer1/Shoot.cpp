@@ -16,7 +16,21 @@
 
 void Shoot::move(){
 	Point targetPoint = getLocationPoint();
+	
+	calcShootTargetPoint(targetPoint);
 
+	// Delete last location
+	gotoxy(getLocationPoint());
+	cout << " ";
+
+	// set new location 
+	setLocationPoint(targetPoint);
+
+	// Print new location
+	printSighn();
+}
+
+void Shoot::calcShootTargetPoint(Point& targetPoint){
 	// Take care all opptional directions
 	switch (Shoot::getDirection())
 	{
@@ -64,23 +78,11 @@ void Shoot::move(){
 		else if ((getDirection() == Direction::UP) && (targetPoint.getY() <= AMOUNT_OF_INSTRUCTIONS_LINE)){
 			targetPoint.setY(LENGH_OF_PAGE - (targetPoint.getY() % AMOUNT_OF_INSTRUCTIONS_LINE));
 		}
-
-		// Delete last location
-		gotoxy(getLocationPoint());
-		cout << " ";
-
-		// set new location 
-		setLocationPoint(targetPoint);
-
-		// Print new location
-		printSighn();
 	}
 }
-
 void Shoot::Stop(){
 	setDirection(Direction::STAY);
 	setShootStatus(ShootStatus::STOPPED);
 	gotoxy(getLocationPoint());
 	cout << " ";
-
 }

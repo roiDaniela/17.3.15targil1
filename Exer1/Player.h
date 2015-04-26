@@ -31,8 +31,10 @@ private:
 	static int winCounter_1;
 	static int winCounter_2;
 	bool isWin_1, isWin_2;
-	Shoot arrayOfShoot[12];
+	Shoot arrayOfShoot[Shoot::SHOOT_ARRAY_MAX_SIZE];
 
+	// Private Methods
+	void calcTargetPoint(Point& targetPoint);
 public:
 	static const int PLAYER_1_X_POSITION = 10;
 	static const int PLAYER_1_Y_POSITION = 9;
@@ -61,7 +63,9 @@ public:
 		PLAYER_2_DOWN = 'm',
 		PLAYER_2_LEFT = 'j',
 		PLAYER_2_RIGHT = 'l',
-		PLAYER_2_UP = 'i'
+		PLAYER_2_UP = 'i',
+		PLAYER_1_SHOOT = 'z',
+		PLAYER_2_SHOOT = 'n'
 	};
 
 	enum Result_winner
@@ -91,6 +95,8 @@ public:
 		}
 	}
 
+	void Player::updateShootArray(int iterationCounter);
+
 	// Getter && Setter
 	void setDirection(Direction::value d){ direction = d; }
 	Direction::value getDirection(){ return direction; }
@@ -98,8 +104,10 @@ public:
 	void setLocationPoint(const Point&);
 	void setLocationPoint(unsigned int x, unsigned int y);
 
+	int getNumberOfShoots();
+
 	Point getLocationPoint(){ return locationPoint; }
-	Point getNextLocation(Direction::value d);
+	Point getNextLocation();
 
 	void addToErrorCounter(){++errorCounter;}
 	unsigned int getErrorCounter(){ return errorCounter; }
@@ -123,7 +131,16 @@ public:
 
 	void Player::move(Direction::value direction);
 
-	void Player::shoot(int iterationCouner);
+	void Player::movePlayerShoots(){
+		for (int i = 0; i < Shoot::SHOOT_ARRAY_MAX_SIZE; i++)
+		{
+			if (arrayOfShoot[i].getShootStatus() == Shoot::ShootStatus::WORKING){
+				arrayOfShoot[i].move();
+			}
+		}
+	}
+
+	void Player::shoot();
 private:
 	numberOfPlayer playerNumber;
 	static Result_winner winner;

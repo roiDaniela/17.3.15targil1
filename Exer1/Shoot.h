@@ -26,13 +26,8 @@ public:
 	{
 		NOT_ALIVE,
 		WORKING,
-		STOPPED
-	};
-
-	enum MOVE_KEYS_SHOOT
-	{
-		PLAYER_1_SHOOT = 'z',
-		PLAYER_2_SHOOT = 'n'
+		STOPPED,
+		READY
 	};
 
 private:
@@ -41,11 +36,14 @@ private:
 	Direction::value direction;
 	ShootStatus status;
 
+	// Private Methods
+	void Shoot::calcShootTargetPoint(Point& targetPoint);
 	// empty ctor
 	//Shoot(); // cant use like that
 	
 public:
-
+	static const int SHOOT_ARRAY_MIN_SIZE = 5;
+	static const int SHOOT_ARRAY_MAX_SIZE = 12;
 	static const char SHOOT_SIGN = '*';
 
 	// Getter && Setter

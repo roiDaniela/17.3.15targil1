@@ -106,6 +106,7 @@ void TheMathGame::startLevel(unsigned int currentLevel){
 //---------------------------------------------------------------------------------------
 void TheMathGame::prepareStatusSentenceOnScreen(){
 	int playerErrors;
+
 	string sentence = "Player 1 Life Errors: ";
 	playerErrors = (TOTAL_NUMBER_OF_ERRORS - player1.getErrorCounter());
 	for (int i = 0; i < playerErrors; i++)
@@ -134,9 +135,11 @@ void TheMathGame::prepareStatusSentenceOnScreen(){
 void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLevel){
 	prepareStatusSentenceOnScreen();
 	
-	// Check its not over than 1500 turns
+	// Check its not over than 1500 turns and update the players itaeration
 	UpdateIterationCounter();
-
+	player1.updateShootArray(iterationCounter);
+	player2.updateShootArray(iterationCounter);
+	
 	// pass over the keyHits in order to collect the players input
 	for (list<char>::const_iterator itr = keyHits.cbegin();
 		itr != keyHits.cend();
@@ -149,13 +152,13 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 
 	// Check the next location of players: in case they will meet set them as 'stay' otherwise set their 
 	// direction
-	if (player1.getNextLocation(player1.getDirection()) == player2.getNextLocation(player2.getDirection())){
+	if (player1.getNextLocation() == player2.getNextLocation()){
 		
-		if (player1.getNextLocation(player1.getDirection()) != player2.getLocationPoint() ){
+		if (player1.getNextLocation() != player2.getLocationPoint() ){
 			GameDB.remove_point(player1.getLocationPoint());
 			player1.move(player1.getDirection());
 		}
-		if (player2.getNextLocation(player2.getDirection()) != player1.getLocationPoint()){
+		if (player2.getNextLocation() != player1.getLocationPoint()){
 			GameDB.remove_point(player2.getLocationPoint());
 			player2.move(player2.getDirection());
 		}
@@ -254,6 +257,11 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 }
 
 void TheMathGame::doSubIteration(unsigned int currentLevel){
+	// Move the shoots
+	player1.movePlayerShoots();
+	player2.movePlayerShoots();
+
+	//
 }
 
 //---------------------------------------------------------------------------------------
@@ -314,6 +322,20 @@ void TheMathGame::setPlayerDirectionByKeyValue(Player::MOVE_KEYS_PLAYER curr_inp
 	case Player::PLAYER_2_UP:{
 		if (player2.getErrorCounter() < Player::MAX_ERROR_FOR_MATH_GAME){
 			player2.setDirection(Direction::UP);
+		}
+
+		break;
+	}
+	case Player::PLAYER_1_SHOOT:{
+		if (player1.getErrorCounter() < Player::MAX_ERROR_FOR_MATH_GAME){
+			player1.shoot();
+		}
+
+		break;
+	}
+	case Player::PLAYER_2_SHOOT:{
+		if (player2.getErrorCounter() < Player::MAX_ERROR_FOR_MATH_GAME){
+			player2.shoot();
 		}
 
 		break;
