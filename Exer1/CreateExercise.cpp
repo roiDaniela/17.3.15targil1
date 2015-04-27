@@ -194,8 +194,8 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 				CreateExercizeOfTwoVar(CurrentLevel, OpSign2);
 				b = num1;
 				c = num2;
-				res = RandomOutput::CreateRandomValue(21);
-				a = res - (b + c);
+				res = RandomOutput::CreateRandomValue(b*c+22,b*c+1);
+				a = res - (b * c);
 			}
 		}
 		else{
@@ -297,6 +297,7 @@ string CreateExercise::ConvertSignToString(Sign::Operator OpSign){
 }
 
 bool CreateExercise::IsProblemSolved( unsigned int num ){
+	bool is_solved = false;
 	if (hiddenValue1 == num)
 		return true;
 	unsigned int tmp[4];
@@ -408,7 +409,109 @@ bool CreateExercise::IsProblemSolved( unsigned int num ){
 		default:
 			break;
 		}
-		bool is_solved = (res < 22 && res > 0);
+		is_solved = (res < 22 && res > 0);
+		if (is_solved) hiddenValue1 = res;
+		return is_solved;
+	}
+	else if (tmp[2] == 0){
+		switch (OpSign1)
+		{
+		case Sign::MINUS:{
+			switch (OpSign2)
+			{
+			case Sign::MINUS:
+				res = result - tmp[0] + tmp[1];
+				break;
+			case Sign::PLUS:
+				res = result - tmp[0] - tmp[1];
+				break;
+			case Sign::MULT:{
+				if ((result - tmp[0]) % tmp[1] != 0) res = 22;
+				else res = (result - tmp[0]) / -int(tmp[1]);
+				break;
+			}
+			case Sign::DIV:
+				if (tmp[1] % (result - tmp[0]) != 0) res = 22;
+				else res = -int(tmp[1]) / (result - tmp[0]);
+				break;
+			default:
+				break;
+			}
+			break;
+		}
+		case Sign::PLUS:{
+			switch (OpSign2)
+			{
+			case Sign::MINUS:
+				res = result - tmp[0] + tmp[1];
+				break;
+			case Sign::PLUS:
+				res = result - tmp[0] - tmp[1];
+				break;
+			case Sign::MULT:
+				if ((result - tmp[0]) % tmp[1] != 0) res = 22;
+				else res = (result - tmp[0]) / int(tmp[1]);
+				break;
+			case Sign::DIV:
+				if (tmp[1] % (result - tmp[0]) != 0) res = 22;
+				else res = -int(tmp[1]) / (result - tmp[0]);
+				break;
+			default:
+				break;
+			}
+			break;
+		}
+		case Sign::MULT:{
+			switch (OpSign2)
+			{
+			case Sign::MINUS:
+				res = result - tmp[0] * tmp[1];
+				break;
+			case Sign::PLUS:
+				res = result - tmp[0] * tmp[1];
+				break;
+			case Sign::MULT:
+				if (result % (tmp[0] * tmp[1]) == 0) res = 22;
+				else res = result / (tmp[0] * tmp[1]);
+				break;
+			case Sign::DIV:
+				if ((tmp[0] * tmp[1]) % result == 0) res = 22;
+				else res = (tmp[0] * tmp[1]) / result;
+				break;
+			default:
+				break;
+			}
+			break;
+		}
+		case Sign::DIV:{
+			switch (OpSign2)
+			{
+			case Sign::MINUS:
+				if (tmp[0] % tmp[1] != 0) res = 22;
+				else res = result - tmp[0] / tmp[1];
+				break;
+			case Sign::PLUS:
+				if (tmp[0] % tmp[1] != 0) res = 22;
+				else res = result - tmp[0] / tmp[1];
+				break;
+			case Sign::MULT:
+				if (tmp[0] % tmp[1] != 0) res = 22;
+				else res = result / (tmp[0] / tmp[1]);
+				break;
+			case Sign::DIV:
+				if (tmp[0] % tmp[1] != 0) res = 22;
+				else res = (tmp[0] / tmp[1]) / result;
+				break;
+			default:
+				break;
+			}
+			break;
+		}
+		default:
+			break;
+		}
+
+		is_solved = (res < 22 && res > 0) || (res > -22 && res < 0);
 		if (is_solved) hiddenValue1 = res;
 		return is_solved;
 	}
