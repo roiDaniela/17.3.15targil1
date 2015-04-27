@@ -249,18 +249,18 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 void CreateExercise::SetHiddenValues(){
 	
 	HiddenValuesLoc[0] = num1; HiddenValuesLoc[1] = num2; HiddenValuesLoc[2] = num3; HiddenValuesLoc[3] = result;
-	if (((num1 < num2) && (num1 < num3)) || ((num1 < num2) && (num1 < result)) || ((num1 < num3) && (num1 < result)) ) {
+	if (((num1 < num2) || (num1 < num3)) && ((num1 < num3) || (num1 < result))) {
 		HiddenValuesLoc[0] = 0;
 		hiddenValue1 = num1;
 	}
-	if (((num2 < num1) && (num2 < num3)) || ((num2 < num1) && (num2 < result)) || ((num2 < num3) && (num2 < result))){
+	if (((num2 < num1) || (num2 < num3)) && ((num2 < num3) || (num2 < result))){
 		HiddenValuesLoc[1] = 0;
 		if (hiddenValue1 == num1)
 			hiddenValue2 = num2;
 		else
 			hiddenValue1 = num2;
 	}
-	if (((num3 < num2) && (num3 < num1)) || ((num3 < num1) && (num3 < result)) || ((num3 < num1) && (num3 < result))){
+	if (((num3 < num1) || (num3 < num2)) && ((num3 < num2 ) || (num3 < result))){
 		HiddenValuesLoc[2] = 0;
 
 		if (hiddenValue1 == num1 || hiddenValue1 == num2)
@@ -269,7 +269,7 @@ void CreateExercise::SetHiddenValues(){
 			hiddenValue1 = num3;
 
 	}
-	if (((result < num2) && (result < num3)) || ((result < num2) && (result < num1)) || ((result < num3) && ( result < num1 ))){
+	if (((result < num2) || (result < num3)) && ((result < num3) || (result < num1))){
 		HiddenValuesLoc[3] = 0;
 		hiddenValue2 = result;
 	}
