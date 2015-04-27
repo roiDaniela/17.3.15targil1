@@ -26,6 +26,7 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 		CreateExercizeOfTwoVar(screenNumber,OpSign1);
 	}
 	else{
+		screenNumber -= 10;
 		OpSign2 = RandomOutput::CreateRandomSign();
 		CreateExercizeOfThreeVar(screenNumber, OpSign1, OpSign2);
 		SetHiddenValues();
@@ -152,7 +153,7 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 		CreateExercizeOfTwoVar(CurrentLevel, OpSign1);
 		a = num1;
 		b = num2;
-		c = RandomOutput::CreateRandomValue(result - 1 );
+		c = RandomOutput::CreateRandomValue( 21 );
 		if (OpSign1 == Sign::DIV)
 			res = a / b - c;
 		else if (OpSign1 == Sign::MULT)
@@ -409,7 +410,7 @@ bool CreateExercise::IsProblemSolved( unsigned int num ){
 		default:
 			break;
 		}
-		is_solved = (res < 22 && res > 0);
+		is_solved = (res < 10000 && res > -10000);
 		if (is_solved) hiddenValue1 = res;
 		return is_solved;
 	}

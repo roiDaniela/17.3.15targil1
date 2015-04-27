@@ -35,12 +35,12 @@ class CreateExercise
 {
 private:
 	// private DM
-	unsigned int num1, num2, num3,result;
+	int num1, num2, num3,result;
 	unsigned int screenNumber;
-	unsigned int hiddenValue1, hiddenValue2;
+	int hiddenValue1, hiddenValue2;
 	string hiddenExercise;
 	static const int RANDOMIZE_INITNAL_DIFF = 10;
-	unsigned int HiddenValuesLoc[4];
+	int HiddenValuesLoc[4];
 	enum LocationOfVarInExercise
 	{
 		First,
