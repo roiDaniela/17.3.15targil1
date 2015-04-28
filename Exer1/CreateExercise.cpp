@@ -153,7 +153,7 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 		CreateExercizeOfTwoVar(CurrentLevel, OpSign1);
 		a = num1;
 		b = num2;
-		c = RandomOutput::CreateRandomValue( 21 );
+		c = (OpSign1 == Sign::MINUS) ? RandomOutput::CreateRandomValue( a - b ) : RandomOutput::CreateRandomValue(21);
 		if (OpSign1 == Sign::DIV)
 			res = a / b - c;
 		else if (OpSign1 == Sign::MULT)
@@ -301,7 +301,7 @@ bool CreateExercise::IsProblemSolved( unsigned int num ){
 	bool is_solved = false;
 	if (hiddenValue1 == num)
 		return true;
-	unsigned int tmp[4];
+	int tmp[4];
 	memcpy( tmp, HiddenValuesLoc, 4 * sizeof( unsigned int ) );
 	for (int i = 0; i < 4; i++){
 		if (HiddenValuesLoc[i] == 0){
@@ -410,7 +410,7 @@ bool CreateExercise::IsProblemSolved( unsigned int num ){
 		default:
 			break;
 		}
-		is_solved = (res < 22 && res > 0);
+		is_solved = (res <= 9261 && res > 0);
 		if (is_solved) hiddenValue1 = res;
 		return is_solved;
 	}
@@ -420,15 +420,17 @@ bool CreateExercise::IsProblemSolved( unsigned int num ){
 		case Sign::MINUS:{
 			switch (OpSign2)
 			{
-			case Sign::MINUS:
+			case Sign::MINUS:{
+				res = result - tmp[0] + tmp[1];
+				if (tmp[0] - tmp[1] - res != result) res = 22;
+				break;
+			}
+			case Sign::PLUS:
 				res = result - tmp[0] + tmp[1];
 				break;
-			case Sign::PLUS:
-				res = result - tmp[0] - tmp[1];
-				break;
 			case Sign::MULT:{
-				if ((result - tmp[0]) % tmp[1] != 0) res = 22;
-				else res = (result - tmp[0]) / -int(tmp[1]);
+				if (abs(int(result - tmp[0])) % tmp[1] != 0) res = 22;
+				else res = abs(int(result - tmp[0])) / -int(tmp[1]);
 				break;
 			}
 			case Sign::DIV:
@@ -512,7 +514,7 @@ bool CreateExercise::IsProblemSolved( unsigned int num ){
 			break;
 		}
 
-		is_solved = (res < 22 && res > 0) || (res > -22 && res < 0);
+		is_solved = (res < 22 && res > 0);// || (res > -22 && res < 0);
 		if (is_solved) hiddenValue1 = res;
 		return is_solved;
 	}
@@ -613,7 +615,7 @@ bool CreateExercise::IsProblemSolved( unsigned int num ){
 		default:
 			break;
 		}
-		is_solved = (res < 22 && res > 0) || (res > -22 && res < 0);
+		is_solved = (res < 22 && res > 0);// || (res > -22 && res < 0);
 		if (is_solved) hiddenValue1 = res;
 		return is_solved;
 	}

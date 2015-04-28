@@ -35,7 +35,7 @@ class CreateExercise
 {
 private:
 	// private DM
-	unsigned int num1, num2, num3,result;
+	int num1, num2, num3,result;
 	unsigned int screenNumber;
 	unsigned int hiddenValue1, hiddenValue2;
 	string hiddenExercise;
