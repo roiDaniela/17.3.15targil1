@@ -35,9 +35,9 @@ class CreateExercise
 {
 private:
 	// private DM
-	int num1, num2, num3,result;
+	unsigned int num1, num2, num3,result;
 	unsigned int screenNumber;
-	int hiddenValue1, hiddenValue2;
+	unsigned int hiddenValue1, hiddenValue2;
 	string hiddenExercise;
 	static const int RANDOMIZE_INITNAL_DIFF = 10;
 	int HiddenValuesLoc[4];
