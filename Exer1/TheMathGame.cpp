@@ -114,6 +114,7 @@ void TheMathGame::prepareStatusSentenceOnScreen(){
 		sentence += "*";
 	}
 	sentence += " Points:" + to_string(player1.getWinCounter());
+	sentence += " Shoots:" + to_string(player2.getNumberOfShoots());
 
 	writeOnScreenLocation(Lines::LINE_THREE_LEFT, sentence);
 
@@ -124,6 +125,7 @@ void TheMathGame::prepareStatusSentenceOnScreen(){
 		sentence += "*";
 	}
 	sentence += " Points:" + to_string(player2.getWinCounter());
+	sentence += " Shoots:" + to_string(player2.getNumberOfShoots());
 
 	writeOnScreenLocation(Lines::LINE_THREE_RIGHT, sentence);
 }

@@ -62,7 +62,7 @@ public:
 	Point getLocationPoint() const{ return locationPoint; } 
 
 	// ctor
-	Shoot(Direction::value d, Point p) : direction(d), locationPoint(p), status(ShootStatus::WORKING) {
+	Shoot(Direction::value d, const Point& p) : direction(d), locationPoint(p), status(ShootStatus::WORKING) {
 		move();
 	}
 

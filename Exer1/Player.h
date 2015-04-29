@@ -129,16 +129,9 @@ public:
 		(playerNumber == One) ? cout << PLAYER_1_SIGN : cout << PLAYER_2_SIGN;
 	}
 
-	void Player::move(Direction::value direction);
+	void move(Direction::value direction);
 
-	void Player::movePlayerShoots(){
-		for (int i = 0; i < Shoot::SHOOT_ARRAY_MAX_SIZE; i++)
-		{
-			if (arrayOfShoot[i].getShootStatus() == Shoot::ShootStatus::WORKING){
-				arrayOfShoot[i].move();
-			}
-		}
-	}
+	void movePlayerShoots();
 
 	void Player::shoot();
 private:

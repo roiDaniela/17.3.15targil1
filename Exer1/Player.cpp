@@ -192,3 +192,12 @@ void Player::updateShootArray(int iterationCounter){
 		}
 	}
 }
+
+void Player::movePlayerShoots(){
+	for (int i = 0; i < Shoot::SHOOT_ARRAY_MAX_SIZE; i++)
+	{
+		if (arrayOfShoot[i].getShootStatus() == Shoot::ShootStatus::WORKING){
+			arrayOfShoot[i].move();
+		}
+	}
+}
