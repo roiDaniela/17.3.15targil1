@@ -39,7 +39,7 @@ class TheMathGame : public ISpecificGame
 {
 private:
 	// Consts
-	static const int TOTAL_NUMBER_OF_LEVELS = 20;
+	static const int TOTAL_NUMBER_OF_LEVELS = 40;
 	static const int TOTAL_NUMBER_OF_CLOCK_TURNS = 1500;
 	static const int TOTAL_NUMBER_OF_ERRORS = 3;
 

@@ -76,12 +76,12 @@ void GameManager::run()
 			{
 				CleanTopOfScreen();
 				int numberLevelChosen;
-				string sentence = "Please enter a screen level between 1 - 20: ";
+				string sentence = "Please enter a screen level between 1 - 40: ";
 				writeOnScreenLocation(Lines::LINE_ONE_LEFT, sentence);
 				gotoxy(sentence.length() + 1, 0); // GO TO end of the sentence in line 1
 				cin >> numberLevelChosen;
 
-				while (numberLevelChosen > 20 || numberLevelChosen < 1){
+				while (numberLevelChosen > 40 || numberLevelChosen < 1){
 					writeOnScreenLocation(Lines::LINE_TWO_LEFT, "ilegal number of level: Please type a legal number");
 					gotoxy(sentence.length() + 1, 0); // GO TO end of the sentence in line 1
 					cin >> numberLevelChosen;
