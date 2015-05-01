@@ -66,7 +66,7 @@ public:
 		move();
 	}
 
-	Shoot() : direction(Direction::STAY), locationPoint(Point(0,0)), status(ShootStatus::NOT_ALIVE) {}
+	// Shoot() : direction(Direction::STAY), locationPoint(Point(0,0)), status(ShootStatus::NOT_ALIVE) {}
 
 	// Methods
 	void Stop();

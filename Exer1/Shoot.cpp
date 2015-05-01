@@ -17,11 +17,11 @@
 void Shoot::move(){
 	Point targetPoint = getLocationPoint();
 	
-	calcShootTargetPoint(targetPoint);
-
 	// Delete last location
-	gotoxy(getLocationPoint());
+	gotoxy(targetPoint);
 	cout << " ";
+
+	calcShootTargetPoint(targetPoint);
 
 	// set new location 
 	setLocationPoint(targetPoint);
