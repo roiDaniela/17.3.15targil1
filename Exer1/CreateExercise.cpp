@@ -22,7 +22,7 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 	// randomise sighn
 	OpSign1 = RandomOutput::CreateRandomSign();//randomSighn();
 
-	if (!screenNumber > 20){
+	if (!(screenNumber > 20)){
 		CreateExercizeOfTwoVar(screenNumber,OpSign1);
 	}
 	else{
@@ -145,7 +145,7 @@ void CreateExercise::CreateExercizeOfTwoVar(unsigned int CurrentLevel, Sign::Ope
 
 
 void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::Operator OpSign1, Sign::Operator OpSign2){
-	unsigned int a, b, c, res , Hidden1, Hidden2;
+	unsigned int a, b, c, res;
 	switch (OpSign2)
 	{
 	case Sign::MINUS:
@@ -153,15 +153,29 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 		CreateExercizeOfTwoVar(CurrentLevel, OpSign1);
 		a = num1;
 		b = num2;
-		c = (OpSign1 == Sign::MINUS) ? RandomOutput::CreateRandomValue( a - b ) : RandomOutput::CreateRandomValue(21);
-		if (OpSign1 == Sign::DIV)
+		while (result <= 3){
+			CreateExercizeOfTwoVar(CurrentLevel, OpSign1);
+			a = num1;
+			b = num2;
+		}
+
+		if (OpSign1 == Sign::DIV){
+			c = RandomOutput::CreateRandomValue(a / b - 1);
 			res = a / b - c;
-		else if (OpSign1 == Sign::MULT)
+			
+		}
+		else if (OpSign1 == Sign::MULT){
+			c = RandomOutput::CreateRandomValue(a * b - 1);
 			res = a * b - c;
-		else if (OpSign1 == Sign::MINUS)
+		}
+		else if (OpSign1 == Sign::MINUS){
+			c = RandomOutput::CreateRandomValue(a - b - 1);
 			res = a - b - c;
-		else
+		}
+		else{
+			c = RandomOutput::CreateRandomValue(a + b - 1);
 			res = a + b - c;
+		}
 		break;
 	}
 	case Sign::PLUS:
@@ -247,31 +261,42 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 }
 
 void CreateExercise::SetHiddenValues(){
-	
+	hiddenValue1 = hiddenValue2 = 0;
 	HiddenValuesLoc[0] = num1; HiddenValuesLoc[1] = num2; HiddenValuesLoc[2] = num3; HiddenValuesLoc[3] = result;
-	if (((num1 < num2) && (num1 < num3)) || ((num1 < num2) && (num1 < result)) || ((num1 < num3) && (num1 < result))) {
+	if (((num1 <= num2) && (num1 <= num3)) || ((num1 <= num2) && (num1 <= result)) || ((num1 <= num3) && (num1 <= result))) {
 		HiddenValuesLoc[0] = 0;
 		hiddenValue1 = num1;
 	}
-	if (((num2 < num1) && (num2 < num3)) || ((num2 < num1) && (num2 < result)) || ((num2 < num3) && (num2 < result))){
+	if (((num2 <= num1) && (num2 <= num3)) || ((num2 <= num1) && (num2 <= result)) || ((num2 <= num3) && (num2 <= result))){
 		HiddenValuesLoc[1] = 0;
 		if (hiddenValue1 == num1)
 			hiddenValue2 = num2;
 		else
 			hiddenValue1 = num2;
 	}
-	if (((num3 < num2) && (num3 < num1)) || ((num3 < num1) && (num3 < result)) || ((num3 < num1) && (num3 < result))){
-		HiddenValuesLoc[2] = 0;
-
-		if (hiddenValue1 == num1 || hiddenValue1 == num2)
-			hiddenValue2 = num3;
-		else
-			hiddenValue1 = num3;
+	if (((num3 <= num2) && (num3 <= num1)) || ((num3 <= num1) && (num3 <= result)) || ((num3 <= result) && (num3 <= num2))){
+		if (hiddenValue1 == 0 || hiddenValue2 == 0|| hiddenValue1 == hiddenValue2){
+			if (hiddenValue1 == hiddenValue2) HiddenValuesLoc[1] = num2;
+			HiddenValuesLoc[2] = 0;
+			if (hiddenValue1 == num1 || hiddenValue1 == num2)
+				hiddenValue2 = num3;
+			else
+				hiddenValue1 = num3;
+		}
 
 	}
-	if (((result < num2) && (result < num3)) || ((result < num2) && (result < num1)) || ((result < num3) && (result < num1))){
-		HiddenValuesLoc[3] = 0;
-		hiddenValue2 = result;
+	if (((result <= num2) && (result <= num3)) || ((result <= num2) && (result <= num1)) || ((result <= num3) && (result <= num1))){
+		if ((hiddenValue1 == 0 || hiddenValue2 == 0 || hiddenValue1 == hiddenValue2)){
+			if (hiddenValue1 == hiddenValue2){
+				if (HiddenValuesLoc[3] == 0)
+					HiddenValuesLoc[3] = num3;
+				else if (HiddenValuesLoc[2] == 0)
+					HiddenValuesLoc[2] = num2;
+			}
+		
+			HiddenValuesLoc[3] = 0;
+			hiddenValue2 = result;
+		}
 	}
 }
 
@@ -280,9 +305,11 @@ void CreateExercise::SetExerciseToString(){
 	
 	hiddenExercise = " " + to_string(HiddenValuesLoc[0]) + " " + ConvertSignToString(OpSign1)  +" " + to_string(HiddenValuesLoc[1]) +
 		+" " + ConvertSignToString(OpSign2) + " " + to_string(HiddenValuesLoc[2]) + " = " + to_string(HiddenValuesLoc[3]) + " " ;
-
-	hiddenExercise.replace(hiddenExercise.find(" 0 "), 3 ," _ "); 
-	hiddenExercise.replace(hiddenExercise.find(" 0 "), 3 , " _ ");
+	hiddenExercise  +=   "   ";
+	string::size_type t = hiddenExercise.find(" 0 ");
+	hiddenExercise.replace(t, 3 ," _ ");
+	t = hiddenExercise.find(" 0 ");
+	hiddenExercise.replace(t, 3 , " _ ");
 }
 
 string CreateExercise::ConvertSignToString(Sign::Operator OpSign){
@@ -290,11 +317,10 @@ string CreateExercise::ConvertSignToString(Sign::Operator OpSign){
 		return " / ";
 	if (OpSign == Sign::MULT)
 		return " * ";
-
 	if (OpSign == Sign::PLUS)
 		return " + ";
-	if (OpSign == Sign::MINUS)
-		return " - ";
+	
+	return " - ";
 }
 
 bool CreateExercise::IsProblemSolved( unsigned int num ){
@@ -410,7 +436,7 @@ bool CreateExercise::IsProblemSolved( unsigned int num ){
 		default:
 			break;
 		}
-		is_solved = (res <= 9261 && res > 0);
+		is_solved = (res < 22 && res > 0);
 		if (is_solved) hiddenValue1 = res;
 		return is_solved;
 	}
@@ -421,7 +447,7 @@ bool CreateExercise::IsProblemSolved( unsigned int num ){
 			switch (OpSign2)
 			{
 			case Sign::MINUS:{
-				res = result - tmp[0] + tmp[1];
+				res = tmp[0] - tmp[1] - result;
 				if (tmp[0] - tmp[1] - res != result) res = 22;
 				break;
 			}
@@ -446,7 +472,7 @@ bool CreateExercise::IsProblemSolved( unsigned int num ){
 			switch (OpSign2)
 			{
 			case Sign::MINUS:
-				res = result - tmp[0] + tmp[1];
+				res = tmp[0] + tmp[1] - tmp[3];
 				break;
 			case Sign::PLUS:
 				res = result - tmp[0] - tmp[1];
@@ -474,11 +500,11 @@ bool CreateExercise::IsProblemSolved( unsigned int num ){
 				res = result - tmp[0] * tmp[1];
 				break;
 			case Sign::MULT:
-				if (result % (tmp[0] * tmp[1]) == 0) res = 22;
+				if (result % (tmp[0] * tmp[1]) != 0) res = 22;
 				else res = result / (tmp[0] * tmp[1]);
 				break;
 			case Sign::DIV:
-				if ((tmp[0] * tmp[1]) % result == 0) res = 22;
+				if ((tmp[0] * tmp[1]) % result != 0) res = 22;
 				else res = (tmp[0] * tmp[1]) / result;
 				break;
 			default:
@@ -619,24 +645,6 @@ bool CreateExercise::IsProblemSolved( unsigned int num ){
 		if (is_solved) hiddenValue1 = res;
 		return is_solved;
 	}
-	/*if (HiddenValuesLoc[0] == 0){
-		if (OpSign1 == Sign::PLUS || OpSign1 == Sign::MINUS) {
-			if (HiddenValuesLoc[3] != 0)
-				res = result - HiddenValuesLoc[3];
-			if (HiddenValuesLoc[2] == 0){
-				if (OpSign2 == Sign::DIV)
-					if (OpSign1 == Sign::PLUS)
-						res *= num3;
-					else
-						res *= -int(num3);
-				else if (OpSign2 == Sign::MULT)
-					if (OpSign1 == Sign::PLUS)
-						res = res % num3 == 0 ? res /= num3 : 0 ;
-					else
-						res = res % num3 == 0 ?  res /= -int(num3) : 0;
-			}
-		}
-	}
-	*/
+	
 	return true;
 }
