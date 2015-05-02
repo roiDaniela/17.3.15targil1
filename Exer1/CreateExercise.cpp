@@ -261,55 +261,70 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 }
 
 void CreateExercise::SetHiddenValues(){
+	
 	hiddenValue1 = hiddenValue2 = 0;
-	HiddenValuesLoc[0] = num1; HiddenValuesLoc[1] = num2; HiddenValuesLoc[2] = num3; HiddenValuesLoc[3] = result;
-	if (((num1 <= num2) && (num1 <= num3)) || ((num1 <= num2) && (num1 <= result)) || ((num1 <= num3) && (num1 <= result))) {
-		HiddenValuesLoc[0] = 0;
-		hiddenValue1 = num1;
-	}
-	if (((num2 <= num1) && (num2 <= num3)) || ((num2 <= num1) && (num2 <= result)) || ((num2 <= num3) && (num2 <= result))){
-		HiddenValuesLoc[1] = 0;
-		if (hiddenValue1 == num1)
-			hiddenValue2 = num2;
+	if (screenNumber < 21){
+		LocationOfVarInExercise lv = randomLocationOfVar();
+		if (OpSign1 == Sign::PLUS || OpSign1 == Sign::MULT)
+			hiddenValue1 = (lv == First) ? num1 : num2;
 		else
-			hiddenValue1 = num2;
+			hiddenValue1 = (lv == First) ? num2 : result;
 	}
-	if (((num3 <= num2) && (num3 <= num1)) || ((num3 <= num1) && (num3 <= result)) || ((num3 <= result) && (num3 <= num2))){
-		if (hiddenValue1 == 0 || hiddenValue2 == 0|| hiddenValue1 == hiddenValue2){
-			if (hiddenValue1 == hiddenValue2) HiddenValuesLoc[1] = num2;
-			HiddenValuesLoc[2] = 0;
-			if (hiddenValue1 == num1 || hiddenValue1 == num2)
-				hiddenValue2 = num3;
+	else {
+		HiddenValuesLoc[0] = num1; HiddenValuesLoc[1] = num2; HiddenValuesLoc[2] = num3; HiddenValuesLoc[3] = result;
+		if (((num1 <= num2) && (num1 <= num3)) || ((num1 <= num2) && (num1 <= result)) || ((num1 <= num3) && (num1 <= result))) {
+			HiddenValuesLoc[0] = 0;
+			hiddenValue1 = num1;
+		}
+		if (((num2 <= num1) && (num2 <= num3)) || ((num2 <= num1) && (num2 <= result)) || ((num2 <= num3) && (num2 <= result))){
+			HiddenValuesLoc[1] = 0;
+			if (hiddenValue1 == num1)
+				hiddenValue2 = num2;
 			else
-				hiddenValue1 = num3;
+				hiddenValue1 = num2;
 		}
-
-	}
-	if (((result <= num2) && (result <= num3)) || ((result <= num2) && (result <= num1)) || ((result <= num3) && (result <= num1))){
-		if ((hiddenValue1 == 0 || hiddenValue2 == 0 || hiddenValue1 == hiddenValue2)){
-			if (hiddenValue1 == hiddenValue2){
-				if (HiddenValuesLoc[3] == 0)
-					HiddenValuesLoc[3] = num3;
-				else if (HiddenValuesLoc[2] == 0)
-					HiddenValuesLoc[2] = num2;
+		if (((num3 <= num2) && (num3 <= num1)) || ((num3 <= num1) && (num3 <= result)) || ((num3 <= result) && (num3 <= num2))){
+			if (hiddenValue1 == 0 || hiddenValue2 == 0 || hiddenValue1 == hiddenValue2){
+				if (hiddenValue1 == hiddenValue2) HiddenValuesLoc[1] = num2;
+				HiddenValuesLoc[2] = 0;
+				if (hiddenValue1 == num1 || hiddenValue1 == num2)
+					hiddenValue2 = num3;
+				else
+					hiddenValue1 = num3;
 			}
-		
-			HiddenValuesLoc[3] = 0;
-			hiddenValue2 = result;
+
+		}
+		if (((result <= num2) && (result <= num3)) || ((result <= num2) && (result <= num1)) || ((result <= num3) && (result <= num1))){
+			if ((hiddenValue1 == 0 || hiddenValue2 == 0 || hiddenValue1 == hiddenValue2)){
+				if (hiddenValue1 == hiddenValue2){
+					if (HiddenValuesLoc[3] == 0)
+						HiddenValuesLoc[3] = num3;
+					else if (HiddenValuesLoc[2] == 0)
+						HiddenValuesLoc[2] = num2;
+				}
+
+				HiddenValuesLoc[3] = 0;
+				hiddenValue2 = result;
+			}
 		}
 	}
+	
 }
 
 void CreateExercise::SetExerciseToString(){
-	
-	
-	hiddenExercise = " " + to_string(HiddenValuesLoc[0]) + " " + ConvertSignToString(OpSign1)  +" " + to_string(HiddenValuesLoc[1]) +
-		+" " + ConvertSignToString(OpSign2) + " " + to_string(HiddenValuesLoc[2]) + " = " + to_string(HiddenValuesLoc[3]) + " " ;
-	hiddenExercise  +=   "   ";
-	string::size_type t = hiddenExercise.find(" 0 ");
-	hiddenExercise.replace(t, 3 ," _ ");
-	t = hiddenExercise.find(" 0 ");
-	hiddenExercise.replace(t, 3 , " _ ");
+	if (screenNumber < 21){
+		hiddenExercise = " " + to_string( num1 ) + " " + ConvertSignToString(OpSign1) + to_string( num2 ) + string(" = ") + to_string(result);
+		hiddenExercise.replace(hiddenExercise.find(to_string(hiddenValue1)),3," _ ");
+	}
+	else{
+		hiddenExercise = " " + to_string(HiddenValuesLoc[0]) + " " + ConvertSignToString(OpSign1) + " " + to_string(HiddenValuesLoc[1]) +
+			+" " + ConvertSignToString(OpSign2) + " " + to_string(HiddenValuesLoc[2]) + " = " + to_string(HiddenValuesLoc[3]) + " ";
+		hiddenExercise += "   ";
+		string::size_type t = hiddenExercise.find(" 0 ");
+		hiddenExercise.replace(t, 3, " _ ");
+		t = hiddenExercise.find(" 0 ");
+		hiddenExercise.replace(t, 3, " _ ");
+	}
 }
 
 string CreateExercise::ConvertSignToString(Sign::Operator OpSign){
