@@ -29,6 +29,7 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 		screenNumber -= 10;
 		OpSign2 = RandomOutput::CreateRandomSign();
 		CreateExercizeOfThreeVar(screenNumber, OpSign1, OpSign2);
+		screenNumber += 10;
 		SetHiddenValues();
 		SetExerciseToString();
 
@@ -264,6 +265,7 @@ void CreateExercise::SetHiddenValues(){
 	
 	hiddenValue1 = hiddenValue2 = 0;
 	if (screenNumber < 21){
+		HiddenValuesLoc[0] = num1; HiddenValuesLoc[1] = num2; HiddenValuesLoc[2] = result;
 		LocationOfVarInExercise lv = randomLocationOfVar();
 		if (OpSign1 == Sign::PLUS || OpSign1 == Sign::MULT)
 			hiddenValue1 = (lv == First) ? num1 : num2;
@@ -340,8 +342,12 @@ string CreateExercise::ConvertSignToString(Sign::Operator OpSign){
 
 bool CreateExercise::IsProblemSolved( unsigned int num ){
 	bool is_solved = false;
-	if (hiddenValue1 == num)
-		return true;
+	if ( num == ScreenData::VALUE_NOT_FOUND || num == 35 || num == 64 )
+		return is_solved;
+	if (hiddenValue1 == num){
+		hiddenValue1 = hiddenValue2;
+		return (hiddenValue1 == 0);
+	}
 	int tmp[4];
 	memcpy( tmp, HiddenValuesLoc, 4 * sizeof( unsigned int ) );
 	for (int i = 0; i < 4; i++){
@@ -451,9 +457,7 @@ bool CreateExercise::IsProblemSolved( unsigned int num ){
 		default:
 			break;
 		}
-		is_solved = (res < 22 && res > 0);
-		if (is_solved) hiddenValue1 = res;
-		return is_solved;
+		
 	}
 	else if (tmp[2] == 0){
 		switch (OpSign1)
@@ -555,9 +559,6 @@ bool CreateExercise::IsProblemSolved( unsigned int num ){
 			break;
 		}
 
-		is_solved = (res < 22 && res > 0);// || (res > -22 && res < 0);
-		if (is_solved) hiddenValue1 = res;
-		return is_solved;
 	}
 	else if (tmp[1] == 0){
 		switch (OpSign1)
@@ -656,10 +657,14 @@ bool CreateExercise::IsProblemSolved( unsigned int num ){
 		default:
 			break;
 		}
-		is_solved = (res < 22 && res > 0);// || (res > -22 && res < 0);
-		if (is_solved) hiddenValue1 = res;
-		return is_solved;
+		
 	}
 	
-	return true;
+	is_solved = (res < 22 && res > 0);// || (res > -22 && res < 0);
+	if (is_solved) {
+		hiddenValue1 = res;
+		hiddenValue2 = 0;
+		is_solved = false;
+	}
+	return is_solved;
 }

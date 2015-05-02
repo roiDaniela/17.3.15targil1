@@ -176,11 +176,13 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	}	
 
 	//check if won
-	if (GameDB.GetElementByPoint(player1.getLocationPoint()) == getExcercise(player1.getPlayerNumber()).getHiddenValue1()){
+	//if (GameDB.GetElementByPoint(player1.getLocationPoint()) == getExcercise(player1.getPlayerNumber()).getHiddenValue1()){
+	if (getExcercise(Player::One).IsProblemSolved(GameDB.GetElementByPoint(player1.getLocationPoint()))){
 		player1.setIsWin(true);
 		setGameWinner();
 	}
-	else if (GameDB.GetElementByPoint(player2.getLocationPoint()) == getExcercise(player2.getPlayerNumber()).getHiddenValue1()){
+	//else if (GameDB.GetElementByPoint(player2.getLocationPoint()) == getExcercise(player2.getPlayerNumber()).getHiddenValue1()){
+	else if (getExcercise(Player::Two).IsProblemSolved(GameDB.GetElementByPoint(player2.getLocationPoint()))){
 		player2.setIsWin(true);
 		setGameWinner();
 	}
