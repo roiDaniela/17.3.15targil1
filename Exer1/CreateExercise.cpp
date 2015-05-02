@@ -264,6 +264,11 @@ void CreateExercise::SetHiddenValues(){
 	
 	hiddenValue1 = hiddenValue2 = 0;
 	if (screenNumber < 21){
+		LocationOfVarInExercise lv = randomLocationOfVar();
+		if (OpSign1 == Sign::PLUS || OpSign1 == Sign::MULT)
+			hiddenValue1 = (lv == First) ? num1 : num2;
+		else
+			hiddenValue1 = (lv == First) ? num2 : result;
 	}
 	else {
 		HiddenValuesLoc[0] = num1; HiddenValuesLoc[1] = num2; HiddenValuesLoc[2] = num3; HiddenValuesLoc[3] = result;
@@ -307,15 +312,19 @@ void CreateExercise::SetHiddenValues(){
 }
 
 void CreateExercise::SetExerciseToString(){
-	
-	
-	hiddenExercise = " " + to_string(HiddenValuesLoc[0]) + " " + ConvertSignToString(OpSign1)  +" " + to_string(HiddenValuesLoc[1]) +
-		+" " + ConvertSignToString(OpSign2) + " " + to_string(HiddenValuesLoc[2]) + " = " + to_string(HiddenValuesLoc[3]) + " " ;
-	hiddenExercise  +=   "   ";
-	string::size_type t = hiddenExercise.find(" 0 ");
-	hiddenExercise.replace(t, 3 ," _ ");
-	t = hiddenExercise.find(" 0 ");
-	hiddenExercise.replace(t, 3 , " _ ");
+	if (screenNumber < 21){
+		hiddenExercise = " " + to_string( num1 ) + " " + ConvertSignToString(OpSign1) + to_string( num2 ) + string(" = ") + to_string(result);
+		hiddenExercise.replace(hiddenExercise.find(to_string(hiddenValue1)),3," _ ");
+	}
+	else{
+		hiddenExercise = " " + to_string(HiddenValuesLoc[0]) + " " + ConvertSignToString(OpSign1) + " " + to_string(HiddenValuesLoc[1]) +
+			+" " + ConvertSignToString(OpSign2) + " " + to_string(HiddenValuesLoc[2]) + " = " + to_string(HiddenValuesLoc[3]) + " ";
+		hiddenExercise += "   ";
+		string::size_type t = hiddenExercise.find(" 0 ");
+		hiddenExercise.replace(t, 3, " _ ");
+		t = hiddenExercise.find(" 0 ");
+		hiddenExercise.replace(t, 3, " _ ");
+	}
 }
 
 string CreateExercise::ConvertSignToString(Sign::Operator OpSign){
