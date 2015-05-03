@@ -24,18 +24,15 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 
 	if (!(screenNumber > 20)){
 		CreateExercizeOfTwoVar(screenNumber,OpSign1);
-		SetHiddenValues();
-		SetExerciseToString();
 	}
 	else{
 		screenNumber -= 10;
 		OpSign2 = RandomOutput::CreateRandomSign();
 		CreateExercizeOfThreeVar(screenNumber, OpSign1, OpSign2);
 		screenNumber += 10;
-		SetHiddenValues();
-		SetExerciseToString();
-
 	}
+	SetHiddenValues();
+	SetExerciseToString();
 }
 
 void CreateExercise::CreateExercizeOfTwoVar(unsigned int CurrentLevel, Sign::Operator OpSign){
@@ -383,8 +380,8 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 				res = tmp[0] - tmp[1] * tmp[2];
 				break;
 			case Sign::DIV:{
-				res = tmp[0] - tmp[1] / tmp[2];
 				if (tmp[1] % tmp[2] != 0) res = 22;
+				res = tmp[0] - tmp[1] / tmp[2];
 				break;
 			}
 			default:
@@ -405,8 +402,9 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 				res = tmp[0] + tmp[1] * tmp[2];
 				break;
 			case Sign::DIV:{
-				res = tmp[0] + tmp[1] / tmp[2];
 				if (tmp[1] % tmp[2] != 0) res = 22;
+				else res = tmp[0] + tmp[1] / tmp[2];
+				
 				break;
 			}
 			default:
@@ -414,7 +412,7 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 			}
 			break;
 		}
-						break;
+			break;
 		case Sign::MULT:{
 			switch (OpSign2)
 			{
@@ -428,8 +426,8 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 				res = tmp[0] * tmp[1] * tmp[2];
 				break;
 			case Sign::DIV:{
-				res = tmp[0] * tmp[1] / tmp[2];
 				if (tmp[1] % tmp[2] != 0) res = 22;
+				else res = tmp[0] * tmp[1] / tmp[2];
 				break;
 			}
 			default:
@@ -542,32 +540,32 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 			break;
 		}
 		case Sign::DIV:{
-			switch (OpSign2)
-			{
-			case Sign::MINUS:
-				if (tmp[0] % tmp[1] != 0) res = 22;
-				else res = result - tmp[0] / tmp[1];
+			if (tmp[0] % tmp[1] != 0)
+				res = 22;
+			else{
+				switch (OpSign2)
+				{
+				case Sign::MINUS:
+					res = result - tmp[0] / tmp[1];
+					break;
+				case Sign::PLUS:
+					res = result - tmp[0] / tmp[1];
+					break;
+				case Sign::MULT:
+					res = result / (tmp[0] / tmp[1]);
+					break;
+				case Sign::DIV:
+					res = (tmp[0] / tmp[1]) / result;
+					break;
+				default:
+					break;
+				}
+			}
 				break;
-			case Sign::PLUS:
-				if (tmp[0] % tmp[1] != 0) res = 22;
-				else res = result - tmp[0] / tmp[1];
-				break;
-			case Sign::MULT:
-				if (tmp[0] % tmp[1] != 0) res = 22;
-				else res = result / (tmp[0] / tmp[1]);
-				break;
-			case Sign::DIV:
-				if (tmp[0] % tmp[1] != 0) res = 22;
-				else res = (tmp[0] / tmp[1]) / result;
-				break;
+			}
 			default:
 				break;
 			}
-			break;
-		}
-		default:
-			break;
-		}
 
 	}
 	else if (tmp[1] == 0){
