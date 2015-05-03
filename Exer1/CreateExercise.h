@@ -70,11 +70,13 @@ public:
 	//Ctor
 	CreateExercise(unsigned int);
 
+	enum ExerciseErrMsg{ SOLVED = 5000, WAIT_FOR_SECOND_PARAM, WRONG_VALUE, PLAYER_ONE_VALUE_INSERTED = 35, PLAYER_TWO_VALUE_INSERTED = 64 };
 	// Methods (Getters)
 	unsigned int getHiddenValue1(){ return hiddenValue1; }
 	unsigned int getHiddenValue2(){ return hiddenValue2; }
 	string getHiddenExercise(){ return hiddenExercise; }
-	bool IsProblemSolved(unsigned int num);
+	ExerciseErrMsg IsProblemSolved(unsigned int num);
+	
 };
 
 #endif

@@ -24,6 +24,8 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 
 	if (!(screenNumber > 20)){
 		CreateExercizeOfTwoVar(screenNumber,OpSign1);
+		SetHiddenValues();
+		SetExerciseToString();
 	}
 	else{
 		screenNumber -= 10;
@@ -316,7 +318,7 @@ void CreateExercise::SetHiddenValues(){
 void CreateExercise::SetExerciseToString(){
 	if (screenNumber < 21){
 		hiddenExercise = " " + to_string( num1 ) + " " + ConvertSignToString(OpSign1) + to_string( num2 ) + string(" = ") + to_string(result);
-		hiddenExercise.replace(hiddenExercise.find(to_string(hiddenValue1)),3," _ ");
+		hiddenExercise.replace(hiddenExercise.find(to_string(hiddenValue1)),2,"_");
 	}
 	else{
 		hiddenExercise = " " + to_string(HiddenValuesLoc[0]) + " " + ConvertSignToString(OpSign1) + " " + to_string(HiddenValuesLoc[1]) +
@@ -340,13 +342,21 @@ string CreateExercise::ConvertSignToString(Sign::Operator OpSign){
 	return " - ";
 }
 
-bool CreateExercise::IsProblemSolved( unsigned int num ){
-	bool is_solved = false;
-	if ( num == ScreenData::VALUE_NOT_FOUND || num == 35 || num == 64 )
+
+CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num){
+	ExerciseErrMsg is_solved = WRONG_VALUE;
+	if ( num == ScreenData::VALUE_NOT_FOUND || num == PLAYER_ONE_VALUE_INSERTED || num == PLAYER_TWO_VALUE_INSERTED )
 		return is_solved;
 	if (hiddenValue1 == num){
 		hiddenValue1 = hiddenValue2;
-		return (hiddenValue1 == 0);
+		hiddenValue2 = 0;
+		if (hiddenValue1 == 0)
+			return (SOLVED);
+		return WAIT_FOR_SECOND_PARAM;
+	}
+	else{
+		if (hiddenValue2 == 0)
+			return WRONG_VALUE;
 	}
 	int tmp[4];
 	memcpy( tmp, HiddenValuesLoc, 4 * sizeof( unsigned int ) );
@@ -475,7 +485,7 @@ bool CreateExercise::IsProblemSolved( unsigned int num ){
 				break;
 			case Sign::MULT:{
 				if (abs(int(result - tmp[0])) % tmp[1] != 0) res = 22;
-				else res = abs(int(result - tmp[0])) / -int(tmp[1]);
+				else res = abs(int(result - tmp[0])) / int(tmp[1]);
 				break;
 			}
 			case Sign::DIV:
@@ -659,12 +669,12 @@ bool CreateExercise::IsProblemSolved( unsigned int num ){
 		}
 		
 	}
+	if (!(res < 22 && res > 0))
+		return WRONG_VALUE;
 	
-	is_solved = (res < 22 && res > 0);// || (res > -22 && res < 0);
-	if (is_solved) {
-		hiddenValue1 = res;
-		hiddenValue2 = 0;
-		is_solved = false;
-	}
+	hiddenValue1 = res;
+	hiddenValue2 = 0;
+	is_solved = WAIT_FOR_SECOND_PARAM;
+	
 	return is_solved;
 }

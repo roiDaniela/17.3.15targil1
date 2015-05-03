@@ -174,24 +174,27 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		GameDB.remove_point(player2.getLocationPoint());
 		player2.move(player2.getDirection());
 	}	
-
+	
+	CreateExercise::ExerciseErrMsg ExerMsgForPlayer1 = getExcercise(Player::One).IsProblemSolved(GameDB.GetElementByPoint(player1.getLocationPoint()));
+	CreateExercise::ExerciseErrMsg ExerMsgForPlayer2 = getExcercise(Player::Two).IsProblemSolved(GameDB.GetElementByPoint(player2.getLocationPoint()));
 	//check if won
 	//if (GameDB.GetElementByPoint(player1.getLocationPoint()) == getExcercise(player1.getPlayerNumber()).getHiddenValue1()){
-	if (getExcercise(Player::One).IsProblemSolved(GameDB.GetElementByPoint(player1.getLocationPoint()))){
+	if (ExerMsgForPlayer1 == CreateExercise::SOLVED){
 		player1.setIsWin(true);
 		setGameWinner();
 	}
 	//else if (GameDB.GetElementByPoint(player2.getLocationPoint()) == getExcercise(player2.getPlayerNumber()).getHiddenValue1()){
-	else if (getExcercise(Player::Two).IsProblemSolved(GameDB.GetElementByPoint(player2.getLocationPoint()))){
+	else if (ExerMsgForPlayer2 == CreateExercise::SOLVED){
 		player2.setIsWin(true);
 		setGameWinner();
 	}
-	else
+	else 
 	{
 		// Case its player1 wrong catch
 		// check if in the if condition GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN is needed
 		if (GameDB.GetElementByPoint(player1.getLocationPoint()) != ScreenData::VALUE_NOT_FOUND &&
-			GameDB.GetElementByPoint(player1.getLocationPoint()) != Player::PLAYER_1_SIGN){
+			GameDB.GetElementByPoint(player1.getLocationPoint()) != Player::PLAYER_1_SIGN &&
+			ExerMsgForPlayer1 == CreateExercise::WRONG_VALUE ){
 			player1.addToErrorCounter();
 			
 			// case 2 digits number delete from screen the second digit
@@ -209,7 +212,8 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		// Case its player2 wrong catch
 		// check if in the if condition GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN is needed
 		if (GameDB.GetElementByPoint(player2.getLocationPoint()) != ScreenData::VALUE_NOT_FOUND &&
-		    GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN){
+		    GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN &&
+			ExerMsgForPlayer2 == CreateExercise::WRONG_VALUE ){
 					player2.addToErrorCounter();
 
 			// case 2 digits number delete from screen the second digit

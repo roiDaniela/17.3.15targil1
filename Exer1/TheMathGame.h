@@ -79,7 +79,7 @@ public:
 	//---------------------------------------------------------------------------------------
 	// this function gets the player and returns its exercise as the new type: exercise
 	//---------------------------------------------------------------------------------------
-	CreateExercise getExcercise(Player::numberOfPlayer playerNumber){ return ((playerNumber == Player::One) ? excersisePlayer_1: excersisePlayer_2); }
+	CreateExercise& getExcercise(Player::numberOfPlayer playerNumber){ return ((playerNumber == Player::One) ? excersisePlayer_1: excersisePlayer_2); }
 	
 	//---------------------------------------------------------------------------------------
 	// this function gets the player and curr level and sets the exercise
