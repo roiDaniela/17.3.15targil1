@@ -86,3 +86,8 @@ void Shoot::Stop(){
 	gotoxy(getLocationPoint());
 	cout << " ";
 }
+
+void Shoot::printSighn(){
+	gotoxy(getLocationPoint());
+	cout << Shoot::SHOOT_SIGN;
+}

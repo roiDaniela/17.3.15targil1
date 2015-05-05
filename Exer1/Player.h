@@ -27,11 +27,10 @@ private:
 	// private DM
 	Point locationPoint;
 	Direction::value direction;
-	unsigned int errorCounter;
+	unsigned int errorCounter, shootCounter;
 	static int winCounter_1;
 	static int winCounter_2;
 	bool isWin_1, isWin_2;
-	Shoot arrayOfShoot[Shoot::SHOOT_ARRAY_MAX_SIZE];
 
 	// Private Methods
 	void calcTargetPoint(Point& targetPoint);
@@ -82,20 +81,7 @@ public:
 	// this method updates the win counter
 	//---------------------------------------------------------------------------------------
 	void updateWinCounter(bool isInitCounter = false);
-
-	//---------------------------------------------------------------------------------------
-	// win counter getter
-	//---------------------------------------------------------------------------------------
-	int getWinCounter() const{
-		if (getPlayerNumber() == One){
-			return winCounter_1;
-		}
-		else if (getPlayerNumber() == Two){
-			return winCounter_2;
-		}
-	}
-
-	void Player::updateShootArray(int iterationCounter);
+	int  getWinCounter() const;
 
 	// Getter && Setter
 	void setDirection(Direction::value d){ direction = d; }
@@ -103,8 +89,6 @@ public:
 
 	void setLocationPoint(const Point&);
 	void setLocationPoint(unsigned int x, unsigned int y);
-
-	int getNumberOfShoots();
 
 	Point getLocationPoint(){ return locationPoint; }
 	Point getNextLocation();
@@ -116,22 +100,13 @@ public:
 	void setIsWin(bool isWin){
 		((getPlayerNumber() == One) ? isWin_1 : isWin_2) = isWin;
 		updateWinCounter();
-		
 	}
 	bool getIsWin() const { return ((getPlayerNumber() == One) ? isWin_1 : isWin_2); }
 
 	// Methods
-	//---------------------------------------------------------------------------------------
-	// this method prints the player sign
-	//---------------------------------------------------------------------------------------
-	void printSighn(){
-		gotoxy(getLocationPoint());
-		(playerNumber == One) ? cout << PLAYER_1_SIGN : cout << PLAYER_2_SIGN;
-	}
+	void printSighn();
 
 	void move(Direction::value direction);
-
-	void movePlayerShoots();
 
 	void Player::shoot();
 private:

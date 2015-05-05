@@ -39,7 +39,7 @@ private:
 	// Private Methods
 	void Shoot::calcShootTargetPoint(Point& targetPoint);
 	// empty ctor
-	//Shoot(); // cant use like that
+	Shoot(); // cant use like that
 	
 public:
 	static const int SHOOT_ARRAY_MIN_SIZE = 5;
@@ -66,14 +66,11 @@ public:
 		move();
 	}
 
-	 Shoot() : direction(Direction::STAY), locationPoint(Point(0,0)), status(ShootStatus::NOT_ALIVE) {}
+	// Shoot() : direction(Direction::STAY), locationPoint(Point(0,0)), status(ShootStatus::NOT_ALIVE) {}
 
 	// Methods
 	void Stop();
 	void move();
-	void printSighn(){
-		gotoxy(getLocationPoint());
-		cout << Shoot::SHOOT_SIGN;
-	}
+	void printSighn();
 };
 #endif

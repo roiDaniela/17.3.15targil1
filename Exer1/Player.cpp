@@ -25,14 +25,8 @@ Player::Player(Player::numberOfPlayer number, Direction::value d) : playerNumber
 																	isWin_2(false),
 																    locationPoint((number == Player::One) ? 
 																	               Point(PLAYER_1_X_POSITION, PLAYER_1_Y_POSITION) : 
-																				   Point(PLAYER_2_X_POSITION, PLAYER_2_Y_POSITION)){
-	// init first shoots
-	for (int i = 0; i < Shoot::SHOOT_ARRAY_MIN_SIZE; i++)
-	{
-		arrayOfShoot[i].setLocationPoint(locationPoint);
-		arrayOfShoot[i].setShootStatus(Shoot::ShootStatus::READY);
-	}
-
+																				   Point(PLAYER_2_X_POSITION, PLAYER_2_Y_POSITION)),
+														            shootCounter(0){
 	// Move by inited directions
 	move(getDirection());
 }
@@ -52,18 +46,15 @@ void Player::setLocationPoint(unsigned int x, unsigned int y){
 }
 
 //---------------------------------------------------------------------------------------
-// this method returns the amount of player's shoot
+// this method returns the amount of player's wins
 //---------------------------------------------------------------------------------------
-int Player::getNumberOfShoots(){
-	int sizeCounter = 0;
-	for (int i = 0; i < Shoot::SHOOT_ARRAY_MAX_SIZE; i++)
-	{
-		if (arrayOfShoot[i].getShootStatus() == Shoot::ShootStatus::READY){
-			++sizeCounter;
-		}
+int Player::getWinCounter() const{
+	if (getPlayerNumber() == One){
+		return winCounter_1;
 	}
-
-	return sizeCounter;
+	else if (getPlayerNumber() == Two){
+		return winCounter_2;
+	}
 }
 //---------------------------------------------------------------------------------------
 // this method calculate the next location by the direction
@@ -173,31 +164,20 @@ Point Player::getNextLocation(){
 }
 
 void Player::shoot(){
-	for (int i = 0; i < Shoot::SHOOT_ARRAY_MAX_SIZE; i++)
-	{
-		if (arrayOfShoot[i].getShootStatus() == Shoot::ShootStatus::READY){
-			arrayOfShoot[i].setDirection(direction);
-			arrayOfShoot[i].setLocationPoint(getNextLocation());
-			arrayOfShoot[i].setShootStatus(Shoot::ShootStatus::WORKING);
-		}
-	}
+	//for (int i = 0; i < Shoot::SHOOT_ARRAY_MAX_SIZE; i++)
+	//{
+	//	if (arrayOfShoot[i].getShootStatus() == Shoot::ShootStatus::READY){
+	//		arrayOfShoot[i].setDirection(direction);
+	//		arrayOfShoot[i].setLocationPoint(getNextLocation());
+	//		arrayOfShoot[i].setShootStatus(Shoot::ShootStatus::WORKING);
+	//	}
+	//}
 }
 
-void Player::updateShootArray(int iterationCounter){
-	// set the array lengh
-	for (int i = 0; i < (iterationCounter / 200); i++)
-	{
-		if (arrayOfShoot[Shoot::SHOOT_ARRAY_MIN_SIZE + i].getShootStatus() == Shoot::ShootStatus::NOT_ALIVE){
-			arrayOfShoot[Shoot::SHOOT_ARRAY_MIN_SIZE + i].setShootStatus(Shoot::ShootStatus::READY);
-		}
-	}
-}
-
-void Player::movePlayerShoots(){
-	for (int i = 0; i < Shoot::SHOOT_ARRAY_MAX_SIZE; i++)
-	{
-		if (arrayOfShoot[i].getShootStatus() == Shoot::ShootStatus::WORKING){
-			arrayOfShoot[i].move();
-		}
-	}
+//---------------------------------------------------------------------------------------
+// this method prints the player sign
+//---------------------------------------------------------------------------------------
+void Player::printSighn(){
+	gotoxy(getLocationPoint());
+	(playerNumber == One) ? cout << PLAYER_1_SIGN : cout << PLAYER_2_SIGN;
 }

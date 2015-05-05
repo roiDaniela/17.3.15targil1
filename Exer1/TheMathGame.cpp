@@ -114,7 +114,6 @@ void TheMathGame::prepareStatusSentenceOnScreen(){
 		sentence += "*";
 	}
 	sentence += " Points:" + to_string(player1.getWinCounter());
-	sentence += " Shoots:" + to_string(player2.getNumberOfShoots());
 
 	writeOnScreenLocation(Lines::LINE_THREE_LEFT, sentence);
 
@@ -125,7 +124,6 @@ void TheMathGame::prepareStatusSentenceOnScreen(){
 		sentence += "*";
 	}
 	sentence += " Points:" + to_string(player2.getWinCounter());
-	sentence += " Shoots:" + to_string(player2.getNumberOfShoots());
 
 	writeOnScreenLocation(Lines::LINE_THREE_RIGHT, sentence);
 }
@@ -139,8 +137,6 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	
 	// Check its not over than 1500 turns and update the players itaeration
 	UpdateIterationCounter();
-	player1.updateShootArray(iterationCounter);
-	player2.updateShootArray(iterationCounter);
 	
 	// pass over the keyHits in order to collect the players input
 	for (list<char>::const_iterator itr = keyHits.cbegin();
@@ -266,8 +262,8 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 
 void TheMathGame::doSubIteration(unsigned int currentLevel){
 	// Move the shoots
-	player1.movePlayerShoots();
-	player2.movePlayerShoots();
+	/*player1.movePlayerShoots();
+	player2.movePlayerShoots();*/
 
 	//
 }

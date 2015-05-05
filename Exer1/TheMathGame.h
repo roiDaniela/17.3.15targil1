@@ -50,6 +50,7 @@ private:
 	CreateExercise excersisePlayer_1;
 	CreateExercise excersisePlayer_2;
 	ScreenData GameDB;
+	Shoot* arrayOfShoot[24];
 
 	// praivte Methods
 	void TheMathGame::setPlayerDirectionByKeyValue(Player::MOVE_KEYS_PLAYER curr_input);
