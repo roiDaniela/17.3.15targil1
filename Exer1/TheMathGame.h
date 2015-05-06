@@ -50,9 +50,10 @@ private:
 	CreateExercise excersisePlayer_1;
 	CreateExercise excersisePlayer_2;
 	ScreenData GameDB;
+	//list<Shoot> listOfShoots;
 
 	// praivte Methods
-	void TheMathGame::setPlayerDirectionByKeyValue(Player::MOVE_KEYS_PLAYER curr_input);
+	void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input);
 	bool iterationCounterIsBiggerThanAlowd() const;
 
 	//---------------------------------------------------------------------------------------
@@ -75,6 +76,7 @@ public:
 	void UpdateIterationCounter(){ iterationCounter++; }
 	void initParams(int currentLevel);
 	ScreenData& GetDB();
+	//void addShoot(Shoot s){ listOfShoots.insert(player1.gets, s); }
 
 	//---------------------------------------------------------------------------------------
 	// this function gets the player and returns its exercise as the new type: exercise
@@ -96,7 +98,7 @@ public:
 	//---------------------------------------------------------------------------------------
 	// Ctor
 	//---------------------------------------------------------------------------------------
-	TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL),player1(Player::One), player2(Player::Two), iterationCounter(0){}
+	TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL),player1(Player::One), player2(Player::Two), iterationCounter(0)/*, listOfShoots(NULL)*/{}
 
 	// Public Methods
 	//---------------------------------------------------------------------------------------

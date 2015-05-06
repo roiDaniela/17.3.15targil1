@@ -143,9 +143,9 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		itr != keyHits.cend();
 		++itr)
 	{
-		Player::MOVE_KEYS_PLAYER curr_input = static_cast<Player::MOVE_KEYS_PLAYER>(*itr);
+		Player::PLAYER_KEYS curr_input = static_cast<Player::PLAYER_KEYS>(*itr);
 
-		setPlayerDirectionByKeyValue(curr_input);
+		setKeyValues(curr_input);
 	}
 
 	// Check the next location of players: in case they will meet set them as 'stay' otherwise set their 
@@ -271,7 +271,7 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 //---------------------------------------------------------------------------------------
 // this function gets a direction as param and move the suit player  
 //---------------------------------------------------------------------------------------
-void TheMathGame::setPlayerDirectionByKeyValue(Player::MOVE_KEYS_PLAYER curr_input){
+void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input){
 
 	switch (curr_input){
 	case Player::PLAYER_1_DOWN:{

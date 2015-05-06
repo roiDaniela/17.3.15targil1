@@ -163,15 +163,13 @@ Point Player::getNextLocation(){
 	return targetPoint;
 }
 
-void Player::shoot(){
-	//for (int i = 0; i < Shoot::SHOOT_ARRAY_MAX_SIZE; i++)
-	//{
-	//	if (arrayOfShoot[i].getShootStatus() == Shoot::ShootStatus::READY){
-	//		arrayOfShoot[i].setDirection(direction);
-	//		arrayOfShoot[i].setLocationPoint(getNextLocation());
-	//		arrayOfShoot[i].setShootStatus(Shoot::ShootStatus::WORKING);
-	//	}
-	//}
+Shoot* Player::shoot(){
+	if (shootCounter > 0){
+		--shootCounter;
+		return new Shoot(getDirection(), getNextLocation());
+	}
+	
+	return NULL;
 }
 
 //---------------------------------------------------------------------------------------

@@ -53,7 +53,7 @@ public:
 		MAX_ERROR_FOR_MATH_GAME = 3
 	};
 
-	enum MOVE_KEYS_PLAYER
+	enum PLAYER_KEYS
 	{
 		PLAYER_1_DOWN = 'x',
 		PLAYER_1_LEFT = 'a',
@@ -108,7 +108,7 @@ public:
 
 	void move(Direction::value direction);
 
-	void Player::shoot();
+	Shoot* Player::shoot();
 private:
 	numberOfPlayer playerNumber;
 	static Result_winner winner;
