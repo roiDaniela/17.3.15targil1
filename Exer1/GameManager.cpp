@@ -191,7 +191,7 @@ char GameManager::doLevelIterations()
 	//---------------------------------------
 	// this is the game iterations loop
 	//---------------------------------------
-	while(!actualGame.isLevelDone() && !escapePressed) {
+	while(!actualGame.isLevelDone(currentLevel) && !escapePressed) {
 		escapePressed = !doIteration();
 	}
 	//-----------------------------------------------------
@@ -199,7 +199,7 @@ char GameManager::doLevelIterations()
 	//-----------------------------------------------------
 
 	// check why we are here
-	if(actualGame.isLevelDone()) {
+	if (actualGame.isLevelDone(currentLevel)) {
 		clear_screen();
 		CleanTopOfScreen();
 		string sentence = "";

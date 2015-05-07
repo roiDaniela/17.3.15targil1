@@ -15,10 +15,6 @@
 
 #include "TheMathGame.h"
 
-int Player::winCounter_1 = 0; //declaring statics
-int Player::winCounter_2 = 0; //declaring statics
-Player::Result_winner Player::winner; //declaring statics
-
 //---------------------------------------------------------------------------------------
 // this function is responsible for the option "continue" in sub menu
 //---------------------------------------------------------------------------------------
@@ -60,11 +56,9 @@ bool TheMathGame::iterationCounterIsBiggerThanAlowd() const{
 //---------------------------------------------------------------------------------------
 void TheMathGame::initParams(int currentLevel){
 	iterationCounter = 0;
-	player1.setIsWin(false);
 	player1.setLocationPoint(Player::PLAYER_1_X_POSITION, Player::PLAYER_1_Y_POSITION);
 	player1.initErrorCounter();
 	
-	player2.setIsWin(false);
 	player2.setLocationPoint(Player::PLAYER_2_X_POSITION, Player::PLAYER_2_Y_POSITION);
 	player2.initErrorCounter();
 	if (currentLevel == 1){
@@ -176,13 +170,11 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	//check if won
 	//if (GameDB.GetElementByPoint(player1.getLocationPoint()) == getExcercise(player1.getPlayerNumber()).getHiddenValue1()){
 	if (ExerMsgForPlayer1 == CreateExercise::SOLVED){
-		player1.setIsWin(true);
-		setGameWinner();
+		setGameWinner(player1, currentLevel);
 	}
 	//else if (GameDB.GetElementByPoint(player2.getLocationPoint()) == getExcercise(player2.getPlayerNumber()).getHiddenValue1()){
 	else if (ExerMsgForPlayer2 == CreateExercise::SOLVED){
-		player2.setIsWin(true);
-		setGameWinner();
+		setGameWinner(player2, currentLevel);
 	}
 	else 
 	{
@@ -347,5 +339,14 @@ void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input){
 	default:{
 		break;
 	}
+	}
+}
+
+// ctor
+TheMathGame::TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL), player1(Player::One), player2(Player::Two), iterationCounter(0)/*, listOfShoots(NULL)*/{
+	// init the array of wins
+	for (int i = 0; i < 40; i++)
+	{
+		arrayOfWinsInLevel[i] = NO_BODY_WON;
 	}
 }

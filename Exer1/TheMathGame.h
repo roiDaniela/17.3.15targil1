@@ -43,6 +43,14 @@ private:
 	static const int TOTAL_NUMBER_OF_CLOCK_TURNS = 1500;
 	static const int TOTAL_NUMBER_OF_ERRORS = 3;
 
+	enum ResultLevel
+	{
+		PLAYER_ONE_WON = 1,
+		PLAYER_TWO_WON,
+		TIE,
+		NO_BODY_WON
+	};
+
 	// private DM
 	unsigned int iterationCounter;
 	Player player1;
@@ -50,24 +58,26 @@ private:
 	CreateExercise excersisePlayer_1;
 	CreateExercise excersisePlayer_2;
 	ScreenData GameDB;
+	ResultLevel arrayOfWinsInLevel[40];
 	//list<Shoot> listOfShoots;
 
 	// praivte Methods
 	void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input);
 	bool iterationCounterIsBiggerThanAlowd() const;
 
+	void setLevelResult(ResultLevel result, unsigned int currentLevel){ arrayOfWinsInLevel[currentLevel] = result; }
 	//---------------------------------------------------------------------------------------
 	// this function sets the winner in the game
 	//---------------------------------------------------------------------------------------
-	void setGameWinner(){
-		if (player1.getWinCounter() > player2.getWinCounter()){
-			Player::setWinner(Player::PLAYER_1_WON);
+	void setGameWinner(Player player, unsigned int currentLevel){
+		if (player.getPlayerNumber() == Player::numberOfPlayer::One){
+			setLevelResult(PLAYER_ONE_WON, currentLevel);
 		}
-		else if (player1.getWinCounter() < player2.getWinCounter()){
-			Player::setWinner(Player::PLAYER_2_WON);
+		else if (player.getPlayerNumber() == Player::numberOfPlayer::Two){
+			setLevelResult(PLAYER_TWO_WON, currentLevel);
 		}
 		else{
-			Player::setWinner(Player::TIE);
+			setLevelResult(TIE, currentLevel);
 		}
 	}
 public:
@@ -98,13 +108,14 @@ public:
 	//---------------------------------------------------------------------------------------
 	// Ctor
 	//---------------------------------------------------------------------------------------
-	TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL),player1(Player::One), player2(Player::Two), iterationCounter(0)/*, listOfShoots(NULL)*/{}
+	TheMathGame();
 
 	// Public Methods
 	//---------------------------------------------------------------------------------------
 	// this functuin checks if the level finished
 	//---------------------------------------------------------------------------------------
-	bool isLevelDone()const{ return (player1.getIsWin() || player2.getIsWin() || iterationCounterIsBiggerThanAlowd()); }
+	bool isLevelDone(unsigned int currentLevel)const{
+		return (arrayOfWinsInLevel[currentLevel] != NO_BODY_WON || iterationCounterIsBiggerThanAlowd()); }
 	
 	//---------------------------------------------------------------------------------------
 	// this function checks if there is another level, otherwise game ended and 
@@ -115,8 +126,9 @@ public:
 		// Check if game finished so print the winner
 		if (!result){
 			CleanTopOfScreen();
-			Player::Result_winner resultWinner = Player::getWinner();
+
 			string sentence = ";";
+			/*Player::Result_winner resultWinner = Player::getWinner();
 			if (resultWinner == Player::PLAYER_1_WON){
 				sentence = "PLAYER 1 WON !!";
 			}
@@ -125,7 +137,7 @@ public:
 			}
 			else if (resultWinner == Player::TIE){
 				sentence = "IT WAS TIE";
-			}
+			}*/
 
 			writeOnScreenLocation(Lines::LINE_ONE_MIDDLE, sentence);
 		}

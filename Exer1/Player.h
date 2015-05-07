@@ -28,9 +28,8 @@ private:
 	Point locationPoint;
 	Direction::value direction;
 	unsigned int errorCounter, shootCounter;
-	static int winCounter_1;
-	static int winCounter_2;
-	bool isWin_1, isWin_2;
+	/*static*/ int winCounter_1; // not needed
+	/*static*/ int winCounter_2; // not neede
 
 	// Private Methods
 	void calcTargetPoint(Point& targetPoint);
@@ -67,13 +66,6 @@ public:
 		PLAYER_2_SHOOT = 'n'
 	};
 
-	enum Result_winner
-	{
-		PLAYER_1_WON = 1,
-		PLAYER_2_WON,
-		TIE
-	};
-
 	// Ctor
 	Player(numberOfPlayer number, Direction::value d = Direction::STAY);
 
@@ -97,12 +89,6 @@ public:
 	unsigned int getErrorCounter(){ return errorCounter; }
 	void initErrorCounter(){ errorCounter = 0; }
 
-	void setIsWin(bool isWin){
-		((getPlayerNumber() == One) ? isWin_1 : isWin_2) = isWin;
-		updateWinCounter();
-	}
-	bool getIsWin() const { return ((getPlayerNumber() == One) ? isWin_1 : isWin_2); }
-
 	// Methods
 	void printSighn();
 
@@ -111,13 +97,11 @@ public:
 	Shoot* Player::shoot();
 private:
 	numberOfPlayer playerNumber;
-	static Result_winner winner;
+
 public:
 	// Getter && Setter
 	void SetPlayerNumber(numberOfPlayer playerNumber1) { playerNumber = playerNumber1; }
 	numberOfPlayer getPlayerNumber() const{ return playerNumber; }
-	static Result_winner getWinner() { return winner; }
-	static void setWinner(Result_winner winner1){ winner = winner1; }
 };
 
 #endif
