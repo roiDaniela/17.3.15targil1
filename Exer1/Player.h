@@ -27,13 +27,13 @@ private:
 	// private DM
 	Point locationPoint;
 	Direction::value direction;
-	unsigned int errorCounter, shootCounter;
-	/*static*/ int winCounter_1; // not needed
-	/*static*/ int winCounter_2; // not neede
+	
+	unsigned int errorCounter, shootCounter, winCounter;
 
 	// Private Methods
 	void calcTargetPoint(Point& targetPoint);
 public:
+	unsigned int winCounter2;
 	static const int PLAYER_1_X_POSITION = 10;
 	static const int PLAYER_1_Y_POSITION = 9;
 	static const int PLAYER_2_X_POSITION = 70;
@@ -71,9 +71,7 @@ public:
 
 	//---------------------------------------------------------------------------------------
 	// this method updates the win counter
-	//---------------------------------------------------------------------------------------
-	void updateWinCounter(bool isInitCounter = false);
-	int  getWinCounter() const;
+	//--------------------------------------------------------------------------------------
 
 	// Getter && Setter
 	void setDirection(Direction::value d){ direction = d; }
@@ -85,10 +83,14 @@ public:
 	Point getLocationPoint(){ return locationPoint; }
 	Point getNextLocation();
 
-	void addToErrorCounter(){++errorCounter;}
-	unsigned int getErrorCounter(){ return errorCounter; }
+	void addToErrorCounter(){++errorCounter;} 
+	unsigned int getErrorCounter() const { return errorCounter; }
 	void initErrorCounter(){ errorCounter = 0; }
 
+	void addToWinCounter(){ ++winCounter; } 
+	unsigned int getWinCounter() const { return winCounter; }
+	void initWinCounter(){ winCounter = 0; }
+	
 	// Methods
 	void printSighn();
 

@@ -56,14 +56,15 @@ bool TheMathGame::iterationCounterIsBiggerThanAlowd() const{
 //---------------------------------------------------------------------------------------
 void TheMathGame::initParams(int currentLevel){
 	iterationCounter = 0;
+	cleanShootList();
 	player1.setLocationPoint(Player::PLAYER_1_X_POSITION, Player::PLAYER_1_Y_POSITION);
 	player1.initErrorCounter();
 	
 	player2.setLocationPoint(Player::PLAYER_2_X_POSITION, Player::PLAYER_2_Y_POSITION);
 	player2.initErrorCounter();
 	if (currentLevel == 1){
-		player1.updateWinCounter(true);
-		player2.updateWinCounter(true);
+		player1.initWinCounter();
+		player2.initWinCounter();
 	}
 	GameDB.clear_data();
 }
@@ -167,9 +168,11 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	
 	CreateExercise::ExerciseErrMsg ExerMsgForPlayer1 = getExcercise(Player::One).IsProblemSolved(GameDB.GetElementByPoint(player1.getLocationPoint()));
 	CreateExercise::ExerciseErrMsg ExerMsgForPlayer2 = getExcercise(Player::Two).IsProblemSolved(GameDB.GetElementByPoint(player2.getLocationPoint()));
+	
 	//check if won
 	//if (GameDB.GetElementByPoint(player1.getLocationPoint()) == getExcercise(player1.getPlayerNumber()).getHiddenValue1()){
 	if (ExerMsgForPlayer1 == CreateExercise::SOLVED){
+		//player1.addToWinCounter();
 		setGameWinner(player1, currentLevel);
 	}
 	//else if (GameDB.GetElementByPoint(player2.getLocationPoint()) == getExcercise(player2.getPlayerNumber()).getHiddenValue1()){
@@ -236,28 +239,35 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 			player2.setLocationPoint(NULL, NULL); // won't be exist when checking if a crush happend
 		}
 
+
 		// Do it just 1 time at 5 iterations
 		if (getIterationCounter() % 5 == 0){
 			// Add random number to screen
-			unsigned int value = RandomOutput::CreateRandomValue(10 + currentLevel);
-			int numOfDigits = (value > ScreenData::TOW_DIGIT_VALUE) ? 2 : 1;
-			Point* ptTmp = RandomOutput::CreateRandomPoint(GameDB, numOfDigits);
-			if (ptTmp != NULL){
-				gotoxy(*ptTmp);
-				cout << value;
-				GameDB.insert_point(*ptTmp, value);
-				delete ptTmp;
-			}
+			addRandomNunberToScreen(currentLevel);
 		}
+	}
+}
+
+void TheMathGame::addRandomNunberToScreen(unsigned int currentLevel){
+	unsigned int value = RandomOutput::CreateRandomValue(10 + currentLevel);
+	int numOfDigits = (value > ScreenData::TOW_DIGIT_VALUE) ? 2 : 1;
+	Point* ptTmp = RandomOutput::CreateRandomPoint(GameDB, numOfDigits);
+	if (ptTmp != NULL){
+		gotoxy(*ptTmp);
+		cout << value;
+		GameDB.insert_point(*ptTmp, value);
+		delete ptTmp;
 	}
 }
 
 void TheMathGame::doSubIteration(unsigned int currentLevel){
 	// Move the shoots
-	/*player1.movePlayerShoots();
-	player2.movePlayerShoots();*/
-
-	//
+	for (list<Shoot*>::iterator it = listOfShoots.begin(); it != listOfShoots.end(); it++){
+		if (*it != NULL){
+			(*it)->move();
+		}
+	}
+		
 }
 
 //---------------------------------------------------------------------------------------
@@ -324,14 +334,14 @@ void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input){
 	}
 	case Player::PLAYER_1_SHOOT:{
 		if (player1.getErrorCounter() < Player::MAX_ERROR_FOR_MATH_GAME){
-			player1.shoot();
+			addShoot(player1.shoot());
 		}
 
 		break;
 	}
 	case Player::PLAYER_2_SHOOT:{
 		if (player2.getErrorCounter() < Player::MAX_ERROR_FOR_MATH_GAME){
-			player2.shoot();
+			addShoot(player2.shoot());
 		}
 
 		break;
@@ -348,5 +358,31 @@ TheMathGame::TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL), p
 	for (int i = 0; i < 40; i++)
 	{
 		arrayOfWinsInLevel[i] = NO_BODY_WON;
+	}
+}
+
+TheMathGame::~TheMathGame(){
+
+}
+
+//---------------------------------------------------------------------------------------
+// this function sets the winner in the game
+//---------------------------------------------------------------------------------------
+void TheMathGame::setGameWinner(Player& player, unsigned int currentLevel){
+	player.addToWinCounter();
+	if (player.getPlayerNumber() == Player::numberOfPlayer::One){
+		setLevelResult(PLAYER_ONE_WON, currentLevel);
+	}
+	else if (player.getPlayerNumber() == Player::numberOfPlayer::Two){
+		setLevelResult(PLAYER_TWO_WON, currentLevel);
+	}
+	/*else{
+		setLevelResult(TIE, currentLevel);
+	}*/
+}
+
+void TheMathGame::cleanShootList(){
+		for (list<Shoot*>::iterator it = listOfShoots.begin(); it != listOfShoots.end(); it++){
+		delete *it;
 	}
 }

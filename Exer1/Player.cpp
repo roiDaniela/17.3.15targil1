@@ -20,11 +20,12 @@
 //---------------------------------------------------------------------------------------
 Player::Player(Player::numberOfPlayer number, Direction::value d) : playerNumber(number),
 																	direction(d),
+																	winCounter(0),
+																	shootCounter(5),
 																	errorCounter(0),
 																    locationPoint((number == Player::One) ? 
 																	               Point(PLAYER_1_X_POSITION, PLAYER_1_Y_POSITION) : 
-																				   Point(PLAYER_2_X_POSITION, PLAYER_2_Y_POSITION)),
-														            shootCounter(0){
+																				   Point(PLAYER_2_X_POSITION, PLAYER_2_Y_POSITION)){
 	// Move by inited directions
 	move(getDirection());
 }
@@ -43,17 +44,6 @@ void Player::setLocationPoint(unsigned int x, unsigned int y){
 	locationPoint = Point(x, y);
 }
 
-//---------------------------------------------------------------------------------------
-// this method returns the amount of player's wins
-//---------------------------------------------------------------------------------------
-int Player::getWinCounter() const{
-	if (getPlayerNumber() == One){
-		return winCounter_1;
-	}
-	else if (getPlayerNumber() == Two){
-		return winCounter_2;
-	}
-}
 //---------------------------------------------------------------------------------------
 // this method calculate the next location by the direction
 //---------------------------------------------------------------------------------------
@@ -128,25 +118,6 @@ void Player::move(Direction::value direction){
 
 	// Print new location
 	printSighn();
-}
-
-//---------------------------------------------------------------------------------------
-// this method gets boolean represents if the counter initlzed and updated the counter
-//---------------------------------------------------------------------------------------
-void Player::updateWinCounter(bool isInitCounter){
-	// Update counter
-	if (getPlayerNumber() == One/* && getIsWin() && !isInitCounter*/){
-		Player::winCounter_1++;
-	}
-	else if (getPlayerNumber() == Two /*&& getIsWin() && !isInitCounter*/){
-		Player::winCounter_2++;
-	}
-
-	// initlized
-	if (isInitCounter){
-		Player::winCounter_1 = 0;
-		Player::winCounter_2 = 0;
-	}
 }
 
 //---------------------------------------------------------------------------------------

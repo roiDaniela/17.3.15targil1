@@ -59,34 +59,23 @@ private:
 	CreateExercise excersisePlayer_2;
 	ScreenData GameDB;
 	ResultLevel arrayOfWinsInLevel[40];
-	//list<Shoot> listOfShoots;
-
+	list<Shoot*> listOfShoots;
+	
 	// praivte Methods
-	void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input);
+	void cleanShootList();
+	void setKeyValues(Player::PLAYER_KEYS curr_input);
+	void addRandomNunberToScreen(unsigned int currentLevel);
 	bool iterationCounterIsBiggerThanAlowd() const;
-
 	void setLevelResult(ResultLevel result, unsigned int currentLevel){ arrayOfWinsInLevel[currentLevel] = result; }
-	//---------------------------------------------------------------------------------------
-	// this function sets the winner in the game
-	//---------------------------------------------------------------------------------------
-	void setGameWinner(Player player, unsigned int currentLevel){
-		if (player.getPlayerNumber() == Player::numberOfPlayer::One){
-			setLevelResult(PLAYER_ONE_WON, currentLevel);
-		}
-		else if (player.getPlayerNumber() == Player::numberOfPlayer::Two){
-			setLevelResult(PLAYER_TWO_WON, currentLevel);
-		}
-		else{
-			setLevelResult(TIE, currentLevel);
-		}
-	}
+	void setGameWinner(Player& player, unsigned int currentLevel);
+
 public:
 	// Getter && Setter
 	unsigned int getIterationCounter() const { return iterationCounter; }
 	void UpdateIterationCounter(){ iterationCounter++; }
 	void initParams(int currentLevel);
 	ScreenData& GetDB();
-	//void addShoot(Shoot s){ listOfShoots.insert(player1.gets, s); }
+	void addShoot(Shoot* s){ listOfShoots.push_back(player1.shoot()); }
 
 	//---------------------------------------------------------------------------------------
 	// this function gets the player and returns its exercise as the new type: exercise
@@ -109,7 +98,8 @@ public:
 	// Ctor
 	//---------------------------------------------------------------------------------------
 	TheMathGame();
-
+	
+	TheMathGame::~TheMathGame();
 	// Public Methods
 	//---------------------------------------------------------------------------------------
 	// this functuin checks if the level finished
@@ -123,21 +113,23 @@ public:
 	//---------------------------------------------------------------------------------------
 	bool hasNextLevel(unsigned int currentLevel)const {
 		bool result = (currentLevel < TOTAL_NUMBER_OF_LEVELS);
+		
 		// Check if game finished so print the winner
+		string sentence = "";
+
 		if (!result){
 			CleanTopOfScreen();
-
-			string sentence = ";";
-			/*Player::Result_winner resultWinner = Player::getWinner();
-			if (resultWinner == Player::PLAYER_1_WON){
+			
+			if (player1.getWinCounter() > player2.getWinCounter()){
 				sentence = "PLAYER 1 WON !!";
 			}
-			else if (resultWinner == Player::PLAYER_2_WON){
+			else if (player1.getWinCounter() < player2.getWinCounter()){
 				sentence = "PLAYER 2 WON !!";
 			}
-			else if (resultWinner == Player::TIE){
+			// tie
+			else{
 				sentence = "IT WAS TIE";
-			}*/
+			}
 
 			writeOnScreenLocation(Lines::LINE_ONE_MIDDLE, sentence);
 		}
