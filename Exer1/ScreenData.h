@@ -25,7 +25,7 @@ private:
 	map<Point, int  > PointsData;
 
 public:
-	enum DBErrMsg{ VALUE_NOT_FOUND = -1, TOW_DIGIT_VALUE = 9, PLAYER1_SIGN = '@', PLAYER2_SIGN = '#' };
+	enum DBErrMsg{ VALUE_NOT_FOUND = -1, TOW_DIGIT_VALUE = 9, PLAYER1_SIGN = '@', PLAYER2_SIGN = '#', SHOOT_SIGN = '*' };
 	const map<Point, int>& getData() const;
 	bool isPointNearOrInsideOtherPoint(const Point& p, const int NumOfDigits );
 	bool is_point_exist(const Point& ptPoint);
