@@ -236,6 +236,7 @@ bool GameManager::doIteration()
 	for(unsigned int i=0; i<iterationsPerClockCycle-1; ++i) {
 		Sleep(sleepLength);
 		actualGame.doSubIteration(currentLevel);
+		actualGame.doSubIteration(currentLevel);
 	}
 	return doInputIteration();
 }

@@ -14,6 +14,9 @@
 
 #include "Shoot.h"
 
+//---------------------------------------------------------------------------------------
+// this method moves the point
+//---------------------------------------------------------------------------------------
 void Shoot::move(){
 	Point targetPoint = getLocationPoint();
 	
@@ -30,6 +33,9 @@ void Shoot::move(){
 	printSighn();
 }
 
+//---------------------------------------------------------------------------------------
+// this method calculate the next location
+//---------------------------------------------------------------------------------------
 void Shoot::calcShootTargetPoint(Point& targetPoint){
 	// Take care all opptional directions
 	if (targetPoint != getLocationPoint()){
@@ -79,35 +85,29 @@ void Shoot::calcShootTargetPoint(Point& targetPoint){
 			break;
 		}
 	}
-
-	//// Case it was not STAY
-	//if (Shoot::getDirection() != Direction::STAY){
-
-	//	// Needs to be cyclic: take care that screen size is (24 X 80)
-	//	if (getDirection() == Direction::RIGHT){
-	//		targetPoint.setX(targetPoint.getX() % LENGH_OF_LINE);
-	//	}
-	//	else if (getDirection() == Direction::LEFT && targetPoint.getX() == -1){
-	//		targetPoint.setX(LENGH_OF_LINE - 1);
-	//	}
-
-
-	//	if ((getDirection() == Direction::DOWN) && (targetPoint.getY() > LENGH_OF_PAGE)){
-	//		targetPoint.setY((targetPoint.getY() % LENGH_OF_PAGE) + AMOUNT_OF_INSTRUCTIONS_LINE);
-	//	}
-	//	else if ((getDirection() == Direction::UP) && (targetPoint.getY() <= AMOUNT_OF_INSTRUCTIONS_LINE)){
-	//		targetPoint.setY(LENGH_OF_PAGE - (targetPoint.getY() % AMOUNT_OF_INSTRUCTIONS_LINE));
-	//	}
-	//}
 }
 void Shoot::Stop(){
 	setDirection(Direction::STAY);
-	setShootStatus(ShootStatus::STOPPED);
 	gotoxy(getLocationPoint());
 	cout << " ";
 }
 
+//---------------------------------------------------------------------------------------
+// this method prints the sign
+//---------------------------------------------------------------------------------------
+
 void Shoot::printSighn(){
 	gotoxy(getLocationPoint());
 	cout << Shoot::SHOOT_SIGN;
+}
+
+//---------------------------------------------------------------------------------------
+// this method gets the new direction and returns what should be the next location of
+//---------------------------------------------------------------------------------------
+Point Shoot::getNextLocation(){
+	Point targetPoint = getLocationPoint();
+
+	calcShootTargetPoint(targetPoint);
+
+	return targetPoint;
 }

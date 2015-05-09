@@ -42,6 +42,7 @@ private:
 	static const int TOTAL_NUMBER_OF_LEVELS = 40;
 	static const int TOTAL_NUMBER_OF_CLOCK_TURNS = 1500;
 	static const int TOTAL_NUMBER_OF_ERRORS = 3;
+	static const int SHOOT_PER_ITERATION = 200;
 
 	enum ResultLevel
 	{
@@ -58,7 +59,7 @@ private:
 	CreateExercise excersisePlayer_1;
 	CreateExercise excersisePlayer_2;
 	ScreenData GameDB;
-	ResultLevel arrayOfWinsInLevel[40];
+	ResultLevel arrayOfWinsInLevel[1 + TOTAL_NUMBER_OF_LEVELS];
 	list<Shoot*> listOfShoots;
 	
 	// praivte Methods
@@ -73,9 +74,10 @@ public:
 	// Getter && Setter
 	unsigned int getIterationCounter() const { return iterationCounter; }
 	void UpdateIterationCounter(){ iterationCounter++; }
+	void UpdateShootCounter();
 	void initParams(int currentLevel);
 	ScreenData& GetDB();
-	void addShoot(Shoot* s){ listOfShoots.push_back(player1.shoot()); }
+	void addShoot(Shoot* s);
 
 	//---------------------------------------------------------------------------------------
 	// this function gets the player and returns its exercise as the new type: exercise

@@ -132,7 +132,7 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	
 	// Check its not over than 1500 turns and update the players itaeration
 	UpdateIterationCounter();
-	
+
 	// pass over the keyHits in order to collect the players input
 	for (list<char>::const_iterator itr = keyHits.cbegin();
 		itr != keyHits.cend();
@@ -149,11 +149,11 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		
 		if (player1.getNextLocation() != player2.getLocationPoint() ){
 			GameDB.remove_point(player1.getLocationPoint());
-			player1.move(player1.getDirection());
+			player1.move();
 		}
 		if (player2.getNextLocation() != player1.getLocationPoint()){
 			GameDB.remove_point(player2.getLocationPoint());
-			player2.move(player2.getDirection());
+			player2.move();
 		}
 
 		player1.setDirection(Direction::STAY); 
@@ -161,11 +161,12 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	}
 	else{
 		GameDB.remove_point(player1.getLocationPoint());
-		player1.move(player1.getDirection());
+		player1.move();
 		GameDB.remove_point(player2.getLocationPoint());
-		player2.move(player2.getDirection());
+		player2.move();
 	}	
 	
+
 	CreateExercise::ExerciseErrMsg ExerMsgForPlayer1 = getExcercise(Player::One).IsProblemSolved(GameDB.GetElementByPoint(player1.getLocationPoint()));
 	CreateExercise::ExerciseErrMsg ExerMsgForPlayer2 = getExcercise(Player::Two).IsProblemSolved(GameDB.GetElementByPoint(player2.getLocationPoint()));
 	
@@ -261,10 +262,53 @@ void TheMathGame::addRandomNunberToScreen(unsigned int currentLevel){
 }
 
 void TheMathGame::doSubIteration(unsigned int currentLevel){
+	bool isShootTouched = false;
 	// Move the shoots
 	for (list<Shoot*>::iterator it = listOfShoots.begin(); it != listOfShoots.end(); it++){
 		if (*it != NULL){
-			(*it)->move();
+			if ((*it)->getNextLocation() == player1.getLocationPoint()){
+				player1.setLocationPoint(Player::PLAYER_1_X_POSITION, Player::PLAYER_1_Y_POSITION);
+				player1.setDirection(Direction::RIGHT);
+				
+				CreateExercise::ExerciseErrMsg ExerMsgForPlayer1 = getExcercise(Player::One).IsProblemSolved(GameDB.GetElementByPoint(player1.getLocationPoint()));
+
+				//check if won
+				if (ExerMsgForPlayer1 == CreateExercise::SOLVED){
+					setGameWinner(player1, currentLevel);
+				}
+
+				isShootTouched = true;
+			}
+			else if ((*it)->getNextLocation() == player2.getLocationPoint()){
+				player1.setLocationPoint(Player::PLAYER_2_X_POSITION, Player::PLAYER_2_Y_POSITION);
+				player2.setDirection(Direction::LEFT);
+
+				CreateExercise::ExerciseErrMsg ExerMsgForPlayer2 = getExcercise(Player::Two).IsProblemSolved(GameDB.GetElementByPoint(player2.getLocationPoint()));
+
+				//check if won
+				if (ExerMsgForPlayer2 == CreateExercise::SOLVED){
+					setGameWinner(player2, currentLevel);
+				}
+
+				isShootTouched = true;
+			}
+			else if (GameDB.GetElementByPoint((*it)->getNextLocation()) != ScreenData::VALUE_NOT_FOUND){
+				isShootTouched = true;
+			}
+
+			// Move
+			GameDB.remove_point((*it)->getLocationPoint());
+			if (!isShootTouched){
+				(*it)->move();
+				GameDB.insert_point((*it)->getLocationPoint(), Shoot::SHOOT_SIGN);
+			}
+			else{
+				isShootTouched = false;
+				GameDB.remove_point((*it)->getNextLocation());
+				gotoxy((*it)->getNextLocation());
+				cout << " ";
+				listOfShoots.erase(it);
+			}
 		}
 	}
 		
@@ -362,7 +406,7 @@ TheMathGame::TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL), p
 }
 
 TheMathGame::~TheMathGame(){
-
+	cleanShootList();
 }
 
 //---------------------------------------------------------------------------------------
@@ -381,8 +425,31 @@ void TheMathGame::setGameWinner(Player& player, unsigned int currentLevel){
 	}*/
 }
 
+//---------------------------------------------------------------------------------------
+// this function cleans the shoot list
+//---------------------------------------------------------------------------------------
 void TheMathGame::cleanShootList(){
 		for (list<Shoot*>::iterator it = listOfShoots.begin(); it != listOfShoots.end(); it++){
 		delete *it;
+	}
+}
+
+//---------------------------------------------------------------------------------------
+// this function update shoot counter: every 200 iterations one more shoot
+//---------------------------------------------------------------------------------------
+void TheMathGame::UpdateShootCounter(){
+	for (int i = 1; i < getIterationCounter()/SHOOT_PER_ITERATION; i++)
+	{
+		player1.addToShootCounter();
+		player2.addToShootCounter();
+	}
+}
+
+//---------------------------------------------------------------------------------------
+// this function add shoot to game
+//---------------------------------------------------------------------------------------
+void TheMathGame::addShoot(Shoot* s){
+	if (s != NULL){
+		listOfShoots.push_back(s);
 	}
 }

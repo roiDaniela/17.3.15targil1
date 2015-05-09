@@ -21,20 +21,10 @@ using namespace std;
 
 class Shoot
 {
-public:
-	enum ShootStatus
-	{
-		NOT_ALIVE,
-		WORKING,
-		STOPPED,
-		READY
-	};
-
 private:
 	// private DM
 	Point locationPoint;
 	Direction::value direction;
-	ShootStatus status;
 
 	// Private Methods
 	void Shoot::calcShootTargetPoint(Point& targetPoint);
@@ -42,16 +32,12 @@ private:
 	Shoot(); // cant use like that
 	
 public:
-	static const int SHOOT_ARRAY_MIN_SIZE = 5;
-	static const int SHOOT_ARRAY_MAX_SIZE = 12;
+	static const int SHOOT_AMOUNT_MIN_SIZE = 5;
 	static const char SHOOT_SIGN = '*';
 
 	// Getter && Setter
 	void setDirection(Direction::value d){ direction = d; }
 	Direction::value getDirection() const{ return direction; }
-
-	void setShootStatus(ShootStatus s){ status = s; }
-	ShootStatus getShootStatus() const{ return status; }
 
 	void setLocationPoint(const Point& p){ locationPoint = p; }
 	void setLocationPoint(unsigned int x, unsigned int y){ 
@@ -60,13 +46,12 @@ public:
 	}
 
 	Point getLocationPoint() const{ return locationPoint; } 
+	Point getNextLocation();
 
 	// ctor
-	Shoot(Direction::value d, const Point& p) : direction(d), locationPoint(p), status(WORKING) {
+	Shoot(Direction::value d, const Point& p) : direction(d), locationPoint(p){
 		move();
 	}
-
-	// Shoot() : direction(Direction::STAY), locationPoint(Point(0,0)), status(ShootStatus::NOT_ALIVE) {}
 
 	// Methods
 	void Stop();

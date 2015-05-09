@@ -27,13 +27,14 @@ private:
 	// private DM
 	Point locationPoint;
 	Direction::value direction;
-	
 	unsigned int errorCounter, shootCounter, winCounter;
 
 	// Private Methods
 	void calcTargetPoint(Point& targetPoint);
+
+	// Avoid this ctor
+	Player();
 public:
-	unsigned int winCounter2;
 	static const int PLAYER_1_X_POSITION = 10;
 	static const int PLAYER_1_Y_POSITION = 9;
 	static const int PLAYER_2_X_POSITION = 70;
@@ -91,12 +92,15 @@ public:
 	unsigned int getWinCounter() const { return winCounter; }
 	void initWinCounter(){ winCounter = 0; }
 	
+	void addToShootCounter(){ ++shootCounter; }
+	unsigned int getShootCounter() const { return shootCounter; }
+	void lessShootCounter(){ --shootCounter; }
+
 	// Methods
 	void printSighn();
-
-	void move(Direction::value direction);
-
+	void move();
 	Shoot* Player::shoot();
+
 private:
 	numberOfPlayer playerNumber;
 
