@@ -273,55 +273,55 @@ void TheMathGame::addRandomNunberToScreen(unsigned int currentLevel){
 }
 
 void TheMathGame::doSubIteration(unsigned int currentLevel){
-	bool isShootTouched = false;
-	// Move the shoots
-	for (list<Shoot*>::iterator it = listOfShoots.begin(); it != listOfShoots.end(); it++){
-		if (*it != NULL){
-			if ((*it)->getNextLocation() == player1.getLocationPoint()){
-				player1.setLocationPoint(Player::PLAYER_1_X_POSITION, Player::PLAYER_1_Y_POSITION);
-				player1.setDirection(Direction::RIGHT);
-				
-				CreateExercise::ExerciseErrMsg ExerMsgForPlayer1 = getExcercise(Player::One).IsProblemSolved(GameDB.GetElementByPoint(player1.getLocationPoint()));
+	//bool isShootTouched = false;
+	//// Move the shoots
+	//for (list<Shoot*>::iterator it = listOfShoots.begin(); it != listOfShoots.end(); it++){
+	//	if (*it != NULL){
+	//		if ((*it)->getNextLocation() == player1.getLocationPoint()){
+	//			player1.setLocationPoint(Player::PLAYER_1_X_POSITION, Player::PLAYER_1_Y_POSITION);
+	//			player1.setDirection(Direction::RIGHT);
+	//			
+	//			CreateExercise::ExerciseErrMsg ExerMsgForPlayer1 = getExcercise(Player::One).IsProblemSolved(GameDB.GetElementByPoint(player1.getLocationPoint()));
 
-				//check if won
-				if (ExerMsgForPlayer1 == CreateExercise::SOLVED){
-					setGameWinner(player1, currentLevel);
-				}
+	//			//check if won
+	//			if (ExerMsgForPlayer1 == CreateExercise::SOLVED){
+	//				setGameWinner(player1, currentLevel);
+	//			}
 
-				isShootTouched = true;
-			}
-			else if ((*it)->getNextLocation() == player2.getLocationPoint()){
-				player1.setLocationPoint(Player::PLAYER_2_X_POSITION, Player::PLAYER_2_Y_POSITION);
-				player2.setDirection(Direction::LEFT);
+	//			isShootTouched = true;
+	//		}
+	//		else if ((*it)->getNextLocation() == player2.getLocationPoint()){
+	//			player1.setLocationPoint(Player::PLAYER_2_X_POSITION, Player::PLAYER_2_Y_POSITION);
+	//			player2.setDirection(Direction::LEFT);
 
-				CreateExercise::ExerciseErrMsg ExerMsgForPlayer2 = getExcercise(Player::Two).IsProblemSolved(GameDB.GetElementByPoint(player2.getLocationPoint()));
+	//			CreateExercise::ExerciseErrMsg ExerMsgForPlayer2 = getExcercise(Player::Two).IsProblemSolved(GameDB.GetElementByPoint(player2.getLocationPoint()));
 
-				//check if won
-				if (ExerMsgForPlayer2 == CreateExercise::SOLVED){
-					setGameWinner(player2, currentLevel);
-				}
+	//			//check if won
+	//			if (ExerMsgForPlayer2 == CreateExercise::SOLVED){
+	//				setGameWinner(player2, currentLevel);
+	//			}
 
-				isShootTouched = true;
-			}
-			else if (GameDB.GetElementByPoint((*it)->getNextLocation()) != ScreenData::VALUE_NOT_FOUND){
-				isShootTouched = true;
-			}
+	//			isShootTouched = true;
+	//		}
+	//		else if (GameDB.GetElementByPoint((*it)->getNextLocation()) != ScreenData::VALUE_NOT_FOUND){
+	//			isShootTouched = true;
+	//		}
 
-			// Move
-			GameDB.remove_point((*it)->getLocationPoint());
-			if (!isShootTouched){
-				(*it)->move();
-				GameDB.insert_point((*it)->getLocationPoint(), Shoot::SHOOT_SIGN);
-			}
-			else{
-				isShootTouched = false;
-				GameDB.remove_point((*it)->getNextLocation());
-				gotoxy((*it)->getNextLocation());
-				cout << " ";
-				listOfShoots.erase(it);
-			}
-		}
-	}
+	//		// Move
+	//		GameDB.remove_point((*it)->getLocationPoint());
+	//		if (!isShootTouched){
+	//			(*it)->move();
+	//			GameDB.insert_point((*it)->getLocationPoint(), Shoot::SHOOT_SIGN);
+	//		}
+	//		else{
+	//			isShootTouched = false;
+	//			GameDB.remove_point((*it)->getNextLocation());
+	//			gotoxy((*it)->getNextLocation());
+	//			cout << " ";
+	//			listOfShoots.erase(it);
+	//		}
+	//	}
+	//}
 		
 }
 

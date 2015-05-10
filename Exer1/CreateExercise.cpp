@@ -47,19 +47,19 @@ void CreateExercise::CreateExercizeOfTwoVar(unsigned int CurrentLevel, Sign::Ope
 
 			a = Result + b;
 
-			// randomise who to hide
-			LocationOfVarInExercise lv = randomLocationOfVar();
-			if (lv == First){
-				hiddenExercise = to_string(a) + string(" - ") + string("_") + string(" = ") + to_string(Result);
-				HiddenValue = b;
-			}
-			else if (lv == Second){
-				hiddenExercise = to_string(a) + string(" - ") + to_string(b) + string(" = ") + string("_");
-				HiddenValue = Result;
-			}
-			else{
-				// if u reached here u have a problem
-			}
+			//// randomise who to hide
+			//LocationOfVarInExercise lv = randomLocationOfVar();
+			//if (lv == First){
+			//	hiddenExercise = to_string(a) + string(" - ") + string("_") + string(" = ") + to_string(Result);
+			//	HiddenValue = b;
+			//}
+			//else if (lv == Second){
+			//	hiddenExercise = to_string(a) + string(" - ") + to_string(b) + string(" = ") + string("_");
+			//	HiddenValue = Result;
+			//}
+			//else{
+			//	// if u reached here u have a problem
+			//}
 
 			break;
 		}
@@ -70,19 +70,19 @@ void CreateExercise::CreateExercizeOfTwoVar(unsigned int CurrentLevel, Sign::Ope
 
 			Result = a + b;
 
-			// randomise who to hide
-			LocationOfVarInExercise lv = randomLocationOfVar();
-			if (lv == First){
-				hiddenExercise = string("_") + string(" + ") + to_string(b) + string(" = ") + to_string(Result);
-				HiddenValue = a;
-			}
-			else if (lv == Second){
-				hiddenExercise = to_string(a) + string(" + ") + string("_") + string(" = ") + to_string(Result);
-				HiddenValue = b;
-			}
-			else{
-				// if u reached here u have a problem
-			}
+			//// randomise who to hide
+			//LocationOfVarInExercise lv = randomLocationOfVar();
+			//if (lv == First){
+			//	hiddenExercise = string("_") + string(" + ") + to_string(b) + string(" = ") + to_string(Result);
+			//	HiddenValue = a;
+			//}
+			//else if (lv == Second){
+			//	hiddenExercise = to_string(a) + string(" + ") + string("_") + string(" = ") + to_string(Result);
+			//	HiddenValue = b;
+			//}
+			//else{
+			//	// if u reached here u have a problem
+			//}
 
 			break;
 		}
@@ -93,19 +93,19 @@ void CreateExercise::CreateExercizeOfTwoVar(unsigned int CurrentLevel, Sign::Ope
 
 			Result = a * b;
 
-			// randomise who to hide
-			LocationOfVarInExercise lv = randomLocationOfVar();
-			if (lv == First){
-				hiddenExercise = string("_") + string(" * ") + to_string(b) + string(" = ") + to_string(Result);
-				HiddenValue = a;
-			}
-			else if (lv == Second){
-				hiddenExercise = to_string(a) + string(" * ") + string("_") + string(" = ") + to_string(Result);
-				HiddenValue = b;
-			}
-			else{
-				// if u reached here u have a problem
-			}
+			//// randomise who to hide
+			//LocationOfVarInExercise lv = randomLocationOfVar();
+			//if (lv == First){
+			//	hiddenExercise = string("_") + string(" * ") + to_string(b) + string(" = ") + to_string(Result);
+			//	HiddenValue = a;
+			//}
+			//else if (lv == Second){
+			//	hiddenExercise = to_string(a) + string(" * ") + string("_") + string(" = ") + to_string(Result);
+			//	HiddenValue = b;
+			//}
+			//else{
+			//	// if u reached here u have a problem
+			//}
 
 			break;
 		}
@@ -116,19 +116,19 @@ void CreateExercise::CreateExercizeOfTwoVar(unsigned int CurrentLevel, Sign::Ope
 
 			a = Result * b;
 
-			// randomise who to hide
-			LocationOfVarInExercise lv = randomLocationOfVar();
-			if (lv == First){
-				hiddenExercise = to_string(a) + string(" / ") + string("_") + string(" = ") + to_string(Result);
-				HiddenValue = b;
-			}
-			else if (lv == Second){
-				hiddenExercise = to_string(a) + string(" / ") + to_string(b) + string(" = ") + string("_");
-				HiddenValue = Result;
-			}
-			else{
-				// if u reached here u have a problem
-			}
+			//// randomise who to hide
+			//LocationOfVarInExercise lv = randomLocationOfVar();
+			//if (lv == First){
+			//	hiddenExercise = to_string(a) + string(" / ") + string("_") + string(" = ") + to_string(Result);
+			//	HiddenValue = b;
+			//}
+			//else if (lv == Second){
+			//	hiddenExercise = to_string(a) + string(" / ") + to_string(b) + string(" = ") + string("_");
+			//	HiddenValue = Result;
+			//}
+			//else{
+			//	// if u reached here u have a problem
+			//}
 
 			break; // Not realy needed
 		}
@@ -139,7 +139,7 @@ void CreateExercise::CreateExercizeOfTwoVar(unsigned int CurrentLevel, Sign::Ope
 	
 	num1 = a;
 	num2 = b;
-	hiddenValue1 = HiddenValue;
+	//hiddenValue1 = HiddenValue;
 	result = Result;
 }
 
