@@ -159,6 +159,9 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		player1.setDirection(Direction::STAY); 
 		player2.setDirection(Direction::STAY); 
 	}
+	/*if (IsPlayersCrash(player1, player2)){
+		HandlePlayersCrash(player1,player2);
+	}*/
 	else{
 		GameDB.remove_point(player1.getLocationPoint());
 		player1.move();
@@ -482,13 +485,19 @@ void TheMathGame::HandleWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg Er
 }
 
 bool TheMathGame::IsWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg ErrMsg) {
-	return( GameDB.GetElementByPoint(pl.getLocationPoint()) != ScreenData::VALUE_NOT_FOUND &&
-		   ( GameDB.GetElementByPoint(pl.getLocationPoint()) != Player::PLAYER_1_SIGN || 
-		     GameDB.GetElementByPoint(pl.getLocationPoint()) != Player::PLAYER_2_SIGN) &&
-			 ErrMsg == CreateExercise::WRONG_VALUE );
+	/*bool tmp1 = false, tmp2 = false, tmp3 = false;
+
+	tmp1 = GameDB.GetElementByPoint(pl.getLocationPoint()) != ScreenData::VALUE_NOT_FOUND ;
+	tmp2 = (GameDB.GetElementByPoint(pl.getLocationPoint()) != Player::PLAYER_1_SIGN &&
+	GameDB.GetElementByPoint(pl.getLocationPoint()) != Player::PLAYER_2_SIGN);
+	tmp3 = (ErrMsg == CreateExercise::WRONG_VALUE);
+
+	return(tmp1&&tmp2&&tmp3 );*/
+	return(GameDB.GetElementByPoint(pl.getLocationPoint()) != ScreenData::VALUE_NOT_FOUND &&
+			(GameDB.GetElementByPoint(pl.getLocationPoint()) != Player::PLAYER_1_SIGN &&
+			GameDB.GetElementByPoint(pl.getLocationPoint()) != Player::PLAYER_2_SIGN) &&
+			(ErrMsg == CreateExercise::WRONG_VALUE));
 }
-
-
 void TheMathGame::HandlePlayerUsedAllErr(Player& pl){
 	if (IsPlayerUsedAllErr(pl)){
 		GameDB.remove_point(pl.getLocationPoint());
@@ -515,4 +524,21 @@ void TheMathGame::HandleShootHitted(Player& pl, Player::numberOfPlayer NumOfPlay
 	dir = (NumOfPlayer == Player::One) ? Direction::RIGHT : Direction::LEFT;
 	pl.setLocationPoint( x, y );
 	pl.setDirection(dir);
+}
+
+bool  TheMathGame::IsPlayersCrash( Player& pl1, Player& pl2){
+	return(pl1.getNextLocation() == pl2.getNextLocation());
+}
+void TheMathGame::HandlePlayersCrash(Player& pl1, Player& pl2){
+	if (pl1.getNextLocation() != pl2.getLocationPoint()){
+		GameDB.remove_point(pl1.getLocationPoint());
+		pl1.move();
+	}
+	if (pl2.getNextLocation() != pl1.getLocationPoint()){
+		GameDB.remove_point(pl2.getLocationPoint());
+		pl2.move();
+	}
+
+	pl1.setDirection(Direction::STAY);
+	pl2.setDirection(Direction::STAY);
 }
