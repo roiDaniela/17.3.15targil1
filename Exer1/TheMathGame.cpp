@@ -145,23 +145,23 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 
 	// Check the next location of players: in case they will meet set them as 'stay' otherwise set their 
 	// direction
-	if (player1.getNextLocation() == player2.getNextLocation()){
-		
-		if (player1.getNextLocation() != player2.getLocationPoint() ){
-			GameDB.remove_point(player1.getLocationPoint());
-			player1.move();
-		}
-		if (player2.getNextLocation() != player1.getLocationPoint()){
-			GameDB.remove_point(player2.getLocationPoint());
-			player2.move();
-		}
+	//if (player1.getNextLocation() == player2.getNextLocation()){
+	//	
+	//	if (player1.getNextLocation() != player2.getLocationPoint() ){
+	//		GameDB.remove_point(player1.getLocationPoint());
+	//		player1.move();
+	//	}
+	//	if (player2.getNextLocation() != player1.getLocationPoint()){
+	//		GameDB.remove_point(player2.getLocationPoint());
+	//		player2.move();
+	//	}
 
-		player1.setDirection(Direction::STAY); 
-		player2.setDirection(Direction::STAY); 
-	}
-	/*if (IsPlayersCrash(player1, player2)){
+	//	player1.setDirection(Direction::STAY); 
+	//	player2.setDirection(Direction::STAY); 
+	//}
+	if (IsPlayersCrash(player1, player2)){
 		HandlePlayersCrash(player1,player2);
-	}*/
+	}
 	else{
 		GameDB.remove_point(player1.getLocationPoint());
 		player1.move();
@@ -465,6 +465,9 @@ void TheMathGame::addShoot(Shoot* s){
 	}
 }
 
+//---------------------------------------------------------------------------------------
+// this function handle wrong catch
+//---------------------------------------------------------------------------------------
 void TheMathGame::HandleWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg ErrMsg){
 	// Case its player1 wrong catch
 	// check if in the if condition GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN is needed
@@ -484,6 +487,9 @@ void TheMathGame::HandleWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg Er
 	}
 }
 
+//---------------------------------------------------------------------------------------
+// this function returns a boolean if its a wrong catch
+//---------------------------------------------------------------------------------------
 bool TheMathGame::IsWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg ErrMsg) {
 	/*bool tmp1 = false, tmp2 = false, tmp3 = false;
 
@@ -498,6 +504,10 @@ bool TheMathGame::IsWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg ErrMsg
 			GameDB.GetElementByPoint(pl.getLocationPoint()) != Player::PLAYER_2_SIGN) &&
 			(ErrMsg == CreateExercise::WRONG_VALUE));
 }
+
+//---------------------------------------------------------------------------------------
+// this function handle if player has max errors
+//---------------------------------------------------------------------------------------
 void TheMathGame::HandlePlayerUsedAllErr(Player& pl){
 	if (IsPlayerUsedAllErr(pl)){
 		GameDB.remove_point(pl.getLocationPoint());
@@ -508,14 +518,23 @@ void TheMathGame::HandlePlayerUsedAllErr(Player& pl){
 	}
 }
 
+//---------------------------------------------------------------------------------------
+// this function returns a bool if its max errors
+//---------------------------------------------------------------------------------------
 bool TheMathGame::IsPlayerUsedAllErr(Player& pl){
 	return(pl.getErrorCounter() == Player::MAX_ERROR_FOR_MATH_GAME);
 }
 
+//---------------------------------------------------------------------------------------
+// this function returns a bool if shoot hitted
+//---------------------------------------------------------------------------------------
 bool TheMathGame::IsShootHitted(Shoot& sht, Player& pl){
 	return((sht.getNextLocation() == pl.getLocationPoint()));
 }
 
+//---------------------------------------------------------------------------------------
+// this function handle shoot hitted
+//---------------------------------------------------------------------------------------
 void TheMathGame::HandleShootHitted(Player& pl, Player::numberOfPlayer NumOfPlayer ){
 	int x, y;
 	Direction::value dir;
@@ -526,9 +545,17 @@ void TheMathGame::HandleShootHitted(Player& pl, Player::numberOfPlayer NumOfPlay
 	pl.setDirection(dir);
 }
 
+
+//---------------------------------------------------------------------------------------
+// this function returns a bool player crash
+//---------------------------------------------------------------------------------------
 bool  TheMathGame::IsPlayersCrash( Player& pl1, Player& pl2){
 	return(pl1.getNextLocation() == pl2.getNextLocation());
 }
+
+//---------------------------------------------------------------------------------------
+// this function handle player crash
+//---------------------------------------------------------------------------------------
 void TheMathGame::HandlePlayersCrash(Player& pl1, Player& pl2){
 	if (pl1.getNextLocation() != pl2.getLocationPoint()){
 		GameDB.remove_point(pl1.getLocationPoint());

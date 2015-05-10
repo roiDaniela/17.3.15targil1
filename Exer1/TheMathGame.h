@@ -69,7 +69,7 @@ private:
 	bool iterationCounterIsBiggerThanAlowd() const;
 	void setLevelResult(ResultLevel result, unsigned int currentLevel){ arrayOfWinsInLevel[currentLevel] = result; }
 	void setGameWinner(Player& player, unsigned int currentLevel);
-	bool IsPlayersCrash( Player& pl1, Player& pl2 );
+	bool IsPlayersCrash(Player& pl1,Player& pl2 );
 	void HandlePlayersCrash(Player& pl1, Player& pl2);
 	void HandleWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg ErrMsg);
 	bool IsWrongCatch(Player& pl,  CreateExercise::ExerciseErrMsg ErrMsg);
