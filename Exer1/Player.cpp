@@ -135,13 +135,13 @@ Point Player::getNextLocation(){
 //---------------------------------------------------------------------------------------
 // this method uses the player to shoot
 //---------------------------------------------------------------------------------------
-Shoot* Player::shoot(){
+bool Player::shoot(){
 	if (shootCounter > 0){
 		lessShootCounter();
-		return new Shoot(getDirection(), getNextLocation());
+		return true;
 	}
 	
-	return NULL;
+	return false;
 }
 
 //---------------------------------------------------------------------------------------

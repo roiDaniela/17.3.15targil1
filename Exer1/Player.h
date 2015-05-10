@@ -99,7 +99,7 @@ public:
 	// Methods
 	void printSighn();
 	void move();
-	Shoot* Player::shoot();
+	bool Player::shoot();
 
 private:
 	numberOfPlayer playerNumber;

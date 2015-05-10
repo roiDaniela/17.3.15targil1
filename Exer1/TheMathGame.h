@@ -49,6 +49,7 @@ private:
 		PLAYER_ONE_WON = 1,
 		PLAYER_TWO_WON,
 		TIE,
+		ERROR_TWO_PLAYERS,
 		NO_BODY_WON
 	};
 
@@ -60,7 +61,7 @@ private:
 	CreateExercise excersisePlayer_2;
 	ScreenData GameDB;
 	ResultLevel arrayOfWinsInLevel[1 + TOTAL_NUMBER_OF_LEVELS];
-	list<Shoot*> listOfShoots;
+	list<Shoot> listOfShoots;
 	
 	// praivte Methods
 	void cleanShootList();
@@ -73,10 +74,8 @@ private:
 	void HandlePlayersCrash(Player& pl1, Player& pl2);
 	void HandleWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg ErrMsg);
 	bool IsWrongCatch(Player& pl,  CreateExercise::ExerciseErrMsg ErrMsg);
-	void HandlePlayerUsedAllErr(Player& pl);
+	void HandlePlayerUsedAllErr(Player& pl, int currentLevel);
 	bool IsPlayerUsedAllErr(Player& pl);
-	void HandleShootHitted(Player& pl, Player::numberOfPlayer NumOfPlayer );
-	bool IsShootHitted(Shoot& sht, Player& pl);
 
 public:
 	// Getter && Setter
@@ -85,7 +84,8 @@ public:
 	void UpdateShootCounter();
 	void initParams(int currentLevel);
 	ScreenData& GetDB();
-	void addShoot(Shoot* s);
+	CreateExercise::ExerciseErrMsg checkExerciseSolved(Player& player, int currentLevel);
+	void addShoot(const Shoot& s);
 
 	//---------------------------------------------------------------------------------------
 	// this function gets the player and returns its exercise as the new type: exercise
@@ -121,31 +121,7 @@ public:
 	// this function checks if there is another level, otherwise game ended and 
 	// prints the winner
 	//---------------------------------------------------------------------------------------
-	bool hasNextLevel(unsigned int currentLevel)const {
-		bool result = (currentLevel < TOTAL_NUMBER_OF_LEVELS);
-		
-		// Check if game finished so print the winner
-		string sentence = "";
-
-		if (!result){
-			CleanTopOfScreen();
-			
-			if (player1.getWinCounter() > player2.getWinCounter()){
-				sentence = "PLAYER 1 WON !!";
-			}
-			else if (player1.getWinCounter() < player2.getWinCounter()){
-				sentence = "PLAYER 2 WON !!";
-			}
-			// tie
-			else{
-				sentence = "IT WAS TIE";
-			}
-
-			writeOnScreenLocation(Lines::LINE_ONE_MIDDLE, sentence);
-		}
-
-		return result;
-	}
+	bool hasNextLevel(unsigned int currentLevel)const;
 	void startLevel(unsigned int currentLevel);
 	void doIteration(const list<char>& keyHits, unsigned int currentLevel);
 	void doSubIteration(unsigned int currentLevel);

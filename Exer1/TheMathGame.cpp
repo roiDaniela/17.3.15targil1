@@ -170,20 +170,11 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	}	
 	
 
-	CreateExercise::ExerciseErrMsg ExerMsgForPlayer1 = getExcercise(Player::One).IsProblemSolved(GameDB.GetElementByPoint(player1.getLocationPoint()));
-	CreateExercise::ExerciseErrMsg ExerMsgForPlayer2 = getExcercise(Player::Two).IsProblemSolved(GameDB.GetElementByPoint(player2.getLocationPoint()));
+	CreateExercise::ExerciseErrMsg ExerMsgForPlayer1 = checkExerciseSolved(player1, currentLevel);
+	CreateExercise::ExerciseErrMsg ExerMsgForPlayer2 = checkExerciseSolved(player2, currentLevel);
 	
-	//check if won
-	//if (GameDB.GetElementByPoint(player1.getLocationPoint()) == getExcercise(player1.getPlayerNumber()).getHiddenValue1()){
-	if (ExerMsgForPlayer1 == CreateExercise::SOLVED){
-		//player1.addToWinCounter();
-		setGameWinner(player1, currentLevel);
-	}
-	//else if (GameDB.GetElementByPoint(player2.getLocationPoint()) == getExcercise(player2.getPlayerNumber()).getHiddenValue1()){
-	else if (ExerMsgForPlayer2 == CreateExercise::SOLVED){
-		setGameWinner(player2, currentLevel);
-	}
-	else 
+	//check if not won
+	if ((ExerMsgForPlayer1 != CreateExercise::ExerciseErrMsg::SOLVED) && (ExerMsgForPlayer2 != CreateExercise::ExerciseErrMsg::SOLVED))
 	{
 		// Case its player1 wrong catch
 		/*// check if in the if condition GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN is needed
@@ -248,10 +239,10 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 			player2.setLocationPoint(NULL, NULL); // won't be exist when checking if a crush happend
 		}*/
 		if ( IsPlayerUsedAllErr(player1) )
-			HandlePlayerUsedAllErr(player1);
+			HandlePlayerUsedAllErr(player1, currentLevel);
 		
 		if (IsPlayerUsedAllErr(player2))
-			HandlePlayerUsedAllErr(player2);
+			HandlePlayerUsedAllErr(player2, currentLevel);
 
 		// Do it just 1 time at 5 iterations
 		if (getIterationCounter() % 5 == 0){
@@ -273,58 +264,72 @@ void TheMathGame::addRandomNunberToScreen(unsigned int currentLevel){
 }
 
 void TheMathGame::doSubIteration(unsigned int currentLevel){
-	//bool isShootTouched = false;
-	//// Move the shoots
-	//for (list<Shoot*>::iterator it = listOfShoots.begin(); it != listOfShoots.end(); it++){
-	//	if (*it != NULL){
-	//		if ((*it)->getNextLocation() == player1.getLocationPoint()){
-	//			player1.setLocationPoint(Player::PLAYER_1_X_POSITION, Player::PLAYER_1_Y_POSITION);
-	//			player1.setDirection(Direction::RIGHT);
-	//			
-	//			CreateExercise::ExerciseErrMsg ExerMsgForPlayer1 = getExcercise(Player::One).IsProblemSolved(GameDB.GetElementByPoint(player1.getLocationPoint()));
+	bool isShootTouched = false;
+	
+	// Move the shoots
+	for (list<Shoot>::iterator it = listOfShoots.begin(); it != listOfShoots.end();){
+		// Case crashed player one
+		if (it->getNextLocation() == player1.getLocationPoint()){
+			GameDB.remove_point(player1.getLocationPoint());
+			gotoxy(player1.getLocationPoint());
+			cout << " ";
+			player1.setLocationPoint(Player::PLAYER_1_X_POSITION, Player::PLAYER_1_Y_POSITION);
+			player1.setDirection(Direction::RIGHT);
+			GameDB.insert_point(player1.getLocationPoint(), Player::PLAYER_1_SIGN);
+			checkExerciseSolved(player1, currentLevel);
 
-	//			//check if won
-	//			if (ExerMsgForPlayer1 == CreateExercise::SOLVED){
-	//				setGameWinner(player1, currentLevel);
-	//			}
+			isShootTouched = true;
+		}
+		// Case crashed player two
+		else if (it->getNextLocation() == player2.getLocationPoint()){
+			GameDB.remove_point(player2.getLocationPoint());
+			gotoxy(player2.getLocationPoint());
+			cout << " ";
+			player2.setLocationPoint(Player::PLAYER_2_X_POSITION, Player::PLAYER_2_Y_POSITION);
+			player2.setDirection(Direction::LEFT);
+			GameDB.insert_point(player2.getLocationPoint(), Player::PLAYER_2_SIGN);
+			checkExerciseSolved(player2, currentLevel);
 
-	//			isShootTouched = true;
-	//		}
-	//		else if ((*it)->getNextLocation() == player2.getLocationPoint()){
-	//			player1.setLocationPoint(Player::PLAYER_2_X_POSITION, Player::PLAYER_2_Y_POSITION);
-	//			player2.setDirection(Direction::LEFT);
+			isShootTouched = true;
+		}
+		// Case crashed number
+		else if (GameDB.GetElementByPoint(it->getNextLocation()) != ScreenData::VALUE_NOT_FOUND){
+			isShootTouched = true;
+			GameDB.remove_point(it->getNextLocation());
+			gotoxy(it->getNextLocation());
+			cout << " ";
+		}
 
-	//			CreateExercise::ExerciseErrMsg ExerMsgForPlayer2 = getExcercise(Player::Two).IsProblemSolved(GameDB.GetElementByPoint(player2.getLocationPoint()));
-
-	//			//check if won
-	//			if (ExerMsgForPlayer2 == CreateExercise::SOLVED){
-	//				setGameWinner(player2, currentLevel);
-	//			}
-
-	//			isShootTouched = true;
-	//		}
-	//		else if (GameDB.GetElementByPoint((*it)->getNextLocation()) != ScreenData::VALUE_NOT_FOUND){
-	//			isShootTouched = true;
-	//		}
-
-	//		// Move
-	//		GameDB.remove_point((*it)->getLocationPoint());
-	//		if (!isShootTouched){
-	//			(*it)->move();
-	//			GameDB.insert_point((*it)->getLocationPoint(), Shoot::SHOOT_SIGN);
-	//		}
-	//		else{
-	//			isShootTouched = false;
-	//			GameDB.remove_point((*it)->getNextLocation());
-	//			gotoxy((*it)->getNextLocation());
-	//			cout << " ";
-	//			listOfShoots.erase(it);
-	//		}
-	//	}
-	//}
+		// Move
+		GameDB.remove_point(it->getLocationPoint());
+		if (!isShootTouched){
+			it->move();
+			GameDB.insert_point(it->getLocationPoint(), Shoot::SHOOT_SIGN);
+			it++;
+		}
+		else{
+			isShootTouched = false;
+			gotoxy(it->getLocationPoint());
+			cout << " ";
+			it = listOfShoots.erase(it);
+		}
+	}
 		
 }
 
+//---------------------------------------------------------------------------------------
+// this function checks exercise solved
+//---------------------------------------------------------------------------------------
+CreateExercise::ExerciseErrMsg TheMathGame::checkExerciseSolved(Player& player, int currentLevel){
+	CreateExercise::ExerciseErrMsg ExerMsgForPlayer = getExcercise(player.getPlayerNumber()).IsProblemSolved(GameDB.GetElementByPoint(player.getLocationPoint()));
+
+	//check if won
+	if (ExerMsgForPlayer == CreateExercise::SOLVED){
+		setGameWinner(player, currentLevel);
+	}
+
+	return ExerMsgForPlayer;
+}
 //---------------------------------------------------------------------------------------
 // this function gets a direction as param and move the suit player  
 //---------------------------------------------------------------------------------------
@@ -389,14 +394,18 @@ void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input){
 	}
 	case Player::PLAYER_1_SHOOT:{
 		if (player1.getErrorCounter() < Player::MAX_ERROR_FOR_MATH_GAME){
-			addShoot(player1.shoot());
+			if (player1.shoot()){
+				addShoot(Shoot(player1.getDirection(), player1.getLocationPoint()));
+			}
 		}
 
 		break;
 	}
 	case Player::PLAYER_2_SHOOT:{
 		if (player2.getErrorCounter() < Player::MAX_ERROR_FOR_MATH_GAME){
-			addShoot(player2.shoot());
+			if (player2.shoot()){
+				addShoot(Shoot(player2.getDirection(), player2.getLocationPoint()));
+			}
 		}
 
 		break;
@@ -410,7 +419,7 @@ void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input){
 // ctor
 TheMathGame::TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL), player1(Player::One), player2(Player::Two), iterationCounter(0)/*, listOfShoots(NULL)*/{
 	// init the array of wins
-	for (int i = 0; i < 40; i++)
+	for (int i = 0; i < TOTAL_NUMBER_OF_LEVELS; i++)
 	{
 		arrayOfWinsInLevel[i] = NO_BODY_WON;
 	}
@@ -440,9 +449,9 @@ void TheMathGame::setGameWinner(Player& player, unsigned int currentLevel){
 // this function cleans the shoot list
 //---------------------------------------------------------------------------------------
 void TheMathGame::cleanShootList(){
-		for (list<Shoot*>::iterator it = listOfShoots.begin(); it != listOfShoots.end(); it++){
+	/*	for (list<Shoot*>::iterator it = listOfShoots.begin(); it != listOfShoots.end(); it++){
 		delete *it;
-	}
+	}*/
 }
 
 //---------------------------------------------------------------------------------------
@@ -459,24 +468,22 @@ void TheMathGame::UpdateShootCounter(){
 //---------------------------------------------------------------------------------------
 // this function add shoot to game
 //---------------------------------------------------------------------------------------
-void TheMathGame::addShoot(Shoot* s){
-	if (s != NULL){
-		listOfShoots.push_back(s);
-	}
+void TheMathGame::addShoot(const Shoot& s){
+	listOfShoots.push_back(s);
 }
 
 //---------------------------------------------------------------------------------------
 // this function handle wrong catch
 //---------------------------------------------------------------------------------------
 void TheMathGame::HandleWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg ErrMsg){
-	// Case its player1 wrong catch
+	// Case its player wrong catch
 	// check if in the if condition GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN is needed
 	if (IsWrongCatch(pl,ErrMsg)){
 		pl.addToErrorCounter();
 
 		// case 2 digits number delete from screen the second digit
 		if (GameDB.GetElementByPoint(pl.getLocationPoint()) > ScreenData::TOW_DIGIT_VALUE){
-			gotoxy(player1.getLocationPoint().getX() + 1, pl.getLocationPoint().getY());
+			gotoxy(pl.getLocationPoint().getX() + 1, pl.getLocationPoint().getY());
 			cout << " ";
 			gotoxy(pl.getLocationPoint().getX() - 1, pl.getLocationPoint().getY());
 			cout << " ";
@@ -508,13 +515,14 @@ bool TheMathGame::IsWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg ErrMsg
 //---------------------------------------------------------------------------------------
 // this function handle if player has max errors
 //---------------------------------------------------------------------------------------
-void TheMathGame::HandlePlayerUsedAllErr(Player& pl){
+void TheMathGame::HandlePlayerUsedAllErr(Player& pl, int currentLevel){
 	if (IsPlayerUsedAllErr(pl)){
 		GameDB.remove_point(pl.getLocationPoint());
 		pl.setDirection(Direction::STAY); // Set player as stay
 		gotoxy(pl.getLocationPoint());
 		cout << " "; // Delete the player from screen
 		pl.setLocationPoint(NULL, NULL); // won't be exist when checking if a crush happend
+		arrayOfWinsInLevel[currentLevel] = TheMathGame::ERROR_TWO_PLAYERS;
 	}
 }
 
@@ -525,32 +533,15 @@ bool TheMathGame::IsPlayerUsedAllErr(Player& pl){
 	return(pl.getErrorCounter() == Player::MAX_ERROR_FOR_MATH_GAME);
 }
 
-//---------------------------------------------------------------------------------------
-// this function returns a bool if shoot hitted
-//---------------------------------------------------------------------------------------
-bool TheMathGame::IsShootHitted(Shoot& sht, Player& pl){
-	return((sht.getNextLocation() == pl.getLocationPoint()));
-}
-
-//---------------------------------------------------------------------------------------
-// this function handle shoot hitted
-//---------------------------------------------------------------------------------------
-void TheMathGame::HandleShootHitted(Player& pl, Player::numberOfPlayer NumOfPlayer ){
-	int x, y;
-	Direction::value dir;
-	x = (NumOfPlayer == Player::One) ? Player::PLAYER_1_X_POSITION : Player::PLAYER_2_X_POSITION;
-	y = (NumOfPlayer == Player::One) ? Player::PLAYER_2_Y_POSITION : Player::PLAYER_2_Y_POSITION;
-	dir = (NumOfPlayer == Player::One) ? Direction::RIGHT : Direction::LEFT;
-	pl.setLocationPoint( x, y );
-	pl.setDirection(dir);
-}
-
 
 //---------------------------------------------------------------------------------------
 // this function returns a bool player crash
 //---------------------------------------------------------------------------------------
 bool  TheMathGame::IsPlayersCrash( Player& pl1, Player& pl2){
-	return(pl1.getNextLocation() == pl2.getNextLocation());
+	bool oppositeDirections = (pl1.getDirection() == Direction::DOWN && pl2.getDirection() == Direction::UP) || (pl1.getDirection() == Direction::UP && pl2.getDirection() == Direction::DOWN) || (pl1.getDirection() == Direction::RIGHT && pl2.getDirection() == Direction::LEFT) || (pl1.getDirection() == Direction::LEFT && pl2.getDirection() == Direction::RIGHT);
+	bool nextLocation = (pl1.getNextLocation() == pl2.getNextLocation()) || (pl1.getLocationPoint() == pl2.getNextLocation());
+	bool bAll = (pl1.getNextLocation() == pl2.getNextLocation()) || (oppositeDirections && nextLocation);
+	return(bAll);
 }
 
 //---------------------------------------------------------------------------------------
@@ -568,4 +559,34 @@ void TheMathGame::HandlePlayersCrash(Player& pl1, Player& pl2){
 
 	pl1.setDirection(Direction::STAY);
 	pl2.setDirection(Direction::STAY);
+}
+
+//---------------------------------------------------------------------------------------
+// this function handle player crash
+//---------------------------------------------------------------------------------------
+
+bool TheMathGame::hasNextLevel(unsigned int currentLevel) const {
+	bool result = (currentLevel < TOTAL_NUMBER_OF_LEVELS);
+
+	// Check if game finished so print the winner
+	string sentence = "";
+
+	if (!result){
+		CleanTopOfScreen();
+
+		if (player1.getWinCounter() > player2.getWinCounter()){
+			sentence = "PLAYER 1 WON !!";
+		}
+		else if (player1.getWinCounter() < player2.getWinCounter()){
+			sentence = "PLAYER 2 WON !!";
+		}
+		// tie
+		else{
+			sentence = "IT WAS TIE";
+		}
+
+		writeOnScreenLocation(Lines::LINE_ONE_MIDDLE, sentence);
+	}
+
+	return result;
 }
