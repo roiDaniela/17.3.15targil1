@@ -73,6 +73,8 @@ private:
 	bool IsWrongCatch(Player& pl,  CreateExercise::ExerciseErrMsg ErrMsg);
 	void HandlePlayerUsedAllErr(Player& pl);
 	bool IsPlayerUsedAllErr(Player& pl);
+	void HandleShootHitted(Player& pl, Player::numberOfPlayer NumOfPlayer );
+	bool IsShootHitted(Shoot& sht, Player& pl);
 
 public:
 	// Getter && Setter

@@ -502,3 +502,17 @@ void TheMathGame::HandlePlayerUsedAllErr(Player& pl){
 bool TheMathGame::IsPlayerUsedAllErr(Player& pl){
 	return(pl.getErrorCounter() == Player::MAX_ERROR_FOR_MATH_GAME);
 }
+
+bool TheMathGame::IsShootHitted(Shoot& sht, Player& pl){
+	return((sht.getNextLocation() == pl.getLocationPoint()));
+}
+
+void TheMathGame::HandleShootHitted(Player& pl, Player::numberOfPlayer NumOfPlayer ){
+	int x, y;
+	Direction::value dir;
+	x = (NumOfPlayer == Player::One) ? Player::PLAYER_1_X_POSITION : Player::PLAYER_2_X_POSITION;
+	y = (NumOfPlayer == Player::One) ? Player::PLAYER_2_Y_POSITION : Player::PLAYER_2_Y_POSITION;
+	dir = (NumOfPlayer == Player::One) ? Direction::RIGHT : Direction::LEFT;
+	pl.setLocationPoint( x, y );
+	pl.setDirection(dir);
+}
