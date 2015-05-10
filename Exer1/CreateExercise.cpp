@@ -264,7 +264,7 @@ void CreateExercise::SetHiddenValues(){
 	
 	hiddenValue1 = hiddenValue2 = 0;
 	if (screenNumber < 21){
-		HiddenValuesLoc[0] = num1; HiddenValuesLoc[1] = num2; HiddenValuesLoc[2] = result;
+		//HiddenValuesLoc[0] = num1; HiddenValuesLoc[1] = num2; HiddenValuesLoc[2] = result;
 		LocationOfVarInExercise lv = randomLocationOfVar();
 		if (OpSign1 == Sign::PLUS || OpSign1 == Sign::MULT)
 			hiddenValue1 = (lv == First) ? num1 : num2;
@@ -272,7 +272,7 @@ void CreateExercise::SetHiddenValues(){
 			hiddenValue1 = (lv == First) ? num2 : result;
 	}
 	else {
-		HiddenValuesLoc[0] = num1; HiddenValuesLoc[1] = num2; HiddenValuesLoc[2] = num3; HiddenValuesLoc[3] = result;
+		/*HiddenValuesLoc[0] = num1; HiddenValuesLoc[1] = num2; HiddenValuesLoc[2] = num3; HiddenValuesLoc[3] = result;
 		if (((num1 <= num2) && (num1 <= num3)) || ((num1 <= num2) && (num1 <= result)) || ((num1 <= num3) && (num1 <= result))) {
 			HiddenValuesLoc[0] = 0;
 			hiddenValue1 = num1;
@@ -308,23 +308,64 @@ void CreateExercise::SetHiddenValues(){
 				hiddenValue2 = result;
 			}
 		}
+		*/
+		//HiddenValuesLoc[0] = num1; HiddenValuesLoc[1] = num2; HiddenValuesLoc[2] = num3; HiddenValuesLoc[3] = result;
+		if (((num1 <= num2) && (num1 <= num3)) || ((num1 <= num2) && (num1 <= result)) || ((num1 <= num3) && (num1 <= result))) {
+			hiddenValue1 = num1;
+		}
+		if (((num2 <= num1) && (num2 <= num3)) || ((num2 <= num1) && (num2 <= result)) || ((num2 <= num3) && (num2 <= result))){
+		//HiddenValuesLoc[1] = 0;
+			if (hiddenValue1 == num1)
+				hiddenValue2 = num2;
+			else
+				hiddenValue1 = num2;
+		}
+		if (((num3 <= num2) && (num3 <= num1)) || ((num3 <= num1) && (num3 <= result)) || ((num3 <= result) && (num3 <= num2))){
+			if (hiddenValue1 == 0 || hiddenValue2 == 0 || hiddenValue1 == hiddenValue2){
+				if (hiddenValue1 == num1 || hiddenValue1 == num2)
+					hiddenValue2 = num3;
+				else
+					hiddenValue1 = num3;
+			}
+		}
+		if (((result <= num2) && (result <= num3)) || ((result <= num2) && (result <= num1)) || ((result <= num3) && (result <= num1))){
+			if ((hiddenValue1 == 0 || hiddenValue2 == 0 || hiddenValue1 == hiddenValue2)){
+				hiddenValue2 = result;
+				result = 0;
+			}
+		}
+
+		if (num1 == hiddenValue1 || num1 == hiddenValue2)
+			num1 = 0;
+		if (num2 == hiddenValue1 || num2 == hiddenValue2)
+			num2 = 0;
+		if (num3 == hiddenValue1 || num3 == hiddenValue2 && num1 != 0)
+			num3 = 0;
 	}
 	
 }
 
 void CreateExercise::SetExerciseToString(){
 	if (screenNumber < 21){
-		hiddenExercise = " " + to_string( num1 ) + " " + ConvertSignToString(OpSign1) + to_string( num2 ) + string("  =  ") + to_string(result);
-		hiddenExercise.replace(hiddenExercise.find(to_string(hiddenValue1)), to_string(hiddenValue1).length(), "_");
+		hiddenExercise = " " + to_string( num1 ) + " " + ConvertSignToString(OpSign1) + " " + to_string( num2 ) + string("  =  ") + to_string(result) + " ";
+		hiddenExercise.replace(hiddenExercise.find(" " + to_string(hiddenValue1) + " " ), to_string(hiddenValue1).length()+1, "_");
 	}
 	else{
-		hiddenExercise = " " + to_string(HiddenValuesLoc[0]) + " " + ConvertSignToString(OpSign1) + " " + to_string(HiddenValuesLoc[1]) +
+		/*hiddenExercise = " " + to_string(HiddenValuesLoc[0]) + " " + ConvertSignToString(OpSign1) + " " + to_string(HiddenValuesLoc[1]) +
 			+" " + ConvertSignToString(OpSign2) + " " + to_string(HiddenValuesLoc[2]) + "  =  " + to_string(HiddenValuesLoc[3]) + " ";
 		hiddenExercise += "   ";
 		string::size_type t = hiddenExercise.find(" 0 ");
 		hiddenExercise.replace(t, 3, " _ ");
 		t = hiddenExercise.find(" 0 ");
-		hiddenExercise.replace(t, 3, " _ ");
+		hiddenExercise.replace(t, 3, " _ ");*/
+
+		hiddenExercise = " " + to_string(num1) + " " + ConvertSignToString(OpSign1) + " " + to_string(num2) +
+						 " " + ConvertSignToString(OpSign2) + " " + to_string(num3) + "  =  " + to_string(result) + " ";
+		//hiddenExercise += "   ";
+		string::size_type t = hiddenExercise.find(" 0 ");
+		hiddenExercise.replace(t, 3, "_");
+		t = hiddenExercise.find(" 0 ");
+		hiddenExercise.replace(t, 3, "_");
 	}
 }
 
@@ -355,14 +396,13 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 		if (hiddenValue2 == 0)
 			return WRONG_VALUE;
 	}
-	int tmp[4];
-	memcpy( tmp, HiddenValuesLoc, 4 * sizeof( unsigned int ) );
-	for (int i = 0; i < 4; i++){
-		if (HiddenValuesLoc[i] == 0){
+	
+	int tmp[4] = {num1,num2,num3,result};
+	for (int i = 0; i < 4; i++)
+		if (tmp[i] == 0){
 			tmp[i] = num;
 			break;
 		}
-	}
 	int res;
 	if (tmp[3] == 0){
 		switch (OpSign1)
