@@ -314,12 +314,12 @@ void CreateExercise::SetHiddenValues(){
 
 void CreateExercise::SetExerciseToString(){
 	if (screenNumber < 21){
-		hiddenExercise = " " + to_string( num1 ) + " " + ConvertSignToString(OpSign1) + to_string( num2 ) + string(" = ") + to_string(result);
-		hiddenExercise.replace(hiddenExercise.find(to_string(hiddenValue1)),2,"_");
+		hiddenExercise = " " + to_string( num1 ) + " " + ConvertSignToString(OpSign1) + to_string( num2 ) + string("  =  ") + to_string(result);
+		hiddenExercise.replace(hiddenExercise.find(to_string(hiddenValue1)),2," _");
 	}
 	else{
 		hiddenExercise = " " + to_string(HiddenValuesLoc[0]) + " " + ConvertSignToString(OpSign1) + " " + to_string(HiddenValuesLoc[1]) +
-			+" " + ConvertSignToString(OpSign2) + " " + to_string(HiddenValuesLoc[2]) + " = " + to_string(HiddenValuesLoc[3]) + " ";
+			+" " + ConvertSignToString(OpSign2) + " " + to_string(HiddenValuesLoc[2]) + "  =  " + to_string(HiddenValuesLoc[3]) + " ";
 		hiddenExercise += "   ";
 		string::size_type t = hiddenExercise.find(" 0 ");
 		hiddenExercise.replace(t, 3, " _ ");

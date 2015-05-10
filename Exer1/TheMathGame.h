@@ -69,6 +69,10 @@ private:
 	bool iterationCounterIsBiggerThanAlowd() const;
 	void setLevelResult(ResultLevel result, unsigned int currentLevel){ arrayOfWinsInLevel[currentLevel] = result; }
 	void setGameWinner(Player& player, unsigned int currentLevel);
+	void HandleWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg ErrMsg);
+	bool IsWrongCatch(Player& pl,  CreateExercise::ExerciseErrMsg ErrMsg);
+	void HandlePlayerUsedAllErr(Player& pl);
+	bool IsPlayerUsedAllErr(Player& pl);
 
 public:
 	// Getter && Setter

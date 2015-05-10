@@ -183,7 +183,7 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	else 
 	{
 		// Case its player1 wrong catch
-		// check if in the if condition GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN is needed
+		/*// check if in the if condition GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN is needed
 		if (GameDB.GetElementByPoint(player1.getLocationPoint()) != ScreenData::VALUE_NOT_FOUND &&
 			GameDB.GetElementByPoint(player1.getLocationPoint()) != Player::PLAYER_1_SIGN &&
 			ExerMsgForPlayer1 == CreateExercise::WRONG_VALUE ){
@@ -218,14 +218,19 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 
 			// Delete from DB = the reason i decided that mathGame shoud delete is that i don't want
 			// Player class will get the db as a reference at all
-			GameDB.remove_point(player2.getLocationPoint());
+			GameDB.remove_point(player2.getLocationPoint());*/
+			if (IsWrongCatch(player1, ExerMsgForPlayer1))
+				HandleWrongCatch(player1, ExerMsgForPlayer1);
+			if (IsWrongCatch(player2, ExerMsgForPlayer2))
+				HandleWrongCatch(player2, ExerMsgForPlayer2);
 		}
+		
 
 		GameDB.insert_point(player1.getLocationPoint(), Player::PLAYER_1_SIGN); 
 		GameDB.insert_point(player2.getLocationPoint(), Player::PLAYER_2_SIGN);
 
 		// case error point exceeded its range delete player from DB
-		if (player1.getErrorCounter() == Player::MAX_ERROR_FOR_MATH_GAME){
+		/*if (player1.getErrorCounter() == Player::MAX_ERROR_FOR_MATH_GAME){
 			GameDB.remove_point(player1.getLocationPoint());
 			player1.setDirection(Direction::STAY); // Set player as stay
 			gotoxy(player1.getLocationPoint());
@@ -238,15 +243,18 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 			gotoxy(player2.getLocationPoint());
 			cout << " "; // Delete the player from screen
 			player2.setLocationPoint(NULL, NULL); // won't be exist when checking if a crush happend
-		}
-
+		}*/
+		if ( IsPlayerUsedAllErr(player1) )
+			HandlePlayerUsedAllErr(player1);
+		
+		if (IsPlayerUsedAllErr(player2))
+			HandlePlayerUsedAllErr(player2);
 
 		// Do it just 1 time at 5 iterations
 		if (getIterationCounter() % 5 == 0){
 			// Add random number to screen
 			addRandomNunberToScreen(currentLevel);
 		}
-	}
 }
 
 void TheMathGame::addRandomNunberToScreen(unsigned int currentLevel){
@@ -452,4 +460,45 @@ void TheMathGame::addShoot(Shoot* s){
 	if (s != NULL){
 		listOfShoots.push_back(s);
 	}
+}
+
+void TheMathGame::HandleWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg ErrMsg){
+	// Case its player1 wrong catch
+	// check if in the if condition GameDB.GetElementByPoint(player2.getLocationPoint()) != Player::PLAYER_2_SIGN is needed
+	if (IsWrongCatch(pl,ErrMsg)){
+		pl.addToErrorCounter();
+
+		// case 2 digits number delete from screen the second digit
+		if (GameDB.GetElementByPoint(pl.getLocationPoint()) > ScreenData::TOW_DIGIT_VALUE){
+			gotoxy(player1.getLocationPoint().getX() + 1, pl.getLocationPoint().getY());
+			cout << " ";
+			gotoxy(pl.getLocationPoint().getX() - 1, pl.getLocationPoint().getY());
+			cout << " ";
+		}
+		// Delete from DB = the reason i decided that mathGame shoud delete is that i don't want
+		// Player class will get the db as a reference at all
+		GameDB.remove_point(pl.getLocationPoint());
+	}
+}
+
+bool TheMathGame::IsWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg ErrMsg) {
+	return( GameDB.GetElementByPoint(pl.getLocationPoint()) != ScreenData::VALUE_NOT_FOUND &&
+		   ( GameDB.GetElementByPoint(pl.getLocationPoint()) != Player::PLAYER_1_SIGN || 
+		     GameDB.GetElementByPoint(pl.getLocationPoint()) != Player::PLAYER_2_SIGN) &&
+			 ErrMsg == CreateExercise::WRONG_VALUE );
+}
+
+
+void TheMathGame::HandlePlayerUsedAllErr(Player& pl){
+	if (IsPlayerUsedAllErr(pl)){
+		GameDB.remove_point(pl.getLocationPoint());
+		pl.setDirection(Direction::STAY); // Set player as stay
+		gotoxy(pl.getLocationPoint());
+		cout << " "; // Delete the player from screen
+		pl.setLocationPoint(NULL, NULL); // won't be exist when checking if a crush happend
+	}
+}
+
+bool TheMathGame::IsPlayerUsedAllErr(Player& pl){
+	return(pl.getErrorCounter() == Player::MAX_ERROR_FOR_MATH_GAME);
 }
