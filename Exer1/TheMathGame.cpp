@@ -55,8 +55,8 @@ bool TheMathGame::iterationCounterIsBiggerThanAlowd() const{
 // init player to first position
 //---------------------------------------------------------------------------------------
 void TheMathGame::initPlayerToFirstPosition(Player::numberOfPlayer numberOfPlayer){
-	int x, y;
-	Direction::value d;
+	//int x, y;
+	//Direction::value d;
 
 	if (numberOfPlayer == Player::One){
 		player1.setLocationPoint(Player::PLAYER_1_X_POSITION, Player::PLAYER_1_Y_POSITION);

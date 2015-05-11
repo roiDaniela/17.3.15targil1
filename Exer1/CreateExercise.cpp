@@ -49,20 +49,6 @@ void CreateExercise::CreateExercizeOfTwoVar(unsigned int CurrentLevel, Sign::Ope
 
 			a = Result + b;
 
-			//// randomise who to hide
-			//LocationOfVarInExercise lv = randomLocationOfVar();
-			//if (lv == First){
-			//	hiddenExercise = to_string(a) + string(" - ") + string("_") + string(" = ") + to_string(Result);
-			//	HiddenValue = b;
-			//}
-			//else if (lv == Second){
-			//	hiddenExercise = to_string(a) + string(" - ") + to_string(b) + string(" = ") + string("_");
-			//	HiddenValue = Result;
-			//}
-			//else{
-			//	// if u reached here u have a problem
-			//}
-
 			break;
 		}
 		case Sign::PLUS:
@@ -71,20 +57,6 @@ void CreateExercise::CreateExercizeOfTwoVar(unsigned int CurrentLevel, Sign::Ope
 			b = randomVar();
 
 			Result = a + b;
-
-			//// randomise who to hide
-			//LocationOfVarInExercise lv = randomLocationOfVar();
-			//if (lv == First){
-			//	hiddenExercise = string("_") + string(" + ") + to_string(b) + string(" = ") + to_string(Result);
-			//	HiddenValue = a;
-			//}
-			//else if (lv == Second){
-			//	hiddenExercise = to_string(a) + string(" + ") + string("_") + string(" = ") + to_string(Result);
-			//	HiddenValue = b;
-			//}
-			//else{
-			//	// if u reached here u have a problem
-			//}
 
 			break;
 		}
@@ -95,20 +67,6 @@ void CreateExercise::CreateExercizeOfTwoVar(unsigned int CurrentLevel, Sign::Ope
 
 			Result = a * b;
 
-			//// randomise who to hide
-			//LocationOfVarInExercise lv = randomLocationOfVar();
-			//if (lv == First){
-			//	hiddenExercise = string("_") + string(" * ") + to_string(b) + string(" = ") + to_string(Result);
-			//	HiddenValue = a;
-			//}
-			//else if (lv == Second){
-			//	hiddenExercise = to_string(a) + string(" * ") + string("_") + string(" = ") + to_string(Result);
-			//	HiddenValue = b;
-			//}
-			//else{
-			//	// if u reached here u have a problem
-			//}
-
 			break;
 		}
 		case Sign::DIV:
@@ -117,20 +75,6 @@ void CreateExercise::CreateExercizeOfTwoVar(unsigned int CurrentLevel, Sign::Ope
 			Result = randomVar();
 
 			a = Result * b;
-
-			//// randomise who to hide
-			//LocationOfVarInExercise lv = randomLocationOfVar();
-			//if (lv == First){
-			//	hiddenExercise = to_string(a) + string(" / ") + string("_") + string(" = ") + to_string(Result);
-			//	HiddenValue = b;
-			//}
-			//else if (lv == Second){
-			//	hiddenExercise = to_string(a) + string(" / ") + to_string(b) + string(" = ") + string("_");
-			//	HiddenValue = Result;
-			//}
-			//else{
-			//	// if u reached here u have a problem
-			//}
 
 			break; // Not realy needed
 		}
@@ -141,7 +85,6 @@ void CreateExercise::CreateExercizeOfTwoVar(unsigned int CurrentLevel, Sign::Ope
 	
 	num1 = a;
 	num2 = b;
-	//hiddenValue1 = HiddenValue;
 	result = Result;
 }
 
@@ -262,10 +205,11 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 	result = res;
 }
 
+
 void CreateExercise::SetHiddenValues(){
 	unsigned int TmpCpy[4] = { num1, num2, num3, result };
 	hiddenValue1 = hiddenValue2 = 0;
-	if (screenNumber < 21){
+	if (screenNumber < THREE_VARIABLES_EXERCISE_STARTING_LEVEL){
 		//HiddenValuesLoc[0] = num1; HiddenValuesLoc[1] = num2; HiddenValuesLoc[2] = result;
 		LocationOfVarInExercise lv = randomLocationOfVar();
 		if (OpSign1 == Sign::PLUS || OpSign1 == Sign::MULT)
@@ -276,39 +220,39 @@ void CreateExercise::SetHiddenValues(){
 	else {
 		/*HiddenValuesLoc[0] = num1; HiddenValuesLoc[1] = num2; HiddenValuesLoc[2] = num3; HiddenValuesLoc[3] = result;
 		if (((num1 <= num2) && (num1 <= num3)) || ((num1 <= num2) && (num1 <= result)) || ((num1 <= num3) && (num1 <= result))) {
-			HiddenValuesLoc[0] = 0;
-			hiddenValue1 = num1;
+		HiddenValuesLoc[0] = 0;
+		hiddenValue1 = num1;
 		}
 		if (((num2 <= num1) && (num2 <= num3)) || ((num2 <= num1) && (num2 <= result)) || ((num2 <= num3) && (num2 <= result))){
-			HiddenValuesLoc[1] = 0;
-			if (hiddenValue1 == num1)
-				hiddenValue2 = num2;
-			else
-				hiddenValue1 = num2;
+		HiddenValuesLoc[1] = 0;
+		if (hiddenValue1 == num1)
+		hiddenValue2 = num2;
+		else
+		hiddenValue1 = num2;
 		}
 		if (((num3 <= num2) && (num3 <= num1)) || ((num3 <= num1) && (num3 <= result)) || ((num3 <= result) && (num3 <= num2))){
-			if (hiddenValue1 == 0 || hiddenValue2 == 0 || hiddenValue1 == hiddenValue2){
-				if (hiddenValue1 == hiddenValue2) HiddenValuesLoc[1] = num2;
-				HiddenValuesLoc[2] = 0;
-				if (hiddenValue1 == num1 || hiddenValue1 == num2)
-					hiddenValue2 = num3;
-				else
-					hiddenValue1 = num3;
-			}
+		if (hiddenValue1 == 0 || hiddenValue2 == 0 || hiddenValue1 == hiddenValue2){
+		if (hiddenValue1 == hiddenValue2) HiddenValuesLoc[1] = num2;
+		HiddenValuesLoc[2] = 0;
+		if (hiddenValue1 == num1 || hiddenValue1 == num2)
+		hiddenValue2 = num3;
+		else
+		hiddenValue1 = num3;
+		}
 
 		}
 		if (((result <= num2) && (result <= num3)) || ((result <= num2) && (result <= num1)) || ((result <= num3) && (result <= num1))){
-			if ((hiddenValue1 == 0 || hiddenValue2 == 0 || hiddenValue1 == hiddenValue2)){
-				if (hiddenValue1 == hiddenValue2){
-					if (HiddenValuesLoc[3] == 0)
-						HiddenValuesLoc[3] = num3;
-					else if (HiddenValuesLoc[2] == 0)
-						HiddenValuesLoc[2] = num2;
-				}
+		if ((hiddenValue1 == 0 || hiddenValue2 == 0 || hiddenValue1 == hiddenValue2)){
+		if (hiddenValue1 == hiddenValue2){
+		if (HiddenValuesLoc[3] == 0)
+		HiddenValuesLoc[3] = num3;
+		else if (HiddenValuesLoc[2] == 0)
+		HiddenValuesLoc[2] = num2;
+		}
 
-				HiddenValuesLoc[3] = 0;
-				hiddenValue2 = result;
-			}
+		HiddenValuesLoc[3] = 0;
+		hiddenValue2 = result;
+		}
 		}
 		*/
 		//HiddenValuesLoc[0] = num1; HiddenValuesLoc[1] = num2; HiddenValuesLoc[2] = num3; HiddenValuesLoc[3] = result;
@@ -317,7 +261,7 @@ void CreateExercise::SetHiddenValues(){
 			TmpCpy[0] = 0;
 		}
 		if (((num2 <= num1) && (num2 <= num3)) || ((num2 <= num1) && (num2 <= result)) || ((num2 <= num3) && (num2 <= result))){
-		//HiddenValuesLoc[1] = 0;
+			//HiddenValuesLoc[1] = 0;
 			if (hiddenValue1 == num1)
 				hiddenValue2 = num2;
 			else
@@ -326,31 +270,31 @@ void CreateExercise::SetHiddenValues(){
 			TmpCpy[1] = 0;
 		}
 		if (((num3 <= num2) && (num3 <= num1)) || ((num3 <= num1) && (num3 <= result)) || ((num3 <= result) && (num3 <= num2))){
-			if (hiddenValue1 == 0 || hiddenValue2 == 0 || ((hiddenValue1 == hiddenValue2) && num3 != hiddenValue1)){
-				if (hiddenValue1 == num1 || hiddenValue1 == num2)
-					hiddenValue2 = num3;
-				else
+			if (hiddenValue1 == 0 || hiddenValue2 == 0){
+				if (hiddenValue1 == 0)
 					hiddenValue1 = num3;
+				else if (hiddenValue2 == 0)
+					hiddenValue2 = num3;
 				TmpCpy[2] = 0;
 			}
-			
 		}
 		if (((result <= num2) && (result <= num3)) || ((result <= num2) && (result <= num1)) || ((result <= num3) && (result <= num1))){
-			if ((hiddenValue2 == 0 || ((hiddenValue1 == hiddenValue2) && result != hiddenValue1))){
+			if (hiddenValue2 == 0){
 				hiddenValue2 = result;
 				result = 0;
 			}
 		}
 		num1 = TmpCpy[0]; num2 = TmpCpy[1]; num3 = TmpCpy[2];
 		/*if (num1 == hiddenValue1 || num1 == hiddenValue2)
-			num1 = 0;
+		num1 = 0;
 		if (num2 == hiddenValue1 || num2 == hiddenValue2)
-			num2 = 0;
+		num2 = 0;
 		if ((num3 == hiddenValue1 || num3 == hiddenValue2) && ((num1 != 0)||(num2!=0)))
-			num3 = 0;*/
+		num3 = 0;*/
 	}
-	
+
 }
+
 
 void CreateExercise::SetExerciseToString(){
 	if (screenNumber < 21){
