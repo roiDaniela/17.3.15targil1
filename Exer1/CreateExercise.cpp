@@ -339,7 +339,7 @@ void CreateExercise::SetHiddenValues(){
 			num1 = 0;
 		if (num2 == hiddenValue1 || num2 == hiddenValue2)
 			num2 = 0;
-		if (num3 == hiddenValue1 || num3 == hiddenValue2 && num1 != 0)
+		if ((num3 == hiddenValue1 || num3 == hiddenValue2) && ((num1 != 0)||(num2!=0)))
 			num3 = 0;
 	}
 	
