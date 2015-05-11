@@ -40,7 +40,7 @@ private:
 	unsigned int hiddenValue1, hiddenValue2;
 	string hiddenExercise;
 	static const int RANDOMIZE_INITNAL_DIFF = 10;
-	//int HiddenValuesLoc[4];
+
 	enum LocationOfVarInExercise
 	{
 		First,
