@@ -25,6 +25,7 @@ private:
 	// private DM
 	Point locationPoint;
 	Direction::value direction;
+	int iterationShooted;
 
 	// Private Methods
 	void Shoot::calcShootTargetPoint(Point& targetPoint);
@@ -39,6 +40,9 @@ public:
 	void setDirection(Direction::value d){ direction = d; }
 	Direction::value getDirection() const{ return direction; }
 
+	int getIterationShooted()const { return iterationShooted; }
+	void setIterationShooted(int value) { iterationShooted = value; }
+
 	void setLocationPoint(const Point& p){ locationPoint = p; }
 	void setLocationPoint(unsigned int x, unsigned int y){ 
 		locationPoint.setX(x); 
@@ -49,7 +53,9 @@ public:
 	Point getNextLocation();
 
 	// ctor
-	Shoot(Direction::value d, const Point& p) : direction(d), locationPoint(p){
+	Shoot(Direction::value d, const Point& p, int iteration) : direction(d), 
+		                                                       locationPoint(p), 
+															   iterationShooted(iteration){
 		move();
 	}
 

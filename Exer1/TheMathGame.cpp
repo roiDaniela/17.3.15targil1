@@ -14,7 +14,7 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 #include "TheMathGame.h"
-
+static int sub = 0;
 //---------------------------------------------------------------------------------------
 // this function is responsible for the option "continue" in sub menu
 //---------------------------------------------------------------------------------------
@@ -116,6 +116,8 @@ void TheMathGame::startLevel(unsigned int currentLevel){
 void TheMathGame::prepareStatusSentenceOnScreen(){
 	int playerErrors;
 
+	gotoxy(20, 0);
+	cout << iterationCounter/* << "::" << sub*/;
 	writeOnScreenLocation(Lines::LINE_ONE_RIGHT, "Player 1 SHOOTS: " + 
 		                                         to_string(player1.getShootCounter()) + 
 												 " Player 2 SHOOTS: " + 
@@ -250,6 +252,9 @@ void TheMathGame::handleShootCrashNumber(list<Shoot>::iterator it){
 	}
 }
 
+//---------------------------------------------------------------------------------------
+// this function handle shoot crash player
+//---------------------------------------------------------------------------------------
 void TheMathGame::handleShootCrashPlayer(Player::numberOfPlayer numberOfPlayer, int currentLevel){
 	if (numberOfPlayer == Player::One){
 		GameDB.remove_point(player1.getLocationPoint());
@@ -279,25 +284,43 @@ void TheMathGame::handleShootCrashPlayer(Player::numberOfPlayer numberOfPlayer, 
 //---------------------------------------------------------------------------------------
 void TheMathGame::doSubIteration(unsigned int currentLevel){
 	bool isShootTouched = false;
-	
+	sub++;
 	// Move the shoots
 	for (list<Shoot>::iterator it = listOfShoots.begin(); it != listOfShoots.end();){
 		// Case crashed player one
-		if (it->getNextLocation() == player1.getLocationPoint() || (it->getLocationPoint() == player1.getLocationPoint())){
+		if (it->getLocationPoint() == player1.getLocationPoint()){
+			handleShootCrashPlayer(player1.getPlayerNumber(), currentLevel);
+
+			isShootTouched = true;
+		}
+		else if (it->getNextLocation() == player1.getLocationPoint()){
+			it->move();
 			handleShootCrashPlayer(player1.getPlayerNumber(), currentLevel);
 
 			isShootTouched = true;
 		}
 		// Case crashed player two
-		else if (it->getNextLocation() == player2.getLocationPoint() || (it->getLocationPoint() == player2.getLocationPoint())){
+		else if (it->getLocationPoint() == player2.getLocationPoint()){
 			handleShootCrashPlayer(player2.getPlayerNumber(), currentLevel);
 
 			isShootTouched = true;
 		}
-		else if (GameDB.GetElementByPoint(it->getNextLocation()) != ScreenData::VALUE_NOT_FOUND || GameDB.GetElementByPoint(it->getLocationPoint()) != ScreenData::VALUE_NOT_FOUND){
-			// Case crashed number
+		else if (it->getNextLocation() == player2.getLocationPoint()){
+			it->move();
+			handleShootCrashPlayer(player2.getPlayerNumber(), currentLevel);
+
+			isShootTouched = true;
+		}
+		// Case crashed number
+		else if (GameDB.GetElementByPoint(it->getLocationPoint()) != ScreenData::VALUE_NOT_FOUND){
 			handleShootCrashNumber(it);
 			
+			isShootTouched = true;
+		}
+		else if (GameDB.GetElementByPoint(it->getNextLocation()) != ScreenData::VALUE_NOT_FOUND){
+			it->move();
+			handleShootCrashNumber(it);
+
 			isShootTouched = true;
 		}
 		// Move
@@ -393,24 +416,18 @@ void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input){
 	}
 	case Player::PLAYER_1_SHOOT:{
 		if (!isPlayerUsedAllErr(player1)){
-			//if (notDupShoot(player1.getDirection(), player1.getNextLocation())){
-				if (player1.shoot()){
-					addShoot(Shoot(player1.getDirection(), player1.getNextLocation()));
-					//player1.lessShootCounter();
-				}
-			//}
+			if (notDupShootInIteration() && player1.shoot()) {
+				addShoot(Shoot(player1.getDirection(), player1.getNextLocation(), getIterationCounter()));
+			}
 		}
 
 		break;
 	}
 	case Player::PLAYER_2_SHOOT:{
 		if (!isPlayerUsedAllErr(player2)){
-			/*if (notDupShoot(player2.getDirection(), player2.getNextLocation())){*/
-				if (player2.shoot()){
-					addShoot(Shoot(player2.getDirection(), player2.getNextLocation()));
-					//player2.lessShootCounter();
-				}
-			/*}*/
+			if (notDupShootInIteration() && player2.shoot()) {
+				addShoot(Shoot(player2.getDirection(), player2.getNextLocation(), getIterationCounter()));
+			}
 		}
 
 		break;
@@ -424,9 +441,9 @@ void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input){
 //---------------------------------------------------------------------------------------
 // not a dup shoot
 //---------------------------------------------------------------------------------------
-bool TheMathGame::notDupShoot(Direction::value d, const Point& p){
+bool TheMathGame::notDupShootInIteration(){
 	for (list<Shoot>::iterator it = listOfShoots.begin(); it != listOfShoots.end(); it++){
-		if (it->getDirection() == d && it->getLocationPoint() == p){
+		if (it->getIterationShooted() == getIterationCounter()){
 			return false;
 		}
 	}
@@ -480,7 +497,7 @@ void TheMathGame::cleanShootList(){
 //---------------------------------------------------------------------------------------
 void TheMathGame::UpdateShootCounter(){
 	if (((getIterationCounter() % SHOOT_PER_ITERATION) == 0) &&
-		(getIterationCounter() != SHOOT_PER_ITERATION)){
+		(getIterationCounter() != 0)){
 		player1.addToShootCounter();
 		player2.addToShootCounter();
 	}

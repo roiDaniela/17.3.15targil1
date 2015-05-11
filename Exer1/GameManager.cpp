@@ -234,8 +234,9 @@ bool GameManager::doIteration()
 {
 	unsigned int sleepLength = clockCycleInMillisec/iterationsPerClockCycle;
 	for(unsigned int i=0; i<iterationsPerClockCycle-1; ++i) {
-		Sleep(sleepLength);
+		Sleep(sleepLength/2);
 		actualGame.doSubIteration(currentLevel);
+		Sleep(sleepLength/2);
 		actualGame.doSubIteration(currentLevel);
 	}
 	return doInputIteration();

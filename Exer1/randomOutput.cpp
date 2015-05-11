@@ -54,6 +54,7 @@ Point* RandomOutput::CreateRandomPoint(ScreenData& sData, int numOfDigits){
 	for (int i = 0; i < 9 && !succeded; i++)
 	{
 		succeded = true;
+		delete p;
 		p = new Point(CreateRandomPoint());
 		for (int j = 0; j < numOfDigits; j++)
 		{

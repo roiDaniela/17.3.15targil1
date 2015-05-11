@@ -143,6 +143,8 @@ void writeOnScreenLocation(Lines line_location, std::string sentence){
 
 	// back to the screen game
 	gotoxy(0, 3);
+
+	delete location;
 }
 
 
