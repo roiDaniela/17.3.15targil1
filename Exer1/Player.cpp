@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------------------
 Player::Player(Player::numberOfPlayer number, Direction::value d) : playerNumber(number),
 																	direction(d),
+																	prevDirection(d),
 																	winCounter(0),
 																	shootCounter(5),
 																	errorCounter(0),

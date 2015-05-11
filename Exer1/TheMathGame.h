@@ -81,6 +81,8 @@ private:
 	void handleShootCrashNumber(list<Shoot>::iterator it);
 	void handleShootCrashPlayer(Player::numberOfPlayer numberOfPlayer, int currentLevel);
 	bool notDupShootInIteration();
+	Direction::value getNonStayDirection(const Player& p) const;
+	void setThePrevDirection(Player::PLAYER_KEYS curr_input);
 
 public:
 	// Getter && Setter

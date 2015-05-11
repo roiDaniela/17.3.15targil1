@@ -76,10 +76,12 @@ void TheMathGame::initParams(int currentLevel){
 	player1.initErrorCounter();
 	player1.initShootCounter();
 	initPlayerToFirstPosition(player1.getPlayerNumber());
-	
+	player1.setPrevDirection(Direction::RIGHT);
+
 	player2.initErrorCounter();
 	player2.initShootCounter();
 	initPlayerToFirstPosition(player2.getPlayerNumber());
+	player2.setPrevDirection(Direction::LEFT);
 	if (currentLevel == 1){
 		player1.initWinCounter();
 		player2.initWinCounter();
@@ -351,11 +353,33 @@ CreateExercise::ExerciseErrMsg TheMathGame::checkExerciseSolved(Player& player, 
 
 	return ExerMsgForPlayer;
 }
+
+//---------------------------------------------------------------------------------------
+// this function sets the prev direction
+//---------------------------------------------------------------------------------------
+void TheMathGame::setThePrevDirection(Player::PLAYER_KEYS curr_input){
+	if ((curr_input == Player::PLAYER_1_DOWN ||
+		curr_input == Player::PLAYER_1_LEFT ||
+		curr_input == Player::PLAYER_1_RIGHT ||
+		curr_input == Player::PLAYER_1_UP) &&
+		(player1.getDirection() != Direction::STAY)){
+		player1.setPrevDirection(player1.getDirection());
+	}
+	else if ((curr_input == Player::PLAYER_2_DOWN ||
+		curr_input == Player::PLAYER_2_LEFT ||
+		curr_input == Player::PLAYER_2_RIGHT ||
+		curr_input == Player::PLAYER_2_UP) &&
+		(player2.getDirection() != Direction::STAY))
+	{
+		player2.setPrevDirection(player2.getDirection());
+	}
+}
 //---------------------------------------------------------------------------------------
 // this function gets a direction as param and move the suit player  
 //---------------------------------------------------------------------------------------
 void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input){
-
+	
+	setThePrevDirection(curr_input);
 	switch (curr_input){
 	case Player::PLAYER_1_DOWN:{
 		if (!isPlayerUsedAllErr(player1)){
@@ -415,8 +439,8 @@ void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input){
 	}
 	case Player::PLAYER_1_SHOOT:{
 		if (!isPlayerUsedAllErr(player1)){
-			if (notDupShootInIteration() && player1.getDirection() != Direction::STAY && player1.shoot()) {
-				addShoot(Shoot(player1.getDirection(), player1.getNextLocation(), getIterationCounter()));
+			if (notDupShootInIteration() && getNonStayDirection(player1) != Direction::STAY && player1.shoot()) {
+				addShoot(Shoot(getNonStayDirection(player1), player1.getNextLocation(), getIterationCounter()));
 			}
 		}
 
@@ -424,8 +448,8 @@ void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input){
 	}
 	case Player::PLAYER_2_SHOOT:{
 		if (!isPlayerUsedAllErr(player2)){
-			if (notDupShootInIteration() && player2.getDirection() != Direction::STAY && player2.shoot()) {
-				addShoot(Shoot(player2.getDirection(), player2.getNextLocation(), getIterationCounter()));
+			if (notDupShootInIteration() && getNonStayDirection(player2) != Direction::STAY && player2.shoot()) {
+				addShoot(Shoot(getNonStayDirection(player2), player2.getNextLocation(), getIterationCounter()));
 			}
 		}
 
@@ -437,6 +461,14 @@ void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input){
 	}
 }
 
+Direction::value TheMathGame::getNonStayDirection(const Player& p) const{
+	if (p.getDirection() != Direction::STAY){
+		return p.getDirection();
+	}
+	else{
+		return p.getPrevDirection();
+	}
+}
 //---------------------------------------------------------------------------------------
 // not a dup shoot
 //---------------------------------------------------------------------------------------

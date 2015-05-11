@@ -27,6 +27,7 @@ private:
 	// private DM
 	Point locationPoint;
 	Direction::value direction;
+	Direction::value prevDirection;
 	unsigned int errorCounter, shootCounter, winCounter;
 
 	// Private Methods
@@ -76,12 +77,15 @@ public:
 
 	// Getter && Setter
 	void setDirection(Direction::value d){ direction = d; }
-	Direction::value getDirection(){ return direction; }
+	Direction::value getDirection() const { return direction; }
+
+	void setPrevDirection(Direction::value pDir){ prevDirection = pDir; }
+	Direction::value getPrevDirection() const { return prevDirection; }
 
 	void setLocationPoint(const Point&);
 	void setLocationPoint(unsigned int x, unsigned int y);
 
-	Point getLocationPoint(){ return locationPoint; }
+	Point getLocationPoint() const { return locationPoint; }
 	Point getNextLocation();
 
 	void addToErrorCounter(){++errorCounter;} 
