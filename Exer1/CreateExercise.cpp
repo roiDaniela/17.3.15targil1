@@ -261,7 +261,7 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 }
 
 void CreateExercise::SetHiddenValues(){
-	
+	unsigned int TmpCpy[4] = { num1, num2, num3, result };
 	hiddenValue1 = hiddenValue2 = 0;
 	if (screenNumber < 21){
 		//HiddenValuesLoc[0] = num1; HiddenValuesLoc[1] = num2; HiddenValuesLoc[2] = result;
@@ -312,6 +312,7 @@ void CreateExercise::SetHiddenValues(){
 		//HiddenValuesLoc[0] = num1; HiddenValuesLoc[1] = num2; HiddenValuesLoc[2] = num3; HiddenValuesLoc[3] = result;
 		if (((num1 <= num2) && (num1 <= num3)) || ((num1 <= num2) && (num1 <= result)) || ((num1 <= num3) && (num1 <= result))) {
 			hiddenValue1 = num1;
+			TmpCpy[0] = 0;
 		}
 		if (((num2 <= num1) && (num2 <= num3)) || ((num2 <= num1) && (num2 <= result)) || ((num2 <= num3) && (num2 <= result))){
 		//HiddenValuesLoc[1] = 0;
@@ -319,6 +320,8 @@ void CreateExercise::SetHiddenValues(){
 				hiddenValue2 = num2;
 			else
 				hiddenValue1 = num2;
+
+			TmpCpy[1] = 0;
 		}
 		if (((num3 <= num2) && (num3 <= num1)) || ((num3 <= num1) && (num3 <= result)) || ((num3 <= result) && (num3 <= num2))){
 			if (hiddenValue1 == 0 || hiddenValue2 == 0 || hiddenValue1 == hiddenValue2){
@@ -326,7 +329,9 @@ void CreateExercise::SetHiddenValues(){
 					hiddenValue2 = num3;
 				else
 					hiddenValue1 = num3;
+				TmpCpy[2] = 0;
 			}
+			
 		}
 		if (((result <= num2) && (result <= num3)) || ((result <= num2) && (result <= num1)) || ((result <= num3) && (result <= num1))){
 			if ((hiddenValue1 == 0 || hiddenValue2 == 0 || hiddenValue1 == hiddenValue2)){
@@ -334,13 +339,13 @@ void CreateExercise::SetHiddenValues(){
 				result = 0;
 			}
 		}
-
-		if (num1 == hiddenValue1 || num1 == hiddenValue2)
+		num1 = TmpCpy[0]; num2 = TmpCpy[1]; num3 = TmpCpy[2];
+		/*if (num1 == hiddenValue1 || num1 == hiddenValue2)
 			num1 = 0;
 		if (num2 == hiddenValue1 || num2 == hiddenValue2)
 			num2 = 0;
 		if ((num3 == hiddenValue1 || num3 == hiddenValue2) && ((num1 != 0)||(num2!=0)))
-			num3 = 0;
+			num3 = 0;*/
 	}
 	
 }
