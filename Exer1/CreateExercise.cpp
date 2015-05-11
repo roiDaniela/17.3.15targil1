@@ -19,17 +19,19 @@
 // Ctor
 //---------------------------------------------------------------------------------------
 CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNumber1){
+	int CopyScrnNum = screenNumber;
 	// randomise sighn
 	OpSign1 = RandomOutput::CreateRandomSign();//randomSighn();
 
-	if (!(screenNumber > 20)){
+	if (screenNumber < THREE_VARIABLES_EXERCISE_STARTING_LEVEL ){
 		CreateExercizeOfTwoVar(screenNumber,OpSign1);
 	}
 	else{
-		screenNumber -= 10;
+		//screenNumber -= 10;
+		screenNumber = INITIATING_VALUE_FROM_21TH_LEVEL;
 		OpSign2 = RandomOutput::CreateRandomSign();
 		CreateExercizeOfThreeVar(screenNumber, OpSign1, OpSign2);
-		screenNumber += 10;
+		screenNumber = CopyScrnNum;
 	}
 	SetHiddenValues();
 	SetExerciseToString();
@@ -324,7 +326,7 @@ void CreateExercise::SetHiddenValues(){
 			TmpCpy[1] = 0;
 		}
 		if (((num3 <= num2) && (num3 <= num1)) || ((num3 <= num1) && (num3 <= result)) || ((num3 <= result) && (num3 <= num2))){
-			if (hiddenValue1 == 0 || hiddenValue2 == 0 || hiddenValue1 == hiddenValue2){
+			if (hiddenValue1 == 0 || hiddenValue2 == 0 || ((hiddenValue1 == hiddenValue2) && num3 != hiddenValue1)){
 				if (hiddenValue1 == num1 || hiddenValue1 == num2)
 					hiddenValue2 = num3;
 				else
@@ -334,7 +336,7 @@ void CreateExercise::SetHiddenValues(){
 			
 		}
 		if (((result <= num2) && (result <= num3)) || ((result <= num2) && (result <= num1)) || ((result <= num3) && (result <= num1))){
-			if ((hiddenValue1 == 0 || hiddenValue2 == 0 || hiddenValue1 == hiddenValue2)){
+			if ((hiddenValue2 == 0 || ((hiddenValue1 == hiddenValue2) && result != hiddenValue1))){
 				hiddenValue2 = result;
 				result = 0;
 			}
@@ -390,6 +392,10 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 	ExerciseErrMsg is_solved = WRONG_VALUE;
 	if ( num == ScreenData::VALUE_NOT_FOUND || num == PLAYER_ONE_VALUE_INSERTED || num == PLAYER_TWO_VALUE_INSERTED )
 		return is_solved;
+	
+	// Case it's true it means that or the problem 
+	// solved or the system waiting for second param
+	// in that case hidden value 2 will not be 0
 	if (hiddenValue1 == num){
 		hiddenValue1 = hiddenValue2;
 		hiddenValue2 = 0;

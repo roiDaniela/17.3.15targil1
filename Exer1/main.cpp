@@ -42,8 +42,8 @@ int main(){
 	clear_screen();
 	hideCursor();
 	srand((unsigned int)time(NULL)); // this sentence should keep the randomize
-	//CreateExercise tmp(22);
-	//tmp.IsProblemSolved(10);
+	CreateExercise tmp(40);
+	tmp.IsProblemSolved(10);
 	TheMathGame math_game; // Thats for the MAMA compilation
 	GameManager(math_game, 200, 2).run();
 	return 0;

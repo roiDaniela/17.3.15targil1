@@ -70,7 +70,9 @@ public:
 	//Ctor
 	CreateExercise(unsigned int);
 
-	enum ExerciseErrMsg{ SOLVED = 5000, WAIT_FOR_SECOND_PARAM, WRONG_VALUE, PLAYER_ONE_VALUE_INSERTED = 35, PLAYER_TWO_VALUE_INSERTED = 64 };
+	enum ExerciseErrMsg{ SOLVED = 5000, WAIT_FOR_SECOND_PARAM, WRONG_VALUE, PLAYER_ONE_VALUE_INSERTED = 35, 
+						 PLAYER_TWO_VALUE_INSERTED = 64, INITIATING_VALUE_FROM_21TH_LEVEL = 10,
+						 THREE_VARIABLES_EXERCISE_STARTING_LEVEL = 21};
 	// Methods (Getters)
 	unsigned int getHiddenValue1(){ return hiddenValue1; }
 	unsigned int getHiddenValue2(){ return hiddenValue2; }
