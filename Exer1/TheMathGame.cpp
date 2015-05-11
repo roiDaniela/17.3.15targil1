@@ -393,18 +393,24 @@ void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input){
 	}
 	case Player::PLAYER_1_SHOOT:{
 		if (!isPlayerUsedAllErr(player1)){
-			if (/*(!listOfShoots.empty() && listOfShoots.end()->getLocationPoint() != player1.getLocationPoint()) &&*/ player1.shoot()){
-				addShoot(Shoot(player1.getDirection(), player1.getNextLocation()));
-			}
+			//if (notDupShoot(player1.getDirection(), player1.getNextLocation())){
+				if (player1.shoot()){
+					addShoot(Shoot(player1.getDirection(), player1.getNextLocation()));
+					//player1.lessShootCounter();
+				}
+			//}
 		}
 
 		break;
 	}
 	case Player::PLAYER_2_SHOOT:{
 		if (!isPlayerUsedAllErr(player2)){
-			if (/*(!listOfShoots.empty() && listOfShoots.end()->getLocationPoint() != player2.getLocationPoint()) &&*/ player2.shoot()){
-				addShoot(Shoot(player2.getDirection(), player2.getNextLocation()));
-			}
+			/*if (notDupShoot(player2.getDirection(), player2.getNextLocation())){*/
+				if (player2.shoot()){
+					addShoot(Shoot(player2.getDirection(), player2.getNextLocation()));
+					//player2.lessShootCounter();
+				}
+			/*}*/
 		}
 
 		break;
@@ -415,7 +421,22 @@ void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input){
 	}
 }
 
+//---------------------------------------------------------------------------------------
+// not a dup shoot
+//---------------------------------------------------------------------------------------
+bool TheMathGame::notDupShoot(Direction::value d, const Point& p){
+	for (list<Shoot>::iterator it = listOfShoots.begin(); it != listOfShoots.end(); it++){
+		if (it->getDirection() == d && it->getLocationPoint() == p){
+			return false;
+		}
+	}
+
+	return true;
+}
+
+//---------------------------------------------------------------------------------------
 // ctor
+//---------------------------------------------------------------------------------------
 TheMathGame::TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL), player1(Player::One), player2(Player::Two), iterationCounter(0)/*, listOfShoots(NULL)*/{
 	// init the array of wins
 	for (int i = 1; i <= TOTAL_NUMBER_OF_LEVELS; i++)
@@ -424,7 +445,9 @@ TheMathGame::TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL), p
 	}
 }
 
+//---------------------------------------------------------------------------------------
 // dtor
+//---------------------------------------------------------------------------------------
 TheMathGame::~TheMathGame(){
 	cleanShootList();
 }

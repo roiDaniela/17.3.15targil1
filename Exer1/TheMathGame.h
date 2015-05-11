@@ -80,6 +80,7 @@ private:
 	void initPlayerToFirstPosition(Player::numberOfPlayer numberOfPlayer);
 	void handleShootCrashNumber(list<Shoot>::iterator it);
 	void handleShootCrashPlayer(Player::numberOfPlayer numberOfPlayer, int currentLevel);
+	bool notDupShoot(Direction::value d, const Point& p);
 
 public:
 	// Getter && Setter
