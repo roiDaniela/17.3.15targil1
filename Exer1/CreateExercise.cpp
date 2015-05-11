@@ -334,6 +334,8 @@ string CreateExercise::ConvertSignToString(Sign::Operator OpSign){
 
 CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num){
 	ExerciseErrMsg is_solved = WRONG_VALUE;
+
+	// Case eaten one of the following, value not found is in case empty 
 	if ( num == ScreenData::VALUE_NOT_FOUND || num == PLAYER_ONE_VALUE_INSERTED || num == PLAYER_TWO_VALUE_INSERTED )
 		return is_solved;
 	
@@ -352,12 +354,21 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 			return WRONG_VALUE;
 	}
 	
+	// copy new numbers with 0 in the variable spot and set the value inserted by the user
 	int tmp[4] = {num1,num2,num3,result};
 	for (int i = 0; i < 4; i++)
 		if (tmp[i] == 0){
 			tmp[i] = num;
 			break;
 		}
+
+
+	// In general I solved it like one variable equation, 
+	// moved the variable aside and calculated it's value
+	// needed to follow the basic arithmatic rules 
+
+
+	// Go over the cases possible if the variable is in result
 	int res;
 	if (tmp[3] == 0){
 		switch (OpSign1)
@@ -462,6 +473,8 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 		}
 		
 	}
+
+	// Go over the cases possible if the variable is in num3
 	else if (tmp[2] == 0){
 		switch (OpSign1)
 		{
@@ -563,6 +576,9 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 			}
 
 	}
+	// Go over the cases possible if the variable is in num2
+	// Needed to make sure there is no fractions or division by 0
+	// In case that happends res will be set so it will return "wrong answer"
 	else if (tmp[1] == 0){
 		switch (OpSign1)
 		{
@@ -609,6 +625,8 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 			}
 			break;
 		}
+		// Needed to make sure there is no fractions or division by 0
+		// In case that happends res will be set so it will return "wrong answer"
 		case Sign::MULT:{
 			switch (OpSign2)
 			{
@@ -633,6 +651,8 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 			}
 			break;
 		}
+		// Needed to make sure there is no fractions or division by 0
+		// In case that happends res will be set so it will return "wrong answer"
 		case Sign::DIV:{
 			switch (OpSign2)
 			{
@@ -662,11 +682,18 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 		}
 		
 	}
+
+	// Case result is not in the range the number inserted by the user
+	// will not solve the equation
 	if (!(res < 22 && res > 0))
 		return WRONG_VALUE;
 	
+	// Case solved set hidden value2 to 0 than the next parameter inserted 
+	// will be correct only in case equal to hidden value1
 	hiddenValue1 = res;
 	hiddenValue2 = 0;
+	
+	// Set the return value to be waiting for second parameter
 	is_solved = WAIT_FOR_SECOND_PARAM;
 	
 	return is_solved;
