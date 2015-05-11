@@ -14,7 +14,7 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 #include "TheMathGame.h"
-static int sub = 0;
+
 //---------------------------------------------------------------------------------------
 // this function is responsible for the option "continue" in sub menu
 //---------------------------------------------------------------------------------------
@@ -116,29 +116,27 @@ void TheMathGame::startLevel(unsigned int currentLevel){
 void TheMathGame::prepareStatusSentenceOnScreen(){
 	int playerErrors;
 
-	gotoxy(20, 0);
-	cout << iterationCounter/* << "::" << sub*/;
-	writeOnScreenLocation(Lines::LINE_ONE_RIGHT, "Player 1 SHOOTS: " + 
-		                                         to_string(player1.getShootCounter()) + 
-												 " Player 2 SHOOTS: " + 
-												 to_string(player2.getShootCounter()));
-	string sentence = "Player 1 Life Errors: ";
+	writeOnScreenLocation(Lines::LINE_ONE_RIGHT, "Iteration: " + to_string(getIterationCounter()));
+	
+	string sentence = "P1 Errors: ";
 	playerErrors = (TOTAL_NUMBER_OF_ERRORS - player1.getErrorCounter());
 	for (int i = 0; i < playerErrors; i++)
 	{
 		sentence += "*";
 	}
-	sentence += " Points:" + to_string(player1.getWinCounter());
+	sentence += " Shoots:" + to_string(player1.getShootCounter());
+	sentence += "  Points:" + to_string(player1.getWinCounter());
 
 	writeOnScreenLocation(Lines::LINE_THREE_LEFT, sentence);
 
-	sentence = "Player 2 Life Errors: ";
+	sentence = "P2 Errors: ";
 	playerErrors = (TOTAL_NUMBER_OF_ERRORS - player2.getErrorCounter());
 	for (int i = 0; i < playerErrors; i++)
 	{
 		sentence += "*";
 	}
-	sentence += " Points:" + to_string(player2.getWinCounter());
+	sentence += " Shoots:" + to_string(player2.getShootCounter());
+	sentence += "  Points:" + to_string(player2.getWinCounter());
 
 	writeOnScreenLocation(Lines::LINE_THREE_RIGHT, sentence);
 }
@@ -213,7 +211,7 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 //---------------------------------------------------------------------------------------
 void TheMathGame::addRandomNunberToScreen(unsigned int currentLevel){
 	unsigned int value = RandomOutput::CreateRandomValue(10 + currentLevel);
-	int numOfDigits = (value > ScreenData::TOW_DIGIT_VALUE) ? 2 : 1;
+	int numOfDigits = (value > ScreenData::TWO_DIGIT_VALUE) ? 2 : 1;
 	Point* ptTmp = RandomOutput::CreateRandomPoint(GameDB, numOfDigits);
 	if (ptTmp != NULL){
 		gotoxy(*ptTmp);
@@ -233,7 +231,7 @@ void TheMathGame::handleShootCrashNumber(list<Shoot>::iterator it){
 	if (nextLocationData != ScreenData::VALUE_NOT_FOUND){
 		CleanScreenAtPoint(it->getNextLocation());
 
-		if (nextLocationData > ScreenData::TOW_DIGIT_VALUE){
+		if (nextLocationData > ScreenData::TWO_DIGIT_VALUE){
 			CleanScreenAtPoint(it->getNextLocation().getX() + 1, it->getNextLocation().getY());
 			CleanScreenAtPoint(it->getNextLocation().getX() - 1, it->getNextLocation().getY());
 		}
@@ -243,7 +241,7 @@ void TheMathGame::handleShootCrashNumber(list<Shoot>::iterator it){
 	else{
 		CleanScreenAtPoint(it->getLocationPoint());
 
-		if (currLocationData > ScreenData::TOW_DIGIT_VALUE){
+		if (currLocationData > ScreenData::TWO_DIGIT_VALUE){
 			CleanScreenAtPoint(it->getLocationPoint().getX() + 1, it->getLocationPoint().getY());
 			CleanScreenAtPoint(it->getLocationPoint().getX() - 1, it->getLocationPoint().getY());
 		}
@@ -284,7 +282,7 @@ void TheMathGame::handleShootCrashPlayer(Player::numberOfPlayer numberOfPlayer, 
 //---------------------------------------------------------------------------------------
 void TheMathGame::doSubIteration(unsigned int currentLevel){
 	bool isShootTouched = false;
-	sub++;
+	
 	// Move the shoots
 	for (list<Shoot>::iterator it = listOfShoots.begin(); it != listOfShoots.end();){
 		// Case crashed player one
@@ -323,7 +321,8 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 
 			isShootTouched = true;
 		}
-		// Move
+		
+		// Move if not crashed
 		GameDB.remove_point(it->getLocationPoint());
 		if (!isShootTouched){
 			it->move();
@@ -416,7 +415,7 @@ void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input){
 	}
 	case Player::PLAYER_1_SHOOT:{
 		if (!isPlayerUsedAllErr(player1)){
-			if (notDupShootInIteration() && player1.shoot()) {
+			if (notDupShootInIteration() && player1.getDirection() != Direction::STAY && player1.shoot()) {
 				addShoot(Shoot(player1.getDirection(), player1.getNextLocation(), getIterationCounter()));
 			}
 		}
@@ -425,7 +424,7 @@ void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input){
 	}
 	case Player::PLAYER_2_SHOOT:{
 		if (!isPlayerUsedAllErr(player2)){
-			if (notDupShootInIteration() && player2.shoot()) {
+			if (notDupShootInIteration() && player2.getDirection() != Direction::STAY && player2.shoot()) {
 				addShoot(Shoot(player2.getDirection(), player2.getNextLocation(), getIterationCounter()));
 			}
 		}
@@ -462,12 +461,12 @@ TheMathGame::TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL), p
 	}
 }
 
-//---------------------------------------------------------------------------------------
-// dtor
-//---------------------------------------------------------------------------------------
-TheMathGame::~TheMathGame(){
-	cleanShootList();
-}
+////---------------------------------------------------------------------------------------
+//// dtor
+////---------------------------------------------------------------------------------------
+//TheMathGame::~TheMathGame(){
+//	cleanShootList();
+//}
 
 //---------------------------------------------------------------------------------------
 // this function sets the winner in the game
@@ -520,7 +519,7 @@ void TheMathGame::handleWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg Er
 		pl.addToErrorCounter();
 
 		// case 2 digits number delete from screen the second digit
-		if (GameDB.GetElementByPoint(pl.getLocationPoint()) > ScreenData::TOW_DIGIT_VALUE){
+		if (GameDB.GetElementByPoint(pl.getLocationPoint()) > ScreenData::TWO_DIGIT_VALUE){
 			CleanScreenAtPoint(pl.getLocationPoint().getX() + 1, pl.getLocationPoint().getY());
 			CleanScreenAtPoint(pl.getLocationPoint().getX() - 1, pl.getLocationPoint().getY());
 		}
@@ -544,13 +543,11 @@ bool TheMathGame::isWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg ErrMsg
 // this function handle if player has max errors
 //---------------------------------------------------------------------------------------
 void TheMathGame::handlePlayerUsedAllErr(Player& pl, int currentLevel){
-	//if (isPlayerUsedAllErr(pl)){
-		GameDB.remove_point(pl.getLocationPoint());
-		pl.setDirection(Direction::STAY); // Set player as stay
-		CleanScreenAtPoint(pl.getLocationPoint());// Delete the player from screen
-		pl.setLocationPoint(NULL, NULL); // won't be exist when checking if a crush happend
-		setLevelResult(TheMathGame::ERROR_TWO_PLAYERS, currentLevel);
-	//}
+	GameDB.remove_point(pl.getLocationPoint());
+	pl.setDirection(Direction::STAY); // Set player as stay
+	CleanScreenAtPoint(pl.getLocationPoint());// Delete the player from screen
+	pl.setLocationPoint(NULL, NULL); // won't be exist when checking if a crush happend
+	setLevelResult(TheMathGame::ERROR_TWO_PLAYERS, currentLevel);
 }
 
 //---------------------------------------------------------------------------------------

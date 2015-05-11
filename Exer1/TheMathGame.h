@@ -98,7 +98,7 @@ public:
 	TheMathGame();
 	
 	//dtor
-	TheMathGame::~TheMathGame();
+	//TheMathGame::~TheMathGame();
 	
 	// Public Methods
 	bool isLevelDone(unsigned int currentLevel)const{

@@ -42,7 +42,7 @@ void RefreshScreen(const map<Point, int>& DataBase, const Point& player1LocPoint
 		}
 		else{
 			cout << iter->second;
-			if (iter->second > ScreenData::TOW_DIGIT_VALUE)
+			if (iter->second > ScreenData::TWO_DIGIT_VALUE)
 				iter++;
 		}
 	}
@@ -92,6 +92,11 @@ void writeOnScreenLocation(Lines line_location, std::string sentence){
 	{
 	case LINE_ONE_RIGHT:{
 		location = new Point(40,0);
+
+		break;
+	}
+	case LINE_ONE_LEFT_AFTER:{
+		location = new Point(15, 0);
 
 		break;
 	}

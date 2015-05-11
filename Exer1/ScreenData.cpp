@@ -46,7 +46,7 @@ bool ScreenData::insert_point(const Point& ptPoint, const int value)
 {
 	if (!(is_point_exist(ptPoint))){
 		PointsData[ptPoint] = value;
-		if (  value > TOW_DIGIT_VALUE && 
+		if (  value > TWO_DIGIT_VALUE && 
 			  value != PLAYER1_SIGN   &&
 			  value != PLAYER2_SIGN &&
 			  value != SHOOT_SIGN)
@@ -106,7 +106,7 @@ void ScreenData::clear_data(){
 bool ScreenData::remove_point(const Point& ptPoint){
 	bool tmp;
 	if (is_point_exist(ptPoint)){
-		if (GetElementByPoint(ptPoint) > TOW_DIGIT_VALUE &&
+		if (GetElementByPoint(ptPoint) > TWO_DIGIT_VALUE &&
 			GetElementByPoint(ptPoint) != PLAYER1_SIGN   &&
 			GetElementByPoint(ptPoint) != PLAYER2_SIGN &&
 			GetElementByPoint(ptPoint) != SHOOT_SIGN){
