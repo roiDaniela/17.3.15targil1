@@ -92,6 +92,7 @@ public:
 	unsigned int getWinCounter() const { return winCounter; }
 	void initWinCounter(){ winCounter = 0; }
 	
+	void initShootCounter(){ shootCounter = Shoot::SHOOT_AMOUNT_MIN_SIZE; }
 	void addToShootCounter(){ ++shootCounter; }
 	unsigned int getShootCounter() const { return shootCounter; }
 	void lessShootCounter(){ --shootCounter; }

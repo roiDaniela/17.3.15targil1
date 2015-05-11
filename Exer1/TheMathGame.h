@@ -63,19 +63,23 @@ private:
 	ResultLevel arrayOfWinsInLevel[1 + TOTAL_NUMBER_OF_LEVELS];
 	list<Shoot> listOfShoots;
 	
-	// praivte Methods
+	// private Methods
 	void cleanShootList();
 	void setKeyValues(Player::PLAYER_KEYS curr_input);
 	void addRandomNunberToScreen(unsigned int currentLevel);
 	bool iterationCounterIsBiggerThanAlowd() const;
 	void setLevelResult(ResultLevel result, unsigned int currentLevel){ arrayOfWinsInLevel[currentLevel] = result; }
+	ResultLevel getLevelResult(int currentLevel) const{ return arrayOfWinsInLevel[currentLevel]; }
 	void setGameWinner(Player& player, unsigned int currentLevel);
-	bool IsPlayersCrash(Player& pl1,Player& pl2 );
-	void HandlePlayersCrash(Player& pl1, Player& pl2);
-	void HandleWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg ErrMsg);
-	bool IsWrongCatch(Player& pl,  CreateExercise::ExerciseErrMsg ErrMsg);
-	void HandlePlayerUsedAllErr(Player& pl, int currentLevel);
-	bool IsPlayerUsedAllErr(Player& pl);
+	bool isPlayersCrash(Player& pl1, Player& pl2 );
+	void handlePlayersCrash(Player& pl1, Player& pl2);
+	void handleWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg ErrMsg);
+	bool isWrongCatch(Player& pl,  CreateExercise::ExerciseErrMsg ErrMsg);
+	void handlePlayerUsedAllErr(Player& pl, int currentLevel);
+	bool isPlayerUsedAllErr(const Player& pl);
+	void initPlayerToFirstPosition(Player::numberOfPlayer numberOfPlayer);
+	void handleShootCrashNumber(list<Shoot>::iterator it);
+	void handleShootCrashPlayer(Player::numberOfPlayer numberOfPlayer, int currentLevel);
 
 public:
 	// Getter && Setter
@@ -86,41 +90,18 @@ public:
 	ScreenData& GetDB();
 	CreateExercise::ExerciseErrMsg checkExerciseSolved(Player& player, int currentLevel);
 	void addShoot(const Shoot& s);
-
-	//---------------------------------------------------------------------------------------
-	// this function gets the player and returns its exercise as the new type: exercise
-	//---------------------------------------------------------------------------------------
 	CreateExercise& getExcercise(Player::numberOfPlayer playerNumber){ return ((playerNumber == Player::One) ? excersisePlayer_1: excersisePlayer_2); }
-	
-	//---------------------------------------------------------------------------------------
-	// this function gets the player and curr level and sets the exercise
-	//---------------------------------------------------------------------------------------
-	void setExercise(Player::numberOfPlayer playerNumber, unsigned int currentLevel){
-		if (playerNumber == Player::One){
-			excersisePlayer_1 = CreateExercise(currentLevel);
-		}
-		else{
-			excersisePlayer_2 = CreateExercise(currentLevel);
-		}
-	}
+	void setExercise(Player::numberOfPlayer playerNumber, unsigned int currentLevel);
 
-	//---------------------------------------------------------------------------------------
 	// Ctor
-	//---------------------------------------------------------------------------------------
 	TheMathGame();
 	
+	//dtor
 	TheMathGame::~TheMathGame();
-	// Public Methods
-	//---------------------------------------------------------------------------------------
-	// this functuin checks if the level finished
-	//---------------------------------------------------------------------------------------
-	bool isLevelDone(unsigned int currentLevel)const{
-		return (arrayOfWinsInLevel[currentLevel] != NO_BODY_WON || iterationCounterIsBiggerThanAlowd()); }
 	
-	//---------------------------------------------------------------------------------------
-	// this function checks if there is another level, otherwise game ended and 
-	// prints the winner
-	//---------------------------------------------------------------------------------------
+	// Public Methods
+	bool isLevelDone(unsigned int currentLevel)const{
+		return (getLevelResult(currentLevel) != NO_BODY_WON || iterationCounterIsBiggerThanAlowd()); }
 	bool hasNextLevel(unsigned int currentLevel)const;
 	void startLevel(unsigned int currentLevel);
 	void doIteration(const list<char>& keyHits, unsigned int currentLevel);

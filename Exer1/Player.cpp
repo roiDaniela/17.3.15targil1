@@ -110,8 +110,7 @@ void Player::move(){
 	calcTargetPoint(targetPoint);
 
 	// Delete last location
-	gotoxy(getLocationPoint());
-	cout << " ";
+	CleanScreenAtPoint(getLocationPoint());
 
 	// set new location 
 	setLocationPoint(targetPoint);

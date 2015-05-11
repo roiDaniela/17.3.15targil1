@@ -68,6 +68,20 @@ void CleanTopOfScreen(){
 }
 
 //---------------------------------------------------------------------------------------
+// this function cleans the screen at specific point (overloaded)
+//---------------------------------------------------------------------------------------
+void CleanScreenAtPoint(const Point& p){
+	CleanScreenAtPoint(p.getX(), p.getY());
+}
+
+//---------------------------------------------------------------------------------------
+// this function cleans the screen at specific point
+//---------------------------------------------------------------------------------------
+void CleanScreenAtPoint(int x, int y){
+	gotoxy(x,y);
+	cout << " ";
+}
+//---------------------------------------------------------------------------------------
 // this function gets 1/6 locations (line 1 left, line 2 right ... line 2 right) 
 // to print the second param: sentence (title/instructions/information) 
 //---------------------------------------------------------------------------------------

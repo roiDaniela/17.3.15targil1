@@ -43,6 +43,9 @@ void setTextColor(Color); // already givven
 void hideCursor(); // already givven
 void clear_screen(); // already givven
 void CleanTopOfScreen();
+void CleanScreenAtPoint(const Point& p);
+void CleanScreenAtPoint(int x, int y);
+void CleanScreenAtPoint(int x, int y);
 void writeOnScreenLocation(Lines, std::string sentence = "");
 void RefreshScreen(const map<Point, int>& DataBase, const Point& player1Loc, const Point& player2Loc);
 

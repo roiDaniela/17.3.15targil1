@@ -21,8 +21,7 @@ void Shoot::move(){
 	Point targetPoint = getLocationPoint();
 	
 	// Delete last location
-	gotoxy(targetPoint);
-	cout << " ";
+	CleanScreenAtPoint(targetPoint);
 
 	calcShootTargetPoint(targetPoint);
 
@@ -88,8 +87,7 @@ void Shoot::calcShootTargetPoint(Point& targetPoint){
 }
 void Shoot::Stop(){
 	setDirection(Direction::STAY);
-	gotoxy(getLocationPoint());
-	cout << " ";
+	CleanScreenAtPoint(getLocationPoint());
 }
 
 //---------------------------------------------------------------------------------------
