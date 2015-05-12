@@ -218,6 +218,8 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 void TheMathGame::addRandomNunberToScreen(unsigned int currentLevel){
 	unsigned int value;
 	
+	// Case its 1-20 level then value is between level number to 1, 
+	// Case ots 21-40 level then value is between 1-20
 	if (currentLevel <= FIRST_SERIES_OF_LEVELS){
 		value = RandomOutput::CreateRandomValue(RANDOM_NUMBERS_DIFF + currentLevel, 35, 1);
 	}
