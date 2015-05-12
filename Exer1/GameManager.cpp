@@ -52,6 +52,8 @@ void GameManager::run()
 	bool userWantsToPlay = true;
 	// we run as long as the user wants
 	while(userWantsToPlay) {
+		clear_screen();
+
 		char menuSelection = mainMenu();
 		// handle here all the different menu options
 		switch(menuSelection)

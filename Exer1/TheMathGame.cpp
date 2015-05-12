@@ -212,15 +212,17 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 // this function add random point to screen
 //---------------------------------------------------------------------------------------
 void TheMathGame::addRandomNunberToScreen(unsigned int currentLevel){
-	unsigned int value = RandomOutput::CreateRandomValue(10 + currentLevel);
+	unsigned int value = RandomOutput::CreateRandomValue(RANDOM_NUMBERS_DIFF + currentLevel, 35, 1);
+	
 	int numOfDigits = (value > ScreenData::TWO_DIGIT_VALUE) ? 2 : 1;
 	Point* ptTmp = RandomOutput::CreateRandomPoint(GameDB, numOfDigits);
 	if (ptTmp != NULL){
 		gotoxy(*ptTmp);
 		cout << value;
 		GameDB.insert_point(*ptTmp, value);
-		delete ptTmp;
 	}
+
+	delete ptTmp;
 }
 
 //---------------------------------------------------------------------------------------
@@ -579,7 +581,11 @@ void TheMathGame::handlePlayerUsedAllErr(Player& pl, int currentLevel){
 	pl.setDirection(Direction::STAY); // Set player as stay
 	CleanScreenAtPoint(pl.getLocationPoint());// Delete the player from screen
 	pl.setLocationPoint(NULL, NULL); // won't be exist when checking if a crush happend
-	setLevelResult(TheMathGame::ERROR_TWO_PLAYERS, currentLevel);
+	
+	// End curr level if 2 players have max errors
+	if (isPlayerUsedAllErr(player1) && isPlayerUsedAllErr(player2)){
+		setLevelResult(TheMathGame::ERROR_TWO_PLAYERS, currentLevel);
+	}
 }
 
 //---------------------------------------------------------------------------------------
