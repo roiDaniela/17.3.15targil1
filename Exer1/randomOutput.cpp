@@ -23,6 +23,19 @@ unsigned int RandomOutput::CreateRandomValue(unsigned int range_to, unsigned int
 }
 
 //---------------------------------------------------------------------------------------
+// this method gets 1 or 2 (using default parameters)params and creates random value 
+// between the params 
+//---------------------------------------------------------------------------------------
+unsigned int RandomOutput::CreateRandomValue(unsigned int range_to, unsigned int avoidThisNumber, unsigned int range_from){
+	unsigned int n = CreateRandomValue(range_to, range_from);
+	
+	while (n == avoidThisNumber){
+		n = CreateRandomValue(range_to, range_from);
+	}
+	return n;
+}
+
+//---------------------------------------------------------------------------------------
 // this method creates a random sign 
 //---------------------------------------------------------------------------------------
 Sign::Operator RandomOutput::CreateRandomSign(){

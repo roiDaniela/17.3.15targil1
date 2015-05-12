@@ -43,6 +43,7 @@ private:
 	static const int TOTAL_NUMBER_OF_CLOCK_TURNS = 1500;
 	static const int TOTAL_NUMBER_OF_ERRORS = 3;
 	static const int SHOOT_PER_ITERATION = 200;
+	static const int RANDOM_NUMBERS_DIFF = 10;
 
 	enum ResultLevel
 	{
