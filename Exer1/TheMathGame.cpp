@@ -55,9 +55,6 @@ bool TheMathGame::iterationCounterIsBiggerThanAlowd() const{
 // init player to first position
 //---------------------------------------------------------------------------------------
 void TheMathGame::initPlayerToFirstPosition(Player::numberOfPlayer numberOfPlayer){
-	//int x, y;
-	//Direction::value d;
-
 	if (numberOfPlayer == Player::One){
 		player1.setLocationPoint(Player::PLAYER_1_X_POSITION, Player::PLAYER_1_Y_POSITION);
 		player1.setDirection(Direction::RIGHT);
@@ -78,7 +75,7 @@ void TheMathGame::initParams(int currentLevel){
 	player1.initShootCounter();
 	initPlayerToFirstPosition(player1.getPlayerNumber());
 	player1.setPrevDirection(Direction::RIGHT);
-
+	
 	player2.initErrorCounter();
 	player2.initShootCounter();
 	initPlayerToFirstPosition(player2.getPlayerNumber());
@@ -174,8 +171,11 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		handlePlayersCrash(player1,player2);
 	}
 	else{
+		cleanTwoDigitsFromScreen(player1.getLocationPoint());
 		GameDB.remove_point(player1.getLocationPoint());
 		player1.move();
+		
+		cleanTwoDigitsFromScreen(player2.getLocationPoint());
 		GameDB.remove_point(player2.getLocationPoint());
 		player2.move();
 	}	
@@ -221,10 +221,10 @@ void TheMathGame::addRandomNunberToScreen(unsigned int currentLevel){
 	// Case its 1-20 level then value is between level number to 1, 
 	// Case ots 21-40 level then value is between 1-20
 	if (currentLevel <= FIRST_SERIES_OF_LEVELS){
-		value = RandomOutput::CreateRandomValue(RANDOM_NUMBERS_DIFF + currentLevel, 35, 1);
+		value = RandomOutput::CreateRandomValue(RANDOM_NUMBERS_DIFF + currentLevel);
 	}
 	else{
-		value = RandomOutput::CreateRandomValue(RANDOM_NUMBERS_DIFF + FIRST_SERIES_OF_LEVELS, 35, 1);
+		value = RandomOutput::CreateRandomValue(RANDOM_NUMBERS_DIFF + FIRST_SERIES_OF_LEVELS);
 	}
 	
 	int numOfDigits = (value > ScreenData::TWO_DIGIT_VALUE) ? 2 : 1;
@@ -243,38 +243,24 @@ void TheMathGame::addRandomNunberToScreen(unsigned int currentLevel){
 // this function handle shoot crash number
 //---------------------------------------------------------------------------------------
 void TheMathGame::handleShootCrashNumber(list<Shoot>::iterator it){
-	int nextLocationData = GameDB.GetElementByPoint(it->getNextLocation());
-	int currLocationData = GameDB.GetElementByPoint(it->getLocationPoint());
+	CleanScreenAtPoint(it->getLocationPoint());
 
-	if (nextLocationData != ScreenData::VALUE_NOT_FOUND){
-		CleanScreenAtPoint(it->getNextLocation());
+	cleanTwoDigitsFromScreen(it->getLocationPoint());
 
-		if (nextLocationData > ScreenData::TWO_DIGIT_VALUE){
-			CleanScreenAtPoint(it->getNextLocation().getX() + 1, it->getNextLocation().getY());
-			CleanScreenAtPoint(it->getNextLocation().getX() - 1, it->getNextLocation().getY());
-		}
-
-		GameDB.remove_point(it->getNextLocation());
-	}
-	else{
-		CleanScreenAtPoint(it->getLocationPoint());
-
-		if (currLocationData > ScreenData::TWO_DIGIT_VALUE){
-			CleanScreenAtPoint(it->getLocationPoint().getX() + 1, it->getLocationPoint().getY());
-			CleanScreenAtPoint(it->getLocationPoint().getX() - 1, it->getLocationPoint().getY());
-		}
-
-		GameDB.remove_point(it->getLocationPoint());
-	}
+	GameDB.remove_point(it->getLocationPoint());
 }
 
 //---------------------------------------------------------------------------------------
 // this function handle shoot crash player
 //---------------------------------------------------------------------------------------
 void TheMathGame::handleShootCrashPlayer(Player::numberOfPlayer numberOfPlayer, int currentLevel){
+	int currLocNum;
 	if (numberOfPlayer == Player::One){
-		GameDB.remove_point(player1.getLocationPoint());
 		CleanScreenAtPoint(player1.getLocationPoint());
+		
+		bool b = cleanTwoDigitsFromScreen(player1.getLocationPoint()); // check if needed
+
+		GameDB.remove_point(player1.getLocationPoint());
 
 		if (!isPlayerUsedAllErr(player1)){
 			player1.addToErrorCounter();
@@ -284,8 +270,11 @@ void TheMathGame::handleShootCrashPlayer(Player::numberOfPlayer numberOfPlayer, 
 		}
 	}
 	else if(numberOfPlayer == Player::Two){
-		GameDB.remove_point(player2.getLocationPoint());
 		CleanScreenAtPoint(player2.getLocationPoint());
+		
+		bool b2 = cleanTwoDigitsFromScreen(player2.getLocationPoint()); // check if neede
+		
+		GameDB.remove_point(player2.getLocationPoint());
 
 		if (!isPlayerUsedAllErr(player2)){
 			player2.addToErrorCounter();
@@ -341,7 +330,6 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 		}
 		
 		// Move if not crashed
-		GameDB.remove_point(it->getLocationPoint());
 		if (!isShootTouched){
 			it->move();
 			it++;
@@ -349,7 +337,6 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 		// Remove shoot
 		else{
 			isShootTouched = false;
-			CleanScreenAtPoint(it->getLocationPoint());
 			it = listOfShoots.erase(it);
 		}
 	}
@@ -481,6 +468,9 @@ void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input,
 	}
 }
 
+//---------------------------------------------------------------------------------------
+// get not stay direction using prev direction
+//---------------------------------------------------------------------------------------
 Direction::value TheMathGame::getNonStayDirection(const Player& p) const{
 	if (p.getDirection() != Direction::STAY){
 		return p.getDirection();
@@ -501,13 +491,6 @@ TheMathGame::TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL), p
 	}
 }
 
-////---------------------------------------------------------------------------------------
-//// dtor
-////---------------------------------------------------------------------------------------
-//TheMathGame::~TheMathGame(){
-//	cleanShootList();
-//}
-
 //---------------------------------------------------------------------------------------
 // this function sets the winner in the game
 //---------------------------------------------------------------------------------------
@@ -519,9 +502,6 @@ void TheMathGame::setGameWinner(Player& player, unsigned int currentLevel){
 	else if (player.getPlayerNumber() == Player::numberOfPlayer::Two){
 		setLevelResult(PLAYER_TWO_WON, currentLevel);
 	}
-	/*else{
-		setLevelResult(TIE, currentLevel);
-	}*/
 }
 
 //---------------------------------------------------------------------------------------
@@ -559,10 +539,8 @@ void TheMathGame::handleWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg Er
 		pl.addToErrorCounter();
 
 		// case 2 digits number delete from screen the second digit
-		if (GameDB.GetElementByPoint(pl.getLocationPoint()) > ScreenData::TWO_DIGIT_VALUE){
-			CleanScreenAtPoint(pl.getLocationPoint().getX() + 1, pl.getLocationPoint().getY());
-			CleanScreenAtPoint(pl.getLocationPoint().getX() - 1, pl.getLocationPoint().getY());
-		}
+		cleanTwoDigitsFromScreen(pl.getLocationPoint());
+
 		// Delete from DB = the reason i decided that mathGame shoud delete is that i don't want
 		// Player class will get the db as a reference at all
 		GameDB.remove_point(pl.getLocationPoint());
@@ -583,9 +561,13 @@ bool TheMathGame::isWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg ErrMsg
 // this function handle if player has max errors
 //---------------------------------------------------------------------------------------
 void TheMathGame::handlePlayerUsedAllErr(Player& pl, int currentLevel){
+	int n = GameDB.GetElementByPoint(pl.getLocationPoint());
+	
+	bool b = cleanTwoDigitsFromScreen(pl.getLocationPoint()); // check if needed
+
+	CleanScreenAtPoint(pl.getLocationPoint());// Delete the player from screen
 	GameDB.remove_point(pl.getLocationPoint());
 	pl.setDirection(Direction::STAY); // Set player as stay
-	CleanScreenAtPoint(pl.getLocationPoint());// Delete the player from screen
 	pl.setLocationPoint(NULL, NULL); // won't be exist when checking if a crush happend
 	
 	// End curr level if 2 players have max errors
@@ -598,7 +580,7 @@ void TheMathGame::handlePlayerUsedAllErr(Player& pl, int currentLevel){
 // this function returns a bool if its max errors
 //---------------------------------------------------------------------------------------
 bool TheMathGame::isPlayerUsedAllErr(const Player& pl){
-	return(pl.getErrorCounter() >= Player::MAX_ERROR_FOR_MATH_GAME);
+	return(pl.getErrorCounter() >= TOTAL_NUMBER_OF_ERRORS);
 }
 
 //---------------------------------------------------------------------------------------
@@ -606,9 +588,24 @@ bool TheMathGame::isPlayerUsedAllErr(const Player& pl){
 //---------------------------------------------------------------------------------------
 bool  TheMathGame::isPlayersCrash(Player& pl1, Player& pl2){
 	bool oppositeDirections = (pl1.getDirection() == Direction::DOWN && pl2.getDirection() == Direction::UP) || (pl1.getDirection() == Direction::UP && pl2.getDirection() == Direction::DOWN) || (pl1.getDirection() == Direction::RIGHT && pl2.getDirection() == Direction::LEFT) || (pl1.getDirection() == Direction::LEFT && pl2.getDirection() == Direction::RIGHT);
-	bool nextLocation = (pl1.getNextLocation() == pl2.getNextLocation()) || (pl1.getLocationPoint() == pl2.getNextLocation());
+	bool nextLocation = (pl1.getNextLocation() == pl2.getNextLocation()) || (pl1.getLocationPoint() == pl2.getNextLocation()) || (pl1.getNextLocation() == pl1.getLocationPoint());
 	bool bAll = (pl1.getNextLocation() == pl2.getNextLocation()) || (oppositeDirections && nextLocation);
 	return(bAll);
+}
+
+//---------------------------------------------------------------------------------------
+// this function delets two digits 2 screen
+//---------------------------------------------------------------------------------------
+bool TheMathGame::cleanTwoDigitsFromScreen(Point pt){
+	int n = GameDB.GetElementByPoint(pt);
+	if (n > ScreenData::TWO_DIGIT_VALUE && n != ScreenData::PLAYER2_SIGN && n != ScreenData::PLAYER1_SIGN){
+		CleanScreenAtPoint(pt.getX() + 1, pt.getY());
+		CleanScreenAtPoint(pt.getX() - 1, pt.getY());
+
+		return true;
+	}
+
+	return false;
 }
 
 //---------------------------------------------------------------------------------------
@@ -616,10 +613,12 @@ bool  TheMathGame::isPlayersCrash(Player& pl1, Player& pl2){
 //---------------------------------------------------------------------------------------
 void TheMathGame::handlePlayersCrash(Player& pl1, Player& pl2){
 	if (pl1.getNextLocation() != pl2.getLocationPoint()){
+		bool b1 = cleanTwoDigitsFromScreen(pl1.getLocationPoint());
 		GameDB.remove_point(pl1.getLocationPoint());
 		pl1.move();
 	}
 	if (pl2.getNextLocation() != pl1.getLocationPoint()){
+		bool b2 = cleanTwoDigitsFromScreen(pl2.getLocationPoint());
 		GameDB.remove_point(pl2.getLocationPoint());
 		pl2.move();
 	}
@@ -652,6 +651,7 @@ bool TheMathGame::hasNextLevel(unsigned int currentLevel) const {
 		}
 
 		writeOnScreenLocation(Lines::LINE_ONE_MIDDLE, sentence);
+		Sleep(1500);
 	}
 
 	return result;

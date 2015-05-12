@@ -48,8 +48,8 @@ bool ScreenData::insert_point(const Point& ptPoint, const int value)
 		PointsData[ptPoint] = value;
 		if (  value > TWO_DIGIT_VALUE && 
 			  value != PLAYER1_SIGN   &&
-			  value != PLAYER2_SIGN &&
-			  value != SHOOT_SIGN)
+			  value != PLAYER2_SIGN /*&&
+			  value != SHOOT_SIGN*/)
 			PointsData[Point(ptPoint.getX() + 1, ptPoint.getY())] = value;
 		return true;
 	}
@@ -108,12 +108,13 @@ bool ScreenData::remove_point(const Point& ptPoint){
 	if (is_point_exist(ptPoint)){
 		if (GetElementByPoint(ptPoint) > TWO_DIGIT_VALUE &&
 			GetElementByPoint(ptPoint) != PLAYER1_SIGN   &&
-			GetElementByPoint(ptPoint) != PLAYER2_SIGN &&
-			GetElementByPoint(ptPoint) != SHOOT_SIGN){
-			if (PointsData.find(Point(ptPoint.getX() + 1, ptPoint.getY()))!= PointsData.end())
+			GetElementByPoint(ptPoint) != PLAYER2_SIGN){
+			if (PointsData.find(Point(ptPoint.getX() + 1, ptPoint.getY())) != PointsData.end()){
 				tmp = PointsData.erase(Point(ptPoint.getX() + 1, ptPoint.getY()));// ||
-			else 
+			}
+			else{
 				tmp = PointsData.erase(Point(ptPoint.getX() - 1, ptPoint.getY()));// ||
+			}
 			tmp = PointsData.erase(PointsData.find(ptPoint)) != PointsData.end();
 			return tmp;
 		}

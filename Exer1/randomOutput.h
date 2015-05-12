@@ -36,7 +36,6 @@ public:
 	// Methods
 	static unsigned int CreateRandomValue(ScreenData* sData, unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER);
 	static unsigned int CreateRandomValue(unsigned int range_to, unsigned int range_from = START_RANDOM_NUMBER);
-	static unsigned int CreateRandomValue(unsigned int range_to, unsigned int avoidThisNumber, unsigned int range_from);
 	static Sign::Operator CreateRandomSign();
 	static Point* CreateRandomPoint(ScreenData& sData, int numOfDigits);
 	

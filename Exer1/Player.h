@@ -50,10 +50,6 @@ public:
 		Two
 	};
 
-	enum maxErr{
-		MAX_ERROR_FOR_MATH_GAME = 3
-	};
-
 	enum PLAYER_KEYS
 	{
 		PLAYER_1_DOWN = 'x',

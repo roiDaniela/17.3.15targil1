@@ -84,6 +84,7 @@ private:
 	void handleShootCrashPlayer(Player::numberOfPlayer numberOfPlayer, int currentLevel);
 	Direction::value getNonStayDirection(const Player& p) const;
 	void setThePrevDirection(Player::PLAYER_KEYS curr_input);
+	bool cleanTwoDigitsFromScreen(Point pt);
 
 public:
 	// Getter && Setter
