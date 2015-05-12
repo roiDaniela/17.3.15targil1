@@ -35,7 +35,7 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 
 void CreateExercise::CreateExercizeOfTwoVar(unsigned int CurrentLevel, Sign::Operator OpSign){
 	hiddenExercise = "";
-	unsigned int a, b, Result, HiddenValue;
+	unsigned int a, b, Result;
 		switch (OpSign)
 		{
 		case Sign::MINUS:
@@ -302,7 +302,7 @@ string CreateExercise::ConvertSignToString(Sign::Operator OpSign){
 
 CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num){
 	ExerciseErrMsg is_solved = WRONG_VALUE;
-	const int MAX_RESULT = screenNumber + RANDOMIZE_INITNAL_DIFF;
+	const int MAX_RESULT = 22;//screenNumber + RANDOMIZE_INITNAL_DIFF;
 
 		// Case eaten one of the following, value not found is in case empty 
 		if (num == ScreenData::VALUE_NOT_FOUND || num == PLAYER_ONE_VALUE_INSERTED || num == PLAYER_TWO_VALUE_INSERTED)
@@ -654,7 +654,7 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 
 	// Case result is not in the range the number inserted by the user
 	// will not solve the equation
-	if (!(res < MAX_RESULT && res > 0))
+	if (!(res < MAX_RESULT && res > 0 && res != PLAYER_ONE_VALUE_INSERTED ))
 		return WRONG_VALUE;
 
 	// Case solved set hidden value2 to 0 than the next parameter inserted 
