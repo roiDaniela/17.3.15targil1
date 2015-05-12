@@ -19,7 +19,6 @@
 // Ctor
 //---------------------------------------------------------------------------------------
 CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNumber1){
-	int CopyScrnNum = screenNumber;
 	// randomise sighn
 	OpSign1 = RandomOutput::CreateRandomSign();//randomSighn();
 
@@ -28,13 +27,10 @@ CreateExercise::CreateExercise(unsigned int screenNumber1):screenNumber(screenNu
 	}
 	else{
 		//screenNumber -= 10;
-		screenNumber = INITIATING_VALUE_FROM_21TH_LEVEL;
+		
 		OpSign2 = RandomOutput::CreateRandomSign();
 		CreateExercizeOfThreeVar(screenNumber, OpSign1, OpSign2);
-		screenNumber = CopyScrnNum;
 	}
-	SetHiddenValues();
-	SetExerciseToString();
 }
 
 void CreateExercise::CreateExercizeOfTwoVar(unsigned int CurrentLevel, Sign::Operator OpSign){
@@ -86,11 +82,15 @@ void CreateExercise::CreateExercizeOfTwoVar(unsigned int CurrentLevel, Sign::Ope
 	num1 = a;
 	num2 = b;
 	result = Result;
+
+	SetHiddenValues();
+	SetExerciseToString();
 }
 
 
 void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::Operator OpSign1, Sign::Operator OpSign2){
-	unsigned int a, b, c, res;
+	unsigned int a, b, c, res,copyCurrLevl = screenNumber ;
+	screenNumber = INITIATING_VALUE_FROM_21TH_LEVEL;
 	switch (OpSign2)
 	{
 	case Sign::MINUS:
@@ -203,6 +203,10 @@ void CreateExercise::CreateExercizeOfThreeVar(unsigned int CurrentLevel, Sign::O
 	num2 = b;
 	num3 = c;
 	result = res;
+
+	screenNumber = copyCurrLevl;
+	SetHiddenValues();
+	SetExerciseToString();
 }
 
 
@@ -298,11 +302,12 @@ string CreateExercise::ConvertSignToString(Sign::Operator OpSign){
 
 CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num){
 	ExerciseErrMsg is_solved = WRONG_VALUE;
+	const int MAX_RESULT = screenNumber + RANDOMIZE_INITNAL_DIFF;
 
-	// Case eaten one of the following, value not found is in case empty 
-	if ( num == ScreenData::VALUE_NOT_FOUND || num == PLAYER_ONE_VALUE_INSERTED || num == PLAYER_TWO_VALUE_INSERTED )
-		return is_solved;
-	
+		// Case eaten one of the following, value not found is in case empty 
+		if (num == ScreenData::VALUE_NOT_FOUND || num == PLAYER_ONE_VALUE_INSERTED || num == PLAYER_TWO_VALUE_INSERTED)
+			return is_solved;
+
 	// Case it's true it means that or the problem 
 	// solved or the system waiting for second param
 	// in that case hidden value 2 will not be 0
@@ -317,9 +322,9 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 		if (hiddenValue2 == 0)
 			return WRONG_VALUE;
 	}
-	
+
 	// copy new numbers with 0 in the variable spot and set the value inserted by the user
-	int tmp[4] = {num1,num2,num3,result};
+	int tmp[4] = { num1, num2, num3, result };
 	for (int i = 0; i < 4; i++)
 		if (tmp[i] == 0){
 			tmp[i] = num;
@@ -350,7 +355,7 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 				res = tmp[0] - tmp[1] * tmp[2];
 				break;
 			case Sign::DIV:{
-				if (tmp[1] % tmp[2] != 0) res = 22;
+				if (tmp[1] % tmp[2] != 0) res = MAX_RESULT;
 				res = tmp[0] - tmp[1] / tmp[2];
 				break;
 			}
@@ -372,9 +377,9 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 				res = tmp[0] + tmp[1] * tmp[2];
 				break;
 			case Sign::DIV:{
-				if (tmp[1] % tmp[2] != 0) res = 22;
+				if (tmp[1] % tmp[2] != 0) res = MAX_RESULT;
 				else res = tmp[0] + tmp[1] / tmp[2];
-				
+
 				break;
 			}
 			default:
@@ -382,7 +387,7 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 			}
 			break;
 		}
-			break;
+						break;
 		case Sign::MULT:{
 			switch (OpSign2)
 			{
@@ -396,7 +401,7 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 				res = tmp[0] * tmp[1] * tmp[2];
 				break;
 			case Sign::DIV:{
-				if (tmp[1] % tmp[2] != 0) res = 22;
+				if (tmp[1] % tmp[2] != 0) res = MAX_RESULT;
 				else res = tmp[0] * tmp[1] / tmp[2];
 				break;
 			}
@@ -406,7 +411,7 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 			break;
 		}
 		case Sign::DIV:{
-			if (tmp[0] % tmp[1] != 0) res = 22;
+			if (tmp[0] % tmp[1] != 0) res = MAX_RESULT;
 			else{
 
 				switch (OpSign2)
@@ -421,7 +426,7 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 					res = tmp[0] / tmp[1] * tmp[2];
 					break;
 				case Sign::DIV:{
-					if (tmp[1] % tmp[2] != 0) res = 22;
+					if (tmp[1] % tmp[2] != 0) res = MAX_RESULT;
 					res = tmp[0] / tmp[1] / tmp[2];
 					break;
 				}
@@ -435,7 +440,7 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 		default:
 			break;
 		}
-		
+
 	}
 
 	// Go over the cases possible if the variable is in num3
@@ -447,19 +452,19 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 			{
 			case Sign::MINUS:{
 				res = tmp[0] - tmp[1] - result;
-				if (tmp[0] - tmp[1] - res != result) res = 22;
+				if (tmp[0] - tmp[1] - res != result) res = MAX_RESULT;
 				break;
 			}
 			case Sign::PLUS:
 				res = result - tmp[0] + tmp[1];
 				break;
 			case Sign::MULT:{
-				if (abs(int(result - tmp[0])) % tmp[1] != 0) res = 22;
+				if (abs(int(result - tmp[0])) % tmp[1] != 0) res = MAX_RESULT;
 				else res = abs(int(result - tmp[0])) / int(tmp[1]);
 				break;
 			}
 			case Sign::DIV:
-				if (tmp[1] % (result - tmp[0]) != 0) res = 22;
+				if (tmp[1] % (result - tmp[0]) != 0) res = MAX_RESULT;
 				else res = -int(tmp[1]) / (result - tmp[0]);
 				break;
 			default:
@@ -477,11 +482,11 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 				res = result - tmp[0] - tmp[1];
 				break;
 			case Sign::MULT:
-				if ((result - tmp[0]) % tmp[1] != 0) res = 22;
+				if ((result - tmp[0]) % tmp[1] != 0) res = MAX_RESULT;
 				else res = (result - tmp[0]) / int(tmp[1]);
 				break;
 			case Sign::DIV:
-				if (tmp[1] % (result - tmp[0]) != 0) res = 22;
+				if (tmp[1] % (result - tmp[0]) != 0) res = MAX_RESULT;
 				else res = -int(tmp[1]) / (result - tmp[0]);
 				break;
 			default:
@@ -499,11 +504,11 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 				res = result - tmp[0] * tmp[1];
 				break;
 			case Sign::MULT:
-				if (result % (tmp[0] * tmp[1]) != 0) res = 22;
+				if (result % (tmp[0] * tmp[1]) != 0) res = MAX_RESULT;
 				else res = result / (tmp[0] * tmp[1]);
 				break;
 			case Sign::DIV:
-				if ((tmp[0] * tmp[1]) % result != 0) res = 22;
+				if ((tmp[0] * tmp[1]) % result != 0) res = MAX_RESULT;
 				else res = (tmp[0] * tmp[1]) / result;
 				break;
 			default:
@@ -513,7 +518,7 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 		}
 		case Sign::DIV:{
 			if (tmp[0] % tmp[1] != 0)
-				res = 22;
+				res = MAX_RESULT;
 			else{
 				switch (OpSign2)
 				{
@@ -533,11 +538,11 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 					break;
 				}
 			}
-				break;
-			}
-			default:
-				break;
-			}
+			break;
+		}
+		default:
+			break;
+		}
 
 	}
 	// Go over the cases possible if the variable is in num2
@@ -556,7 +561,7 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 				res = result - tmp[0] - tmp[2];
 				break;
 			case Sign::MULT:{
-				if ((result - tmp[0]) % tmp[2] != 0) res = 22;
+				if ((result - tmp[0]) % tmp[2] != 0) res = MAX_RESULT;
 				else res = (result - tmp[0]) / int(tmp[2]);
 				break;
 			}
@@ -578,7 +583,7 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 				res = result - tmp[0] - tmp[2];
 				break;
 			case Sign::MULT:
-				if ((result - tmp[0]) % tmp[2] != 0) res = 22;
+				if ((result - tmp[0]) % tmp[2] != 0) res = MAX_RESULT;
 				else res = (result - tmp[0]) / tmp[2];
 				break;
 			case Sign::DIV:
@@ -589,25 +594,25 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 			}
 			break;
 		}
-		// Needed to make sure there is no fractions or division by 0
-		// In case that happends res will be set so it will return "wrong answer"
+						// Needed to make sure there is no fractions or division by 0
+						// In case that happends res will be set so it will return "wrong answer"
 		case Sign::MULT:{
 			switch (OpSign2)
 			{
 			case Sign::MINUS:
-				if ((result + tmp[2]) % tmp[0] != 0) res = 22;
+				if ((result + tmp[2]) % tmp[0] != 0) res = MAX_RESULT;
 				else res = (result + tmp[2]) / tmp[0];
 				break;
 			case Sign::PLUS:
-				if ((result - tmp[2]) % tmp[0] != 0) res = 22;
+				if ((result - tmp[2]) % tmp[0] != 0) res = MAX_RESULT;
 				else res = (result - tmp[2]) / tmp[0];
 				break;
 			case Sign::MULT:
-				if (result % tmp[2] !=0  || result % tmp[0] != 0) res = 22;
+				if (result % tmp[2] != 0 || result % tmp[0] != 0) res = MAX_RESULT;
 				else res = result / tmp[0] / tmp[2];
 				break;
 			case Sign::DIV:
-				if (result * tmp[2]  %  tmp[0] != 0) res = 22;
+				if (result * tmp[2] % tmp[0] != 0) res = MAX_RESULT;
 				else res = result * tmp[2] / tmp[0];
 				break;
 			default:
@@ -615,25 +620,25 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 			}
 			break;
 		}
-		// Needed to make sure there is no fractions or division by 0
-		// In case that happends res will be set so it will return "wrong answer"
+						// Needed to make sure there is no fractions or division by 0
+						// In case that happends res will be set so it will return "wrong answer"
 		case Sign::DIV:{
 			switch (OpSign2)
 			{
 			case Sign::MINUS:
-				if ((result + tmp[2]) % tmp[0] != 0) res = 22;
+				if ((result + tmp[2]) % tmp[0] != 0) res = MAX_RESULT;
 				else res = (result + tmp[2]) / tmp[0];
 				break;
 			case Sign::PLUS:
-				if ((result - tmp[2]) % tmp[0] != 0) res = 22;
-				else res = (result - tmp[2]) / tmp[0];				
+				if ((result - tmp[2]) % tmp[0] != 0) res = MAX_RESULT;
+				else res = (result - tmp[2]) / tmp[0];
 				break;
 			case Sign::MULT:
-				if (tmp[0] % (result / tmp[2]) != 0) res = 22;
+				if (tmp[0] % (result / tmp[2]) != 0) res = MAX_RESULT;
 				else res = tmp[0] % (result / tmp[2]);
 				break;
 			case Sign::DIV:
-				if (tmp[0] % (result / tmp[2]) != 0) res = 22;
+				if (tmp[0] % (result / tmp[2]) != 0) res = MAX_RESULT;
 				else res = (tmp[0] / result / tmp[2]);
 				break;
 			default:
@@ -644,21 +649,21 @@ CreateExercise::ExerciseErrMsg CreateExercise::IsProblemSolved(unsigned int num)
 		default:
 			break;
 		}
-		
+
 	}
 
 	// Case result is not in the range the number inserted by the user
 	// will not solve the equation
-	if (!(res < 22 && res > 0))
+	if (!(res < MAX_RESULT && res > 0))
 		return WRONG_VALUE;
-	
+
 	// Case solved set hidden value2 to 0 than the next parameter inserted 
 	// will be correct only in case equal to hidden value1
 	hiddenValue1 = res;
 	hiddenValue2 = 0;
-	
+
 	// Set the return value to be waiting for second parameter
 	is_solved = WAIT_FOR_SECOND_PARAM;
-	
+
 	return is_solved;
 }
