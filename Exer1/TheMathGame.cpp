@@ -149,11 +149,14 @@ void TheMathGame::prepareStatusSentenceOnScreen(){
 // methods of the class 
 //---------------------------------------------------------------------------------------
 void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLevel){
+	bool isPlayer1ShootedThisIteration = false;
+	bool isPlayer2ShootedThisIteration = false;
+
 	prepareStatusSentenceOnScreen();
 	
 	// Check its not over than 1500 turns and update the players itaeration
-	UpdateIterationCounter();
-	UpdateShootCounter();
+	updateIterationCounter();
+	updateShootCounter();
 
 	// pass over the keyHits in order to collect the players input
 	for (list<char>::const_iterator itr = keyHits.cbegin();
@@ -162,7 +165,7 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	{
 		Player::PLAYER_KEYS curr_input = static_cast<Player::PLAYER_KEYS>(*itr);
 
-		setKeyValues(curr_input);
+		setKeyValues(curr_input, isPlayer1ShootedThisIteration, isPlayer2ShootedThisIteration);
 	}
 
 	// Check the next location of players: in case they will meet set them as 'stay' otherwise set their 
@@ -213,7 +216,14 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 // this function add random point to screen
 //---------------------------------------------------------------------------------------
 void TheMathGame::addRandomNunberToScreen(unsigned int currentLevel){
-	unsigned int value = RandomOutput::CreateRandomValue(RANDOM_NUMBERS_DIFF + currentLevel, 35, 1);
+	unsigned int value;
+	
+	if (currentLevel <= FIRST_SERIES_OF_LEVELS){
+		value = RandomOutput::CreateRandomValue(RANDOM_NUMBERS_DIFF + currentLevel, 35, 1);
+	}
+	else{
+		value = RandomOutput::CreateRandomValue(RANDOM_NUMBERS_DIFF + FIRST_SERIES_OF_LEVELS, 35, 1);
+	}
 	
 	int numOfDigits = (value > ScreenData::TWO_DIGIT_VALUE) ? 2 : 1;
 	Point* ptTmp = RandomOutput::CreateRandomPoint(GameDB, numOfDigits);
@@ -381,7 +391,9 @@ void TheMathGame::setThePrevDirection(Player::PLAYER_KEYS curr_input){
 //---------------------------------------------------------------------------------------
 // this function gets a direction as param and move the suit player  
 //---------------------------------------------------------------------------------------
-void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input){
+void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input, 
+	                           bool& isPlayer1ShootedThisIteration, 
+	                           bool& isPlayer2ShootedThisIteration){
 	
 	setThePrevDirection(curr_input);
 	switch (curr_input){
@@ -443,17 +455,19 @@ void TheMathGame::setKeyValues(Player::PLAYER_KEYS curr_input){
 	}
 	case Player::PLAYER_1_SHOOT:{
 		if (!isPlayerUsedAllErr(player1)){
-			if (notDupShootInIteration() && getNonStayDirection(player1) != Direction::STAY && player1.shoot()) {
-				addShoot(Shoot(getNonStayDirection(player1), player1.getNextLocation(), getIterationCounter()));
+			if (!isPlayer1ShootedThisIteration && getNonStayDirection(player1) != Direction::STAY && player1.shoot()) {
+				addShoot(Shoot(getNonStayDirection(player1), player1.getNextLocation()));
+				isPlayer1ShootedThisIteration = true;
 			}
 		}
-
+		
 		break;
 	}
 	case Player::PLAYER_2_SHOOT:{
 		if (!isPlayerUsedAllErr(player2)){
-			if (notDupShootInIteration() && getNonStayDirection(player2) != Direction::STAY && player2.shoot()) {
-				addShoot(Shoot(getNonStayDirection(player2), player2.getNextLocation(), getIterationCounter()));
+			if (!isPlayer2ShootedThisIteration && getNonStayDirection(player2) != Direction::STAY && player2.shoot()) {
+				addShoot(Shoot(getNonStayDirection(player2), player2.getNextLocation()));
+				isPlayer2ShootedThisIteration = true;
 			}
 		}
 
@@ -472,18 +486,6 @@ Direction::value TheMathGame::getNonStayDirection(const Player& p) const{
 	else{
 		return p.getPrevDirection();
 	}
-}
-//---------------------------------------------------------------------------------------
-// not a dup shoot
-//---------------------------------------------------------------------------------------
-bool TheMathGame::notDupShootInIteration(){
-	for (list<Shoot>::iterator it = listOfShoots.begin(); it != listOfShoots.end(); it++){
-		if (it->getIterationShooted() == getIterationCounter()){
-			return false;
-		}
-	}
-
-	return true;
 }
 
 //---------------------------------------------------------------------------------------
@@ -530,7 +532,7 @@ void TheMathGame::cleanShootList(){
 //---------------------------------------------------------------------------------------
 // this function update shoot counter: every 200 iterations one more shoot
 //---------------------------------------------------------------------------------------
-void TheMathGame::UpdateShootCounter(){
+void TheMathGame::updateShootCounter(){
 	if (((getIterationCounter() % SHOOT_PER_ITERATION) == 0) &&
 		(getIterationCounter() != 0)){
 		player1.addToShootCounter();

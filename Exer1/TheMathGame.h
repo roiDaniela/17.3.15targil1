@@ -44,6 +44,7 @@ private:
 	static const int TOTAL_NUMBER_OF_ERRORS = 3;
 	static const int SHOOT_PER_ITERATION = 200;
 	static const int RANDOM_NUMBERS_DIFF = 10;
+	static const int FIRST_SERIES_OF_LEVELS = 20;
 
 	enum ResultLevel
 	{
@@ -66,7 +67,7 @@ private:
 	
 	// private Methods
 	void cleanShootList();
-	void setKeyValues(Player::PLAYER_KEYS curr_input);
+	void setKeyValues(Player::PLAYER_KEYS curr_input, bool& isPlayer1ShootedThisIteration, bool& isPlayer2ShootedThisIteration);
 	void addRandomNunberToScreen(unsigned int currentLevel);
 	bool iterationCounterIsBiggerThanAlowd() const;
 	void setLevelResult(ResultLevel result, unsigned int currentLevel){ arrayOfWinsInLevel[currentLevel] = result; }
@@ -81,15 +82,14 @@ private:
 	void initPlayerToFirstPosition(Player::numberOfPlayer numberOfPlayer);
 	void handleShootCrashNumber(list<Shoot>::iterator it);
 	void handleShootCrashPlayer(Player::numberOfPlayer numberOfPlayer, int currentLevel);
-	bool notDupShootInIteration();
 	Direction::value getNonStayDirection(const Player& p) const;
 	void setThePrevDirection(Player::PLAYER_KEYS curr_input);
 
 public:
 	// Getter && Setter
 	unsigned int getIterationCounter() const { return iterationCounter; }
-	void UpdateIterationCounter(){ iterationCounter++; }
-	void UpdateShootCounter();
+	void updateIterationCounter(){ iterationCounter++; }
+	void updateShootCounter();
 	void initParams(int currentLevel);
 	ScreenData& GetDB();
 	CreateExercise::ExerciseErrMsg checkExerciseSolved(Player& player, int currentLevel);

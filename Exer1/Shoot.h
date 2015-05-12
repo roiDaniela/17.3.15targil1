@@ -53,7 +53,7 @@ public:
 	Point getNextLocation();
 
 	// ctor
-	Shoot(Direction::value d, const Point& p, int iteration);
+	Shoot(Direction::value d, const Point& p);
 
 	// Methods
 	void Stop();

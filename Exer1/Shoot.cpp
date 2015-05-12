@@ -35,9 +35,8 @@ void Shoot::move(){
 //---------------------------------------------------------------------------------------
 // ctor
 //---------------------------------------------------------------------------------------
-Shoot::Shoot(Direction::value d, const Point& p, int iteration) : direction(d),
-   																  locationPoint(p),
-																  iterationShooted(iteration){
+Shoot::Shoot(Direction::value d, const Point& p) : direction(d),
+   												   locationPoint(p){
 	move();
 }
 
