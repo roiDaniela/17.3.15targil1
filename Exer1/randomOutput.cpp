@@ -32,7 +32,6 @@ unsigned int RandomOutput::CreateRandomValue(unsigned int range_to, unsigned int
 	while (n == avoidThisNumber){
 		n = CreateRandomValue(range_to, range_from);
 	}
-
 	return n;
 }
 

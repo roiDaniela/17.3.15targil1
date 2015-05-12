@@ -71,6 +71,7 @@ void TheMathGame::initPlayerToFirstPosition(Player::numberOfPlayer numberOfPlaye
 // init params for level begining
 //---------------------------------------------------------------------------------------
 void TheMathGame::initParams(int currentLevel){
+	setLevelResult(TheMathGame::NO_BODY_WON, currentLevel);
 	iterationCounter = 0;
 	cleanShootList();
 	player1.initErrorCounter();
@@ -217,9 +218,10 @@ void TheMathGame::addRandomNunberToScreen(unsigned int currentLevel){
 	int numOfDigits = (value > ScreenData::TWO_DIGIT_VALUE) ? 2 : 1;
 	Point* ptTmp = RandomOutput::CreateRandomPoint(GameDB, numOfDigits);
 	if (ptTmp != NULL){
-		gotoxy(*ptTmp);
-		cout << value;
-		GameDB.insert_point(*ptTmp, value);
+		if (GameDB.insert_point(*ptTmp, value)){
+			gotoxy(*ptTmp);
+			cout << value;
+		}
 	}
 
 	delete ptTmp;

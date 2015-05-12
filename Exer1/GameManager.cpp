@@ -83,7 +83,7 @@ void GameManager::run()
 				gotoxy(sentence.length() + 1, 0); // GO TO end of the sentence in line 1
 				cin >> numberLevelChosen;
 
-				while (numberLevelChosen > 40 || numberLevelChosen < 1){
+				while (numberLevelChosen > MAX_NUM_LEVELS || numberLevelChosen < 1){
 					writeOnScreenLocation(Lines::LINE_TWO_LEFT, "ilegal number of level: Please type a legal number");
 					gotoxy(sentence.length() + 1, 0); // GO TO end of the sentence in line 1
 					cin >> numberLevelChosen;
