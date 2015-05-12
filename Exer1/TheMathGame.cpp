@@ -182,7 +182,7 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	CreateExercise::ExerciseErrMsg ExerMsgForPlayer2 = checkExerciseSolved(player2, currentLevel);
 	
 	//check if not won
-	if ((ExerMsgForPlayer1 != CreateExercise::ExerciseErrMsg::SOLVED) && (ExerMsgForPlayer2 != CreateExercise::ExerciseErrMsg::SOLVED))
+	if ((ExerMsgForPlayer1 != CreateExercise::ExerciseErrMsg::SOLVED) || (ExerMsgForPlayer2 != CreateExercise::ExerciseErrMsg::SOLVED))
 	{
 		// Case its player wrong catch
 		if (isWrongCatch(player1, ExerMsgForPlayer1))
