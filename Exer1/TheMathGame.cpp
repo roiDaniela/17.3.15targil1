@@ -68,7 +68,7 @@ void TheMathGame::initPlayerToFirstPosition(Player::numberOfPlayer numberOfPlaye
 // init params for level begining
 //---------------------------------------------------------------------------------------
 void TheMathGame::initParams(int currentLevel){
-	setLevelResult(TheMathGame::NO_BODY_WON, currentLevel);
+	setLevelResult(TheMathGame::NO_BODY_WON/*, currentLevel*/);
 	iterationCounter = 0;
 	cleanShootList();
 	player1.initErrorCounter();
@@ -483,12 +483,12 @@ Direction::value TheMathGame::getNonStayDirection(const Player& p) const{
 //---------------------------------------------------------------------------------------
 // ctor
 //---------------------------------------------------------------------------------------
-TheMathGame::TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL), player1(Player::One), player2(Player::Two), iterationCounter(0)/*, listOfShoots(NULL)*/{
-	// init the array of wins
-	for (int i = 1; i <= TOTAL_NUMBER_OF_LEVELS; i++)
-	{
-		setLevelResult(NO_BODY_WON, i);
-	}
+TheMathGame::TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL), player1(Player::One), player2(Player::Two), iterationCounter(0), resultOfCurrLevel(ResultLevel::NO_BODY_WON){
+	//// init the array of wins
+	//for (int i = 1; i <= TOTAL_NUMBER_OF_LEVELS; i++)
+	//{
+	//	setLevelResult(NO_BODY_WON, i);
+	//}
 }
 
 //---------------------------------------------------------------------------------------
@@ -497,10 +497,10 @@ TheMathGame::TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL), p
 void TheMathGame::setGameWinner(Player& player, unsigned int currentLevel){
 	player.addToWinCounter();
 	if (player.getPlayerNumber() == Player::numberOfPlayer::One){
-		setLevelResult(PLAYER_ONE_WON, currentLevel);
+		setLevelResult(PLAYER_ONE_WON/*, currentLevel*/);
 	}
 	else if (player.getPlayerNumber() == Player::numberOfPlayer::Two){
-		setLevelResult(PLAYER_TWO_WON, currentLevel);
+		setLevelResult(PLAYER_TWO_WON/*, currentLevel*/);
 	}
 }
 
@@ -572,7 +572,7 @@ void TheMathGame::handlePlayerUsedAllErr(Player& pl, int currentLevel){
 	
 	// End curr level if 2 players have max errors
 	if (isPlayerUsedAllErr(player1) && isPlayerUsedAllErr(player2)){
-		setLevelResult(TheMathGame::ERROR_TWO_PLAYERS, currentLevel);
+		setLevelResult(TheMathGame::ERROR_TWO_PLAYERS/*, currentLevel*/);
 	}
 }
 

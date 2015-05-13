@@ -62,7 +62,7 @@ private:
 	CreateExercise excersisePlayer_1;
 	CreateExercise excersisePlayer_2;
 	ScreenData GameDB;
-	ResultLevel arrayOfWinsInLevel[1 + TOTAL_NUMBER_OF_LEVELS];
+	ResultLevel resultOfCurrLevel/*arrayOfWinsInLevel[1 + TOTAL_NUMBER_OF_LEVELS]*/;
 	list<Shoot> listOfShoots;
 	
 	// private Methods
@@ -70,8 +70,8 @@ private:
 	void setKeyValues(Player::PLAYER_KEYS curr_input, bool& isPlayer1ShootedThisIteration, bool& isPlayer2ShootedThisIteration);
 	void addRandomNunberToScreen(unsigned int currentLevel);
 	bool iterationCounterIsBiggerThanAlowd() const;
-	void setLevelResult(ResultLevel result, unsigned int currentLevel){ arrayOfWinsInLevel[currentLevel] = result; }
-	ResultLevel getLevelResult(int currentLevel) const{ return arrayOfWinsInLevel[currentLevel]; }
+	void setLevelResult(ResultLevel result/*, unsigned int currentLevel*/){ resultOfCurrLevel/*arrayOfWinsInLevel[currentLevel]*/ = result; }
+	ResultLevel getLevelResult(/*int currentLevel*/) const{ return resultOfCurrLevel/*arrayOfWinsInLevel[currentLevel]*/; }
 	void setGameWinner(Player& player, unsigned int currentLevel);
 	bool isPlayersCrash(Player& pl1, Player& pl2 );
 	void handlePlayersCrash(Player& pl1, Player& pl2);
@@ -106,7 +106,7 @@ public:
 	
 	// Public Methods
 	bool isLevelDone(unsigned int currentLevel)const{
-		return (getLevelResult(currentLevel) != NO_BODY_WON || iterationCounterIsBiggerThanAlowd()); }
+		return (getLevelResult(/*currentLevel*/) != NO_BODY_WON || iterationCounterIsBiggerThanAlowd()); }
 	bool hasNextLevel(unsigned int currentLevel)const;
 	void startLevel(unsigned int currentLevel);
 	void doIteration(const list<char>& keyHits, unsigned int currentLevel);
