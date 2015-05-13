@@ -40,9 +40,10 @@ class ISpecificGame
 public:
 	// virtual fucnction with =0 is called an "abstract method"
 	// abstract method must be implemented by non-abstract inherited class
-	virtual bool isLevelDone(unsigned int currentLevel)const = 0;
+	virtual bool isLevelDone()const = 0;
 	virtual bool hasNextLevel(unsigned int currentLevel)const = 0;
 	virtual void startLevel(unsigned int currentLevel) = 0;
+	virtual void initPoints() = 0;
 
 	// get a list with keyHits and returns a list with the keys that were used
 	virtual void doIteration(const list<char>& keyHits, unsigned int currentLevel) = 0;

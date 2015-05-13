@@ -52,7 +52,8 @@ void GameManager::run()
 	bool userWantsToPlay = true;
 	// we run as long as the user wants
 	while(userWantsToPlay) {
-		clear_screen();
+		CleanScreenAtPoint(Point(Player::PLAYER_1_X_POSITION, Player::PLAYER_1_Y_POSITION));
+		CleanScreenAtPoint(Point(Player::PLAYER_2_X_POSITION, Player::PLAYER_2_Y_POSITION));
 
 		char menuSelection = mainMenu();
 		// handle here all the different menu options
@@ -158,6 +159,7 @@ char GameManager::playNextLevel()
 			actualGame.startLevel(currentLevel);
 			break;
 		case GameManager::LevelOptions::BACK_TO_MAIN_MENU:
+			actualGame.initPoints();
 			clear_screen();
 			run();
 			keepRunning = false;
@@ -193,7 +195,7 @@ char GameManager::doLevelIterations()
 	//---------------------------------------
 	// this is the game iterations loop
 	//---------------------------------------
-	while(!actualGame.isLevelDone(currentLevel) && !escapePressed) {
+	while(!actualGame.isLevelDone(/*currentLevel*/) && !escapePressed) {
 		escapePressed = !doIteration();
 	}
 	//-----------------------------------------------------
@@ -201,7 +203,7 @@ char GameManager::doLevelIterations()
 	//-----------------------------------------------------
 
 	// check why we are here
-	if (actualGame.isLevelDone(currentLevel)) {
+	if (actualGame.isLevelDone(/*currentLevel*/)) {
 		clear_screen();
 		CleanTopOfScreen();
 		string sentence = "";

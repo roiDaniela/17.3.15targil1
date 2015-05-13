@@ -59,7 +59,6 @@ void Shoot::calcShootTargetPoint(Point& targetPoint){
 			else{
 				targetPoint.setY(targetPoint.getY() + 1);
 			}
-
 			break;
 		}
 		case Direction::UP:{

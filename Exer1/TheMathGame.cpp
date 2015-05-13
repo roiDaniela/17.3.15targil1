@@ -68,7 +68,7 @@ void TheMathGame::initPlayerToFirstPosition(Player::numberOfPlayer numberOfPlaye
 // init params for level begining
 //---------------------------------------------------------------------------------------
 void TheMathGame::initParams(int currentLevel){
-	setLevelResult(TheMathGame::NO_BODY_WON/*, currentLevel*/);
+	setLevelResult(TheMathGame::NO_BODY_WON);
 	iterationCounter = 0;
 	cleanShootList();
 	player1.initErrorCounter();
@@ -254,7 +254,6 @@ void TheMathGame::handleShootCrashNumber(list<Shoot>::iterator it){
 // this function handle shoot crash player
 //---------------------------------------------------------------------------------------
 void TheMathGame::handleShootCrashPlayer(Player::numberOfPlayer numberOfPlayer, int currentLevel){
-	int currLocNum;
 	if (numberOfPlayer == Player::One){
 		CleanScreenAtPoint(player1.getLocationPoint());
 		
@@ -351,7 +350,7 @@ CreateExercise::ExerciseErrMsg TheMathGame::checkExerciseSolved(Player& player, 
 
 	//check if won
 	if (ExerMsgForPlayer == CreateExercise::SOLVED){
-		setGameWinner(player, currentLevel);
+		setGameWinner(player);
 	}
 
 	return ExerMsgForPlayer;
@@ -484,23 +483,22 @@ Direction::value TheMathGame::getNonStayDirection(const Player& p) const{
 // ctor
 //---------------------------------------------------------------------------------------
 TheMathGame::TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL), player1(Player::One), player2(Player::Two), iterationCounter(0), resultOfCurrLevel(ResultLevel::NO_BODY_WON){
-	//// init the array of wins
-	//for (int i = 1; i <= TOTAL_NUMBER_OF_LEVELS; i++)
-	//{
-	//	setLevelResult(NO_BODY_WON, i);
-	//}
+
 }
 
 //---------------------------------------------------------------------------------------
 // this function sets the winner in the game
 //---------------------------------------------------------------------------------------
-void TheMathGame::setGameWinner(Player& player, unsigned int currentLevel){
+void TheMathGame::setGameWinner(Player& player){
 	player.addToWinCounter();
 	if (player.getPlayerNumber() == Player::numberOfPlayer::One){
-		setLevelResult(PLAYER_ONE_WON/*, currentLevel*/);
+		setLevelResult(PLAYER_ONE_WON);
 	}
 	else if (player.getPlayerNumber() == Player::numberOfPlayer::Two){
-		setLevelResult(PLAYER_TWO_WON/*, currentLevel*/);
+		setLevelResult(PLAYER_TWO_WON);
+	}
+	else{
+
 	}
 }
 
