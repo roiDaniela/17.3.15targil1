@@ -497,9 +497,6 @@ void TheMathGame::setGameWinner(Player& player){
 	else if (player.getPlayerNumber() == Player::numberOfPlayer::Two){
 		setLevelResult(PLAYER_TWO_WON);
 	}
-	else{
-
-	}
 }
 
 //---------------------------------------------------------------------------------------
