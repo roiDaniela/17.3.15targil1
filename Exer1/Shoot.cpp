@@ -54,7 +54,7 @@ void Shoot::calcShootTargetPoint(Point& targetPoint){
 	{
 		case Direction::DOWN:{
 			if (targetPoint.getY() + 1 > LENGH_OF_PAGE){
-				targetPoint.setY(((targetPoint.getY() + 1) % LENGH_OF_PAGE) + AMOUNT_OF_INSTRUCTIONS_LINE);
+				targetPoint.setY(((targetPoint.getY() + 1) % LENGH_OF_PAGE) + AMOUNT_OF_INSTRUCTIONS_LINE - 1);
 			}
 			else{
 				targetPoint.setY(targetPoint.getY() + 1);

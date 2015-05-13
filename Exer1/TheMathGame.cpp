@@ -594,8 +594,13 @@ bool  TheMathGame::isPlayersCrash(Player& pl1, Player& pl2){
 bool TheMathGame::cleanTwoDigitsFromScreen(Point pt){
 	int n = GameDB.GetElementByPoint(pt);
 	if (n > ScreenData::TWO_DIGIT_VALUE && n != ScreenData::PLAYER2_SIGN && n != ScreenData::PLAYER1_SIGN){
-		CleanScreenAtPoint(pt.getX() + 1, pt.getY());
-		CleanScreenAtPoint(pt.getX() - 1, pt.getY());
+		if (pt.getX() + 1 != LENGH_OF_LINE){
+			CleanScreenAtPoint(pt.getX() + 1, pt.getY());
+		}
+
+		if (pt.getX() - 1 != -1){
+			CleanScreenAtPoint(pt.getX() - 1, pt.getY());
+		}
 
 		return true;
 	}
