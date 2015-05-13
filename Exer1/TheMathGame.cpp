@@ -19,7 +19,6 @@
 // this function is responsible for the option "continue" in sub menu
 //---------------------------------------------------------------------------------------
 void TheMathGame::resumeGame(unsigned int currentLevel){
-	
 	writeOnScreenLocation(Lines::LINE_ONE_LEFT, "Level Number: " + to_string(currentLevel));
 	writeOnScreenLocation(Lines::LINE_TWO_LEFT, "Exercise Player 1: " + getExcercise(Player::numberOfPlayer::One).getHiddenExercise());
 	writeOnScreenLocation(Lines::LINE_TWO_RIGHT, "Exercise Player 2: " + getExcercise(Player::numberOfPlayer::Two).getHiddenExercise());
