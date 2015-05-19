@@ -27,7 +27,6 @@
 #include <iostream>
 #include <string>
 #include "randomOutput.h"
-#include <Windows.h>
 
 using namespace std;
 

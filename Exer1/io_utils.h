@@ -61,6 +61,7 @@ const static int AMOUNT_OF_INSTRUCTIONS_LINE = 3;
 		void Sleep(unsigned long);
 		void _itoa_s(unsigned int, char s[], unsigned int, int);
 		void setTextColor(int);
+		string to_string(int);
 	#else
 		#include <stdlib.h>
 		#include <conio.h>

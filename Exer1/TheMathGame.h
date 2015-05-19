@@ -31,6 +31,7 @@
 #include "GameManager.h"
 #include "io_utils.h"
 #include "Player.h"
+#include "Shoot.h"
 #include <math.h>
 
 using namespace std;

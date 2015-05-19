@@ -19,117 +19,14 @@
 // Ctor
 //---------------------------------------------------------------------------------------
 Player::Player(Player::numberOfPlayer number, Direction::value d) : playerNumber(number),
-																	direction(d),
 																	prevDirection(d),
 																	winCounter(0),
 																	shootCounter(5),
 																	errorCounter(0),
-																    locationPoint((number == Player::One) ? 
-																	               Point(PLAYER_1_X_POSITION, PLAYER_1_Y_POSITION) : 
-																				   Point(PLAYER_2_X_POSITION, PLAYER_2_Y_POSITION)){
+																	Creature((number == One) ? Point(PLAYER_1_X_POSITION, PLAYER_1_Y_POSITION) : 
+													                                           Point(PLAYER_2_X_POSITION, PLAYER_2_Y_POSITION), d){
 	// Move by inited directions
 	move();
-}
-
-//---------------------------------------------------------------------------------------
-// this method sets a new location to the curr player. gets point (function overloading)
-//---------------------------------------------------------------------------------------
-void Player::setLocationPoint(const Point& point){
-	locationPoint = point;
-}
-
-//---------------------------------------------------------------------------------------
-// this method sets a new location to the curr player. gets x,y (function overloading)
-//---------------------------------------------------------------------------------------
-void Player::setLocationPoint(unsigned int x, unsigned int y){
-	locationPoint = Point(x, y);
-}
-
-//---------------------------------------------------------------------------------------
-// this method calculate the next location by the direction
-//---------------------------------------------------------------------------------------
-void Player::calcTargetPoint(Point& targetPoint){
-	
-	// Take care all opptional directions
-	if (targetPoint != getLocationPoint()){
-		targetPoint = getLocationPoint();
-	}
-
-	// screen is 24X80 needs to be cyclic
-	switch (getDirection())
-	{
-	case Direction::DOWN:{
-		if (targetPoint.getY() + 1 > LENGH_OF_PAGE){
-			targetPoint.setY(((targetPoint.getY() + 1) % LENGH_OF_PAGE) + AMOUNT_OF_INSTRUCTIONS_LINE -1);
-		}
-		else{
-			targetPoint.setY(targetPoint.getY() + 1);
-		}
-
-		break;
-	}
-	case Direction::UP:{
-		if (targetPoint.getY() - 1 <= AMOUNT_OF_INSTRUCTIONS_LINE){
-			targetPoint.setY(LENGH_OF_PAGE - (targetPoint.getY() % AMOUNT_OF_INSTRUCTIONS_LINE));
-		}
-		else{
-			targetPoint.setY(getLocationPoint().getY() - 1);
-		}
-
-		break;
-	}
-	case Direction::RIGHT:{
-		targetPoint.setX((getLocationPoint().getX() + 1) % LENGH_OF_LINE);
-
-		break;
-	}
-	case Direction::LEFT:{
-		if (getLocationPoint().getX() - 1 == -1){
-			targetPoint.setX(LENGH_OF_LINE - 1);
-		}
-		else{
-			targetPoint.setX(getLocationPoint().getX() - 1);
-		}
-
-		break;
-	}
-	default:{ // STAY
-
-		break;
-	}
-	}
-}
-//---------------------------------------------------------------------------------------
-// this method gets direction and moves the player to the recived directions
-//---------------------------------------------------------------------------------------
-void Player::move(){
-	Point targetPoint = getLocationPoint(); 
-
-	// Init new direction
-	setDirection(getDirection());
-	
-	calcTargetPoint(targetPoint);
-
-	// Delete last location
-	CleanScreenAtPoint(getLocationPoint());
-
-	// set new location 
-	setLocationPoint(targetPoint);
-
-	// Print new location
-	printSighn();
-}
-
-//---------------------------------------------------------------------------------------
-// this method gets the new direction and returns what should be the next location of
-// curr player
-//---------------------------------------------------------------------------------------
-Point Player::getNextLocation(){
-	Point targetPoint = getLocationPoint();
-
-	calcTargetPoint(targetPoint);
-
-	return targetPoint;
 }
 
 //---------------------------------------------------------------------------------------

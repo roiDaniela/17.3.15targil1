@@ -14,27 +14,17 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
-#include "Point.h"
 #include "Shoot.h"
-#include "Direction.h"
-#include "io_utils.h"
 
 using namespace std;
 
-class Player
+class Player: public Creature
 {
 private:
 	// private DM
-	Point locationPoint;
-	Direction::value direction;
 	Direction::value prevDirection;
 	unsigned int errorCounter, shootCounter, winCounter;
 
-	// Private Methods
-	void calcTargetPoint(Point& targetPoint);
-
-	// Avoid this ctor
-	Player();
 public:
 	static const int PLAYER_1_X_POSITION = 10;
 	static const int PLAYER_1_Y_POSITION = 9;
@@ -72,17 +62,8 @@ public:
 	//--------------------------------------------------------------------------------------
 
 	// Getter && Setter
-	void setDirection(Direction::value d){ direction = d; }
-	Direction::value getDirection() const { return direction; }
-
 	void setPrevDirection(Direction::value pDir){ prevDirection = pDir; }
 	Direction::value getPrevDirection() const { return prevDirection; }
-
-	void setLocationPoint(const Point&);
-	void setLocationPoint(unsigned int x, unsigned int y);
-
-	Point getLocationPoint() const { return locationPoint; }
-	Point getNextLocation();
 
 	void addToErrorCounter(){++errorCounter;} 
 	unsigned int getErrorCounter() const { return errorCounter; }
@@ -99,8 +80,7 @@ public:
 
 	// Methods
 	void printSighn();
-	void move();
-	bool Player::shoot();
+	bool shoot();
 
 private:
 	numberOfPlayer playerNumber;

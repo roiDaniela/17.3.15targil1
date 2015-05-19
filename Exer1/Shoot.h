@@ -13,51 +13,28 @@
 #ifndef _SHOOT_H
 #define _SHOOT_H
 
-#include "Point.h"
-#include "Direction.h"
-#include "io_utils.h"
+#include "Creature.h"
 
 using namespace std;
 
-class Shoot
+class Shoot: public Creature
 {
 private:
 	// private DM
-	Point locationPoint;
-	Direction::value direction;
 	int iterationShooted;
-
-	// Private Methods
-	void Shoot::calcShootTargetPoint(Point& targetPoint);
-	// empty ctor
-	Shoot(); // cant use like that
 	
 public:
 	static const int SHOOT_AMOUNT_MIN_SIZE = 5;
 	static const char SHOOT_SIGN = '*';
 
 	// Getter && Setter
-	void setDirection(Direction::value d){ direction = d; }
-	Direction::value getDirection() const{ return direction; }
-
 	int getIterationShooted()const { return iterationShooted; }
 	void setIterationShooted(int value) { iterationShooted = value; }
-
-	void setLocationPoint(const Point& p){ locationPoint = p; }
-	void setLocationPoint(unsigned int x, unsigned int y){ 
-		locationPoint.setX(x); 
-		locationPoint.setY(y);
-	}
-
-	Point getLocationPoint() const{ return locationPoint; } 
-	Point getNextLocation();
 
 	// ctor
 	Shoot(Direction::value d, const Point& p);
 
 	// Methods
-	void Stop();
-	void move();
 	void printSighn();
 };
 #endif

@@ -70,7 +70,7 @@ void GameManager::run()
 			{
 				CleanTopOfScreen();
 				string sentence = "This is the math game: Player 1 - @ (a,w,d,x) player 2 - # (j,i,l,m). each player has an exercise and he should catch the right hidden number";
-				writeOnScreenLocation(Lines::LINE_ONE_LEFT, sentence);
+				writeOnScreenLocation(LINE_ONE_LEFT, sentence);
 				break;
 			}
 			// END of NEW CODE EX1
@@ -80,12 +80,12 @@ void GameManager::run()
 				CleanTopOfScreen();
 				int numberLevelChosen;
 				string sentence = "Please enter a screen level between 1 - 40: ";
-				writeOnScreenLocation(Lines::LINE_ONE_LEFT, sentence);
+				writeOnScreenLocation(LINE_ONE_LEFT, sentence);
 				gotoxy(sentence.length() + 1, 0); // GO TO end of the sentence in line 1
 				cin >> numberLevelChosen;
 
 				while (numberLevelChosen > MAX_NUM_LEVELS || numberLevelChosen < 1){
-					writeOnScreenLocation(Lines::LINE_TWO_LEFT, "ilegal number of level: Please type a legal number");
+					writeOnScreenLocation(LINE_TWO_LEFT, "ilegal number of level: Please type a legal number");
 					gotoxy(sentence.length() + 1, 0); // GO TO end of the sentence in line 1
 					cin >> numberLevelChosen;
 				}
@@ -208,7 +208,7 @@ char GameManager::doLevelIterations()
 		CleanTopOfScreen();
 		string sentence = "";
 
-		writeOnScreenLocation(Lines::LINE_ONE_RIGHT, sentence + " WELL DONE!");
+		writeOnScreenLocation(LINE_ONE_RIGHT, sentence + " WELL DONE!");
 		action = GameManager::LevelOptions::NEXT_LEVEL;
 	}
 	else if(escapePressed) {
@@ -217,7 +217,6 @@ char GameManager::doLevelIterations()
 		CleanTopOfScreen();
 		clear_screen();
 		gotoxy(0, 3);
-		/*cout << endl << endl << endl;*/
 
 		cout << "1. exit application" << endl;
 		cout << "2. back to main menu" << endl;

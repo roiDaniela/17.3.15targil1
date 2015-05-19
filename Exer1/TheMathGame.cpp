@@ -19,9 +19,9 @@
 // this function is responsible for the option "continue" in sub menu
 //---------------------------------------------------------------------------------------
 void TheMathGame::resumeGame(unsigned int currentLevel){
-	writeOnScreenLocation(Lines::LINE_ONE_LEFT, "Level Number: " + to_string(currentLevel));
-	writeOnScreenLocation(Lines::LINE_TWO_LEFT, "Exercise Player 1: " + getExcercise(Player::numberOfPlayer::One).getHiddenExercise());
-	writeOnScreenLocation(Lines::LINE_TWO_RIGHT, "Exercise Player 2: " + getExcercise(Player::numberOfPlayer::Two).getHiddenExercise());
+	writeOnScreenLocation(LINE_ONE_LEFT, "Level Number: " + to_string(currentLevel));
+	writeOnScreenLocation(LINE_TWO_LEFT, "Exercise Player 1: " + getExcercise(Player::One).getHiddenExercise());
+	writeOnScreenLocation(LINE_TWO_RIGHT, "Exercise Player 2: " + getExcercise(Player::Two).getHiddenExercise());
 	
 	prepareStatusSentenceOnScreen();
 	RefreshScreen(GetDB().getData(), player1.getLocationPoint(), player2.getLocationPoint());
@@ -40,9 +40,9 @@ ScreenData& TheMathGame::GetDB(){
 bool TheMathGame::iterationCounterIsBiggerThanAlowd() const{
 	if (getIterationCounter() > TOTAL_NUMBER_OF_CLOCK_TURNS){
 		CleanTopOfScreen();
-		writeOnScreenLocation(Lines::LINE_ONE_MIDDLE, "Its over than 1500 turns clock!!!!!");
-		writeOnScreenLocation(Lines::LINE_THREE_LEFT, "Points Player 1: " + to_string(player1.getWinCounter()));
-		writeOnScreenLocation(Lines::LINE_THREE_RIGHT, "Points Player 2: " + to_string(player2.getWinCounter()));
+		writeOnScreenLocation(LINE_ONE_MIDDLE, "Its over than 1500 turns clock!!!!!");
+		writeOnScreenLocation(LINE_THREE_LEFT, "Points Player 1: " + to_string(player1.getWinCounter()));
+		writeOnScreenLocation(LINE_THREE_RIGHT, "Points Player 2: " + to_string(player2.getWinCounter()));
 		Sleep(1500);
 		return true;
 	}
@@ -99,9 +99,9 @@ void TheMathGame::startLevel(unsigned int currentLevel){
 	setExercise(player2.getPlayerNumber(), currentLevel);
 
 	// Create exercise
-	writeOnScreenLocation(Lines::LINE_ONE_LEFT, "Level Number: " + to_string(currentLevel));
-	writeOnScreenLocation(Lines::LINE_TWO_LEFT, "Exercise Player 1: " + getExcercise(Player::numberOfPlayer::One).getHiddenExercise());
-	writeOnScreenLocation(Lines::LINE_TWO_RIGHT, "Exercise Player 2: " + getExcercise(Player::numberOfPlayer::Two).getHiddenExercise());
+	writeOnScreenLocation(LINE_ONE_LEFT, "Level Number: " + to_string(currentLevel));
+	writeOnScreenLocation(LINE_TWO_LEFT, "Exercise Player 1: " + getExcercise(Player::One).getHiddenExercise());
+	writeOnScreenLocation(LINE_TWO_RIGHT, "Exercise Player 2: " + getExcercise(Player::Two).getHiddenExercise());
 
 	// Init the DB with the initial points of the players
 	GameDB.insert_point(player1.getLocationPoint(), player1.PLAYER_1_SIGN);
@@ -115,7 +115,7 @@ void TheMathGame::startLevel(unsigned int currentLevel){
 void TheMathGame::prepareStatusSentenceOnScreen(){
 	int playerErrors;
 
-	writeOnScreenLocation(Lines::LINE_ONE_RIGHT, "Iteration: " + to_string(getIterationCounter()));
+	writeOnScreenLocation(LINE_ONE_RIGHT, "Iteration: " + to_string(getIterationCounter()));
 	
 	string sentence = "P1 Errors: ";
 	playerErrors = (TOTAL_NUMBER_OF_ERRORS - player1.getErrorCounter());
@@ -126,7 +126,7 @@ void TheMathGame::prepareStatusSentenceOnScreen(){
 	sentence += " Shoots:" + to_string(player1.getShootCounter());
 	sentence += "  Points:" + to_string(player1.getWinCounter());
 
-	writeOnScreenLocation(Lines::LINE_THREE_LEFT, sentence);
+	writeOnScreenLocation(LINE_THREE_LEFT, sentence);
 
 	sentence = "P2 Errors: ";
 	playerErrors = (TOTAL_NUMBER_OF_ERRORS - player2.getErrorCounter());
@@ -137,7 +137,7 @@ void TheMathGame::prepareStatusSentenceOnScreen(){
 	sentence += " Shoots:" + to_string(player2.getShootCounter());
 	sentence += "  Points:" + to_string(player2.getWinCounter());
 
-	writeOnScreenLocation(Lines::LINE_THREE_RIGHT, sentence);
+	writeOnScreenLocation(LINE_THREE_RIGHT, sentence);
 }
 
 //---------------------------------------------------------------------------------------
@@ -155,8 +155,8 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	updateShootCounter();
 
 	// pass over the keyHits in order to collect the players input
-	for (list<char>::const_iterator itr = keyHits.cbegin();
-		itr != keyHits.cend();
+	for (list<char>::const_iterator itr = keyHits.begin();
+		itr != keyHits.end();
 		++itr)
 	{
 		Player::PLAYER_KEYS curr_input = static_cast<Player::PLAYER_KEYS>(*itr);
@@ -184,7 +184,7 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	CreateExercise::ExerciseErrMsg ExerMsgForPlayer2 = checkExerciseSolved(player2, currentLevel);
 	
 	//check if not won
-	if ((ExerMsgForPlayer1 != CreateExercise::ExerciseErrMsg::SOLVED) && (ExerMsgForPlayer2 != CreateExercise::ExerciseErrMsg::SOLVED))
+	if ((ExerMsgForPlayer1 != CreateExercise::SOLVED) && (ExerMsgForPlayer2 != CreateExercise::SOLVED))
 	{
 		// Case its player wrong catch
 		if (isWrongCatch(player1, ExerMsgForPlayer1))
@@ -256,7 +256,7 @@ void TheMathGame::handleShootCrashPlayer(Player::numberOfPlayer numberOfPlayer, 
 	if (numberOfPlayer == Player::One){
 		CleanScreenAtPoint(player1.getLocationPoint());
 		
-		bool b = cleanTwoDigitsFromScreen(player1.getLocationPoint()); // check if needed
+		cleanTwoDigitsFromScreen(player1.getLocationPoint()); // check if needed
 
 		GameDB.remove_point(player1.getLocationPoint());
 
@@ -270,7 +270,7 @@ void TheMathGame::handleShootCrashPlayer(Player::numberOfPlayer numberOfPlayer, 
 	else if(numberOfPlayer == Player::Two){
 		CleanScreenAtPoint(player2.getLocationPoint());
 		
-		bool b2 = cleanTwoDigitsFromScreen(player2.getLocationPoint()); // check if neede
+		cleanTwoDigitsFromScreen(player2.getLocationPoint()); // check if neede
 		
 		GameDB.remove_point(player2.getLocationPoint());
 
@@ -481,7 +481,7 @@ Direction::value TheMathGame::getNonStayDirection(const Player& p) const{
 //---------------------------------------------------------------------------------------
 // ctor
 //---------------------------------------------------------------------------------------
-TheMathGame::TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL), player1(Player::One), player2(Player::Two), iterationCounter(0), resultOfCurrLevel(ResultLevel::NO_BODY_WON){
+TheMathGame::TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL), player1(Player::One), player2(Player::Two), iterationCounter(0), resultOfCurrLevel(NO_BODY_WON){
 
 }
 
@@ -490,10 +490,10 @@ TheMathGame::TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL), p
 //---------------------------------------------------------------------------------------
 void TheMathGame::setGameWinner(Player& player){
 	player.addToWinCounter();
-	if (player.getPlayerNumber() == Player::numberOfPlayer::One){
+	if (player.getPlayerNumber() == Player::One){
 		setLevelResult(PLAYER_ONE_WON);
 	}
-	else if (player.getPlayerNumber() == Player::numberOfPlayer::Two){
+	else if (player.getPlayerNumber() == Player::Two){
 		setLevelResult(PLAYER_TWO_WON);
 	}
 }
@@ -557,7 +557,7 @@ bool TheMathGame::isWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg ErrMsg
 void TheMathGame::handlePlayerUsedAllErr(Player& pl, int currentLevel){
 	int n = GameDB.GetElementByPoint(pl.getLocationPoint());
 	
-	bool b = cleanTwoDigitsFromScreen(pl.getLocationPoint()); // check if needed
+	cleanTwoDigitsFromScreen(pl.getLocationPoint()); // check if needed
 
 	CleanScreenAtPoint(pl.getLocationPoint());// Delete the player from screen
 	GameDB.remove_point(pl.getLocationPoint());
@@ -566,7 +566,7 @@ void TheMathGame::handlePlayerUsedAllErr(Player& pl, int currentLevel){
 	
 	// End curr level if 2 players have max errors
 	if (isPlayerUsedAllErr(player1) && isPlayerUsedAllErr(player2)){
-		setLevelResult(TheMathGame::ERROR_TWO_PLAYERS/*, currentLevel*/);
+		setLevelResult(ERROR_TWO_PLAYERS);
 	}
 }
 
@@ -612,12 +612,12 @@ bool TheMathGame::cleanTwoDigitsFromScreen(Point pt){
 //---------------------------------------------------------------------------------------
 void TheMathGame::handlePlayersCrash(Player& pl1, Player& pl2){
 	if (pl1.getNextLocation() != pl2.getLocationPoint()){
-		bool b1 = cleanTwoDigitsFromScreen(pl1.getLocationPoint());
+		cleanTwoDigitsFromScreen(pl1.getLocationPoint());
 		GameDB.remove_point(pl1.getLocationPoint());
 		pl1.move();
 	}
 	if (pl2.getNextLocation() != pl1.getLocationPoint()){
-		bool b2 = cleanTwoDigitsFromScreen(pl2.getLocationPoint());
+		cleanTwoDigitsFromScreen(pl2.getLocationPoint());
 		GameDB.remove_point(pl2.getLocationPoint());
 		pl2.move();
 	}
@@ -649,7 +649,7 @@ bool TheMathGame::hasNextLevel(unsigned int currentLevel) const {
 			sentence = "IT WAS TIE";
 		}
 
-		writeOnScreenLocation(Lines::LINE_ONE_MIDDLE, sentence);
+		writeOnScreenLocation(LINE_ONE_MIDDLE, sentence);
 		Sleep(1500);
 	}
 
