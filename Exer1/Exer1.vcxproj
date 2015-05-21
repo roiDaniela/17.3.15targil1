@@ -78,6 +78,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ColFlyers.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="CreateExercise.h" />
@@ -86,9 +87,11 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="io_utils.h" />
     <ClInclude Include="ISpecificGame.h" />
+    <ClInclude Include="NumEaters.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="randomOutput.h" />
+    <ClInclude Include="RowFlyers.h" />
     <ClInclude Include="ScreenData.h" />
     <ClInclude Include="Shoot.h" />
     <ClInclude Include="Sign.h" />
@@ -100,6 +103,7 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="io_utils.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NumEaters.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="randomOutput.cpp" />

@@ -83,6 +83,29 @@ void TheMathGame::initParams(int currentLevel){
 		player1.initWinCounter();
 		player2.initWinCounter();
 	}
+
+	cleanFlyersCreatureList();
+	
+	rowFlyer1.setLocationPoint(Point(23, 30));
+	rowFlyer1.setDirection(Direction::RIGHT);
+	rowFlyer2.setLocationPoint(Point(50, 15));
+	rowFlyer2.setDirection(Direction::LEFT);
+	colFlyer1.setLocationPoint(Point(45, 23));
+	colFlyer1.setDirection(Direction::UP);
+	colFlyer2.setLocationPoint(Point(55, 15));
+	colFlyer2.setDirection(Direction::DOWN);
+	numEater1.setLocationPoint(Point(10, 19));
+	numEater1.setDirection(Direction::STAY);
+	numEater2.setLocationPoint(Point(70, 19));
+	numEater2.setDirection(Direction::STAY);
+
+	addFlyer(&rowFlyer1);
+	addFlyer(&rowFlyer2);
+	addFlyer(&colFlyer1);
+	addFlyer(&colFlyer2);
+	addFlyer(&numEater1);
+	addFlyer(&numEater2);
+
 	GameDB.clear_data();
 }
 
@@ -481,7 +504,18 @@ Direction::value TheMathGame::getNonStayDirection(const Player& p) const{
 //---------------------------------------------------------------------------------------
 // ctor
 //---------------------------------------------------------------------------------------
-TheMathGame::TheMathGame() : excersisePlayer_1(NULL), excersisePlayer_2(NULL), player1(Player::One), player2(Player::Two), iterationCounter(0), resultOfCurrLevel(NO_BODY_WON){
+TheMathGame::TheMathGame() : excersisePlayer_1(NULL), 
+                             excersisePlayer_2(NULL), 
+							 player1(Player::One), 
+							 player2(Player::Two), 
+							 iterationCounter(0), 
+							 resultOfCurrLevel(NO_BODY_WON),
+							 rowFlyer1(Point(23,30), Direction::RIGHT),
+							 rowFlyer2(Point(50,15), Direction::LEFT),
+							 colFlyer1(Point(45,23), Direction::UP),
+							 colFlyer2(Point(55,15), Direction::DOWN),
+							 numEater1(Point(10,19), Direction::STAY),
+							 numEater2(Point(70,19), Direction::STAY){
 
 }
 
@@ -506,6 +540,13 @@ void TheMathGame::cleanShootList(){
 }
 
 //---------------------------------------------------------------------------------------
+// this function cleans the creature list
+//---------------------------------------------------------------------------------------
+void TheMathGame::cleanFlyersCreatureList(){
+	listOfFlyers.clear();
+}
+
+//---------------------------------------------------------------------------------------
 // this function update shoot counter: every 200 iterations one more shoot
 //---------------------------------------------------------------------------------------
 void TheMathGame::updateShootCounter(){
@@ -521,6 +562,20 @@ void TheMathGame::updateShootCounter(){
 //---------------------------------------------------------------------------------------
 void TheMathGame::addShoot(const Shoot& s){
 	listOfShoots.push_back(s);
+}
+
+//---------------------------------------------------------------------------------------
+// this function add creature to game
+//---------------------------------------------------------------------------------------
+void TheMathGame::addFlyer(Creature* c){
+	listOfFlyers.push_back(c);
+}
+
+//---------------------------------------------------------------------------------------
+// this function removes creature from the game
+//---------------------------------------------------------------------------------------
+void TheMathGame::RemoveCreature(Creature* c){
+	//listOfFlyers.remove(c);
 }
 
 //---------------------------------------------------------------------------------------

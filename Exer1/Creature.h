@@ -16,6 +16,7 @@
 #include "Point.h"
 #include "Direction.h"
 #include "io_utils.h"
+#include <typeinfo.h>
 
 using namespace std;
 
@@ -25,9 +26,10 @@ protected:
 	// private DM
 	Point locationPoint;
 	Direction::value direction;
+	char sign;
 
 	// Private Methods
-	void calcTargetPoint(Point& targetPoint);
+	virtual void calcTargetPoint(Point& targetPoint);
 
 	// Avoid this ctor
 	Creature();
@@ -45,10 +47,12 @@ public:
 
 	Point getLocationPoint() const { return locationPoint; }
 	Point getNextLocation();
-
+	
 	// Methods
-	virtual void printSighn() = 0;
+	virtual void printSighn(){};
 	void move();
+
+	virtual bool operator==(const Creature& c)const { return ((c.getLocationPoint() == this->getLocationPoint()) && (typeid(c) == typeid(*this))); };
 };
 
 #endif

@@ -60,6 +60,15 @@
     <ClInclude Include="Creature.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NumEaters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ColFlyers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RowFlyers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameManager.cpp">
@@ -93,6 +102,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Creature.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NumEaters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

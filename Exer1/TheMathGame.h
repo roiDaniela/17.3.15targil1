@@ -32,6 +32,9 @@
 #include "io_utils.h"
 #include "Player.h"
 #include "Shoot.h"
+#include "NumEaters.h"
+#include "ColFlyers.h"
+#include "RowFlyers.h"
 #include <math.h>
 
 using namespace std;
@@ -60,6 +63,13 @@ private:
 	unsigned int iterationCounter;
 	Player player1;
 	Player player2;
+	RowFlyers rowFlyer1;
+	RowFlyers rowFlyer2;
+	ColFlyers colFlyer1;
+	ColFlyers colFlyer2;
+	NumEaters numEater1;
+	NumEaters numEater2;
+	list<Creature*> listOfFlyers;
 	CreateExercise excersisePlayer_1;
 	CreateExercise excersisePlayer_2;
 	ScreenData GameDB;
@@ -68,6 +78,7 @@ private:
 	
 	// private Methods
 	void cleanShootList();
+	void cleanFlyersCreatureList();
 	void setKeyValues(Player::PLAYER_KEYS curr_input, bool& isPlayer1ShootedThisIteration, bool& isPlayer2ShootedThisIteration);
 	void addRandomNunberToScreen(unsigned int currentLevel);
 	bool iterationCounterIsBiggerThanAlowd() const;
@@ -95,6 +106,8 @@ public:
 	void initParams(int currentLevel);
 	ScreenData& GetDB();
 	CreateExercise::ExerciseErrMsg checkExerciseSolved(Player& player, int currentLevel);
+	void addFlyer(Creature* c);
+	void RemoveCreature(Creature* c);
 	void addShoot(const Shoot& s);
 	CreateExercise& getExcercise(Player::numberOfPlayer playerNumber){ return ((playerNumber == Player::One) ? excersisePlayer_1: excersisePlayer_2); }
 	void setExercise(Player::numberOfPlayer playerNumber, unsigned int currentLevel);
