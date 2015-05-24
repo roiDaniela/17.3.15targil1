@@ -17,13 +17,16 @@
 #include <map>
 #include "io_utils.h"
 #include "Point.h"
+#include <math.h>
 using namespace std;
 class ScreenData
 {
 
 private:
 	map<Point, int  > PointsData;
-
+	Point* GetNearestPointByRingSearch(const Point& PtLocation, const int RingSize);
+	Point* GetNearestPointByGeneralSearch(const Point& PtLocation);
+	Point* GetNearestPoint(const Point& ptLocation, int Distance );
 public:
 	enum DBErrMsg{ VALUE_NOT_FOUND = -1, TWO_DIGIT_VALUE = 9, PLAYER1_SIGN = '@', PLAYER2_SIGN = '#', SHOOT_SIGN = '*' };
 	const map<Point, int>& getData() const;
@@ -34,6 +37,7 @@ public:
 	bool is_number_exist(const int value);
 	int GetElementByPoint(const Point& ptPoint);
 	void clear_data();
+	Point* GetNearestPoint(const Point& PtLocation);
 };
 
 #endif

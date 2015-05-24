@@ -123,3 +123,70 @@ bool ScreenData::remove_point(const Point& ptPoint){
 	}
 	return false;
 }
+
+Point* ScreenData::GetNearestPoint(const Point& ptLocation, int Distance){
+	for (int i = 0; i < Distance; ++i) {
+		Point p[4] = {
+			// let's assume Point c'tor fix x,y that are outside of
+			// screen borders to the correct place inside screen borders
+			Point((ptLocation.getX() - i) % Point::X_MAX_RANGE, (ptLocation.getY() + i - Distance) % Point::Y_MAX_RANGE),
+			Point((ptLocation.getX() + i) % Point::X_MAX_RANGE, (ptLocation.getY() - i + Distance) % Point::Y_MAX_RANGE),
+			Point((ptLocation.getX() - i + Distance) % Point::X_MAX_RANGE, (ptLocation.getY() + i) % Point::Y_MAX_RANGE),
+			Point((ptLocation.getX() + i - Distance) % Point::X_MAX_RANGE, (ptLocation.getY() - i) % Point::Y_MAX_RANGE) };
+		
+		for (int j = 0; j < 4 ; ++j ) {
+			int tmp = GetElementByPoint(p[j]);
+			if (tmp != DBErrMsg::VALUE_NOT_FOUND && tmp != DBErrMsg::PLAYER1_SIGN && tmp != DBErrMsg::PLAYER2_SIGN && tmp != DBErrMsg::SHOOT_SIGN)
+				return &p[j];
+			
+		}
+	}
+	return NULL;
+
+}
+
+
+Point* ScreenData::GetNearestPoint(const Point& PtLocation){
+	if (PointsData.size() < 100)
+		return GetNearestPointByGeneralSearch(PtLocation);
+	return GetNearestPointByRingSearch(PtLocation, 20);
+}
+
+Point* ScreenData::GetNearestPointByRingSearch(const Point& PtLocation, const int RingSize ){
+		for (int i = 1; i<RingSize; ++i) {
+			Point* ptTmp = GetNearestPoint(PtLocation, i);
+			if (ptTmp) 
+				return ptTmp;
+		}
+		return NULL;
+}
+
+
+Point* ScreenData::GetNearestPointByGeneralSearch(const Point& PtLocation){
+	int tmpDistance = 300;
+	Point* tmpPoint = new Point(0,0);
+	for (std::map<Point,int>::iterator cIter  = PointsData.begin(); cIter != PointsData.end(); cIter++){
+		int tmp = 0;
+		if (abs(PtLocation.getX() - cIter->first.getX()) > Point::X_MAX_RANGE / 2){
+			tmp += (PtLocation.getX() + cIter->first.getX()) % Point::X_MAX_RANGE;
+		}
+		else{
+			tmp += abs(PtLocation.getX() - cIter->first.getX());
+		}
+
+		if (abs(PtLocation.getY() - cIter->first.getY()) > Point::Y_MAX_RANGE / 2){
+			tmp += (PtLocation.getY() + cIter->first.getY()) % Point::Y_MAX_RANGE;
+		}
+		else{
+			tmp += abs(PtLocation.getY() - cIter->first.getY());
+		}
+
+
+		if (tmp < tmpDistance){
+			tmpDistance = tmp;
+			tmpPoint = (Point*)&cIter->first;
+		}
+	}
+
+	return tmpPoint;
+}
