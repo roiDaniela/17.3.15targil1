@@ -138,13 +138,11 @@ Point* ScreenData::GetNearestPoint(const Point& ptLocation, int Distance){
 			int tmp = GetElementByPoint(p[j]);
 			if (tmp != DBErrMsg::VALUE_NOT_FOUND && tmp != DBErrMsg::PLAYER1_SIGN && tmp != DBErrMsg::PLAYER2_SIGN && tmp != DBErrMsg::SHOOT_SIGN)
 				return &p[j];
-			
 		}
 	}
 	return NULL;
 
 }
-
 
 Point* ScreenData::GetNearestPoint(const Point& PtLocation){
 	if (PointsData.size() < 100)
@@ -160,7 +158,6 @@ Point* ScreenData::GetNearestPointByRingSearch(const Point& PtLocation, const in
 		}
 		return NULL;
 }
-
 
 Point* ScreenData::GetNearestPointByGeneralSearch(const Point& PtLocation){
 	int tmpDistance = 300;

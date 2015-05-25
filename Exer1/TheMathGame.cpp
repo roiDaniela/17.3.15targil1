@@ -86,7 +86,7 @@ void TheMathGame::initParams(int currentLevel){
 
 	cleanFlyersCreatureList();
 	
-	rowFlyer1.setLocationPoint(Point(23, 30));
+	rowFlyer1.setLocationPoint(Point(30, 23));
 	rowFlyer1.setDirection(Direction::RIGHT);
 	rowFlyer2.setLocationPoint(Point(50, 15));
 	rowFlyer2.setDirection(Direction::LEFT);
@@ -94,17 +94,17 @@ void TheMathGame::initParams(int currentLevel){
 	colFlyer1.setDirection(Direction::UP);
 	colFlyer2.setLocationPoint(Point(55, 15));
 	colFlyer2.setDirection(Direction::DOWN);
-	numEater1.setLocationPoint(Point(10, 19));
+	/*numEater1.setLocationPoint(Point(10, 19));
 	numEater1.setDirection(Direction::STAY);
 	numEater2.setLocationPoint(Point(70, 19));
-	numEater2.setDirection(Direction::STAY);
+	numEater2.setDirection(Direction::STAY);*/
 
 	addFlyer(&rowFlyer1);
 	addFlyer(&rowFlyer2);
 	addFlyer(&colFlyer1);
 	addFlyer(&colFlyer2);
-	addFlyer(&numEater1);
-	addFlyer(&numEater2);
+	/*addFlyer(&numEater1);
+	addFlyer(&numEater2);*/
 
 	GameDB.clear_data();
 }
@@ -264,18 +264,18 @@ void TheMathGame::addRandomNunberToScreen(unsigned int currentLevel){
 //---------------------------------------------------------------------------------------
 // this function handle shoot crash number
 //---------------------------------------------------------------------------------------
-void TheMathGame::handleShootCrashNumber(list<Shoot>::iterator it){
-	CleanScreenAtPoint(it->getLocationPoint());
+void TheMathGame::handleCreatureCrashNumber(const Point& p){
+	CleanScreenAtPoint(p);
 
-	cleanTwoDigitsFromScreen(it->getLocationPoint());
+	cleanTwoDigitsFromScreen(p);
 
-	GameDB.remove_point(it->getLocationPoint());
+	GameDB.remove_point(p);
 }
 
 //---------------------------------------------------------------------------------------
 // this function handle shoot crash player
 //---------------------------------------------------------------------------------------
-void TheMathGame::handleShootCrashPlayer(Player::numberOfPlayer numberOfPlayer, int currentLevel){
+void TheMathGame::handleCreatureCrashPlayer(Player::numberOfPlayer numberOfPlayer, int currentLevel){
 	if (numberOfPlayer == Player::One){
 		CleanScreenAtPoint(player1.getLocationPoint());
 		
@@ -305,47 +305,66 @@ void TheMathGame::handleShootCrashPlayer(Player::numberOfPlayer numberOfPlayer, 
 		}
 	}
 }
+
+void TheMathGame::handleShootCrashFlyer(unsigned int currentLevel){
+	for (list<Creature*>::iterator itFlyer = listOfFlyers.begin(); itFlyer != listOfFlyers.end(); itFlyer++){
+		for (list<Shoot>::iterator itShoot = listOfShoots.begin(); itShoot != listOfShoots.end();){
+			if ((*itFlyer)->getLocationPoint() == itShoot->getLocationPoint() ||
+				(*itFlyer)->getNextLocation() == itShoot->getLocationPoint()){
+				itShoot = listOfShoots.erase(itShoot);
+			}
+			// Remove shoot
+			else{
+				itShoot++;
+			}
+		}
+	}
+}
+
 //---------------------------------------------------------------------------------------
 // this function respomsible to the shoots in the game
 //---------------------------------------------------------------------------------------
 void TheMathGame::doSubIteration(unsigned int currentLevel){
 	bool isShootTouched = false;
+
+	// case shoot crashed flyer
+	handleShootCrashFlyer(currentLevel);
 	
 	// Move the shoots
 	for (list<Shoot>::iterator it = listOfShoots.begin(); it != listOfShoots.end();){
 		// Case crashed player one
 		if (it->getLocationPoint() == player1.getLocationPoint()){
-			handleShootCrashPlayer(player1.getPlayerNumber(), currentLevel);
+			handleCreatureCrashPlayer(player1.getPlayerNumber(), currentLevel);
 
 			isShootTouched = true;
 		}
 		else if (it->getNextLocation() == player1.getLocationPoint()){
 			it->move();
-			handleShootCrashPlayer(player1.getPlayerNumber(), currentLevel);
+			handleCreatureCrashPlayer(player1.getPlayerNumber(), currentLevel);
 
 			isShootTouched = true;
 		}
 		// Case crashed player two
 		else if (it->getLocationPoint() == player2.getLocationPoint()){
-			handleShootCrashPlayer(player2.getPlayerNumber(), currentLevel);
+			handleCreatureCrashPlayer(player2.getPlayerNumber(), currentLevel);
 
 			isShootTouched = true;
 		}
 		else if (it->getNextLocation() == player2.getLocationPoint()){
 			it->move();
-			handleShootCrashPlayer(player2.getPlayerNumber(), currentLevel);
+			handleCreatureCrashPlayer(player2.getPlayerNumber(), currentLevel);
 
 			isShootTouched = true;
 		}
 		// Case crashed number
 		else if (GameDB.GetElementByPoint(it->getLocationPoint()) != ScreenData::VALUE_NOT_FOUND){
-			handleShootCrashNumber(it);
+			handleCreatureCrashNumber(it->getLocationPoint());
 			
 			isShootTouched = true;
 		}
 		else if (GameDB.GetElementByPoint(it->getNextLocation()) != ScreenData::VALUE_NOT_FOUND){
 			it->move();
-			handleShootCrashNumber(it);
+			handleCreatureCrashNumber(it->getLocationPoint());
 
 			isShootTouched = true;
 		}
@@ -361,7 +380,43 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 			it = listOfShoots.erase(it);
 		}
 	}
-		
+
+	for (list<Creature*>::iterator it = listOfFlyers.begin(); it != listOfFlyers.end(); it++){
+		string s = typeid(**it).name();
+		if (typeid(**it) != typeid(ColFlyers) || stamB){
+			// Case crashed player one
+			if ((*it)->getLocationPoint() == player1.getLocationPoint()){
+				handleCreatureCrashPlayer(player1.getPlayerNumber(), currentLevel);
+				(*it)->move();
+			}
+			else if ((*it)->getNextLocation() == player1.getLocationPoint()){
+				(*it)->move();
+				handleCreatureCrashPlayer(player1.getPlayerNumber(), currentLevel);
+			}
+			// Case crashed player two
+			else if ((*it)->getLocationPoint() == player2.getLocationPoint()){
+				handleCreatureCrashPlayer(player2.getPlayerNumber(), currentLevel);
+				(*it)->move();
+			}
+			else if ((*it)->getNextLocation() == player2.getLocationPoint()){
+				(*it)->move();
+				handleCreatureCrashPlayer(player2.getPlayerNumber(), currentLevel);
+			}
+			// Case crashed number
+			else if (GameDB.GetElementByPoint((*it)->getLocationPoint()) != ScreenData::VALUE_NOT_FOUND){
+				handleCreatureCrashNumber((*it)->getLocationPoint());
+				(*it)->move();
+			}
+			else if (GameDB.GetElementByPoint((*it)->getNextLocation()) != ScreenData::VALUE_NOT_FOUND){
+				(*it)->move();
+				handleCreatureCrashNumber((*it)->getLocationPoint());
+			}
+			else{
+				(*it)->move();
+			}
+		}
+	}
+	stamB = !stamB;
 }
 
 //---------------------------------------------------------------------------------------

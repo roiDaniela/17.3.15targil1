@@ -26,7 +26,7 @@ public:
 	static const int ROWFLYERS_1_Y_POSITION = 23;
 	static const int ROWFLYERS_2_X_POSITION = 50;
 	static const int ROWFLYERS_2_Y_POSITION = 15;
-	static const char ROWFLYERS_SIGN = '$';
+	static const char ROWFLYERS_SIGN = '!';
 
 	// Getter && Setter
 
