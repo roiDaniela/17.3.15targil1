@@ -142,7 +142,7 @@ Point* ScreenData::GetNearestPoint(const Point& ptLocation, int Distance){
 		
 		for (int j = 0; j < 4 ; ++j ) {
 			int tmp = GetElementByPoint(p[j]);
-			if (tmp != DBErrMsg::VALUE_NOT_FOUND && !IsValueACreature(tmp) && tmp != NUM_EATERS_SIGN )
+			if (tmp != VALUE_NOT_FOUND && !IsValueACreature(tmp) && tmp != NUM_EATERS_SIGN )
 				return &p[j];
 		}
 	}
