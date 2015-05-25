@@ -27,8 +27,15 @@ private:
 	Point* GetNearestPointByRingSearch(const Point& PtLocation, const int RingSize);
 	Point* GetNearestPointByGeneralSearch(const Point& PtLocation);
 	Point* GetNearestPoint(const Point& ptLocation, int Distance );
+	bool IsValueACreature(const int value);
 public:
-	enum DBErrMsg{ VALUE_NOT_FOUND = -1, TWO_DIGIT_VALUE = 9, PLAYER1_SIGN = '@', PLAYER2_SIGN = '#', SHOOT_SIGN = '*' };
+	enum DBErrMsg{ VALUE_NOT_FOUND = -1, 
+				   TWO_DIGIT_VALUE = 9, 
+				   PLAYER1_SIGN = '@', 
+				   PLAYER2_SIGN = '#', 
+				   SHOOT_SIGN = '*', 
+				   ROWFLYERS_SIGN = '!',
+				   NUM_EATERS_SIGN = '%' };
 	const map<Point, int>& getData() const;
 	bool isPointNearOrInsideOtherPoint(const Point& p, const int NumOfDigits );
 	bool is_point_exist(const Point& ptPoint);

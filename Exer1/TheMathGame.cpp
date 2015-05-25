@@ -170,6 +170,8 @@ void TheMathGame::prepareStatusSentenceOnScreen(){
 void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLevel){
 	bool isPlayer1ShootedThisIteration = false;
 	bool isPlayer2ShootedThisIteration = false;
+	
+	//Point* ptDebugNearestPoint = GameDB.GetNearestPoint(numEater1.getLocationPoint());
 
 	prepareStatusSentenceOnScreen();
 	

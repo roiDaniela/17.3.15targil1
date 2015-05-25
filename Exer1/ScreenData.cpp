@@ -48,8 +48,10 @@ bool ScreenData::insert_point(const Point& ptPoint, const int value)
 		PointsData[ptPoint] = value;
 		if (  value > TWO_DIGIT_VALUE && 
 			  value != PLAYER1_SIGN   &&
-			  value != PLAYER2_SIGN /*&&
-			  value != SHOOT_SIGN*/)
+			  value != PLAYER2_SIGN   &&
+			  value != SHOOT_SIGN	  &&
+			  value != ROWFLYERS_SIGN &&
+			  value != NUM_EATERS_SIGN )
 			PointsData[Point(ptPoint.getX() + 1, ptPoint.getY())] = value;
 		return true;
 	}
@@ -106,9 +108,13 @@ void ScreenData::clear_data(){
 bool ScreenData::remove_point(const Point& ptPoint){
 	bool tmp;
 	if (is_point_exist(ptPoint)){
-		if (GetElementByPoint(ptPoint) > TWO_DIGIT_VALUE &&
-			GetElementByPoint(ptPoint) != PLAYER1_SIGN   &&
-			GetElementByPoint(ptPoint) != PLAYER2_SIGN){
+		int tmpValue = GetElementByPoint(ptPoint);
+		if (tmpValue > TWO_DIGIT_VALUE &&
+			tmpValue != PLAYER1_SIGN   &&
+			tmpValue != PLAYER2_SIGN   &&
+			tmpValue != SHOOT_SIGN	  &&
+			tmpValue != ROWFLYERS_SIGN &&
+			tmpValue != NUM_EATERS_SIGN){
 			if (PointsData.find(Point(ptPoint.getX() + 1, ptPoint.getY())) != PointsData.end()){
 				tmp = PointsData.erase(Point(ptPoint.getX() + 1, ptPoint.getY()));// ||
 			}
@@ -136,7 +142,7 @@ Point* ScreenData::GetNearestPoint(const Point& ptLocation, int Distance){
 		
 		for (int j = 0; j < 4 ; ++j ) {
 			int tmp = GetElementByPoint(p[j]);
-			if (tmp != DBErrMsg::VALUE_NOT_FOUND && tmp != DBErrMsg::PLAYER1_SIGN && tmp != DBErrMsg::PLAYER2_SIGN && tmp != DBErrMsg::SHOOT_SIGN)
+			if (tmp != DBErrMsg::VALUE_NOT_FOUND && !IsValueACreature(tmp) && tmp != NUM_EATERS_SIGN )
 				return &p[j];
 		}
 	}
@@ -164,6 +170,7 @@ Point* ScreenData::GetNearestPointByGeneralSearch(const Point& PtLocation){
 	Point* tmpPoint = new Point(0,0);
 	for (std::map<Point,int>::iterator cIter  = PointsData.begin(); cIter != PointsData.end(); cIter++){
 		int tmp = 0;
+
 		if (abs(PtLocation.getX() - cIter->first.getX()) > Point::X_MAX_RANGE / 2){
 			tmp += (PtLocation.getX() + cIter->first.getX()) % Point::X_MAX_RANGE;
 		}
@@ -185,5 +192,16 @@ Point* ScreenData::GetNearestPointByGeneralSearch(const Point& PtLocation){
 		}
 	}
 
+	int tmpValue = GetElementByPoint(*tmpPoint);
+	
+	if ( IsValueACreature(tmpValue) && tmpValue != NUM_EATERS_SIGN )
+		return NULL;
+
+
 	return tmpPoint;
+}
+
+bool ScreenData::IsValueACreature( const int val ){
+	return ( val == PLAYER1_SIGN || val == PLAYER2_SIGN || val == SHOOT_SIGN ||
+		    val == ROWFLYERS_SIGN || val == NUM_EATERS_SIGN);
 }
