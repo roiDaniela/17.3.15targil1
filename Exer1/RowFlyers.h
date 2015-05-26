@@ -34,7 +34,7 @@ public:
 	RowFlyers(const Point& p, Direction::value d) :Creature(p, d){}
 
 	// Methods
-	void printSighn(){ 
+	virtual void printSighn(){ 
 		gotoxy(getLocationPoint()); 
 		cout << ROWFLYERS_SIGN;
 	}

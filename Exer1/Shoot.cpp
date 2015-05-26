@@ -17,8 +17,8 @@
 //---------------------------------------------------------------------------------------
 // ctor
 //---------------------------------------------------------------------------------------
-Shoot::Shoot(Direction::value d, const Point& p) : Creature(p,d){
-	move();
+Shoot::Shoot(Direction::value d, const Point& p, int currIteration) : Creature(p,d){
+	move(currIteration);
 }
 
 

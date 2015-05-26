@@ -86,7 +86,9 @@ void Creature::calcTargetPoint(Point& targetPoint){
 //---------------------------------------------------------------------------------------
 // this method gets direction and moves the player to the recived directions
 //---------------------------------------------------------------------------------------
-void Creature::move(){
+void Creature::move(int currentIteration){
+	setLastMoveIteration(currentIteration);
+
 	Point targetPoint = getLocationPoint();
 
 	// Init new direction

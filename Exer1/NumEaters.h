@@ -20,6 +20,10 @@ using namespace std;
 class NumEaters : public Creature
 {
 private:
+	// Private DM
+	Point targetLocPoint;
+	Point pPlayer1Loc;
+	Point pPlayer2Loc;
 
 public:
 	static const int NUMEATER_1_X_POSITION = 10;
@@ -29,11 +33,27 @@ public:
 	static const char NUM_EATERS_SIGN = '%';
 
 	// Getter && Setter
+	Point getTargetLocPoint(){ return targetLocPoint; }
+	void setTargetLocPoint(const Point& p);
+	void setTargetLocPoint(Point* p);
+	
+	Point getPlayer1LocPoint(){ return pPlayer1Loc; }
+	void setPlayer1LocPoint(const Point& p){ pPlayer1Loc = p; }
 
+	Point getPlayer2LocPoint(){ return pPlayer2Loc; }
+	void setPlayer2LocPoint(const Point& p){ pPlayer2Loc = p; }
+	
 	// ctor
-	NumEaters(const Point& p, Direction::value d);
+	NumEaters(const Point& p, const Point& pPlayer1Loc, const Point& pPlayer2Loc, Direction::value d);
+
+	// dtor
+	//virtual ~NumEaters(){
+	//	delete targetLocPoint;
+	//	delete nextLocPoint;
+	//}
 
 	// Methods
-	void printSighn();
+	virtual void printSighn();
+	virtual void move(int currIteration);
 };
 #endif

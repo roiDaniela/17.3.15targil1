@@ -76,7 +76,6 @@ private:
 	ResultLevel resultOfCurrLevel;
 	list<Shoot> listOfShoots;
 	
-	bool stamB; //
 	// private Methods
 	void cleanShootList();
 	void cleanFlyersCreatureList();
@@ -98,8 +97,10 @@ private:
 	Direction::value getNonStayDirection(const Player& p) const;
 	void setThePrevDirection(Player::PLAYER_KEYS curr_input);
 	bool cleanTwoDigitsFromScreen(Point pt);
-	void handleShootCrashFlyer(unsigned int currentLevel);
-
+	void handleShootCrashCreature();
+	bool handleCreatureCrashes(Creature& it, int currentLevel);
+	bool handleNumEaterCrashes(Creature& it, int currentLevel);
+	void handleNumEaterCrashNumEater();
 public:
 	// Getter && Setter
 	unsigned int getIterationCounter() const { return iterationCounter; }

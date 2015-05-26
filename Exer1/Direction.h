@@ -34,6 +34,21 @@ public:
 		LEFT,
 		STAY
 	};
+
+	static value getOppositeDirection(value d){
+		if (d == UP){
+			return DOWN;
+		}
+		else if (d == DOWN){
+			return UP;
+		}
+		else if (d == RIGHT){
+			return LEFT;
+		}
+		else if (d == LEFT){
+			return RIGHT;
+		}
+	}
 };
 
 #endif

@@ -34,7 +34,13 @@ public:
 	ColFlyers(const Point& p, Direction::value d) :Creature(p, d){}
 
 	// Methods
-	void printSighn(){
+	virtual void move(int currIteration){
+		if (lastMoveIteration != currIteration){
+			Creature::move(currIteration);
+		}
+	}
+
+	virtual void printSighn(){
 		gotoxy(getLocationPoint());
 		cout << COLFLYERS_SIGN;
 	}

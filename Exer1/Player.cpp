@@ -18,7 +18,7 @@
 //---------------------------------------------------------------------------------------
 // Ctor
 //---------------------------------------------------------------------------------------
-Player::Player(Player::numberOfPlayer number, Direction::value d) : playerNumber(number),
+Player::Player(Player::numberOfPlayer number, int currIteration, Direction::value d) : playerNumber(number),
 																	prevDirection(d),
 																	winCounter(0),
 																	shootCounter(5),
@@ -26,7 +26,7 @@ Player::Player(Player::numberOfPlayer number, Direction::value d) : playerNumber
 																	Creature((number == One) ? Point(PLAYER_1_X_POSITION, PLAYER_1_Y_POSITION) : 
 													                                           Point(PLAYER_2_X_POSITION, PLAYER_2_Y_POSITION), d){
 	// Move by inited directions
-	move();
+	move(currIteration);
 }
 
 //---------------------------------------------------------------------------------------

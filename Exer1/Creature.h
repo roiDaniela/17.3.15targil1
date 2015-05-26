@@ -25,6 +25,7 @@ class Creature
 protected:
 	// private DM
 	Point locationPoint;
+	int lastMoveIteration;
 	Direction::value direction;
 	char sign;
 
@@ -34,9 +35,12 @@ protected:
 	// Avoid this ctor
 	Creature();
 public:
-
+	static const int INITIONAL_ITERATION_COUNTER = -1;
 	// Ctor
-	Creature(const Point& p, Direction::value d = Direction::STAY) :locationPoint(p), direction(d){}
+	Creature(const Point& p, Direction::value d = Direction::STAY) :locationPoint(p), direction(d), lastMoveIteration(INITIONAL_ITERATION_COUNTER){}
+
+	// dtor
+	//virtual ~Creature(){}
 
 	// Getter && Setter
 	void setDirection(Direction::value d){ direction = d; }
@@ -48,9 +52,12 @@ public:
 	Point getLocationPoint() const { return locationPoint; }
 	Point getNextLocation();
 	
+	int getLastMoveIteration(){ return lastMoveIteration; }
+	void setLastMoveIteration(int currIteration){ lastMoveIteration = currIteration; }
+
 	// Methods
 	virtual void printSighn(){};
-	void move();
+	virtual void move(int currentIteration);
 
 	virtual bool operator==(const Creature& c)const { return ((c.getLocationPoint() == this->getLocationPoint()) && (typeid(c) == typeid(*this))); };
 };

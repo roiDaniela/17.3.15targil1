@@ -55,7 +55,7 @@ public:
 	};
 
 	// Ctor
-	Player(numberOfPlayer number, Direction::value d = Direction::STAY);
+	Player(numberOfPlayer number, int currIteration, Direction::value d = Direction::STAY);
 
 	//---------------------------------------------------------------------------------------
 	// this method updates the win counter
@@ -79,9 +79,14 @@ public:
 	void lessShootCounter(){ --shootCounter; }
 
 	// Methods
-	void printSighn();
+	virtual void printSighn();
+	virtual void move(int currIteration){
+		if (lastMoveIteration != currIteration){
+			Creature::move(currIteration);
+		}
+	}
 	bool shoot();
-
+	
 private:
 	numberOfPlayer playerNumber;
 

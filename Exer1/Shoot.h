@@ -21,20 +21,17 @@ class Shoot: public Creature
 {
 private:
 	// private DM
-	int iterationShooted;
 	
 public:
 	static const int SHOOT_AMOUNT_MIN_SIZE = 5;
 	static const char SHOOT_SIGN = '*';
 
 	// Getter && Setter
-	int getIterationShooted()const { return iterationShooted; }
-	void setIterationShooted(int value) { iterationShooted = value; }
 
 	// ctor
-	Shoot(Direction::value d, const Point& p);
+	Shoot(Direction::value d, const Point& p, int currIteration);
 
 	// Methods
-	void printSighn();
+	virtual void printSighn();
 };
 #endif
