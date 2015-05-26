@@ -135,10 +135,10 @@ Point* ScreenData::GetNearestPoint(const Point& ptLocation, int Distance){
 		Point p[4] = {
 			// let's assume Point c'tor fix x,y that are outside of
 			// screen borders to the correct place inside screen borders
-			Point((ptLocation.getX() - i) % Point::X_MAX_RANGE, (ptLocation.getY() + i - Distance) % Point::Y_MAX_RANGE),
-			Point((ptLocation.getX() + i) % Point::X_MAX_RANGE, (ptLocation.getY() - i + Distance) % Point::Y_MAX_RANGE),
-			Point((ptLocation.getX() - i + Distance) % Point::X_MAX_RANGE, (ptLocation.getY() + i) % Point::Y_MAX_RANGE),
-			Point((ptLocation.getX() + i - Distance) % Point::X_MAX_RANGE, (ptLocation.getY() - i) % Point::Y_MAX_RANGE) };
+			Point((ptLocation.getX() - i) % LENGH_OF_LINE, (ptLocation.getY() + i - Distance) % LENGH_OF_PAGE),
+			Point((ptLocation.getX() + i) % LENGH_OF_LINE, (ptLocation.getY() - i + Distance) % LENGH_OF_PAGE),
+			Point((ptLocation.getX() - i + Distance) % LENGH_OF_LINE, (ptLocation.getY() + i) % LENGH_OF_PAGE),
+			Point((ptLocation.getX() + i - Distance) % LENGH_OF_LINE, (ptLocation.getY() - i) % LENGH_OF_PAGE) };
 		
 		for (int j = 0; j < 4 ; ++j ) {
 			int tmp = GetElementByPoint(p[j]);
@@ -171,15 +171,15 @@ Point* ScreenData::GetNearestPointByGeneralSearch(const Point& PtLocation){
 	for (std::map<Point,int>::iterator cIter  = PointsData.begin(); cIter != PointsData.end(); cIter++){
 		int tmp = 0;
 
-		if (abs(PtLocation.getX() - cIter->first.getX()) > Point::X_MAX_RANGE / 2){
-			tmp += (PtLocation.getX() + cIter->first.getX()) % Point::X_MAX_RANGE;
+		if (abs(PtLocation.getX() - cIter->first.getX()) > LENGH_OF_LINE / 2){
+			tmp += (PtLocation.getX() + cIter->first.getX()) % LENGH_OF_LINE;
 		}
 		else{
 			tmp += abs(PtLocation.getX() - cIter->first.getX());
 		}
 
-		if (abs(PtLocation.getY() - cIter->first.getY()) > Point::Y_MAX_RANGE / 2){
-			tmp += (PtLocation.getY() + cIter->first.getY()) % Point::Y_MAX_RANGE;
+		if (abs(PtLocation.getY() - cIter->first.getY()) > LENGH_OF_PAGE / 2){
+			tmp += (PtLocation.getY() + cIter->first.getY()) % LENGH_OF_PAGE;
 		}
 		else{
 			tmp += abs(PtLocation.getY() - cIter->first.getY());

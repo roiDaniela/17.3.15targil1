@@ -66,30 +66,35 @@ void NumEaters::setTargetLocPoint(Point* p){
 // this method is virtual move
 //---------------------------------------------------------------------------------------
 void NumEaters::move(int currIteration){
+	if (((getTargetLocPoint().getX() > getLocationPoint().getX()) && 
+	    (abs(getTargetLocPoint().getX() - getLocationPoint().getX()) < LENGH_OF_LINE/2)) ||
+		(getTargetLocPoint().getX() < getLocationPoint().getX() && 
+		(abs(getTargetLocPoint().getX() - getLocationPoint().getX()) > LENGH_OF_LINE / 2))){
+		setDirection(Direction::RIGHT);
+	}
+	else if (((getTargetLocPoint().getX() < getLocationPoint().getX()) && 
+		     (abs(getTargetLocPoint().getX() - getLocationPoint().getX()) < LENGH_OF_LINE / 2)) || 
+			 ((getTargetLocPoint().getX() > getLocationPoint().getX()) && 
+			 (abs(getTargetLocPoint().getX() - getLocationPoint().getX()) > LENGH_OF_LINE / 2))){
+		setDirection(Direction::LEFT);
+	}
+	else if ((getTargetLocPoint().getY() > getLocationPoint().getY() &&
+		     abs(getTargetLocPoint().getY() - getLocationPoint().getY()) < LENGH_OF_PAGE/2) ||
+			 (getTargetLocPoint().getY() < getLocationPoint().getY() &&
+			 abs(getTargetLocPoint().getY() - getLocationPoint().getY()) > LENGH_OF_PAGE / 2)){
+		setDirection(Direction::DOWN);
+	}
+	else if (((getTargetLocPoint().getY() < getLocationPoint().getY()) && 
+		     (abs(getTargetLocPoint().getY() - getLocationPoint().getY()) < LENGH_OF_PAGE / 2)) || 
+			 ((getTargetLocPoint().getY() > getLocationPoint().getY()) &&
+			 (abs(getTargetLocPoint().getY() - getLocationPoint().getY()) > LENGH_OF_PAGE / 2))){
+		setDirection(Direction::UP);
+	}
 
-	//if (getTargetLocPoint() != NULL){
-		if (getTargetLocPoint().getX() > getLocationPoint().getX()){
-			setDirection(Direction::RIGHT);
-			//setNextLocPoint(getLocationPoint().getX() + 1, getLocationPoint().getY());
-		}
-		else if (getTargetLocPoint().getX() < getLocationPoint().getX()){
-			setDirection(Direction::LEFT);
-			//setNextLocPoint(getLocationPoint().getX() - 1, getLocationPoint().getY());
-		}
-		else if (getTargetLocPoint().getY() > getLocationPoint().getY()){
-			setDirection(Direction::DOWN);
-			//setNextLocPoint(getLocationPoint().getX(), getLocationPoint().getY() + 1);
-		}
-		else if (getTargetLocPoint().getY() < getLocationPoint().getY()){
-			setDirection(Direction::UP);
-			//setNextLocPoint(getLocationPoint().getX(), getLocationPoint().getY() - 1);
-		}
-
-		if (getNextLocation() == getPlayer1LocPoint() ||
-			getNextLocation() == getPlayer2LocPoint()){
-			setDirection(Direction::getOppositeDirection(getDirection()));
-		}
+	if (getNextLocation() == getPlayer1LocPoint() ||
+		getNextLocation() == getPlayer2LocPoint()){
+		setDirection(Direction::getOppositeDirection(getDirection()));
+	}
 		
-		Creature::move(currIteration);
-	//}
+	Creature::move(currIteration);
 }

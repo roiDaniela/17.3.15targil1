@@ -393,7 +393,7 @@ bool TheMathGame::handleCreatureCrashes(Creature& it, int currentLevel){
 bool TheMathGame::handleNumEaterCrashes(Creature& it, int currentLevel){
 	bool isShootTouched = false;
 
-	// Case crashed player one
+	// Case crashed players
 	if (it.getLocationPoint() == player1.getLocationPoint() ||
 		it.getLocationPoint() == player2.getLocationPoint()){
 
@@ -408,12 +408,16 @@ bool TheMathGame::handleNumEaterCrashes(Creature& it, int currentLevel){
 	// Case crashed number
 	else if (GameDB.GetElementByPoint(it.getLocationPoint()) != ScreenData::VALUE_NOT_FOUND){
 		handleCreatureCrashNumber(it.getLocationPoint());
+		
+		// may needed to enter another point to search
 
 		isShootTouched = false;
 	}
 	else if (GameDB.GetElementByPoint(it.getNextLocation()) != ScreenData::VALUE_NOT_FOUND){
 		it.move(getIterationCounter());
 		handleCreatureCrashNumber(it.getLocationPoint());
+
+		// may needed to enter another point to search
 
 		isShootTouched = false;
 	}
@@ -450,6 +454,7 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 	for (list<Creature*>::iterator it = listOfFlyers.begin(); it != listOfFlyers.end();){
 		string s = typeid(**it).name();
 
+		// num eater
 		if (typeid(**it) == typeid(NumEaters)){
 			isShootTouched = handleNumEaterCrashes(**it, currentLevel);
 
@@ -464,7 +469,7 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 				it = listOfFlyers.erase(it);
 			}
 		}
-		// Its a creature (flyer)
+		// Its a flyer
 		else{
 			isShootTouched = handleCreatureCrashes(**it, currentLevel);
 

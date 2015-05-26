@@ -25,7 +25,8 @@ public:
 	//Ctor
 	Point(int x, int y) { this->x = x; this->y = y; }
 	
-	enum PointData{ X_MAX_RANGE = 80, Y_MAX_RANGE = 24, X_MIN_RANGE = 0, Y_MIN_RANGE = 3 };
+	//enum PointData{ X_MAX_RANGE = 80, Y_MAX_RANGE = 24, X_MIN_RANGE = 0, Y_MIN_RANGE = 3 };
+	
 	// Getter & setter
 	int getX() const { return x; };
 	void setX(int x){ this->x = x; };
