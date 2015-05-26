@@ -463,7 +463,6 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 				(*it)->move(getIterationCounter());
 				it++;
 			}
-			// Remove shoot
 			else{
 				isShootTouched = false;
 				it = listOfFlyers.erase(it);

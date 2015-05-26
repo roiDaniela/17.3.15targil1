@@ -93,6 +93,9 @@ void NumEaters::move(int currIteration){
 
 	if (getNextLocation() == getPlayer1LocPoint() ||
 		getNextLocation() == getPlayer2LocPoint()){
+		Point p1 = getNextLocation();
+		Point p2 = getPlayer1LocPoint();
+		Point p3 = getPlayer2LocPoint();
 		setDirection(Direction::getOppositeDirection(getDirection()));
 	}
 		
