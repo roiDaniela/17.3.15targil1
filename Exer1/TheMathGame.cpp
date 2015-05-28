@@ -238,10 +238,10 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		numEater2.setTargetLocPoint(GameDB.GetNearestPoint(numEater2.getLocationPoint()));
 	}
 
-	numEater1.setPlayer1LocPoint(player1.getNextLocation());
+	/*numEater1.setPlayer1LocPoint(player1.getNextLocation());
 	numEater1.setPlayer1LocPoint(player2.getNextLocation());
 	numEater2.setPlayer1LocPoint(player1.getNextLocation());
-	numEater2.setPlayer1LocPoint(player2.getNextLocation());
+	numEater2.setPlayer1LocPoint(player2.getNextLocation());*/
 }
 
 //---------------------------------------------------------------------------------------
@@ -316,13 +316,6 @@ void TheMathGame::handleCreatureCrashPlayer(Player::numberOfPlayer numberOfPlaye
 	}
 }
 
-void TheMathGame::handleNumEaterCrashNumEater(){
-	if (numEater1.getLocationPoint() == numEater2.getLocationPoint()){
-		listOfFlyers.remove(&numEater1);
-		listOfFlyers.remove(&numEater2);
-		CleanScreenAtPoint(numEater1.getLocationPoint());
-	}
-}
 //---------------------------------------------------------------------------------------
 // this function handle case shoot crash a flyer
 //---------------------------------------------------------------------------------------
@@ -428,7 +421,7 @@ bool TheMathGame::handleNumEaterCrashes(Creature& it, int currentLevel){
 // this function respomsible to the shoots in the game
 //---------------------------------------------------------------------------------------
 void TheMathGame::doSubIteration(unsigned int currentLevel){
-	bool isShootTouched = false;
+	bool isTouched = false;
 
 	// case shoot crashed flyer/num eater 
 	handleShootCrashCreature();
@@ -436,43 +429,46 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 
 	// Move the shoots
 	for (list<Shoot>::iterator it = listOfShoots.begin(); it != listOfShoots.end();){
-		isShootTouched = handleCreatureCrashes(*it, currentLevel);
+		isTouched = handleCreatureCrashes(*it, currentLevel);
 		
 		// Move if not crashed
-		if (!isShootTouched){
+		if (!isTouched){
 			it->move(getIterationCounter());
 			it++;
 		}
 		// Remove shoot
 		else{
-			isShootTouched = false;
+			isTouched = false;
 			it = listOfShoots.erase(it);
 		}
 	}
-
+	
 	// Move Creatures
 	for (list<Creature*>::iterator it = listOfFlyers.begin(); it != listOfFlyers.end();){
 		string s = typeid(**it).name();
 
 		// num eater
 		if (typeid(**it) == typeid(NumEaters)){
-			isShootTouched = handleNumEaterCrashes(**it, currentLevel);
+			isTouched = handleNumEaterCrashes(**it, currentLevel);
 
 			// Move if not crashed
-			if (!isShootTouched){
+			if (!isTouched){
+				// dynamic cast
+				dynamic_cast<NumEaters*>(*it)->calcNumEaterDirection(player1, player2, ((**it)==numEater1)?numEater2:numEater1 );
+
 				(*it)->move(getIterationCounter());
 				it++;
 			}
 			else{
-				isShootTouched = false;
+				isTouched = false;
 				it = listOfFlyers.erase(it);
 			}
 		}
 		// Its a flyer
 		else{
-			isShootTouched = handleCreatureCrashes(**it, currentLevel);
+			isTouched = handleCreatureCrashes(**it, currentLevel);
 
-			if (!isShootTouched){
+			if (!isTouched){
 				(*it)->move(getIterationCounter());
 			}
 			it++;
@@ -480,6 +476,13 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 	}
 }
 
+void TheMathGame::handleNumEaterCrashNumEater(){
+	if (numEater1.getLocationPoint() == numEater2.getLocationPoint()){
+		listOfFlyers.remove(&numEater1);
+		listOfFlyers.remove(&numEater2);
+		CleanScreenAtPoint(numEater1.getLocationPoint());
+	}
+}
 //---------------------------------------------------------------------------------------
 // this function checks exercise solved
 //---------------------------------------------------------------------------------------
@@ -630,8 +633,8 @@ TheMathGame::TheMathGame() : excersisePlayer_1(NULL),
 							 rowFlyer2(Point(50,15), Direction::LEFT),
 							 colFlyer1(Point(45,23), Direction::UP),
 							 colFlyer2(Point(55,15), Direction::DOWN),
-							 numEater1(Point(10, 19), player1.getLocationPoint(), player2.getLocationPoint(), Direction::STAY),
-							 numEater2(Point(70, 19), player1.getLocationPoint(), player2.getLocationPoint(), Direction::STAY){
+							 numEater1(Point(10, 19), Direction::STAY),
+							 numEater2(Point(70, 19), Direction::STAY){
 
 }
 

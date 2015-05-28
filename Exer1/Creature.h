@@ -30,7 +30,7 @@ protected:
 	char sign;
 
 	// Private Methods
-	virtual void calcTargetPoint(Point& targetPoint);
+	virtual void calcTargetPoint(Point& targetPoint) const;
 
 	// Avoid this ctor
 	Creature();
@@ -50,7 +50,7 @@ public:
 	void setLocationPoint(unsigned int x, unsigned int y);
 
 	Point getLocationPoint() const { return locationPoint; }
-	Point getNextLocation();
+	Point getNextLocation() const;
 	
 	int getLastMoveIteration(){ return lastMoveIteration; }
 	void setLastMoveIteration(int currIteration){ lastMoveIteration = currIteration; }

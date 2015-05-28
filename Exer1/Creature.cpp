@@ -32,7 +32,7 @@ void Creature::setLocationPoint(unsigned int x, unsigned int y){
 //---------------------------------------------------------------------------------------
 // this method calculate the next location by the direction
 //---------------------------------------------------------------------------------------
-void Creature::calcTargetPoint(Point& targetPoint){
+void Creature::calcTargetPoint(Point& targetPoint) const{
 
 	// Take care all opptional directions
 	if (targetPoint != getLocationPoint()){
@@ -92,7 +92,7 @@ void Creature::move(int currentIteration){
 	Point targetPoint = getLocationPoint();
 
 	// Init new direction
-	setDirection(getDirection());
+	//setDirection(getDirection());
 
 	calcTargetPoint(targetPoint);
 
@@ -110,7 +110,7 @@ void Creature::move(int currentIteration){
 // this method gets the new direction and returns what should be the next location of
 // curr player
 //---------------------------------------------------------------------------------------
-Point Creature::getNextLocation(){
+Point Creature::getNextLocation() const{
 	Point targetPoint = getLocationPoint();
 
 	calcTargetPoint(targetPoint);

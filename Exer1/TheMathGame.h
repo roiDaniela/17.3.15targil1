@@ -101,6 +101,7 @@ private:
 	bool handleCreatureCrashes(Creature& it, int currentLevel);
 	bool handleNumEaterCrashes(Creature& it, int currentLevel);
 	void handleNumEaterCrashNumEater();
+
 public:
 	// Getter && Setter
 	unsigned int getIterationCounter() const { return iterationCounter; }

@@ -17,7 +17,7 @@
 //---------------------------------------------------------------------------------------
 // ctor
 //---------------------------------------------------------------------------------------
-NumEaters::NumEaters(const Point& p, const Point& p1, const Point& p2, Direction::value d) : Creature(p, d), targetLocPoint(locationPoint), pPlayer1Loc(p1), pPlayer2Loc(p2){
+NumEaters::NumEaters(const Point& p, Direction::value d) : Creature(p, d), targetLocPoint(locationPoint)/*, pPlayer1Loc(p1), pPlayer2Loc(p2)*/{
 	// calc trace
 	//move();
 }
@@ -63,41 +63,61 @@ void NumEaters::setTargetLocPoint(Point* p){
 }
 
 //---------------------------------------------------------------------------------------
-// this method is virtual move
+// this method calculate the numEater Direction
 //---------------------------------------------------------------------------------------
-void NumEaters::move(int currIteration){
-	if (((getTargetLocPoint().getX() > getLocationPoint().getX()) && 
-	    (abs(getTargetLocPoint().getX() - getLocationPoint().getX()) < LENGH_OF_LINE/2)) ||
-		(getTargetLocPoint().getX() < getLocationPoint().getX() && 
+void NumEaters::calcNumEaterDirection(Player pl1, Player pl2, Creature c){
+	Point p1 = getTargetLocPoint();
+	Point p2 = getLocationPoint();
+
+	if (((getTargetLocPoint().getX() > getLocationPoint().getX()) &&
+		(abs(getTargetLocPoint().getX() - getLocationPoint().getX()) < LENGH_OF_LINE / 2)) ||
+		(getTargetLocPoint().getX() < getLocationPoint().getX() &&
 		(abs(getTargetLocPoint().getX() - getLocationPoint().getX()) > LENGH_OF_LINE / 2))){
 		setDirection(Direction::RIGHT);
 	}
-	else if (((getTargetLocPoint().getX() < getLocationPoint().getX()) && 
-		     (abs(getTargetLocPoint().getX() - getLocationPoint().getX()) < LENGH_OF_LINE / 2)) || 
-			 ((getTargetLocPoint().getX() > getLocationPoint().getX()) && 
-			 (abs(getTargetLocPoint().getX() - getLocationPoint().getX()) > LENGH_OF_LINE / 2))){
+	else if (((getTargetLocPoint().getX() < getLocationPoint().getX()) &&
+		(abs(getTargetLocPoint().getX() - getLocationPoint().getX()) < LENGH_OF_LINE / 2)) ||
+		((getTargetLocPoint().getX() > getLocationPoint().getX()) &&
+		(abs(getTargetLocPoint().getX() - getLocationPoint().getX()) > LENGH_OF_LINE / 2))){
 		setDirection(Direction::LEFT);
 	}
 	else if ((getTargetLocPoint().getY() > getLocationPoint().getY() &&
-		     abs(getTargetLocPoint().getY() - getLocationPoint().getY()) < LENGH_OF_PAGE/2) ||
-			 (getTargetLocPoint().getY() < getLocationPoint().getY() &&
-			 abs(getTargetLocPoint().getY() - getLocationPoint().getY()) > LENGH_OF_PAGE / 2)){
+		abs(getTargetLocPoint().getY() - getLocationPoint().getY()) < LENGH_OF_PAGE / 2) ||
+		(getTargetLocPoint().getY() < getLocationPoint().getY() &&
+		abs(getTargetLocPoint().getY() - getLocationPoint().getY()) > LENGH_OF_PAGE / 2)){
 		setDirection(Direction::DOWN);
 	}
-	else if (((getTargetLocPoint().getY() < getLocationPoint().getY()) && 
-		     (abs(getTargetLocPoint().getY() - getLocationPoint().getY()) < LENGH_OF_PAGE / 2)) || 
-			 ((getTargetLocPoint().getY() > getLocationPoint().getY()) &&
-			 (abs(getTargetLocPoint().getY() - getLocationPoint().getY()) > LENGH_OF_PAGE / 2))){
+	else if (((getTargetLocPoint().getY() < getLocationPoint().getY()) &&
+		(abs(getTargetLocPoint().getY() - getLocationPoint().getY()) < LENGH_OF_PAGE / 2)) ||
+		((getTargetLocPoint().getY() > getLocationPoint().getY()) &&
+		(abs(getTargetLocPoint().getY() - getLocationPoint().getY()) > LENGH_OF_PAGE / 2))){
 		setDirection(Direction::UP);
 	}
 
-	if (getNextLocation() == getPlayer1LocPoint() ||
-		getNextLocation() == getPlayer2LocPoint()){
-		Point p1 = getNextLocation();
-		Point p2 = getPlayer1LocPoint();
-		Point p3 = getPlayer2LocPoint();
-		setDirection(Direction::getOppositeDirection(getDirection()));
+	// Avoid crashes with players and other eater
+	if (pl1.getLocationPoint() == getNextLocation() ||
+		pl1.getNextLocation() == getNextLocation() ||
+		pl1.getLocationPoint() == getLocationPoint() ||
+		pl1.getNextLocation() == getLocationPoint()){
+		setDirection(pl1.getDirection());
 	}
-		
+	else if (pl2.getLocationPoint() == getNextLocation() ||
+		     pl2.getNextLocation() == getNextLocation() ||
+			 pl2.getLocationPoint() == getLocationPoint() ||
+			 pl2.getNextLocation() == getLocationPoint()){
+		setDirection(pl2.getDirection());
+	}
+	else if (c.getLocationPoint() == getNextLocation() ||
+		     c.getNextLocation() == getNextLocation() ||
+			 c.getLocationPoint() == getLocationPoint() ||
+			 c.getNextLocation() == getLocationPoint()){
+		setDirection(c.getDirection());
+	}
+}
+
+//---------------------------------------------------------------------------------------
+// this method is virtual move
+//---------------------------------------------------------------------------------------
+void NumEaters::move(int currIteration){
 	Creature::move(currIteration);
 }

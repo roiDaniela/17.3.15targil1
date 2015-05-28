@@ -48,6 +48,9 @@ public:
 		else if (d == LEFT){
 			return RIGHT;
 		}
+		else{
+			return STAY;
+		}
 	}
 };
 
