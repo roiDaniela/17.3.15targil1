@@ -94,6 +94,7 @@ public:
 	// Getter && Setter
 	void SetPlayerNumber(numberOfPlayer playerNumber1) { playerNumber = playerNumber1; }
 	numberOfPlayer getPlayerNumber() const{ return playerNumber; }
+	Point getNextNextLocation();
 };
 
 #endif

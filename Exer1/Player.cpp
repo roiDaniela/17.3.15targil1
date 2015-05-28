@@ -48,3 +48,13 @@ void Player::printSighn(){
 	gotoxy(getLocationPoint());
 	(playerNumber == One) ? cout << PLAYER_1_SIGN : cout << PLAYER_2_SIGN;
 }
+
+//---------------------------------------------------------------------------------------
+// this method is next next location
+//---------------------------------------------------------------------------------------
+Point Player::getNextNextLocation(){
+	Point p = getNextLocation();
+	Creature::calcTargetPoint(p);
+
+	return p;
+}
