@@ -130,7 +130,7 @@ bool ScreenData::remove_point(const Point& ptPoint){
 	return false;
 }
 
-Point* ScreenData::GetNearestPoint(const Point& ptLocation, int Distance){
+Point ScreenData::GetNearestPoint(const Point& ptLocation, int Distance){
 	for (int i = 0; i < Distance; ++i) {
 		Point p[4] = {
 			// let's assume Point c'tor fix x,y that are outside of
@@ -143,62 +143,62 @@ Point* ScreenData::GetNearestPoint(const Point& ptLocation, int Distance){
 		for (int j = 0; j < 4 ; ++j ) {
 			int tmp = GetElementByPoint(p[j]);
 			if (tmp != VALUE_NOT_FOUND && !IsValueACreature(tmp) && tmp != NUM_EATERS_SIGN )
-				return &p[j];
+				return p[j];
 		}
 	}
-	return NULL;
-
+	return Point(0,0);
 }
 
-Point* ScreenData::GetNearestPoint(const Point& PtLocation){
+Point ScreenData::GetNearestPoint(const Point& PtLocation){
 	if (PointsData.size() < 100)
 		return GetNearestPointByGeneralSearch(PtLocation);
 	return GetNearestPointByRingSearch(PtLocation, 20);
 }
 
-Point* ScreenData::GetNearestPointByRingSearch(const Point& PtLocation, const int RingSize ){
+Point ScreenData::GetNearestPointByRingSearch(const Point& PtLocation, const int RingSize ){
 		for (int i = 1; i<RingSize; ++i) {
-			Point* ptTmp = GetNearestPoint(PtLocation, i);
-			if (ptTmp) 
+			Point ptTmp = GetNearestPoint(PtLocation, i);
+			if (ptTmp!=Point(0,0)) 
 				return ptTmp;
 		}
-		return NULL;
+		return Point(0,0);
 }
 
-Point* ScreenData::GetNearestPointByGeneralSearch(const Point& PtLocation){
+Point ScreenData::GetNearestPointByGeneralSearch(const Point& PtLocation){
 	int tmpDistance = 300;
 	Point* tmpPoint = new Point(0,0);
 	for (std::map<Point,int>::iterator cIter  = PointsData.begin(); cIter != PointsData.end(); cIter++){
 		int tmp = 0;
+		if (!IsValueACreature(cIter->second)){
+			if (abs(PtLocation.getX() - cIter->first.getX()) > LENGH_OF_LINE / 2){
+				tmp += (PtLocation.getX() + cIter->first.getX()) % LENGH_OF_LINE;
+			}
+			else{
+				tmp += abs(PtLocation.getX() - cIter->first.getX());
+			}
 
-		if (abs(PtLocation.getX() - cIter->first.getX()) > LENGH_OF_LINE / 2){
-			tmp += (PtLocation.getX() + cIter->first.getX()) % LENGH_OF_LINE;
-		}
-		else{
-			tmp += abs(PtLocation.getX() - cIter->first.getX());
-		}
-
-		if (abs(PtLocation.getY() - cIter->first.getY()) > LENGH_OF_PAGE / 2){
-			tmp += (PtLocation.getY() + cIter->first.getY()) % LENGH_OF_PAGE;
-		}
-		else{
-			tmp += abs(PtLocation.getY() - cIter->first.getY());
-		}
+			if (abs(PtLocation.getY() - cIter->first.getY()) > LENGH_OF_PAGE / 2){
+				tmp += (PtLocation.getY() + cIter->first.getY()) % LENGH_OF_PAGE;
+			}
+			else{
+				tmp += abs(PtLocation.getY() - cIter->first.getY());
+			}
 
 
-		if (tmp < tmpDistance){
-			tmpDistance = tmp;
-			tmpPoint = (Point*)&cIter->first;
+			if (tmp < tmpDistance){
+				tmpDistance = tmp;
+				tmpPoint = (Point*)&cIter->first;
+			}
 		}
 	}
 
 	int tmpValue = GetElementByPoint(*tmpPoint);
 	
 	if ( IsValueACreature(tmpValue) && tmpValue != NUM_EATERS_SIGN )
-		return NULL;
+		return Point(0,0);
 
 
-	return tmpPoint;
+	return *tmpPoint;
 }
 
 bool ScreenData::IsValueACreature( const int val ){
