@@ -69,7 +69,10 @@ void NumEaters::calcNumEaterDirection(Player pl1, Player pl2, Creature c){
 	Point p1 = getTargetLocPoint();
 	Point p2 = getLocationPoint();
 
-	if (((getTargetLocPoint().getX() > getLocationPoint().getX()) &&
+	if (getTargetLocPoint() == getLocationPoint()){
+		setDirection(Direction::STAY);
+	}
+	else if (((getTargetLocPoint().getX() > getLocationPoint().getX()) &&
 		(abs(getTargetLocPoint().getX() - getLocationPoint().getX()) < LENGH_OF_LINE / 2)) ||
 		(getTargetLocPoint().getX() < getLocationPoint().getX() &&
 		(abs(getTargetLocPoint().getX() - getLocationPoint().getX()) > LENGH_OF_LINE / 2))){
@@ -94,17 +97,25 @@ void NumEaters::calcNumEaterDirection(Player pl1, Player pl2, Creature c){
 		setDirection(Direction::UP);
 	}
 
+	Point p3 = getNextLocation();
+	Point p4 = pl1.getNextLocation();
+	Point p5 = pl1.getNextNextLocation();
+
 	// Avoid crashes with players and other eater
 	if (pl1.getLocationPoint() == getNextLocation() ||
 		pl1.getNextLocation() == getNextLocation() ||
+		pl1.getNextNextLocation() == getNextLocation() ||
 		pl1.getLocationPoint() == getLocationPoint() ||
-		pl1.getNextLocation() == getLocationPoint()){
+		pl1.getNextLocation() == getLocationPoint() ||
+		pl1.getNextNextLocation() == getLocationPoint()){
 		setDirection(pl1.getDirection());
 	}
 	else if (pl2.getLocationPoint() == getNextLocation() ||
 		     pl2.getNextLocation() == getNextLocation() ||
+			 pl2.getNextNextLocation() == getNextLocation() ||
 			 pl2.getLocationPoint() == getLocationPoint() ||
-			 pl2.getNextLocation() == getLocationPoint()){
+			 pl2.getNextLocation() == getLocationPoint() ||
+			 pl2.getNextNextLocation() == getLocationPoint()){
 		setDirection(pl2.getDirection());
 	}
 	else if (c.getLocationPoint() == getNextLocation() ||

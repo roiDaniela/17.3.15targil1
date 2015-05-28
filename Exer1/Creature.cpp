@@ -35,10 +35,10 @@ void Creature::setLocationPoint(unsigned int x, unsigned int y){
 void Creature::calcTargetPoint(Point& targetPoint) const{
 
 	// Take care all opptional directions
-	if (targetPoint != getLocationPoint()){
-		targetPoint = getLocationPoint();
-	}
-
+	//if (targetPoint != getLocationPoint()){
+	//	targetPoint = getLocationPoint();
+	//}
+	Direction::value d = getDirection();
 	// screen is 24X80 needs to be cyclic
 	switch (getDirection())
 	{
@@ -57,22 +57,22 @@ void Creature::calcTargetPoint(Point& targetPoint) const{
 			targetPoint.setY(LENGH_OF_PAGE - (targetPoint.getY() % AMOUNT_OF_INSTRUCTIONS_LINE));
 		}
 		else{
-			targetPoint.setY(getLocationPoint().getY() - 1);
+			targetPoint.setY(targetPoint.getY() - 1);
 		}
 
 		break;
 	}
 	case Direction::RIGHT:{
-		targetPoint.setX((getLocationPoint().getX() + 1) % LENGH_OF_LINE);
+		targetPoint.setX((targetPoint.getX() + 1) % LENGH_OF_LINE);
 
 		break;
 	}
 	case Direction::LEFT:{
-		if (getLocationPoint().getX() - 1 == -1){
+		if (targetPoint.getX() - 1 == -1){
 			targetPoint.setX(LENGH_OF_LINE - 1);
 		}
 		else{
-			targetPoint.setX(getLocationPoint().getX() - 1);
+			targetPoint.setX(targetPoint.getX() - 1);
 		}
 
 		break;

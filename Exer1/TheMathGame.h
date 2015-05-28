@@ -99,7 +99,7 @@ private:
 	bool cleanTwoDigitsFromScreen(Point pt);
 	void handleShootCrashCreature();
 	bool handleCreatureCrashes(Creature& it, int currentLevel);
-	bool handleNumEaterCrashes(Creature& it, int currentLevel);
+	bool handleNumEaterCrashes(NumEaters& it, int currentLevel);
 	void handleNumEaterCrashNumEater();
 
 public:

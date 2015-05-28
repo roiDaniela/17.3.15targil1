@@ -383,7 +383,7 @@ bool TheMathGame::handleCreatureCrashes(Creature& it, int currentLevel){
 //---------------------------------------------------------------------------------------
 // this function handle Num eater crash
 //---------------------------------------------------------------------------------------
-bool TheMathGame::handleNumEaterCrashes(Creature& it, int currentLevel){
+bool TheMathGame::handleNumEaterCrashes(NumEaters& it, int currentLevel){
 	bool isShootTouched = false;
 
 	// Case crashed players
@@ -403,7 +403,7 @@ bool TheMathGame::handleNumEaterCrashes(Creature& it, int currentLevel){
 		handleCreatureCrashNumber(it.getLocationPoint());
 		
 		// may needed to enter another point to search
-
+		it.setTargetLocPoint(GameDB.GetNearestPoint(it.getLocationPoint()));
 		isShootTouched = false;
 	}
 	else if (GameDB.GetElementByPoint(it.getNextLocation()) != ScreenData::VALUE_NOT_FOUND){
@@ -411,7 +411,7 @@ bool TheMathGame::handleNumEaterCrashes(Creature& it, int currentLevel){
 		handleCreatureCrashNumber(it.getLocationPoint());
 
 		// may needed to enter another point to search
-
+		it.setTargetLocPoint(GameDB.GetNearestPoint(it.getLocationPoint()));
 		isShootTouched = false;
 	}
 
@@ -449,7 +449,7 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 
 		// num eater
 		if (typeid(**it) == typeid(NumEaters)){
-			isTouched = handleNumEaterCrashes(**it, currentLevel);
+			isTouched = handleNumEaterCrashes(*(dynamic_cast<NumEaters*>(*it)), currentLevel);
 
 			// Move if not crashed
 			if (!isTouched){
@@ -476,11 +476,20 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 	}
 }
 
+//---------------------------------------------------------------------------------------
+// this function handle numEater crash
+//---------------------------------------------------------------------------------------
 void TheMathGame::handleNumEaterCrashNumEater(){
-	if (numEater1.getLocationPoint() == numEater2.getLocationPoint()){
-		listOfFlyers.remove(&numEater1);
-		listOfFlyers.remove(&numEater2);
-		CleanScreenAtPoint(numEater1.getLocationPoint());
+	//if (numEater1.getLocationPoint() == numEater2.getLocationPoint()){
+	//	listOfFlyers.remove(&numEater1);
+	//	listOfFlyers.remove(&numEater2);
+	//	CleanScreenAtPoint(numEater1.getLocationPoint());
+	//}
+	
+	if (listOfFlyers.end() == (--listOfFlyers.end())){
+		CleanScreenAtPoint((*listOfFlyers.end())->getLocationPoint());
+		listOfFlyers.erase(listOfFlyers.end());
+		listOfFlyers.erase(listOfFlyers.end());
 	}
 }
 //---------------------------------------------------------------------------------------
