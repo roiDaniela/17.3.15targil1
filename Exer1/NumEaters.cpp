@@ -69,6 +69,7 @@ void NumEaters::calcNumEaterDirection(Player pl1, Player pl2, Creature c){
 	Point p1 = getTargetLocPoint();
 	Point p2 = getLocationPoint();
 
+	// Set direction
 	if (getTargetLocPoint() == getLocationPoint()){
 		setDirection(Direction::STAY);
 	}
@@ -108,7 +109,12 @@ void NumEaters::calcNumEaterDirection(Player pl1, Player pl2, Creature c){
 		pl1.getLocationPoint() == getLocationPoint() ||
 		pl1.getNextLocation() == getLocationPoint() ||
 		pl1.getNextNextLocation() == getLocationPoint()){
-		setDirection(pl1.getDirection());
+		if (pl1.getDirection() != Direction::STAY){
+			setDirection(pl1.getDirection());
+		}
+		else{
+			setDirection(Direction::getOppositeDirection(getDirection()));
+		}
 	}
 	else if (pl2.getLocationPoint() == getNextLocation() ||
 		     pl2.getNextLocation() == getNextLocation() ||
@@ -116,13 +122,23 @@ void NumEaters::calcNumEaterDirection(Player pl1, Player pl2, Creature c){
 			 pl2.getLocationPoint() == getLocationPoint() ||
 			 pl2.getNextLocation() == getLocationPoint() ||
 			 pl2.getNextNextLocation() == getLocationPoint()){
-		setDirection(pl2.getDirection());
+		if (pl2.getDirection() != Direction::STAY){
+			setDirection(pl2.getDirection());
+		}
+		else{
+			setDirection(Direction::getOppositeDirection(getDirection()));
+		}
 	}
 	else if (c.getLocationPoint() == getNextLocation() ||
 		     c.getNextLocation() == getNextLocation() ||
 			 c.getLocationPoint() == getLocationPoint() ||
 			 c.getNextLocation() == getLocationPoint()){
-		setDirection(c.getDirection());
+		if (c.getDirection() != Direction::STAY){
+			setDirection(c.getDirection());
+		}
+		else{
+			setDirection(Direction::getOppositeDirection(getDirection()));
+		}
 	}
 }
 

@@ -171,8 +171,7 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	bool isPlayer1ShootedThisIteration = false;
 	bool isPlayer2ShootedThisIteration = false;
 	
-	//Point ptDebugNearestPoint1 = GameDB.GetNearestPoint(numEater1.getLocationPoint());
-	//Point ptDebugNearestPoint2 = GameDB.GetNearestPoint(numEater2.getLocationPoint());
+	//Point* ptDebugNearestPoint = GameDB.GetNearestPoint(numEater1.getLocationPoint());
 
 	prepareStatusSentenceOnScreen();
 	
@@ -339,46 +338,46 @@ void TheMathGame::handleShootCrashCreature(){
 // this function handle creature crashes
 //---------------------------------------------------------------------------------------
 bool TheMathGame::handleCreatureCrashes(Creature& it, int currentLevel){
-	bool isShootTouched = false;
+	bool isTouched = false;
 
 	// Case crashed player one
 	if (it.getLocationPoint() == player1.getLocationPoint()){
 		handleCreatureCrashPlayer(player1.getPlayerNumber(), currentLevel);
 
-		isShootTouched = true;
+		isTouched = true;
 	}
 	else if (it.getNextLocation() == player1.getLocationPoint()){
 		it.move(getIterationCounter());
 		handleCreatureCrashPlayer(player1.getPlayerNumber(), currentLevel);
 
-		isShootTouched = true;
+		isTouched = true;
 	}
 	// Case crashed player two
 	else if (it.getLocationPoint() == player2.getLocationPoint()){
 		handleCreatureCrashPlayer(player2.getPlayerNumber(), currentLevel);
 
-		isShootTouched = true;
+		isTouched = true;
 	}
 	else if (it.getNextLocation() == player2.getLocationPoint()){
 		it.move(getIterationCounter());
 		handleCreatureCrashPlayer(player2.getPlayerNumber(), currentLevel);
 
-		isShootTouched = true;
+		isTouched = true;
 	}
 	// Case crashed number
 	else if (GameDB.GetElementByPoint(it.getLocationPoint()) != ScreenData::VALUE_NOT_FOUND){
 		handleCreatureCrashNumber(it.getLocationPoint());
 
-		isShootTouched = true;
+		isTouched = true;
 	}
 	else if (GameDB.GetElementByPoint(it.getNextLocation()) != ScreenData::VALUE_NOT_FOUND){
 		it.move(getIterationCounter());
 		handleCreatureCrashNumber(it.getLocationPoint());
 
-		isShootTouched = true;
+		isTouched = true;
 	}
 
-	return isShootTouched;
+	return isTouched;
 }
 
 //---------------------------------------------------------------------------------------
@@ -418,6 +417,7 @@ bool TheMathGame::handleNumEaterCrashes(NumEaters& it, int currentLevel){
 
 	return isShootTouched;
 }
+
 //---------------------------------------------------------------------------------------
 // this function respomsible to the shoots in the game
 //---------------------------------------------------------------------------------------
