@@ -52,6 +52,18 @@ public:
 			return STAY;
 		}
 	}
+
+	static value getOrthogonalDirection(value d){
+		if (d == UP || d == DOWN){
+			return RIGHT;
+		}
+		else if (d == RIGHT || d == LEFT){
+			return UP;
+		}
+		else{
+			return STAY;
+		}
+	}
 };
 
 #endif

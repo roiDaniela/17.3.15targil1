@@ -103,18 +103,27 @@ void NumEaters::calcNumEaterDirection(Player pl1, Player pl2, Creature c){
 	Point p5 = pl1.getNextNextLocation();
 
 	// Avoid crashes with players and other eater
-	if (pl1.getLocationPoint() == getNextLocation() ||
+	if ((pl1.getLocationPoint() == getNextLocation() ||
+		pl1.getNextLocation() == getNextLocation() ||
+		pl1.getNextNextLocation() == getNextLocation() ||
+		pl1.getLocationPoint() == getLocationPoint() ||
+		pl1.getNextLocation() == getLocationPoint() ||
+		pl1.getNextNextLocation() == getLocationPoint()) &&
+		(pl2.getLocationPoint() == getNextLocation() ||
+		pl2.getNextLocation() == getNextLocation() ||
+		pl2.getNextNextLocation() == getNextLocation() ||
+		pl2.getLocationPoint() == getLocationPoint() ||
+		pl2.getNextLocation() == getLocationPoint() ||
+		pl2.getNextNextLocation() == getLocationPoint())){
+			setDirection(Direction::getOrthogonalDirection(getDirection()));
+	}
+	else if (pl1.getLocationPoint() == getNextLocation() ||
 		pl1.getNextLocation() == getNextLocation() ||
 		pl1.getNextNextLocation() == getNextLocation() ||
 		pl1.getLocationPoint() == getLocationPoint() ||
 		pl1.getNextLocation() == getLocationPoint() ||
 		pl1.getNextNextLocation() == getLocationPoint()){
-		if (pl1.getDirection() != Direction::STAY){
-			setDirection(pl1.getDirection());
-		}
-		else{
 			setDirection(Direction::getOppositeDirection(getDirection()));
-		}
 	}
 	else if (pl2.getLocationPoint() == getNextLocation() ||
 		     pl2.getNextLocation() == getNextLocation() ||
@@ -122,23 +131,13 @@ void NumEaters::calcNumEaterDirection(Player pl1, Player pl2, Creature c){
 			 pl2.getLocationPoint() == getLocationPoint() ||
 			 pl2.getNextLocation() == getLocationPoint() ||
 			 pl2.getNextNextLocation() == getLocationPoint()){
-		if (pl2.getDirection() != Direction::STAY){
-			setDirection(pl2.getDirection());
-		}
-		else{
-			setDirection(Direction::getOppositeDirection(getDirection()));
-		}
+				setDirection(Direction::getOppositeDirection(getDirection()));
 	}
 	else if (c.getLocationPoint() == getNextLocation() ||
 		     c.getNextLocation() == getNextLocation() ||
 			 c.getLocationPoint() == getLocationPoint() ||
 			 c.getNextLocation() == getLocationPoint()){
-		if (c.getDirection() != Direction::STAY){
-			setDirection(c.getDirection());
-		}
-		else{
-			setDirection(Direction::getOppositeDirection(getDirection()));
-		}
+				setDirection(c.getDirection());
 	}
 }
 

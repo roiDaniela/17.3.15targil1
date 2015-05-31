@@ -234,14 +234,21 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		addRandomNunberToScreen(currentLevel);
 		
 		// Get the new target Point
-		numEater1.setTargetLocPoint(GameDB.GetNearestPoint(numEater1.getLocationPoint()));
-		numEater2.setTargetLocPoint(GameDB.GetNearestPoint(numEater2.getLocationPoint()));
+		setNewTargetPointForNumEater();
 	}
 
 	/*numEater1.setPlayer1LocPoint(player1.getNextLocation());
 	numEater1.setPlayer1LocPoint(player2.getNextLocation());
 	numEater2.setPlayer1LocPoint(player1.getNextLocation());
 	numEater2.setPlayer1LocPoint(player2.getNextLocation());*/
+}
+
+//---------------------------------------------------------------------------------------
+// this function set new target point to num eater
+//---------------------------------------------------------------------------------------
+void TheMathGame::setNewTargetPointForNumEater(){
+	numEater1.setTargetLocPoint(GameDB.GetNearestPoint(numEater1.getLocationPoint()));
+	numEater2.setTargetLocPoint(GameDB.GetNearestPoint(numEater2.getLocationPoint()));
 }
 
 //---------------------------------------------------------------------------------------
@@ -280,6 +287,8 @@ void TheMathGame::handleCreatureCrashNumber(const Point& p){
 	cleanTwoDigitsFromScreen(p);
 
 	GameDB.remove_point(p);
+
+	setNewTargetPointForNumEater();
 }
 
 //---------------------------------------------------------------------------------------
@@ -450,12 +459,12 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 
 		// num eater
 		if (typeid(**it) == typeid(NumEaters)){
-			isTouched = handleNumEaterCrashes(*(dynamic_cast<NumEaters*>(*it)), currentLevel);
+			// dynamic cast
+			dynamic_cast<NumEaters*>(*it)->calcNumEaterDirection(player1, player2, ((**it) == numEater1) ? numEater2 : numEater1);
 
+			isTouched = handleNumEaterCrashes(*(dynamic_cast<NumEaters*>(*it)), currentLevel);
 			// Move if not crashed
 			if (!isTouched){
-				// dynamic cast
-				dynamic_cast<NumEaters*>(*it)->calcNumEaterDirection(player1, player2, ((**it)==numEater1)?numEater2:numEater1 );
 
 				(*it)->move(getIterationCounter());
 				it++;
@@ -480,13 +489,7 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 //---------------------------------------------------------------------------------------
 // this function handle numEater crash
 //---------------------------------------------------------------------------------------
-void TheMathGame::handleNumEaterCrashNumEater(){
-	//if (numEater1.getLocationPoint() == numEater2.getLocationPoint()){
-	//	listOfFlyers.remove(&numEater1);
-	//	listOfFlyers.remove(&numEater2);
-	//	CleanScreenAtPoint(numEater1.getLocationPoint());
-	//}
-	
+void TheMathGame::handleNumEaterCrashNumEater(){	
 	if (listOfFlyers.end() == (--listOfFlyers.end())){
 		CleanScreenAtPoint((*listOfFlyers.end())->getLocationPoint());
 		listOfFlyers.erase(listOfFlyers.end());
@@ -502,6 +505,7 @@ CreateExercise::ExerciseErrMsg TheMathGame::checkExerciseSolved(Player& player, 
 	//check if won
 	if (ExerMsgForPlayer == CreateExercise::SOLVED){
 		setGameWinner(player);
+		setNewTargetPointForNumEater();
 	}
 
 	return ExerMsgForPlayer;
@@ -722,6 +726,7 @@ void TheMathGame::handleWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg Er
 		// Delete from DB = the reason i decided that mathGame shoud delete is that i don't want
 		// Player class will get the db as a reference at all
 		GameDB.remove_point(pl.getLocationPoint());
+		setNewTargetPointForNumEater();
 	}
 }
 
@@ -745,6 +750,7 @@ void TheMathGame::handlePlayerUsedAllErr(Player& pl, int currentLevel){
 
 	CleanScreenAtPoint(pl.getLocationPoint());// Delete the player from screen
 	GameDB.remove_point(pl.getLocationPoint());
+	setNewTargetPointForNumEater();
 	pl.setDirection(Direction::STAY); // Set player as stay
 	pl.setLocationPoint(NULL, NULL); // won't be exist when checking if a crush happend
 	
