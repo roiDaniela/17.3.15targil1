@@ -65,10 +65,7 @@ void NumEaters::setTargetLocPoint(Point* p){
 //---------------------------------------------------------------------------------------
 // this method calculate the numEater Direction
 //---------------------------------------------------------------------------------------
-void NumEaters::calcNumEaterDirection(Player pl1, Player pl2, Creature c){
-	Point p1 = getTargetLocPoint();
-	Point p2 = getLocationPoint();
-
+void NumEaters::calcNumEaterDirection(Player pl1, Player pl2/*, NumEaters& c*/){
 	// Set direction
 	if (getTargetLocPoint() == getLocationPoint()){
 		setDirection(Direction::STAY);
@@ -98,11 +95,7 @@ void NumEaters::calcNumEaterDirection(Player pl1, Player pl2, Creature c){
 		setDirection(Direction::UP);
 	}
 
-	Point p3 = getNextLocation();
-	Point p4 = pl1.getNextLocation();
-	Point p5 = pl1.getNextNextLocation();
-
-	// Avoid crashes with players and other eater
+	// Avoid crashes with players
 	if ((pl1.getLocationPoint() == getNextLocation() ||
 		pl1.getNextLocation() == getNextLocation() ||
 		pl1.getNextNextLocation() == getNextLocation() ||
@@ -123,7 +116,8 @@ void NumEaters::calcNumEaterDirection(Player pl1, Player pl2, Creature c){
 		pl1.getLocationPoint() == getLocationPoint() ||
 		pl1.getNextLocation() == getLocationPoint() ||
 		pl1.getNextNextLocation() == getLocationPoint()){
-			setDirection(Direction::getOppositeDirection(getDirection()));
+			//setDirection(Direction::getOppositeDirection(getDirection()));
+			setDirection(Direction::getOrthogonalDirection(getDirection()));
 	}
 	else if (pl2.getLocationPoint() == getNextLocation() ||
 		     pl2.getNextLocation() == getNextLocation() ||
@@ -131,13 +125,8 @@ void NumEaters::calcNumEaterDirection(Player pl1, Player pl2, Creature c){
 			 pl2.getLocationPoint() == getLocationPoint() ||
 			 pl2.getNextLocation() == getLocationPoint() ||
 			 pl2.getNextNextLocation() == getLocationPoint()){
-				setDirection(Direction::getOppositeDirection(getDirection()));
-	}
-	else if (c.getLocationPoint() == getNextLocation() ||
-		     c.getNextLocation() == getNextLocation() ||
-			 c.getLocationPoint() == getLocationPoint() ||
-			 c.getNextLocation() == getLocationPoint()){
-				setDirection(c.getDirection());
+				//setDirection(Direction::getOppositeDirection(getDirection()));
+			setDirection(Direction::getOrthogonalDirection(getDirection()));
 	}
 }
 

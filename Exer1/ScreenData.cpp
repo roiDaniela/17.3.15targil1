@@ -130,6 +130,9 @@ bool ScreenData::remove_point(const Point& ptPoint){
 	return false;
 }
 
+//---------------------------------------------------------------------------------------
+// this function get the nearest point
+//---------------------------------------------------------------------------------------
 Point ScreenData::GetNearestPoint(const Point& ptLocation, int Distance){
 	for (int i = 0; i < Distance; ++i) {
 		Point p[4] = {
@@ -149,12 +152,18 @@ Point ScreenData::GetNearestPoint(const Point& ptLocation, int Distance){
 	return Point(0,0);
 }
 
+//---------------------------------------------------------------------------------------
+// this function gets the nearest point
+//---------------------------------------------------------------------------------------
 Point ScreenData::GetNearestPoint(const Point& PtLocation){
 	if (PointsData.size() < 100)
 		return GetNearestPointByGeneralSearch(PtLocation);
 	return GetNearestPointByRingSearch(PtLocation, 20);
 }
 
+//---------------------------------------------------------------------------------------
+// this function get the nearest point by ring search
+//---------------------------------------------------------------------------------------
 Point ScreenData::GetNearestPointByRingSearch(const Point& PtLocation, const int RingSize ){
 		for (int i = 1; i<RingSize; ++i) {
 			Point ptTmp = GetNearestPoint(PtLocation, i);
@@ -164,6 +173,9 @@ Point ScreenData::GetNearestPointByRingSearch(const Point& PtLocation, const int
 		return Point(0,0);
 }
 
+//---------------------------------------------------------------------------------------
+// this function get the nearest point by generak search
+//---------------------------------------------------------------------------------------
 Point ScreenData::GetNearestPointByGeneralSearch(const Point& PtLocation){
 	int tmpDistance = 300;
 	Point* tmpPoint = new Point(0,0);
@@ -201,7 +213,9 @@ Point ScreenData::GetNearestPointByGeneralSearch(const Point& PtLocation){
 	return *tmpPoint;
 }
 
+//---------------------------------------------------------------------------------------
+// this function checks if the value is a creature
+//---------------------------------------------------------------------------------------
 bool ScreenData::IsValueACreature( const int val ){
-	return ( val == PLAYER1_SIGN || val == PLAYER2_SIGN || val == SHOOT_SIGN ||
-		    val == ROWFLYERS_SIGN || val == NUM_EATERS_SIGN);
+	return (val == PLAYER1_SIGN || val == PLAYER2_SIGN);
 }

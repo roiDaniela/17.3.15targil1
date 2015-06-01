@@ -23,6 +23,7 @@ class NumEaters : public Creature
 private:
 	// Private DM
 	Point targetLocPoint;
+	bool  isAlive;
 	/*Point pPlayer1Loc;
 	Point pPlayer2Loc;*/
 
@@ -37,8 +38,10 @@ public:
 	Point getTargetLocPoint(){ return targetLocPoint; }
 	void setTargetLocPoint(const Point& p);
 	void setTargetLocPoint(Point* p);
+	bool getIsAlive(){ return isAlive; }
+	void setIsAlive(bool isA){ isAlive = isA; }
 
-	void calcNumEaterDirection(Player, Player, Creature);
+	void calcNumEaterDirection(Player, Player/*, NumEaters&*/);
 
 	/*Point getPlayer1LocPoint(){ return pPlayer1Loc; }
 	void setPlayer1LocPoint(const Point& p){ pPlayer1Loc = p; }

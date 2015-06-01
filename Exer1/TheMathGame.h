@@ -85,23 +85,31 @@ private:
 	void setLevelResult(ResultLevel result){ resultOfCurrLevel = result; }
 	ResultLevel getLevelResult() const{ return resultOfCurrLevel; }
 	void setGameWinner(Player& player);
-	bool isPlayersCrash(Player& pl1, Player& pl2 );
-	void handlePlayersCrash(Player& pl1, Player& pl2);
-	void handleWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg ErrMsg);
 	bool isWrongCatch(Player& pl,  CreateExercise::ExerciseErrMsg ErrMsg);
 	void handlePlayerUsedAllErr(Player& pl, int currentLevel);
 	bool isPlayerUsedAllErr(const Player& pl);
 	void initPlayerToFirstPosition(Player::numberOfPlayer numberOfPlayer);
-	void handleCreatureCrashNumber(const Point& p);
-	void handleCreatureCrashPlayer(Player::numberOfPlayer numberOfPlayer, int currentLevel);
 	Direction::value getNonStayDirection(const Player& p) const;
 	void setThePrevDirection(Player::PLAYER_KEYS curr_input);
 	bool cleanTwoDigitsFromScreen(Point pt);
-	void handleShootCrashCreature();
-	bool handleCreatureCrashes(Creature& it, int currentLevel);
-	bool handleNumEaterCrashes(NumEaters& it, int currentLevel);
-	void handleNumEaterCrashNumEater();
 	void setNewTargetPointForNumEater();
+	// Players crash
+	bool isPlayersCrash(Player& pl1, Player& pl2);
+	void handlePlayersCrash(Player& pl1, Player& pl2);
+	void handleWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg ErrMsg);
+	// NumEater crashes
+	bool handleNumEaterCrashes(int currentLevel);
+	bool handleNumEaterCrashNumEater();
+	bool handleNumEaterCrashPlayer();
+	bool handleNumEaterCrashNumber();
+	void calcNumEatersDirection();
+	// Creature crashes
+	bool handleCreatureCrashes(Creature& it, int currentLevel);
+	void handleCreatureCrashNumber(const Point& p);
+	void handleCreatureCrashPlayer(Player::numberOfPlayer numberOfPlayer, int currentLevel);
+	// shoot crashes
+	void handleShootCrashCreature();
+
 public:
 	// Getter && Setter
 	unsigned int getIterationCounter() const { return iterationCounter; }
