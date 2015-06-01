@@ -574,6 +574,9 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 	}
 }
 
+//---------------------------------------------------------------------------------------
+// this function calc num eater direction
+//---------------------------------------------------------------------------------------
 void TheMathGame::calcNumEatersDirection(){
 	if (numEater1.getIsAlive()){
 		numEater1.calcNumEaterDirection(player1, player2);
@@ -605,6 +608,7 @@ void TheMathGame::calcNumEatersDirection(){
 		//setDirection(Direction::getOrthogonalDirection(getDirection()));
 	}
 }
+
 //---------------------------------------------------------------------------------------
 // this function handle numEater crash
 //---------------------------------------------------------------------------------------
