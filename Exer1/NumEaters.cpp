@@ -54,13 +54,13 @@ void NumEaters::setTargetLocPoint(const Point& p){
 //---------------------------------------------------------------------------------------
 // this method set target loc point
 //---------------------------------------------------------------------------------------
-void NumEaters::setTargetLocPoint(Point* p){
-	if (p != NULL){
-		Point pTemp = Point(p->getX(), p->getY());
-		//delete p;
-		targetLocPoint = pTemp;
-	}
-}
+//void NumEaters::setTargetLocPoint(Point* p){
+//	if (p != NULL){
+//		Point pTemp = Point(p->getX(), p->getY());
+//		//delete p;
+//		targetLocPoint = pTemp;
+//	}
+//}
 
 //---------------------------------------------------------------------------------------
 // this method calculate the numEater Direction

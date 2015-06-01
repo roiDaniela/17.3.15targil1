@@ -37,7 +37,7 @@ public:
 	// Getter && Setter
 	Point getTargetLocPoint(){ return targetLocPoint; }
 	void setTargetLocPoint(const Point& p);
-	void setTargetLocPoint(Point* p);
+	//void setTargetLocPoint(Point* p);
 	bool getIsAlive(){ return isAlive; }
 	void setIsAlive(bool isA){ isAlive = isA; }
 

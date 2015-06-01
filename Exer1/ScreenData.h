@@ -44,7 +44,6 @@ public:
 	bool is_number_exist(const int value);
 	int GetElementByPoint(const Point& ptPoint);
 	void clear_data();
-	int calcDistance(const Point&, const Point&);
 	Point GetNearestPoint(const Point& PtLocation);
 };
 

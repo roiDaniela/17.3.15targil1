@@ -182,7 +182,7 @@ Point ScreenData::GetNearestPointByGeneralSearch(const Point& PtLocation){
 	for (std::map<Point,int>::iterator cIter  = PointsData.begin(); cIter != PointsData.end(); cIter++){
 		int tmp = 0;
 		if (!IsValueACreature(cIter->second)){
-			tmp = calcDistance(PtLocation, cIter->first);
+			tmp = PtLocation.calcDistance(cIter->first, LENGH_OF_LINE, LENGH_OF_PAGE);
 
 			if (tmp < tmpDistance){
 				tmpDistance = tmp;
@@ -198,28 +198,6 @@ Point ScreenData::GetNearestPointByGeneralSearch(const Point& PtLocation){
 
 
 	return *tmpPoint;
-}
-
-//---------------------------------------------------------------------------------------
-// this function checks if the value is a creature
-//---------------------------------------------------------------------------------------
-int ScreenData::calcDistance(const Point& ptLocationOne, const Point& ptLocationTwo){
-	int tmp = 0;
-	if (abs(ptLocationOne.getX() - ptLocationTwo.getX()) > LENGH_OF_LINE / 2){
-		tmp += (ptLocationOne.getX() + ptLocationTwo.getX()) % LENGH_OF_LINE;
-	}
-	else{
-		tmp += abs(ptLocationOne.getX() - ptLocationTwo.getX());
-	}
-
-	if (abs(ptLocationOne.getY() - ptLocationTwo.getY()) > LENGH_OF_PAGE / 2){
-		tmp += (ptLocationOne.getY() + ptLocationTwo.getY()) % LENGH_OF_PAGE;
-	}
-	else{
-		tmp += abs(ptLocationOne.getY() - ptLocationTwo.getY());
-	}
-
-	return tmp;
 }
 
 //---------------------------------------------------------------------------------------

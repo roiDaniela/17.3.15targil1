@@ -101,6 +101,10 @@ void TheMathGame::initParams(int currentLevel){
 	numEater2.setLocationPoint(Point(70, 19));
 	numEater2.setDirection(Direction::STAY);
 	numEater2.setIsAlive(true);
+	
+	// Get the new target Point
+	GameDB.GetNearestPoint(numEater1.getLocationPoint());
+	GameDB.GetNearestPoint(numEater2.getLocationPoint());
 
 	addFlyer(&rowFlyer1);
 	addFlyer(&rowFlyer2);
@@ -234,10 +238,24 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 	// Do it just 1 time at 5 iterations
 	if (getIterationCounter() % 5 == 0){
 		// Add random number to screen
-		addRandomNunberToScreen(currentLevel);
+		Point pNewNumberAdded = addRandomNunberToScreen(currentLevel);
 		
+		if (numEater1.getTargetLocPoint() == numEater1.getLocationPoint()){
+			numEater1.setTargetLocPoint(GameDB.GetNearestPoint(numEater1.getLocationPoint()));
+		}
+		else if (numEater1.getLocationPoint().calcDistance(pNewNumberAdded, LENGH_OF_LINE, LENGH_OF_PAGE) < numEater1.getLocationPoint().calcDistance(numEater1.getTargetLocPoint(), LENGH_OF_LINE, LENGH_OF_PAGE)){
+			numEater1.setTargetLocPoint(pNewNumberAdded);
+		}
+		
+		if (numEater2.getTargetLocPoint() == numEater2.getLocationPoint()){
+			numEater2.setTargetLocPoint(GameDB.GetNearestPoint(numEater2.getLocationPoint()));
+		}
+		else if (numEater2.getLocationPoint().calcDistance(pNewNumberAdded, LENGH_OF_LINE, LENGH_OF_PAGE) < numEater2.getLocationPoint().calcDistance(numEater2.getTargetLocPoint(), LENGH_OF_LINE, LENGH_OF_PAGE)){
+			numEater2.setTargetLocPoint(pNewNumberAdded);
+		}
+
 		// Get the new target Point
-		setNewTargetPointForNumEater();
+		//setNewTargetPointForNumEater();
 	}
 
 	/*numEater1.setPlayer1LocPoint(player1.getNextLocation());
@@ -249,15 +267,20 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 //---------------------------------------------------------------------------------------
 // this function set new target point to num eater
 //---------------------------------------------------------------------------------------
-void TheMathGame::setNewTargetPointForNumEater(){
-	numEater1.setTargetLocPoint(GameDB.GetNearestPoint(numEater1.getLocationPoint()));
-	numEater2.setTargetLocPoint(GameDB.GetNearestPoint(numEater2.getLocationPoint()));
+void TheMathGame::setNewTargetPointForNumEater(const Point& ptDeletedLoc){
+	if (numEater1.getTargetLocPoint() == ptDeletedLoc){
+		GameDB.GetNearestPoint(numEater1.getLocationPoint());
+	}
+
+	if (numEater2.getTargetLocPoint() == ptDeletedLoc){
+		GameDB.GetNearestPoint(numEater2.getLocationPoint());
+	}
 }
 
 //---------------------------------------------------------------------------------------
 // this function add random point to screen
 //---------------------------------------------------------------------------------------
-void TheMathGame::addRandomNunberToScreen(unsigned int currentLevel){
+Point TheMathGame::addRandomNunberToScreen(unsigned int currentLevel){
 	unsigned int value;
 	
 	// Case its 1-20 level then value is between level number to 1, 
@@ -278,7 +301,10 @@ void TheMathGame::addRandomNunberToScreen(unsigned int currentLevel){
 		}
 	}
 
+	Point pNewPointAdded = *ptTmp;
 	delete ptTmp;
+
+	return pNewPointAdded;
 }
 
 //---------------------------------------------------------------------------------------
@@ -291,7 +317,7 @@ void TheMathGame::handleCreatureCrashNumber(const Point& p){
 
 	GameDB.remove_point(p);
 
-	setNewTargetPointForNumEater();
+	setNewTargetPointForNumEater(p);
 }
 
 //---------------------------------------------------------------------------------------
@@ -400,6 +426,9 @@ bool TheMathGame::handleCreatureCrashes(Creature& it, int currentLevel){
 	return isTouched;
 }
 
+//---------------------------------------------------------------------------------------
+// this function handle Num eater crash player
+//---------------------------------------------------------------------------------------
 bool TheMathGame::handleNumEaterCrashPlayer(){
 	bool isDeletedNumEater = false;
 
@@ -668,7 +697,6 @@ CreateExercise::ExerciseErrMsg TheMathGame::checkExerciseSolved(Player& player, 
 	//check if won
 	if (ExerMsgForPlayer == CreateExercise::SOLVED){
 		setGameWinner(player);
-		setNewTargetPointForNumEater();
 	}
 
 	return ExerMsgForPlayer;
@@ -889,7 +917,8 @@ void TheMathGame::handleWrongCatch(Player& pl, CreateExercise::ExerciseErrMsg Er
 		// Delete from DB = the reason i decided that mathGame shoud delete is that i don't want
 		// Player class will get the db as a reference at all
 		GameDB.remove_point(pl.getLocationPoint());
-		setNewTargetPointForNumEater();
+
+		setNewTargetPointForNumEater(pl.getLocationPoint());
 	}
 }
 
@@ -913,7 +942,7 @@ void TheMathGame::handlePlayerUsedAllErr(Player& pl, int currentLevel){
 
 	CleanScreenAtPoint(pl.getLocationPoint());// Delete the player from screen
 	GameDB.remove_point(pl.getLocationPoint());
-	setNewTargetPointForNumEater();
+	setNewTargetPointForNumEater(pl.getLocationPoint());
 	pl.setDirection(Direction::STAY); // Set player as stay
 	pl.setLocationPoint(NULL, NULL); // won't be exist when checking if a crush happend
 	

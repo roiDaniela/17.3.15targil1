@@ -80,7 +80,7 @@ private:
 	void cleanShootList();
 	void cleanFlyersCreatureList();
 	void setKeyValues(Player::PLAYER_KEYS curr_input, bool& isPlayer1ShootedThisIteration, bool& isPlayer2ShootedThisIteration);
-	void addRandomNunberToScreen(unsigned int currentLevel);
+	Point addRandomNunberToScreen(unsigned int currentLevel);
 	bool iterationCounterIsBiggerThanAlowd() const;
 	void setLevelResult(ResultLevel result){ resultOfCurrLevel = result; }
 	ResultLevel getLevelResult() const{ return resultOfCurrLevel; }
@@ -92,7 +92,7 @@ private:
 	Direction::value getNonStayDirection(const Player& p) const;
 	void setThePrevDirection(Player::PLAYER_KEYS curr_input);
 	bool cleanTwoDigitsFromScreen(Point pt);
-	void setNewTargetPointForNumEater();
+	void setNewTargetPointForNumEater(const Point&);
 	// Players crash
 	bool isPlayersCrash(Player& pl1, Player& pl2);
 	void handlePlayersCrash(Player& pl1, Player& pl2);

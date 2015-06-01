@@ -15,6 +15,7 @@
 #define _POINT_H
 
 #include<iostream>
+
 using namespace std;
 
 class Point
@@ -33,6 +34,7 @@ public:
 	int getY() const { return y; };
 	void setY(int y){ this->y = y; };
 	bool IsPointsAdjacent(const Point& pointToCompare) ;
+	int calcDistance(const Point&, int, int) const;
 
 	//Operator Overloding
 	inline bool operator<(const Point& p)const{ 
