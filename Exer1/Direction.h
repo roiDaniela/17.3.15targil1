@@ -35,35 +35,9 @@ public:
 		STAY
 	};
 
-	static value getOppositeDirection(value d){
-		if (d == UP){
-			return DOWN;
-		}
-		else if (d == DOWN){
-			return UP;
-		}
-		else if (d == RIGHT){
-			return LEFT;
-		}
-		else if (d == LEFT){
-			return RIGHT;
-		}
-		else{
-			return STAY;
-		}
-	}
-
-	static value getOrthogonalDirection(value d){
-		if (d == UP || d == DOWN){
-			return RIGHT;
-		}
-		else if (d == RIGHT || d == LEFT){
-			return UP;
-		}
-		else{
-			return STAY;
-		}
-	}
+	// Private methods
+	static value getOppositeDirection(value d);
+	static value getOrthogonalDirection(value d);
 };
 
 #endif

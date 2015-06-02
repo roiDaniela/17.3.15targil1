@@ -641,14 +641,61 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 //---------------------------------------------------------------------------------------
 void TheMathGame::calcNumEatersDirection(){
 	if (numEater1.getIsAlive()){
-		numEater1.calcNumEaterDirection(player1, player2);
+		numEater1.calcNumEaterDirection();
 	}
 	
 	if (numEater2.getIsAlive()){
-		numEater2.calcNumEaterDirection(player1, player2);
+		numEater2.calcNumEaterDirection();
 	}
 
-	// Avoid numeaters crashing
+	// Avoid crashes with other creatures
+	avoidCrashes();
+}
+
+//---------------------------------------------------------------------------------------
+// this function avoid crashes with players
+//---------------------------------------------------------------------------------------
+void TheMathGame::avoidCrashesWithPlayer(NumEaters& nEater){
+	if (nEater.getIsAlive()){
+		if ((player1.getLocationPoint() == nEater.getNextLocation() ||
+			player1.getNextLocation() == nEater.getNextLocation() ||
+			player1.getNextNextLocation() == nEater.getNextLocation() ||
+			player1.getLocationPoint() == nEater.getLocationPoint() ||
+			player1.getNextLocation() == nEater.getLocationPoint() ||
+			player1.getNextNextLocation() == nEater.getLocationPoint()) &&
+			(player2.getLocationPoint() == nEater.getNextLocation() ||
+			player2.getNextLocation() == nEater.getNextLocation() ||
+			player2.getNextNextLocation() == nEater.getNextLocation() ||
+			player2.getLocationPoint() == nEater.getLocationPoint() ||
+			player2.getNextLocation() == nEater.getLocationPoint() ||
+			player2.getNextNextLocation() == nEater.getLocationPoint())){
+			nEater.setDirection(Direction::getOrthogonalDirection(nEater.getDirection()));
+		}
+		else if (player1.getLocationPoint() == nEater.getNextLocation() ||
+			player1.getNextLocation() == nEater.getNextLocation() ||
+			player1.getNextNextLocation() == nEater.getNextLocation() ||
+			player1.getLocationPoint() == nEater.getLocationPoint() ||
+			player1.getNextLocation() == nEater.getLocationPoint() ||
+			player1.getNextNextLocation() == nEater.getLocationPoint()){
+			//setDirection(Direction::getOppositeDirection(getDirection()));
+			nEater.setDirection(Direction::getOrthogonalDirection(nEater.getDirection()));
+		}
+		else if (player2.getLocationPoint() == nEater.getNextLocation() ||
+			player2.getNextLocation() == nEater.getNextLocation() ||
+			player2.getNextNextLocation() == nEater.getNextLocation() ||
+			player2.getLocationPoint() == nEater.getLocationPoint() ||
+			player2.getNextLocation() == nEater.getLocationPoint() ||
+			player2.getNextNextLocation() == nEater.getLocationPoint()){
+			//setDirection(Direction::getOppositeDirection(getDirection()));
+			nEater.setDirection(Direction::getOrthogonalDirection(nEater.getDirection()));
+		}
+	}
+}
+
+//---------------------------------------------------------------------------------------
+// this function avoid numEaters Crash
+//---------------------------------------------------------------------------------------
+void TheMathGame::avoidNumEatersCrash(){
 	if ((numEater1.getIsAlive() && numEater2.getIsAlive()) &&
 		(numEater1.getLocationPoint() == numEater2.getNextLocation() ||
 		numEater1.getNextLocation() == numEater2.getNextLocation() ||
@@ -657,18 +704,55 @@ void TheMathGame::calcNumEatersDirection(){
 		if ((numEater2.getDirection() == Direction::UP && numEater1.getDirection() == Direction::DOWN) ||
 			(numEater2.getDirection() == Direction::DOWN && numEater1.getDirection() == Direction::UP)){
 			numEater1.setDirection(Direction::LEFT);
-			numEater2.setDirection(Direction::RIGHT);
+			//numEater2.setDirection(Direction::RIGHT);
 		}
 		else if ((numEater2.getDirection() == Direction::RIGHT && numEater1.getDirection() == Direction::LEFT) ||
 			(numEater2.getDirection() == Direction::LEFT && numEater1.getDirection() == Direction::RIGHT)){
 			numEater1.setDirection(Direction::UP);
-			numEater2.setDirection(Direction::DOWN);
+			//numEater2.setDirection(Direction::DOWN);
 		}
 		else{
 			numEater2.setDirection(Direction::getOppositeDirection(numEater2.getDirection()));
 		}
 		//setDirection(Direction::getOrthogonalDirection(getDirection()));
 	}
+}
+
+//---------------------------------------------------------------------------------------
+// this function avoid crashes
+//---------------------------------------------------------------------------------------
+void TheMathGame::avoidNumEatersCrashWithFlyer(NumEaters& nEater){
+	if (nEater.getIsAlive()){
+		for (list<Creature*>::iterator it = listOfFlyers.begin(); it != listOfFlyers.end(); it++){
+			if ((*it)->getLocationPoint() == nEater.getNextLocation() ||
+				(*it)->getNextLocation() == nEater.getNextLocation() ||
+				(*it)->getLocationPoint() == nEater.getLocationPoint() ||
+				(*it)->getNextLocation() == nEater.getLocationPoint()){
+				// If numeater is right and flter is left for etc
+				//if (nEater.getDirection() == Direction::getOppositeDirection((*it)->getDirection())){
+					nEater.setDirection(Direction::getOrthogonalDirection(nEater.getDirection()));
+				/*}
+				else{
+					nEater.setDirection(Direction::STAY);
+				}*/
+			}
+		}
+	}
+}
+//---------------------------------------------------------------------------------------
+// this function avoid crashes
+//---------------------------------------------------------------------------------------
+void TheMathGame::avoidCrashes(){
+	// Avoid crashes with players
+	avoidCrashesWithPlayer(numEater1);
+	avoidCrashesWithPlayer(numEater2);
+
+	// Avoid numEaters crash flyers
+	avoidNumEatersCrashWithFlyer(numEater1);
+	avoidNumEatersCrashWithFlyer(numEater2);
+
+	// Avoid numeaters crashing
+	avoidNumEatersCrash();
 }
 
 //---------------------------------------------------------------------------------------

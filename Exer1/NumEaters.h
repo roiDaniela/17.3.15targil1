@@ -24,8 +24,6 @@ private:
 	// Private DM
 	Point targetLocPoint;
 	bool  isAlive;
-	/*Point pPlayer1Loc;
-	Point pPlayer2Loc;*/
 
 public:
 	static const int NUMEATER_1_X_POSITION = 10;
@@ -37,29 +35,15 @@ public:
 	// Getter && Setter
 	Point getTargetLocPoint(){ return targetLocPoint; }
 	void setTargetLocPoint(const Point& p);
-	//void setTargetLocPoint(Point* p);
 	bool getIsAlive(){ return isAlive; }
 	void setIsAlive(bool isA){ isAlive = isA; }
 
-	void calcNumEaterDirection(Player, Player/*, NumEaters&*/);
-
-	/*Point getPlayer1LocPoint(){ return pPlayer1Loc; }
-	void setPlayer1LocPoint(const Point& p){ pPlayer1Loc = p; }
-
-	Point getPlayer2LocPoint(){ return pPlayer2Loc; }
-	void setPlayer2LocPoint(const Point& p){ pPlayer2Loc = p; }*/
+	void calcNumEaterDirection(/*Player, Player*/);
 	
 	// ctor
 	NumEaters(const Point& p, Direction::value d);
 
-	// dtor
-	//virtual ~NumEaters(){
-	//	delete targetLocPoint;
-	//	delete nextLocPoint;
-	//}
-
 	// Methods
 	virtual void printSighn();
-	virtual void move(int currIteration);
 };
 #endif

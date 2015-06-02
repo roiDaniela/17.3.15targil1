@@ -107,5 +107,8 @@
     <ClCompile Include="NumEaters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Direction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
