@@ -704,12 +704,12 @@ void TheMathGame::avoidNumEatersCrash(){
 		if ((numEater2.getDirection() == Direction::UP && numEater1.getDirection() == Direction::DOWN) ||
 			(numEater2.getDirection() == Direction::DOWN && numEater1.getDirection() == Direction::UP)){
 			numEater1.setDirection(Direction::LEFT);
-			//numEater2.setDirection(Direction::RIGHT);
+			numEater2.setDirection(Direction::RIGHT);
 		}
 		else if ((numEater2.getDirection() == Direction::RIGHT && numEater1.getDirection() == Direction::LEFT) ||
 			(numEater2.getDirection() == Direction::LEFT && numEater1.getDirection() == Direction::RIGHT)){
 			numEater1.setDirection(Direction::UP);
-			//numEater2.setDirection(Direction::DOWN);
+			numEater2.setDirection(Direction::DOWN);
 		}
 		else{
 			numEater2.setDirection(Direction::getOppositeDirection(numEater2.getDirection()));
