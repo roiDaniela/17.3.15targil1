@@ -77,19 +77,19 @@ void NumEaters::calcNumEaterDirection(Player pl1, Player pl2/*, NumEaters& c*/){
 		setDirection(Direction::RIGHT);
 	}
 	else if (((getTargetLocPoint().getX() < getLocationPoint().getX()) &&
-		(abs(getTargetLocPoint().getX() - getLocationPoint().getX()) < LENGH_OF_LINE / 2)) ||
+		(abs(getTargetLocPoint().getX() - getLocationPoint().getX()) <= LENGH_OF_LINE / 2)) ||
 		((getTargetLocPoint().getX() > getLocationPoint().getX()) &&
 		(abs(getTargetLocPoint().getX() - getLocationPoint().getX()) > LENGH_OF_LINE / 2))){
 		setDirection(Direction::LEFT);
 	}
 	else if ((getTargetLocPoint().getY() > getLocationPoint().getY() &&
-		abs(getTargetLocPoint().getY() - getLocationPoint().getY()) < LENGH_OF_PAGE / 2) ||
+		abs(getTargetLocPoint().getY() - getLocationPoint().getY()) <= LENGH_OF_PAGE / 2) ||
 		(getTargetLocPoint().getY() < getLocationPoint().getY() &&
 		abs(getTargetLocPoint().getY() - getLocationPoint().getY()) > LENGH_OF_PAGE / 2)){
 		setDirection(Direction::DOWN);
 	}
 	else if (((getTargetLocPoint().getY() < getLocationPoint().getY()) &&
-		(abs(getTargetLocPoint().getY() - getLocationPoint().getY()) < LENGH_OF_PAGE / 2)) ||
+		(abs(getTargetLocPoint().getY() - getLocationPoint().getY()) <= LENGH_OF_PAGE / 2)) ||
 		((getTargetLocPoint().getY() > getLocationPoint().getY()) &&
 		(abs(getTargetLocPoint().getY() - getLocationPoint().getY()) > LENGH_OF_PAGE / 2))){
 		setDirection(Direction::UP);

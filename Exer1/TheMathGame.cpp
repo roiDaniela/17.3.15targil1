@@ -70,6 +70,8 @@ void TheMathGame::initParams(int currentLevel){
 	setLevelResult(TheMathGame::NO_BODY_WON);
 	iterationCounter = 0;
 	cleanShootList();
+
+	// Init Player members
 	player1.initErrorCounter();
 	player1.initShootCounter();
 	initPlayerToFirstPosition(player1.getPlayerNumber());
@@ -84,27 +86,28 @@ void TheMathGame::initParams(int currentLevel){
 		player2.initWinCounter();
 	}
 
+	// Init All creatures members
 	cleanFlyersCreatureList();
 	
-	rowFlyer1.setLocationPoint(Point(30, 23));
+	rowFlyer1.setLocationPoint(Point(RowFlyers::ROWFLYERS_1_X_POSITION, RowFlyers::ROWFLYERS_1_Y_POSITION));
 	rowFlyer1.setDirection(Direction::RIGHT);
-	rowFlyer2.setLocationPoint(Point(50, 15));
+	rowFlyer2.setLocationPoint(Point(RowFlyers::ROWFLYERS_2_X_POSITION, RowFlyers::ROWFLYERS_2_Y_POSITION));
 	rowFlyer2.setDirection(Direction::LEFT);
-	colFlyer1.setLocationPoint(Point(45, 23));
+	colFlyer1.setLocationPoint(Point(ColFlyers::COLFLYERS_1_X_POSITION, ColFlyers::COLFLYERS_1_Y_POSITION));
 	colFlyer1.setDirection(Direction::UP);
-	colFlyer2.setLocationPoint(Point(55, 15));
+	colFlyer2.setLocationPoint(Point(ColFlyers::COLFLYERS_2_X_POSITION, ColFlyers::COLFLYERS_2_Y_POSITION));
 	colFlyer2.setDirection(Direction::DOWN);
 	
-	numEater1.setLocationPoint(Point(10, 19));
+	numEater1.setLocationPoint(Point(NumEaters::NUMEATER_1_X_POSITION, NumEaters::NUMEATER_1_Y_POSITION));
 	numEater1.setDirection(Direction::STAY);
 	numEater1.setIsAlive(true);
-	numEater2.setLocationPoint(Point(70, 19));
+	numEater2.setLocationPoint(Point(NumEaters::NUMEATER_2_X_POSITION, NumEaters::NUMEATER_2_Y_POSITION));
 	numEater2.setDirection(Direction::STAY);
-	numEater2.setIsAlive(false);
+	numEater2.setIsAlive(true);
 	
-	// Get the new target Point
-	GameDB.GetNearestPoint(numEater1.getLocationPoint());
-	GameDB.GetNearestPoint(numEater2.getLocationPoint());
+	// Get the new target Point 
+	numEater1.setTargetLocPoint(GameDB.GetNearestPoint(numEater1.getLocationPoint()));
+	numEater2.setTargetLocPoint(GameDB.GetNearestPoint(numEater2.getLocationPoint()));
 
 	addFlyer(&rowFlyer1);
 	addFlyer(&rowFlyer2);
@@ -240,6 +243,7 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		// Add random number to screen
 		Point pNewNumberAdded = addRandomNunberToScreen(currentLevel);
 		
+		// In begining of a game needed to get the nearest point, otherwise we can calc just the last targetLocation
 		if (numEater1.getTargetLocPoint() == numEater1.getLocationPoint()){
 			numEater1.setTargetLocPoint(GameDB.GetNearestPoint(numEater1.getLocationPoint()));
 		}
@@ -253,15 +257,7 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		else if (numEater2.getLocationPoint().calcDistance(pNewNumberAdded, LENGH_OF_LINE, LENGH_OF_PAGE) < numEater2.getLocationPoint().calcDistance(numEater2.getTargetLocPoint(), LENGH_OF_LINE, LENGH_OF_PAGE)){
 			numEater2.setTargetLocPoint(pNewNumberAdded);
 		}
-
-		// Get the new target Point
-		//setNewTargetPointForNumEater();
 	}
-
-	/*numEater1.setPlayer1LocPoint(player1.getNextLocation());
-	numEater1.setPlayer1LocPoint(player2.getNextLocation());
-	numEater2.setPlayer1LocPoint(player1.getNextLocation());
-	numEater2.setPlayer1LocPoint(player2.getNextLocation());*/
 }
 
 //---------------------------------------------------------------------------------------
@@ -269,11 +265,11 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 //---------------------------------------------------------------------------------------
 void TheMathGame::setNewTargetPointForNumEater(const Point& ptDeletedLoc){
 	if (numEater1.getTargetLocPoint() == ptDeletedLoc){
-		GameDB.GetNearestPoint(numEater1.getLocationPoint());
+		numEater1.setTargetLocPoint(GameDB.GetNearestPoint(numEater1.getLocationPoint()));
 	}
 
 	if (numEater2.getTargetLocPoint() == ptDeletedLoc){
-		GameDB.GetNearestPoint(numEater2.getLocationPoint());
+		numEater2.setTargetLocPoint(GameDB.GetNearestPoint(numEater2.getLocationPoint()));
 	}
 }
 
@@ -427,6 +423,56 @@ bool TheMathGame::handleCreatureCrashes(Creature& it, int currentLevel){
 }
 
 //---------------------------------------------------------------------------------------
+// this function handle Num eater crash Flyer
+//---------------------------------------------------------------------------------------
+bool TheMathGame::handleNumEaterCrashFlyers(){
+	bool isDeletedNumEater = false;
+
+	for (list<Creature*>::iterator itFlyer = listOfFlyers.begin(); itFlyer != listOfFlyers.end(); itFlyer++){
+		if ((numEater1.getIsAlive()) &&
+			(numEater1.getLocationPoint() == (*itFlyer)->getLocationPoint())){
+
+			numEater1.setIsAlive(false);
+
+			CleanScreenAtPoint(numEater1.getLocationPoint());
+
+			isDeletedNumEater = true;
+		}
+		else if ((numEater2.getIsAlive()) &&
+			(numEater2.getLocationPoint() == (*itFlyer)->getLocationPoint())){
+
+			numEater2.setIsAlive(false);
+
+			CleanScreenAtPoint(numEater2.getLocationPoint());
+
+			isDeletedNumEater = true;
+		}
+		else if ((numEater1.getIsAlive()) &&
+			(numEater1.getNextLocation() == (*itFlyer)->getLocationPoint())){
+			numEater1.move(getIterationCounter());
+
+			numEater1.setIsAlive(false);
+
+			CleanScreenAtPoint(numEater1.getLocationPoint());
+
+			isDeletedNumEater = true;
+		}
+		else if ((numEater2.getIsAlive()) &&
+			(numEater2.getNextLocation() == (*itFlyer)->getLocationPoint())){
+			numEater2.move(getIterationCounter());
+
+			numEater2.setIsAlive(false);
+
+			CleanScreenAtPoint(numEater2.getLocationPoint());
+
+			isDeletedNumEater = true;
+		}
+	}
+
+	return isDeletedNumEater;
+}
+
+//---------------------------------------------------------------------------------------
 // this function handle Num eater crash player
 //---------------------------------------------------------------------------------------
 bool TheMathGame::handleNumEaterCrashPlayer(){
@@ -494,6 +540,9 @@ bool TheMathGame::handleNumEaterCrashes(int currentLevel){
 	}
 
 	// Case crashed flyers
+	if (!isDeletedNumEater){
+		isDeletedNumEater = handleNumEaterCrashFlyers();
+	}
 
 	// Case crashed number
 	if (!isDeletedNumEater){
@@ -512,40 +561,24 @@ bool TheMathGame::handleNumEaterCrashNumber(){
 	if (numEater1.getIsAlive() && 
 		(GameDB.GetElementByPoint(numEater1.getLocationPoint()) != ScreenData::VALUE_NOT_FOUND)){
 		handleCreatureCrashNumber(numEater1.getLocationPoint());
-
-		// may needed to enter another point to search
-		numEater1.setTargetLocPoint(GameDB.GetNearestPoint(numEater1.getLocationPoint()));
-
-		//isDeletedNumEater = true;
 	}
 	else if (numEater2.getIsAlive() &&
 		    (GameDB.GetElementByPoint(numEater2.getLocationPoint()) != ScreenData::VALUE_NOT_FOUND)){
 		handleCreatureCrashNumber(numEater2.getLocationPoint());
-
-		// may needed to enter another point to search
-		numEater2.setTargetLocPoint(GameDB.GetNearestPoint(numEater2.getLocationPoint()));
-
-		//isDeletedNumEater = true;
 	}
 	else if (numEater1.getIsAlive() && 
 			(GameDB.GetElementByPoint(numEater1.getNextLocation()) != ScreenData::VALUE_NOT_FOUND)){
 		numEater1.move(getIterationCounter());
 		handleCreatureCrashNumber(numEater1.getLocationPoint());
 
-		// may needed to enter another point to search
-		numEater1.setTargetLocPoint(GameDB.GetNearestPoint(numEater1.getLocationPoint()));
-
-		//isDeletedNumEater = true;
+		isDeletedNumEater = true;
 	}
 	else if (numEater2.getIsAlive() &&
 		(GameDB.GetElementByPoint(numEater2.getNextLocation()) != ScreenData::VALUE_NOT_FOUND)){
 		numEater2.move(getIterationCounter());
 		handleCreatureCrashNumber(numEater2.getLocationPoint());
 
-		// may needed to enter another point to search
-		numEater2.setTargetLocPoint(GameDB.GetNearestPoint(numEater2.getLocationPoint()));
-
-		//isDeletedNumEater = true;
+		isDeletedNumEater = true;
 	}
 
 	return isDeletedNumEater;
@@ -587,7 +620,6 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 		it++;
 	}
 
-
 	// Move numEaters
 	calcNumEatersDirection();
 
@@ -609,14 +641,10 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 //---------------------------------------------------------------------------------------
 void TheMathGame::calcNumEatersDirection(){
 	if (numEater1.getIsAlive()){
-		// Debug
-		numEater1.setTargetLocPoint(GameDB.GetNearestPoint(numEater1.getLocationPoint()));
 		numEater1.calcNumEaterDirection(player1, player2);
 	}
 	
 	if (numEater2.getIsAlive()){
-		// Debug
-		numEater2.setTargetLocPoint(GameDB.GetNearestPoint(numEater2.getLocationPoint()));
 		numEater2.calcNumEaterDirection(player1, player2);
 	}
 
@@ -839,12 +867,12 @@ TheMathGame::TheMathGame() : excersisePlayer_1(NULL),
 							 player1(Player::One, iterationCounter),
 							 player2(Player::Two, iterationCounter),
 							 resultOfCurrLevel(NO_BODY_WON),
-							 rowFlyer1(Point(23,30), Direction::RIGHT),
-							 rowFlyer2(Point(50,15), Direction::LEFT),
-							 colFlyer1(Point(45,23), Direction::UP),
-							 colFlyer2(Point(55,15), Direction::DOWN),
-							 numEater1(Point(10, 19), Direction::STAY),
-							 numEater2(Point(70, 19), Direction::STAY){
+							 rowFlyer1(Point(RowFlyers::ROWFLYERS_1_X_POSITION,RowFlyers::ROWFLYERS_1_Y_POSITION), Direction::RIGHT),
+							 rowFlyer2(Point(RowFlyers::ROWFLYERS_2_X_POSITION, RowFlyers::ROWFLYERS_2_Y_POSITION), Direction::LEFT),
+							 colFlyer1(Point(ColFlyers::COLFLYERS_1_X_POSITION,ColFlyers::COLFLYERS_1_Y_POSITION), Direction::UP),
+							 colFlyer2(Point(ColFlyers::COLFLYERS_2_X_POSITION, ColFlyers::COLFLYERS_2_Y_POSITION), Direction::DOWN),
+							 numEater1(Point(NumEaters::NUMEATER_1_X_POSITION, NumEaters::NUMEATER_1_Y_POSITION), Direction::STAY),
+							 numEater2(Point(NumEaters::NUMEATER_2_X_POSITION, NumEaters::NUMEATER_2_Y_POSITION), Direction::STAY){
 
 }
 
@@ -898,13 +926,6 @@ void TheMathGame::addShoot(const Shoot& s){
 //---------------------------------------------------------------------------------------
 void TheMathGame::addFlyer(Creature* c){
 	listOfFlyers.push_back(c);
-}
-
-//---------------------------------------------------------------------------------------
-// this function removes creature from the game
-//---------------------------------------------------------------------------------------
-void TheMathGame::RemoveCreature(Creature* c){
-	//listOfFlyers.remove(c);
 }
 
 //---------------------------------------------------------------------------------------

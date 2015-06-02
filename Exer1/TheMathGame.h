@@ -102,6 +102,7 @@ private:
 	bool handleNumEaterCrashNumEater();
 	bool handleNumEaterCrashPlayer();
 	bool handleNumEaterCrashNumber();
+	bool handleNumEaterCrashFlyers();
 	void calcNumEatersDirection();
 	// Creature crashes
 	bool handleCreatureCrashes(Creature& it, int currentLevel);
@@ -119,7 +120,6 @@ public:
 	ScreenData& GetDB();
 	CreateExercise::ExerciseErrMsg checkExerciseSolved(Player& player, int currentLevel);
 	void addFlyer(Creature* c);
-	void RemoveCreature(Creature* c);
 	void addShoot(const Shoot& s);
 	CreateExercise& getExcercise(Player::numberOfPlayer playerNumber){ return ((playerNumber == Player::One) ? excersisePlayer_1: excersisePlayer_2); }
 	void setExercise(Player::numberOfPlayer playerNumber, unsigned int currentLevel);

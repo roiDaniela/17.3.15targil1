@@ -111,10 +111,10 @@ bool ScreenData::remove_point(const Point& ptPoint){
 		int tmpValue = GetElementByPoint(ptPoint);
 		if (tmpValue > TWO_DIGIT_VALUE &&
 			tmpValue != PLAYER1_SIGN   &&
-			tmpValue != PLAYER2_SIGN   &&
+			tmpValue != PLAYER2_SIGN   /*&&
 			tmpValue != SHOOT_SIGN	  &&
 			tmpValue != ROWFLYERS_SIGN &&
-			tmpValue != NUM_EATERS_SIGN){
+			tmpValue != NUM_EATERS_SIGN*/){
 			if (PointsData.find(Point(ptPoint.getX() + 1, ptPoint.getY())) != PointsData.end()){
 				tmp = PointsData.erase(Point(ptPoint.getX() + 1, ptPoint.getY()));// ||
 			}
@@ -149,7 +149,7 @@ Point ScreenData::GetNearestPoint(const Point& ptLocation, int Distance){
 				return p[j];
 		}
 	}
-	return Point(0,0);
+	return ptLocation/*Point(0,0)*/;
 }
 
 //---------------------------------------------------------------------------------------
@@ -158,10 +158,10 @@ Point ScreenData::GetNearestPoint(const Point& ptLocation, int Distance){
 Point ScreenData::GetNearestPoint(const Point& PtLocation){
 	// If the screen has more then half full than each coordinate is 
 	// more then 50% set so then ring search is more efficient
-	static const int RING_SEARCH = ((80 / 2) * (24 - 4)) / 2;
+	static const int RING_SEARCH = ((LENGH_OF_LINE/*80*/ / 2) * (LENGH_OF_PAGE /*24*/ - 4)) / 2;
 	if (PointsData.size() <= RING_SEARCH )
 		return GetNearestPointByGeneralSearch(PtLocation);
-	return GetNearestPointByRingSearch(PtLocation, 80);
+	return GetNearestPointByRingSearch(PtLocation, /*80*/LENGH_OF_LINE);
 }
 
 //---------------------------------------------------------------------------------------
@@ -170,10 +170,10 @@ Point ScreenData::GetNearestPoint(const Point& PtLocation){
 Point ScreenData::GetNearestPointByRingSearch(const Point& PtLocation, const int RingSize ){
 		for (int i = 1; i<RingSize; ++i) {
 			Point ptTmp = GetNearestPoint(PtLocation, i);
-			if (ptTmp!=Point(0,0)) 
+			if (ptTmp!=PtLocation/*Point(0,0)*/) 
 				return ptTmp;
 		}
-		return Point(0,0);
+		return PtLocation/*Point(0,0)*/;
 }
 
 //---------------------------------------------------------------------------------------
@@ -181,7 +181,7 @@ Point ScreenData::GetNearestPointByRingSearch(const Point& PtLocation, const int
 //---------------------------------------------------------------------------------------
 Point ScreenData::GetNearestPointByGeneralSearch(const Point& PtLocation){
 	int tmpDistance = 300;
-	Point* tmpPoint = new Point(0,0);
+	Point* tmpPoint = new Point(PtLocation);
 	for (std::map<Point,int>::iterator cIter  = PointsData.begin(); cIter != PointsData.end(); cIter++){
 		int tmp = 0;
 		if (!IsValueACreature(cIter->second)){
@@ -197,7 +197,7 @@ Point ScreenData::GetNearestPointByGeneralSearch(const Point& PtLocation){
 	int tmpValue = GetElementByPoint(*tmpPoint);
 	
 	if ( IsValueACreature(tmpValue) && tmpValue != NUM_EATERS_SIGN )
-		return Point(0,0);
+		return PtLocation/*Point(0,0)*/;
 
 
 	return *tmpPoint;
