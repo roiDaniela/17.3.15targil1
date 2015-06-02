@@ -100,7 +100,7 @@ void TheMathGame::initParams(int currentLevel){
 	numEater1.setIsAlive(true);
 	numEater2.setLocationPoint(Point(70, 19));
 	numEater2.setDirection(Direction::STAY);
-	numEater2.setIsAlive(true);
+	numEater2.setIsAlive(false);
 	
 	// Get the new target Point
 	GameDB.GetNearestPoint(numEater1.getLocationPoint());
@@ -587,6 +587,7 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 		it++;
 	}
 
+
 	// Move numEaters
 	calcNumEatersDirection();
 
@@ -608,10 +609,14 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 //---------------------------------------------------------------------------------------
 void TheMathGame::calcNumEatersDirection(){
 	if (numEater1.getIsAlive()){
+		// Debug
+		numEater1.setTargetLocPoint(GameDB.GetNearestPoint(numEater1.getLocationPoint()));
 		numEater1.calcNumEaterDirection(player1, player2);
 	}
 	
 	if (numEater2.getIsAlive()){
+		// Debug
+		numEater2.setTargetLocPoint(GameDB.GetNearestPoint(numEater2.getLocationPoint()));
 		numEater2.calcNumEaterDirection(player1, player2);
 	}
 

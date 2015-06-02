@@ -156,9 +156,12 @@ Point ScreenData::GetNearestPoint(const Point& ptLocation, int Distance){
 // this function gets the nearest point
 //---------------------------------------------------------------------------------------
 Point ScreenData::GetNearestPoint(const Point& PtLocation){
-	if (PointsData.size() < 100)
+	// If the screen has more then half full than each coordinate is 
+	// more then 50% set so then ring search is more efficient
+	static const int RING_SEARCH = ((80 / 2) * (24 - 4)) / 2;
+	if (PointsData.size() <= RING_SEARCH )
 		return GetNearestPointByGeneralSearch(PtLocation);
-	return GetNearestPointByRingSearch(PtLocation, 20);
+	return GetNearestPointByRingSearch(PtLocation, 80);
 }
 
 //---------------------------------------------------------------------------------------

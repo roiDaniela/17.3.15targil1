@@ -28,16 +28,19 @@ bool Point::IsPointsAdjacent(const Point& pointToCompare) {
 // this function checks if the value is a creature
 //---------------------------------------------------------------------------------------
 int Point::calcDistance(const Point& ptLocation, int max_x_size, int max_y_size) const{
+	const int TOP_OF_SCREEN = 3;
 	int tmp = 0;
 	if (abs(getX() - ptLocation.getX()) > max_x_size / 2){
-		tmp += (getX() + ptLocation.getX()) % max_x_size;
+		//tmp += (getX() + ptLocation.getX()) % max_x_size;
+		tmp += (max_x_size - abs(getX() - ptLocation.getX()));
 	}
 	else{
 		tmp += abs(getX() - ptLocation.getX());
 	}
 
 	if (abs(getY() - ptLocation.getY()) > max_y_size / 2){
-		tmp += (getY() + ptLocation.getY()) % max_y_size;
+		//tmp += (getY() + ptLocation.getY()) % max_y_size;
+		tmp += max_y_size - TOP_OF_SCREEN - abs(getY() - ptLocation.getY());
 	}
 	else{
 		tmp += abs(getY() - ptLocation.getY());
