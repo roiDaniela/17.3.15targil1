@@ -104,11 +104,7 @@ private:
 	bool handleNumEaterCrashNumber();
 	bool handleNumEaterCrashFlyers();
 	void calcNumEatersDirection();
-	bool calcNearStep(const NumEaters& nEater, const Point& pToCompare);
-	/*void avoidCrashes();
-	void avoidCrashesWithPlayer(NumEaters&);
-	void avoidNumEatersCrash();
-	void avoidNumEatersCrashWithFlyer(NumEaters&);*/
+	bool checkNearStep(const NumEaters& nEater, const Point& pToCompare);
 	// Creature crashes
 	bool handleCreatureCrashes(Creature& it, int currentLevel);
 	void handleCreatureCrashNumber(const Point& p);

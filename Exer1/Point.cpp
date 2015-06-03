@@ -31,7 +31,6 @@ int Point::calcDistance(const Point& ptLocation, int max_x_size, int max_y_size)
 	const int TOP_OF_SCREEN = 3;
 	int tmp = 0;
 	if (abs(getX() - ptLocation.getX()) > max_x_size / 2){
-		//tmp += (getX() + ptLocation.getX()) % max_x_size;
 		tmp += (max_x_size - abs(getX() - ptLocation.getX()));
 	}
 	else{
@@ -39,7 +38,6 @@ int Point::calcDistance(const Point& ptLocation, int max_x_size, int max_y_size)
 	}
 
 	if (abs(getY() - ptLocation.getY()) > max_y_size / 2){
-		//tmp += (getY() + ptLocation.getY()) % max_y_size;
 		tmp += max_y_size - TOP_OF_SCREEN - abs(getY() - ptLocation.getY());
 	}
 	else{
@@ -56,19 +54,19 @@ void Point::fixPointToScreenSize(){
 	int x = getX();
 	int y = getY();
 
-	if (y > 24){
-		y = (y % 24) + 3 - 1;
+	if (y > MAX_Y_SIZE){
+		y = (y % MAX_Y_SIZE) + FIRST_DISCREPTION_LINES - 1;
 	}
-	else if (y <= 3){
-		y = 24 - (y % 3);
+	else if (y <= FIRST_DISCREPTION_LINES){
+		y = MAX_Y_SIZE - abs(y % FIRST_DISCREPTION_LINES);
 	}
 
 
-	if (x >= 80){
-		x = (x % 80);
+	if (x >= MAX_X_SIZE){
+		x = (x % MAX_X_SIZE);
 	}
-	else if (x == -1){
-		x = 79;
+	else if (x < 0){
+		x = MAX_X_SIZE - abs(x % MAX_X_SIZE);
 	}
 
 	setX(x);

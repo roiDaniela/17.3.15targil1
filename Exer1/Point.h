@@ -20,7 +20,11 @@ using namespace std;
 
 class Point
 {
-private:	
+private:
+	static const int MAX_Y_SIZE = 24;
+	static const int MAX_X_SIZE = 80;
+	static const int FIRST_DISCREPTION_LINES = 3;
+
 	int x,y; 
 public:
 	//Ctor

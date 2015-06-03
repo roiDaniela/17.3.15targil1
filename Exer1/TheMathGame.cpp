@@ -180,8 +180,6 @@ void TheMathGame::prepareStatusSentenceOnScreen(){
 void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLevel){
 	bool isPlayer1ShootedThisIteration = false;
 	bool isPlayer2ShootedThisIteration = false;
-	
-	//Point* ptDebugNearestPoint = GameDB.GetNearestPoint(numEater1.getLocationPoint());
 
 	prepareStatusSentenceOnScreen();
 	
@@ -247,14 +245,14 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		if (numEater1.getTargetLocPoint() == numEater1.getLocationPoint()){
 			numEater1.setTargetLocPoint(GameDB.GetNearestPoint(numEater1.getLocationPoint()));
 		}
-		else if (numEater1.getLocationPoint().calcDistance(pNewNumberAdded, LENGH_OF_LINE, LENGH_OF_PAGE) < numEater1.getLocationPoint().calcDistance(numEater1.getTargetLocPoint(), LENGH_OF_LINE, LENGH_OF_PAGE)){
+		else if (numEater1.getLocationPoint().calcDistance(pNewNumberAdded, LENGH_OF_LINE, LENGH_OF_PAGE - 4) < numEater1.getLocationPoint().calcDistance(numEater1.getTargetLocPoint(), LENGH_OF_LINE, LENGH_OF_PAGE)){
 			numEater1.setTargetLocPoint(pNewNumberAdded);
 		}
 		
 		if (numEater2.getTargetLocPoint() == numEater2.getLocationPoint()){
 			numEater2.setTargetLocPoint(GameDB.GetNearestPoint(numEater2.getLocationPoint()));
 		}
-		else if (numEater2.getLocationPoint().calcDistance(pNewNumberAdded, LENGH_OF_LINE, LENGH_OF_PAGE) < numEater2.getLocationPoint().calcDistance(numEater2.getTargetLocPoint(), LENGH_OF_LINE, LENGH_OF_PAGE)){
+		else if (numEater2.getLocationPoint().calcDistance(pNewNumberAdded, LENGH_OF_LINE, LENGH_OF_PAGE - 4) < numEater2.getLocationPoint().calcDistance(numEater2.getTargetLocPoint(), LENGH_OF_LINE, LENGH_OF_PAGE)){
 			numEater2.setTargetLocPoint(pNewNumberAdded);
 		}
 	}
@@ -623,6 +621,17 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 	// Move numEaters
 	calcNumEatersDirection();
 
+	// Get the new target Point if not exist
+	if ((numEater1.getIsAlive() && numEater1.getDirection() == Direction::STAY) && 
+		(GameDB.getDBSize() > 2)){
+		numEater1.setTargetLocPoint(GameDB.GetNearestPoint(numEater1.getLocationPoint()));
+	}
+
+	if ((numEater2.getIsAlive() && numEater2.getDirection() == Direction::STAY) &&
+		(GameDB.getDBSize() > 2)){
+		numEater2.setTargetLocPoint(GameDB.GetNearestPoint(numEater2.getLocationPoint()));
+	}
+
 	isTouched = handleNumEaterCrashes(currentLevel);
 
 	if (!isTouched){
@@ -636,7 +645,7 @@ void TheMathGame::doSubIteration(unsigned int currentLevel){
 	}
 }
 
-bool TheMathGame::calcNearStep(const NumEaters& nEater, const Point& pToCompare){
+bool TheMathGame::checkNearStep(const NumEaters& nEater, const Point& pToCompare){
 	bool bIsCrashOnTrace = false;
 
 	// Check if players are on his trace
@@ -685,129 +694,23 @@ void TheMathGame::calcNumEatersDirection(){
 	bool bIsUp2, bIsDown2, bIsRight2, bIsLeft2;
 
 	if (numEater1.getIsAlive()){
-		bIsUp1 = calcNearStep(numEater1, numEater1.nextStep(Direction::UP));
-		bIsDown1 = calcNearStep(numEater1, numEater1.nextStep(Direction::DOWN));
-		bIsRight1 = calcNearStep(numEater1, numEater1.nextStep(Direction::RIGHT));
-		bIsLeft1 = calcNearStep(numEater1, numEater1.nextStep(Direction::LEFT));
+		bIsUp1 = checkNearStep(numEater1, numEater1.nextStep(Direction::UP));
+		bIsDown1 = checkNearStep(numEater1, numEater1.nextStep(Direction::DOWN));
+		bIsRight1 = checkNearStep(numEater1, numEater1.nextStep(Direction::RIGHT));
+		bIsLeft1 = checkNearStep(numEater1, numEater1.nextStep(Direction::LEFT));
 
 		numEater1.calcNumEaterDirection(bIsUp1, bIsDown1, bIsRight1, bIsLeft1);
 	}
 	
 	if (numEater2.getIsAlive()){
-		bIsUp2 = calcNearStep(numEater2, numEater2.nextStep(Direction::UP));
-		bIsDown2 = calcNearStep(numEater2, numEater2.nextStep(Direction::DOWN));
-		bIsRight2 = calcNearStep(numEater2, numEater2.nextStep(Direction::RIGHT));
-		bIsLeft2 = calcNearStep(numEater2, numEater2.nextStep(Direction::LEFT));
+		bIsUp2 = checkNearStep(numEater2, numEater2.nextStep(Direction::UP));
+		bIsDown2 = checkNearStep(numEater2, numEater2.nextStep(Direction::DOWN));
+		bIsRight2 = checkNearStep(numEater2, numEater2.nextStep(Direction::RIGHT));
+		bIsLeft2 = checkNearStep(numEater2, numEater2.nextStep(Direction::LEFT));
 
 		numEater2.calcNumEaterDirection(bIsUp2, bIsDown2, bIsRight2, bIsLeft2);
 	}
-
-	// Avoid crashes with other creatures
-	//avoidCrashes();
 }
-
-//---------------------------------------------------------------------------------------
-// this function avoid crashes with players
-//---------------------------------------------------------------------------------------
-//void TheMathGame::avoidCrashesWithPlayer(NumEaters& nEater){
-//	if (nEater.getIsAlive()){
-//		if ((player1.getLocationPoint() == nEater.getNextLocation() ||
-//			player1.getNextLocation() == nEater.getNextLocation() ||
-//			player1.getNextNextLocation() == nEater.getNextLocation() ||
-//			player1.getLocationPoint() == nEater.getLocationPoint() ||
-//			player1.getNextLocation() == nEater.getLocationPoint() ||
-//			player1.getNextNextLocation() == nEater.getLocationPoint()) &&
-//			(player2.getLocationPoint() == nEater.getNextLocation() ||
-//			player2.getNextLocation() == nEater.getNextLocation() ||
-//			player2.getNextNextLocation() == nEater.getNextLocation() ||
-//			player2.getLocationPoint() == nEater.getLocationPoint() ||
-//			player2.getNextLocation() == nEater.getLocationPoint() ||
-//			player2.getNextNextLocation() == nEater.getLocationPoint())){
-//			nEater.setDirection(Direction::getOrthogonalDirection(nEater.getDirection()));
-//		}
-//		else if (player1.getLocationPoint() == nEater.getNextLocation() ||
-//			player1.getNextLocation() == nEater.getNextLocation() ||
-//			player1.getNextNextLocation() == nEater.getNextLocation() ||
-//			player1.getLocationPoint() == nEater.getLocationPoint() ||
-//			player1.getNextLocation() == nEater.getLocationPoint() ||
-//			player1.getNextNextLocation() == nEater.getLocationPoint()){
-//			//setDirection(Direction::getOppositeDirection(getDirection()));
-//			nEater.setDirection(Direction::getOrthogonalDirection(nEater.getDirection()));
-//		}
-//		else if (player2.getLocationPoint() == nEater.getNextLocation() ||
-//			player2.getNextLocation() == nEater.getNextLocation() ||
-//			player2.getNextNextLocation() == nEater.getNextLocation() ||
-//			player2.getLocationPoint() == nEater.getLocationPoint() ||
-//			player2.getNextLocation() == nEater.getLocationPoint() ||
-//			player2.getNextNextLocation() == nEater.getLocationPoint()){
-//			//setDirection(Direction::getOppositeDirection(getDirection()));
-//			nEater.setDirection(Direction::getOrthogonalDirection(nEater.getDirection()));
-//		}
-//	}
-//}
-
-//---------------------------------------------------------------------------------------
-// this function avoid numEaters Crash
-//---------------------------------------------------------------------------------------
-//void TheMathGame::avoidNumEatersCrash(){
-//	if ((numEater1.getIsAlive() && numEater2.getIsAlive()) &&
-//		(numEater1.getLocationPoint() == numEater2.getNextLocation() ||
-//		numEater1.getNextLocation() == numEater2.getNextLocation() ||
-//		numEater1.getLocationPoint() == numEater2.getLocationPoint() ||
-//		numEater1.getNextLocation() == numEater2.getLocationPoint())){
-//		if ((numEater2.getDirection() == Direction::UP && numEater1.getDirection() == Direction::DOWN) ||
-//			(numEater2.getDirection() == Direction::DOWN && numEater1.getDirection() == Direction::UP)){
-//			numEater1.setDirection(Direction::LEFT);
-//			numEater2.setDirection(Direction::RIGHT);
-//		}
-//		else if ((numEater2.getDirection() == Direction::RIGHT && numEater1.getDirection() == Direction::LEFT) ||
-//			(numEater2.getDirection() == Direction::LEFT && numEater1.getDirection() == Direction::RIGHT)){
-//			numEater1.setDirection(Direction::UP);
-//			numEater2.setDirection(Direction::DOWN);
-//		}
-//		else{
-//			numEater2.setDirection(Direction::getOppositeDirection(numEater2.getDirection()));
-//		}
-//		//setDirection(Direction::getOrthogonalDirection(getDirection()));
-//	}
-//}
-//
-////---------------------------------------------------------------------------------------
-//// this function avoid crashes
-////---------------------------------------------------------------------------------------
-//void TheMathGame::avoidNumEatersCrashWithFlyer(NumEaters& nEater){
-//	if (nEater.getIsAlive()){
-//		for (list<Creature*>::iterator it = listOfFlyers.begin(); it != listOfFlyers.end(); it++){
-//			if ((*it)->getLocationPoint() == nEater.getNextLocation() ||
-//				(*it)->getNextLocation() == nEater.getNextLocation() ||
-//				(*it)->getLocationPoint() == nEater.getLocationPoint() ||
-//				(*it)->getNextLocation() == nEater.getLocationPoint()){
-//				// If numeater is right and flter is left for etc
-//				//if (nEater.getDirection() == Direction::getOppositeDirection((*it)->getDirection())){
-//					nEater.setDirection(Direction::getOrthogonalDirection(nEater.getDirection()));
-//				/*}
-//				else{
-//					nEater.setDirection(Direction::STAY);
-//				}*/
-//			}
-//		}
-//	}
-//}
-////---------------------------------------------------------------------------------------
-//// this function avoid crashes
-////---------------------------------------------------------------------------------------
-//void TheMathGame::avoidCrashes(){
-//	// Avoid crashes with players
-//	avoidCrashesWithPlayer(numEater1);
-//	avoidCrashesWithPlayer(numEater2);
-//
-//	// Avoid numEaters crash flyers
-//	avoidNumEatersCrashWithFlyer(numEater1);
-//	avoidNumEatersCrashWithFlyer(numEater2);
-//
-//	// Avoid numeaters crashing
-//	avoidNumEatersCrash();
-//}
 
 //---------------------------------------------------------------------------------------
 // this function handle numEater crash
@@ -844,17 +747,6 @@ bool TheMathGame::handleNumEaterCrashNumEater(){
 
 			isDeletedNumEater = true;
 		}
-		//else if (numEater1.getNextLocation() == numEater2.getNextLocation()){
-		//	numEater1.move(getIterationCounter());
-		//	numEater2.move(getIterationCounter());
-
-		//	numEater1.setIsAlive(false);
-		//	numEater2.setIsAlive(false);
-
-		//	CleanScreenAtPoint(numEater1.getLocationPoint());
-
-		//	isDeletedNumEater = true;
-		//}
 	}
 
 	return isDeletedNumEater;
@@ -864,10 +756,17 @@ bool TheMathGame::handleNumEaterCrashNumEater(){
 //---------------------------------------------------------------------------------------
 CreateExercise::ExerciseErrMsg TheMathGame::checkExerciseSolved(Player& player, int currentLevel){
 	CreateExercise::ExerciseErrMsg ExerMsgForPlayer = getExcercise(player.getPlayerNumber()).IsProblemSolved(GameDB.GetElementByPoint(player.getLocationPoint()));
-
+	
 	//check if won
 	if (ExerMsgForPlayer == CreateExercise::SOLVED){
 		setGameWinner(player);
+	}
+
+	if (ExerMsgForPlayer != CreateExercise::SOLVED &&
+		(GameDB.GetElementByPoint(player.getLocationPoint()) != ScreenData::VALUE_NOT_FOUND &&
+		GameDB.GetElementByPoint(player.getLocationPoint()) != CreateExercise::PLAYER_ONE_VALUE_INSERTED &&
+		GameDB.GetElementByPoint(player.getLocationPoint()) != CreateExercise::PLAYER_TWO_VALUE_INSERTED)){
+		setNewTargetPointForNumEater(player.getLocationPoint());
 	}
 
 	return ExerMsgForPlayer;

@@ -136,7 +136,7 @@ bool ScreenData::remove_point(const Point& ptPoint){
 Point ScreenData::GetNearestPoint(const Point& ptLocation, int Distance){
 	for (int i = 0; i < Distance; ++i) {
 		Point p1(ptLocation.getX() - i , ptLocation.getY() + i - Distance);
-		Point p2(ptLocation.getX() + i, ptLocation.getY() + i - Distance);
+		Point p2(ptLocation.getX() + i, ptLocation.getY() - i + Distance);
 		Point p3(ptLocation.getX() - i + Distance, ptLocation.getY() - i);
 		Point p4(ptLocation.getX() + i - Distance, ptLocation.getY() + i);
 
@@ -163,7 +163,7 @@ Point ScreenData::GetNearestPoint(const Point& PtLocation){
 	// If the screen has more then half full than each coordinate is 
 	// more then 50% set so then ring search is more efficient
 	static const int RING_SEARCH = ((LENGH_OF_LINE / 2) * (LENGH_OF_PAGE - 4)) / 2;
-	if (PointsData.size() <= 2/*RING_SEARCH*/ )
+	if (PointsData.size() <= RING_SEARCH )
 		return GetNearestPointByGeneralSearch(PtLocation);
 	return GetNearestPointByRingSearch(PtLocation/*, LENGH_OF_LINE*/);
 }
@@ -172,7 +172,7 @@ Point ScreenData::GetNearestPoint(const Point& PtLocation){
 // this function get the nearest point by ring search
 //---------------------------------------------------------------------------------------
 Point ScreenData::GetNearestPointByRingSearch(const Point& PtLocation/*, const int RingSize */){
-		for (int i = 1; i<LENGH_OF_LINE/2; ++i) {
+		for (int i = 1; i<=(LENGH_OF_LINE/2 + LENGH_OF_PAGE/2 - 4); ++i) {
 			Point ptTmp = GetNearestPoint(PtLocation, i);
 			if (ptTmp!=PtLocation/*Point(0,0)*/) 
 				return ptTmp;

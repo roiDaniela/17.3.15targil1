@@ -46,6 +46,7 @@ public:
 	int GetElementByPoint(const Point& ptPoint);
 	void clear_data();
 	Point GetNearestPoint(const Point& PtLocation);
+	int getDBSize(){ return PointsData.size(); }
 };
 
 #endif
