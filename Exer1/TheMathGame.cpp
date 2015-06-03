@@ -245,14 +245,14 @@ void TheMathGame::doIteration(const list<char>& keyHits, unsigned int currentLev
 		if (numEater1.getTargetLocPoint() == numEater1.getLocationPoint()){
 			numEater1.setTargetLocPoint(GameDB.GetNearestPoint(numEater1.getLocationPoint()));
 		}
-		else if (numEater1.getLocationPoint().calcDistance(pNewNumberAdded, LENGH_OF_LINE, LENGH_OF_PAGE - 4) < numEater1.getLocationPoint().calcDistance(numEater1.getTargetLocPoint(), LENGH_OF_LINE, LENGH_OF_PAGE)){
+		else if (numEater1.getLocationPoint().calcDistance(pNewNumberAdded, LENGH_OF_LINE, LENGH_OF_PAGE) < numEater1.getLocationPoint().calcDistance(numEater1.getTargetLocPoint(), LENGH_OF_LINE, LENGH_OF_PAGE)){
 			numEater1.setTargetLocPoint(pNewNumberAdded);
 		}
 		
 		if (numEater2.getTargetLocPoint() == numEater2.getLocationPoint()){
 			numEater2.setTargetLocPoint(GameDB.GetNearestPoint(numEater2.getLocationPoint()));
 		}
-		else if (numEater2.getLocationPoint().calcDistance(pNewNumberAdded, LENGH_OF_LINE, LENGH_OF_PAGE - 4) < numEater2.getLocationPoint().calcDistance(numEater2.getTargetLocPoint(), LENGH_OF_LINE, LENGH_OF_PAGE)){
+		else if (numEater2.getLocationPoint().calcDistance(pNewNumberAdded, LENGH_OF_LINE, LENGH_OF_PAGE) < numEater2.getLocationPoint().calcDistance(numEater2.getTargetLocPoint(), LENGH_OF_LINE, LENGH_OF_PAGE)){
 			numEater2.setTargetLocPoint(pNewNumberAdded);
 		}
 	}
