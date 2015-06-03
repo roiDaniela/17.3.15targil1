@@ -1,7 +1,7 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // ColFlyers.h
 // -----------
-// This file is the creature num eaters 
+// This file is the creature cl flyers
 //
 // Author: Roi Fogler && Motty Katz 
 // First version: 2015-03-22

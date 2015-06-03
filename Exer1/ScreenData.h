@@ -24,7 +24,7 @@ class ScreenData
 
 private:
 	map<Point, int  > PointsData;
-	Point GetNearestPointByRingSearch(const Point& PtLocation/*, const int RingSize*/);
+	Point GetNearestPointByRingSearch(const Point& PtLocation);
 	Point GetNearestPointByGeneralSearch(const Point& PtLocation);
 	Point GetNearestPoint(const Point& ptLocation, int Distance );
 	bool IsValueACreature(const int value);

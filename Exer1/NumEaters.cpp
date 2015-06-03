@@ -18,8 +18,7 @@
 // ctor
 //---------------------------------------------------------------------------------------
 NumEaters::NumEaters(const Point& p, Direction::value d) : Creature(p, d), targetLocPoint(locationPoint)/*, pPlayer1Loc(p1), pPlayer2Loc(p2)*/{
-	// calc trace
-	//move();
+
 }
 
 
@@ -31,19 +30,6 @@ void NumEaters::printSighn(){
 	cout << NUM_EATERS_SIGN;
 }
 
-//---------------------------------------------------------------------------------------
-// this method set next loc point
-//---------------------------------------------------------------------------------------
-//void NumEaters::setNextLocPoint(const Point& p){
-//	nextLocPoint = p;
-//}
-
-//---------------------------------------------------------------------------------------
-// this method set next loc point
-//---------------------------------------------------------------------------------------
-//void NumEaters::setNextLocPoint(unsigned int x, unsigned int y){
-//	setNextLocPoint(Point(x, y));
-//}
 //---------------------------------------------------------------------------------------
 // this method set target loc point
 //---------------------------------------------------------------------------------------

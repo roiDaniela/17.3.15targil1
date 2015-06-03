@@ -1,7 +1,7 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// ColFlyers.h
+// RowFlyers.h
 // -----------
-// This file is the creature num eaters 
+// This file is the creature row Flyers
 //
 // Author: Roi Fogler && Motty Katz 
 // First version: 2015-03-22

@@ -34,10 +34,6 @@ public:
 		LEFT,
 		STAY
 	};
-
-	// Private methods
-	static value getOppositeDirection(value d);
-	static value getOrthogonalDirection(value d);
 };
 
 #endif
