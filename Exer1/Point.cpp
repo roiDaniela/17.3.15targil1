@@ -48,3 +48,29 @@ int Point::calcDistance(const Point& ptLocation, int max_x_size, int max_y_size)
 
 	return tmp;
 }
+
+//---------------------------------------------------------------------------------------
+// this method fix point to screen size
+//---------------------------------------------------------------------------------------
+void Point::fixPointToScreenSize(){
+	int x = getX();
+	int y = getY();
+
+	if (y > 24){
+		y = (y % 24) + 3 - 1;
+	}
+	else if (y <= 3){
+		y = 24 - (y % 3);
+	}
+
+
+	if (x >= 80){
+		x = (x % 80);
+	}
+	else if (x == -1){
+		x = 79;
+	}
+
+	setX(x);
+	setY(y);
+}

@@ -38,7 +38,10 @@ public:
 	bool getIsAlive(){ return isAlive; }
 	void setIsAlive(bool isA){ isAlive = isA; }
 
-	void calcNumEaterDirection(/*Player, Player*/);
+	void calcNumEaterDirection(bool nIsUp = false, 
+		                       bool bIsDown = false, 
+							   bool bIsRight = false, 
+							   bool bIsLeft = false);
 	
 	// ctor
 	NumEaters(const Point& p, Direction::value d);

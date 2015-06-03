@@ -135,17 +135,21 @@ bool ScreenData::remove_point(const Point& ptPoint){
 //---------------------------------------------------------------------------------------
 Point ScreenData::GetNearestPoint(const Point& ptLocation, int Distance){
 	for (int i = 0; i < Distance; ++i) {
-		Point p[4] = {
-			// let's assume Point c'tor fix x,y that are outside of
-			// screen borders to the correct place inside screen borders
-			Point((ptLocation.getX() - i) % LENGH_OF_LINE, (ptLocation.getY() + i - Distance) % LENGH_OF_PAGE),
-			Point((ptLocation.getX() + i) % LENGH_OF_LINE, (ptLocation.getY() - i + Distance) % LENGH_OF_PAGE),
-			Point((ptLocation.getX() - i + Distance) % LENGH_OF_LINE, (ptLocation.getY() + i) % LENGH_OF_PAGE),
-			Point((ptLocation.getX() + i - Distance) % LENGH_OF_LINE, (ptLocation.getY() - i) % LENGH_OF_PAGE) };
+		Point p1(ptLocation.getX() - i , ptLocation.getY() + i - Distance);
+		Point p2(ptLocation.getX() + i, ptLocation.getY() + i - Distance);
+		Point p3(ptLocation.getX() - i + Distance, ptLocation.getY() - i);
+		Point p4(ptLocation.getX() + i - Distance, ptLocation.getY() + i);
+
+		p1.fixPointToScreenSize();
+		p2.fixPointToScreenSize();
+		p3.fixPointToScreenSize();
+		p4.fixPointToScreenSize();
+
+		Point p[4] = { p1, p2, p3, p4 };
 		
 		for (int j = 0; j < 4 ; ++j ) {
 			int tmp = GetElementByPoint(p[j]);
-			if (tmp != VALUE_NOT_FOUND && !IsValueACreature(tmp) && tmp != NUM_EATERS_SIGN )
+			if (tmp != VALUE_NOT_FOUND && !IsValueACreature(tmp))
 				return p[j];
 		}
 	}
@@ -158,17 +162,17 @@ Point ScreenData::GetNearestPoint(const Point& ptLocation, int Distance){
 Point ScreenData::GetNearestPoint(const Point& PtLocation){
 	// If the screen has more then half full than each coordinate is 
 	// more then 50% set so then ring search is more efficient
-	static const int RING_SEARCH = ((LENGH_OF_LINE/*80*/ / 2) * (LENGH_OF_PAGE /*24*/ - 4)) / 2;
-	if (PointsData.size() <= RING_SEARCH )
+	static const int RING_SEARCH = ((LENGH_OF_LINE / 2) * (LENGH_OF_PAGE - 4)) / 2;
+	if (PointsData.size() <= 2/*RING_SEARCH*/ )
 		return GetNearestPointByGeneralSearch(PtLocation);
-	return GetNearestPointByRingSearch(PtLocation, /*80*/LENGH_OF_LINE);
+	return GetNearestPointByRingSearch(PtLocation/*, LENGH_OF_LINE*/);
 }
 
 //---------------------------------------------------------------------------------------
 // this function get the nearest point by ring search
 //---------------------------------------------------------------------------------------
-Point ScreenData::GetNearestPointByRingSearch(const Point& PtLocation, const int RingSize ){
-		for (int i = 1; i<RingSize; ++i) {
+Point ScreenData::GetNearestPointByRingSearch(const Point& PtLocation/*, const int RingSize */){
+		for (int i = 1; i<LENGH_OF_LINE/2; ++i) {
 			Point ptTmp = GetNearestPoint(PtLocation, i);
 			if (ptTmp!=PtLocation/*Point(0,0)*/) 
 				return ptTmp;

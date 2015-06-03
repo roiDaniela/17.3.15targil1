@@ -30,50 +30,44 @@ void Creature::setLocationPoint(unsigned int x, unsigned int y){
 }
 
 //---------------------------------------------------------------------------------------
-// this method calculate the next location by the direction
+// this method calc the next step
 //---------------------------------------------------------------------------------------
-void Creature::calcTargetPoint(Point& targetPoint) const{
-
-	// Take care all opptional directions
-	//if (targetPoint != getLocationPoint()){
-	//	targetPoint = getLocationPoint();
-	//}
-	Direction::value d = getDirection();
-	// screen is 24X80 needs to be cyclic
-	switch (getDirection())
+Point Creature::nextStep(Direction::value d) const{
+	Point tmp(getLocationPoint());
+	switch (d)
 	{
 	case Direction::DOWN:{
-		if (targetPoint.getY() + 1 > LENGH_OF_PAGE){
-			targetPoint.setY(((targetPoint.getY() + 1) % LENGH_OF_PAGE) + AMOUNT_OF_INSTRUCTIONS_LINE - 1);
+		/*if (tmp.getY() + 1 > LENGH_OF_PAGE){
+			tmp.setY(((tmp.getY() + 1) % LENGH_OF_PAGE) + AMOUNT_OF_INSTRUCTIONS_LINE - 1);
 		}
-		else{
-			targetPoint.setY(targetPoint.getY() + 1);
-		}
+		else{*/
+			tmp.setY(tmp.getY() + 1);
+		/*}*/
 
 		break;
 	}
 	case Direction::UP:{
-		if (targetPoint.getY() - 1 <= AMOUNT_OF_INSTRUCTIONS_LINE){
-			targetPoint.setY(LENGH_OF_PAGE - (targetPoint.getY() % AMOUNT_OF_INSTRUCTIONS_LINE));
+		/*if (tmp.getY() - 1 <= AMOUNT_OF_INSTRUCTIONS_LINE){
+			tmp.setY(LENGH_OF_PAGE - (tmp.getY() % AMOUNT_OF_INSTRUCTIONS_LINE));
 		}
-		else{
-			targetPoint.setY(targetPoint.getY() - 1);
-		}
+		else{*/
+			tmp.setY(tmp.getY() - 1);
+		/*}*/
 
 		break;
 	}
 	case Direction::RIGHT:{
-		targetPoint.setX((targetPoint.getX() + 1) % LENGH_OF_LINE);
+		tmp.setX((tmp.getX() + 1) % LENGH_OF_LINE);
 
 		break;
 	}
 	case Direction::LEFT:{
-		if (targetPoint.getX() - 1 == -1){
-			targetPoint.setX(LENGH_OF_LINE - 1);
+		/*if (tmp.getX() - 1 == -1){
+			tmp.setX(LENGH_OF_LINE - 1);
 		}
-		else{
-			targetPoint.setX(targetPoint.getX() - 1);
-		}
+		else{*/
+			tmp.setX(tmp.getX() - 1);
+		/*}*/
 
 		break;
 	}
@@ -82,6 +76,19 @@ void Creature::calcTargetPoint(Point& targetPoint) const{
 		break;
 	}
 	}
+
+	tmp.fixPointToScreenSize();
+	return tmp;
+}
+//---------------------------------------------------------------------------------------
+// this method calculate the next location by the direction
+//---------------------------------------------------------------------------------------
+void Creature::calcTargetPoint(Point& targetPoint) const{
+
+	// Take care all opptional directions
+	Direction::value d = getDirection();
+	// screen is 24X80 needs to be cyclic
+	targetPoint = nextStep(d);
 }
 //---------------------------------------------------------------------------------------
 // this method gets direction and moves the player to the recived directions

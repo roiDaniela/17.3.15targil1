@@ -30,7 +30,7 @@ protected:
 	char sign;
 
 	// Private Methods
-	virtual void calcTargetPoint(Point& targetPoint) const;
+	void calcTargetPoint(Point& targetPoint) const;
 
 	// Avoid this ctor
 	Creature();
@@ -56,9 +56,9 @@ public:
 	void setLastMoveIteration(int currIteration){ lastMoveIteration = currIteration; }
 
 	// Methods
+	Point nextStep(Direction::value) const;
 	virtual void printSighn(){};
 	virtual void move(int currentIteration);
-
 	virtual bool operator==(const Creature& c)const { return ((c.getLocationPoint() == this->getLocationPoint()) && (typeid(c) == typeid(*this))); };
 };
 

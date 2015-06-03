@@ -24,10 +24,11 @@ class ScreenData
 
 private:
 	map<Point, int  > PointsData;
-	Point GetNearestPointByRingSearch(const Point& PtLocation, const int RingSize);
+	Point GetNearestPointByRingSearch(const Point& PtLocation/*, const int RingSize*/);
 	Point GetNearestPointByGeneralSearch(const Point& PtLocation);
 	Point GetNearestPoint(const Point& ptLocation, int Distance );
 	bool IsValueACreature(const int value);
+
 public:
 	enum DBErrMsg{ VALUE_NOT_FOUND = -1, 
 				   TWO_DIGIT_VALUE = 9, 

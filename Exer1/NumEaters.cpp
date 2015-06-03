@@ -52,46 +52,51 @@ void NumEaters::setTargetLocPoint(const Point& p){
 }
 
 //---------------------------------------------------------------------------------------
-// this method set target loc point
-//---------------------------------------------------------------------------------------
-//void NumEaters::setTargetLocPoint(Point* p){
-//	if (p != NULL){
-//		Point pTemp = Point(p->getX(), p->getY());
-//		//delete p;
-//		targetLocPoint = pTemp;
-//	}
-//}
-
-//---------------------------------------------------------------------------------------
 // this method calculate the numEater Direction
 //---------------------------------------------------------------------------------------
-void NumEaters::calcNumEaterDirection(/*Player pl1, Player pl2*/){
+void NumEaters::calcNumEaterDirection(bool bIsUp, bool bIsDown, bool bIsRight, bool bIsLeft){
+	bool bIsMovingToSomwwhere = false;
+	
 	// Set direction
 	if (getTargetLocPoint() == getLocationPoint()){
 		setDirection(Direction::STAY);
+		bIsMovingToSomwwhere = true;
 	}
-	else if (((getTargetLocPoint().getX() > getLocationPoint().getX()) &&
+	else if (!bIsRight &&
+		(((getTargetLocPoint().getX() > getLocationPoint().getX()) &&
 		(abs(getTargetLocPoint().getX() - getLocationPoint().getX()) <= LENGH_OF_LINE / 2)) ||
 		(getTargetLocPoint().getX() < getLocationPoint().getX() &&
-		(abs(getTargetLocPoint().getX() - getLocationPoint().getX()) > LENGH_OF_LINE / 2))){
+		(abs(getTargetLocPoint().getX() - getLocationPoint().getX()) > LENGH_OF_LINE / 2)))){
 		setDirection(Direction::RIGHT);
+		bIsMovingToSomwwhere = true;
 	}
-	else if (((getTargetLocPoint().getX() < getLocationPoint().getX()) &&
+	else if (!bIsLeft &&
+		(((getTargetLocPoint().getX() < getLocationPoint().getX()) &&
 		(abs(getTargetLocPoint().getX() - getLocationPoint().getX()) <= LENGH_OF_LINE / 2)) ||
 		((getTargetLocPoint().getX() > getLocationPoint().getX()) &&
-		(abs(getTargetLocPoint().getX() - getLocationPoint().getX()) > LENGH_OF_LINE / 2))){
+		(abs(getTargetLocPoint().getX() - getLocationPoint().getX()) > LENGH_OF_LINE / 2)))){
 		setDirection(Direction::LEFT);
+		bIsMovingToSomwwhere = true;
 	}
-	else if ((getTargetLocPoint().getY() > getLocationPoint().getY() &&
+	else if (!bIsDown &&
+		((getTargetLocPoint().getY() > getLocationPoint().getY() &&
 		abs(getTargetLocPoint().getY() - getLocationPoint().getY()) <= LENGH_OF_PAGE / 2) ||
 		(getTargetLocPoint().getY() < getLocationPoint().getY() &&
-		abs(getTargetLocPoint().getY() - getLocationPoint().getY()) > LENGH_OF_PAGE / 2)){
+		abs(getTargetLocPoint().getY() - getLocationPoint().getY()) > LENGH_OF_PAGE / 2))){
 		setDirection(Direction::DOWN);
+		bIsMovingToSomwwhere = true;
 	}
-	else if (((getTargetLocPoint().getY() < getLocationPoint().getY()) &&
+	else if (!bIsUp &&
+		(((getTargetLocPoint().getY() < getLocationPoint().getY()) &&
 		(abs(getTargetLocPoint().getY() - getLocationPoint().getY()) <= LENGH_OF_PAGE / 2)) ||
 		((getTargetLocPoint().getY() > getLocationPoint().getY()) &&
-		(abs(getTargetLocPoint().getY() - getLocationPoint().getY()) > LENGH_OF_PAGE / 2))){
+		(abs(getTargetLocPoint().getY() - getLocationPoint().getY()) > LENGH_OF_PAGE / 2)))){
 		setDirection(Direction::UP);
+		bIsMovingToSomwwhere = true;
+	}
+
+	// If he has not changed his direction, change it althogh crash
+	if (!bIsMovingToSomwwhere){
+		calcNumEaterDirection();
 	}
 }
